@@ -1,0 +1,1892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python for ML - Curriculum</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #8b5cf6;
+            --primary-hover: #7c3aed;
+            --secondary: #3b82f6;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --border: #334155;
+            --code-bg: #0f172a;
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text-main);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Hero Banner */
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311637 100%);
+            padding: 6rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Layout & Sections */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--text-main);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.75rem;
+            margin: 2rem 0 1rem;
+            color: #cbd5e1;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: rgba(255,255,255,0.05);
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Code Blocks */
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            margin: 1.5rem 0;
+        }
+
+        .keyword { color: #c678dd; }
+        .function { color: #61afef; }
+        .string { color: #98c379; }
+        .comment { color: #5c6370; font-style: italic; }
+        .operator { color: #56b6c2; }
+        .number { color: #d19a66; }
+
+        /* Tabs */
+        .tabs {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .tab-headers {
+            display: flex;
+            background: rgba(0,0,0,0.2);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 0;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+        
+        .tab-content pre {
+            margin: 0;
+            border: none;
+            border-radius: 0;
+        }
+
+        /* SVG Containers */
+        .svg-container {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        /* Chart Gallery */
+        .chart-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .chart-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .chart-item svg {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 1rem;
+        }
+
+        .chart-code {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .chart-item:hover .chart-code {
+            opacity: 1;
+        }
+        
+        .chart-code pre {
+            background: transparent;
+            border: none;
+            padding: 0;
+            font-size: 0.8rem;
+        }
+
+        /* Animations */
+        @keyframes flow {
+            0% { stroke-dashoffset: 100; }
+            100% { stroke-dashoffset: 0; }
+        }
+
+        .animated-path {
+            stroke-dasharray: 10;
+            animation: flow 2s linear infinite;
+        }
+
+        /* Tags */
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        
+        .tag.blue { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .tag.green { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+        .tag.purple { background: rgba(139, 92, 246, 0.2); color: #a78bfa; }
+        .tag.pink { background: rgba(236, 72, 153, 0.2); color: #f472b6; }
+
+        /* Q&A */
+        .qa-item {
+            margin-bottom: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .qa-q {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    
+section[id]{scroll-margin-top:84px}
+</style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">ML Mastery: Python for ML</div>
+        <div>
+            <a href="index.html">⌂ Portal Hub</a>
+            <a href="#history-internals" style="color:#a78bfa;font-weight:700">📜 History &amp; Internals</a>
+            <a href="#numpy">NumPy</a>
+            <a href="#pandas">Pandas</a>
+            <a href="#visualization">Matplotlib</a>
+            <a href="#sklearn">Scikit-Learn</a>
+            <a href="#encyclopedia" style="color:#22d3ee;font-weight:700">📚 Function Encyclopedia</a>
+            <a href="#workflow">Workflow</a>
+            <a href="#qa">Q&A</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>Python for Machine Learning</h1>
+        <p>The definitive guide to the Python data science stack. From basic data structures to complete scikit-learn pipelines.</p>
+    </div>
+
+    <div class="container">
+
+        <!-- SECTION 0: PYTHON HISTORY, INTERNALS & ARCHITECTURE -->
+        <section id="history-internals">
+            <h2>0. The Python Genesis, CPython Internals &amp; Memory Architecture</h2>
+            <p>To master Machine Learning engineering, you must understand the Python runtime from first principles: from its historical evolution and the CPython virtual machine to memory allocation, Garbage Collection, the GIL, and advanced metaprogramming.</p>
+
+            <!-- 0A. History & Evolution -->
+            <h3>0A. The History &amp; Evolution of Python (1989 to Python 3.13)</h3>
+            <p>Python was created in December 1989 by <strong>Guido van Rossum</strong> at Centrum Wiskunde &amp; Informatica (CWI) in the Netherlands as a successor to the ABC programming language. Guido named it after the British comedy series <em>Monty Python's Flying Circus</em>.</p>
+
+            <div class="grid-3" style="margin-top: 1.5rem;">
+                <div class="card">
+                    <span class="tag blue">1994</span>
+                    <h4 style="color:#60a5fa;margin:0.5rem 0">Python 1.0</h4>
+                    <p style="font-size:0.85rem;color:var(--text-muted)">Introduced core functional programming tools: <code>lambda</code>, <code>map()</code>, <code>filter()</code>, and <code>reduce()</code>. Built on pure C.</p>
+                </div>
+                <div class="card">
+                    <span class="tag purple">2000</span>
+                    <h4 style="color:#a78bfa;margin:0.5rem 0">Python 2.0</h4>
+                    <p style="font-size:0.85rem;color:var(--text-muted)">Added List Comprehensions, Unicode string support, and crucially, the <strong>Generational Cyclic Garbage Collector</strong> to detect circular references.</p>
+                </div>
+                <div class="card">
+                    <span class="tag pink">2008 – Present</span>
+                    <h4 style="color:#f472b6;margin:0.5rem 0">Python 3.0 &amp; Beyond</h4>
+                    <p style="font-size:0.85rem;color:var(--text-muted)">Fixed fundamental design flaws: strict Unicode strings vs binary bytes, integer division <code>5/2 = 2.5</code>, and removal of duplicate APIs.</p>
+                </div>
+            </div>
+
+            <!-- Modern Python 3.11 - 3.13 JIT & No-GIL -->
+            <div class="card" style="margin-top:1.5rem;border-left:4px solid #22d3ee">
+                <h4 style="color:#22d3ee;margin-bottom:0.5rem">⚡ Modern Breakthroughs: Python 3.11 (Specializing Adaptive Interpreter) &amp; Python 3.13 (Free-Threaded No-GIL)</h4>
+                <p style="font-size:0.9rem;color:#cbd5e1">
+                    • <strong>Faster CPython (PEP 659):</strong> Python 3.11 introduced adaptive bytecode specialization, boosting raw execution speed by 25–60%.<br>
+                    • <strong>Free-Threaded Execution (PEP 703):</strong> Python 3.13 introduces experimental builds that disable the Global Interpreter Lock (GIL), enabling true multi-core CPU parallel execution for pure Python threads!
+                </p>
+            </div>
+
+            <!-- 0B. CPython Compilation & Execution Pipeline -->
+            <h3 style="margin-top:3rem">0B. How Python Executes Code: Source to CPython Virtual Machine</h3>
+            <p>Python is an <em>interpreted, bytecode-compiled</em> language. It does not compile directly to machine x86/ARM binary; instead, it compiles source code into intermediate <strong>CPython Bytecode</strong> executed inside an evaluation loop in C.</p>
+
+            <div class="svg-container">
+                <svg viewBox="0 0 850 180" width="100%" height="100%" style="font-family:'Inter',sans-serif">
+                    <!-- Source Code -->
+                    <rect x="20" y="50" width="130" height="70" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+                    <text x="85" y="80" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">Source Code</text>
+                    <text x="85" y="100" text-anchor="middle" fill="#93c5fd" font-size="11">model.py (UTF-8)</text>
+
+                    <!-- Arrow 1 -->
+                    <path d="M 150 85 L 200 85" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+                    <text x="175" y="75" text-anchor="middle" fill="#94a3b8" font-size="10">Tokenizer</text>
+
+                    <!-- AST -->
+                    <rect x="200" y="50" width="130" height="70" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="2"/>
+                    <text x="265" y="80" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">Abstract Syntax Tree</text>
+                    <text x="265" y="100" text-anchor="middle" fill="#c084fc" font-size="11">Grammar AST</text>
+
+                    <!-- Arrow 2 -->
+                    <path d="M 330 85 L 380 85" stroke="#64748b" stroke-width="2"/>
+                    <text x="355" y="75" text-anchor="middle" fill="#94a3b8" font-size="10">Compiler</text>
+
+                    <!-- Bytecode -->
+                    <rect x="380" y="50" width="140" height="70" rx="8" fill="#1e293b" stroke="#ec4899" stroke-width="2"/>
+                    <text x="450" y="80" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">Bytecode (.pyc)</text>
+                    <text x="450" y="100" text-anchor="middle" fill="#f472b6" font-size="11">PyCodeObject</text>
+
+                    <!-- Arrow 3 -->
+                    <path d="M 520 85 L 570 85" stroke="#64748b" stroke-width="2"/>
+                    <text x="545" y="75" text-anchor="middle" fill="#94a3b8" font-size="10">VM Loop</text>
+
+                    <!-- CPython Evaluation Loop -->
+                    <rect x="570" y="35" width="250" height="100" rx="8" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="2"/>
+                    <text x="695" y="65" text-anchor="middle" fill="#34d399" font-size="13" font-weight="800">CPython Interpreter (C)</text>
+                    <text x="695" y="85" text-anchor="middle" fill="#e2e8f0" font-size="11">_PyEval_EvalFrameDefault()</text>
+                    <text x="695" y="105" text-anchor="middle" fill="#94a3b8" font-size="10">Dispatches Opcodes to CPU / C Libraries</text>
+                </svg>
+            </div>
+
+            <!-- Disassembling Bytecode Example -->
+            <pre><code><span class="keyword">import</span> dis
+
+<span class="keyword">def</span> <span class="function">compute_loss</span>(y_true, y_pred):
+    <span class="keyword">return</span> (y_true - y_pred) ** <span class="number">2</span>
+
+<span class="comment"># Disassemble into raw CPython VM Opcodes:</span>
+dis.dis(compute_loss)
+
+<span class="comment"># Output:
+#   LOAD_FAST     0 (y_true)
+#   LOAD_FAST     1 (y_pred)
+#   BINARY_SUBTRACT
+#   LOAD_CONST    1 (2)
+#   BINARY_POWER
+#   RETURN_VALUE</span></code></pre>
+
+            <!-- 0C. Memory Management & Garbage Collection -->
+            <h3 style="margin-top:3rem">0C. Memory Management: PyMalloc, Reference Counting &amp; Cyclic GC</h3>
+            <p>Python manages memory completely automatically through a 3-tier memory allocation architecture and a dual Garbage Collection system.</p>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h4 style="color:#38bdf8;margin-bottom:0.75rem">1. Reference Counting (Primary GC)</h4>
+                    <p style="font-size:0.85rem;color:#cbd5e1;line-height:1.5">
+                        Every object in CPython is a <code>PyObject</code> struct containing an internal counter: <code>ob_refcnt</code>.<br><br>
+                        • When an object is assigned to a variable or passed to a function: <code>ob_refcnt += 1</code>.<br>
+                        • When a variable goes out of scope or is deleted with <code>del</code>: <code>ob_refcnt -= 1</code>.<br>
+                        • <strong>Instant Deallocation:</strong> As soon as <code>ob_refcnt == 0</code>, memory is instantly freed!
+                    </p>
+                </div>
+                <div class="card">
+                    <h4 style="color:#ec4899;margin-bottom:0.75rem">2. Generational Cyclic GC (Secondary GC)</h4>
+                    <p style="font-size:0.85rem;color:#cbd5e1;line-height:1.5">
+                        <strong>The Problem:</strong> Circular references (e.g. <code>node_a.next = node_b; node_b.prev = node_a</code>) never reach <code>ob_refcnt == 0</code>.<br><br>
+                        <strong>The Solution:</strong> Python runs a Generational Garbage Collector with 3 Generations (Gen 0: Young/frequent, Gen 1: Medium, Gen 2: Old/rare). It detects isolated pointer islands and frees cyclic memory.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 0D. Dunder Methods & Metaprogramming for ML -->
+            <h3 style="margin-top:3rem">0D. Dunder (Magic) Methods in Modern Machine Learning</h3>
+            <p>Every major Python ML framework (PyTorch, Scikit-Learn, TensorFlow, Hugging Face) relies on Python's Data Model and Dunder (Double-Underscore) methods.</p>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h4 style="color:#fbbf24">__call__: Making Objects Callable (PyTorch nn.Module)</h4>
+                    <pre style="margin:0.5rem 0"><code><span class="keyword">class</span> <span class="function">LinearLayer</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, w, b):
+        self.w, self.b = w, b
+        
+    <span class="keyword">def</span> <span class="function">__call__</span>(self, x):
+        <span class="comment"># Allows: layer(x) instead of layer.forward(x)</span>
+        <span class="keyword">return</span> x * self.w + self.b
+
+layer = LinearLayer(w=<span class="number">2.5</span>, b=<span class="number">1.0</span>)
+<span class="keyword">print</span>(layer(<span class="number">4.0</span>)) <span class="comment"># Output: 11.0</span></code></pre>
+                </div>
+
+                <div class="card">
+                    <h4 style="color:#a78bfa">__getitem__ &amp; __len__: Custom ML Datasets</h4>
+                    <pre style="margin:0.5rem 0"><code><span class="keyword">class</span> <span class="function">AudioDataset</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, file_paths):
+        self.files = file_paths
+
+    <span class="keyword">def</span> <span class="function">__len__</span>(self):
+        <span class="keyword">return</span> <span class="function">len</span>(self.files)
+
+    <span class="keyword">def</span> <span class="function">__getitem__</span>(self, idx):
+        <span class="comment"># Enables dataset[i] and DataLoader batching</span>
+        <span class="keyword">return</span> load_audio(self.files[idx])</code></pre>
+                </div>
+            </div>
+
+            <!-- 0E. Concurrency for Data Science -->
+            <h3 style="margin-top:3rem">0E. Concurrency &amp; Parallelism: Threading vs Multiprocessing vs Asyncio</h3>
+            <p>Choosing the right concurrency model is critical for scraping training data, parallelizing CPU feature extraction, and serving real-time predictions.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Paradigm</th>
+                        <th>Mechanism</th>
+                        <th>GIL Constrained?</th>
+                        <th>Best ML Use Case</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-weight:700;color:#60a5fa">threading</td>
+                        <td>Operating System Threads sharing 1 Memory Space</td>
+                        <td style="color:#f87171;font-weight:700">YES (Only 1 thread runs at a time)</td>
+                        <td>I/O-Bound: Web scraping, downloading 100k images from S3, API queries.</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:700;color:#4ade80">multiprocessing</td>
+                        <td>Separate OS Processes, each with independent GIL &amp; RAM</td>
+                        <td style="color:#4ade80;font-weight:700">NO (Full 100% CPU multi-core parallel)</td>
+                        <td>CPU-Bound: Parallel Scikit-Learn GridSearch (<code>n_jobs=-1</code>), image transformations.</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:700;color:#c084fc">asyncio</td>
+                        <td>Single-threaded Event Loop with non-blocking coroutines</td>
+                        <td>N/A (Cooperative single thread)</td>
+                        <td>Microservices: High-throughput FastAPI endpoints serving 5,000 concurrent client requests.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- SECTION 1 -->
+        <section id="intro">
+            <h2>1. Why Python for ML?</h2>
+            
+            <p>Python has become the undisputed lingua franca of machine learning. Its simple syntax, coupled with an unparalleled ecosystem of C-optimized libraries, makes it perfect for both research and production.</p>
+            
+            <div class="grid-2">
+                <div>
+                    <h3>Language Comparison</h3>
+                    <table>
+                        <tr>
+                            <th>Language</th>
+                            <th>Syntax Focus</th>
+                            <th>Ecosystem</th>
+                            <th>Use Case</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Python</strong></td>
+                            <td>Simple, Readable</td>
+                            <td>Massive (PyTorch, TF)</td>
+                            <td>Industry & Research</td>
+                        </tr>
+                        <tr>
+                            <td><strong>R</strong></td>
+                            <td>Statistical</td>
+                            <td>CRAN (Stats focused)</td>
+                            <td>Academia & Stats</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Java/C++</strong></td>
+                            <td>Verbose, Typed</td>
+                            <td>Limited ML native</td>
+                            <td>Low-latency inference</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MATLAB</strong></td>
+                            <td>Mathematical</td>
+                            <td>Proprietary</td>
+                            <td>Engineering</td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <h3>The Python ML Pipeline</h3>
+                    <div class="svg-container" style="height: 100%;">
+                        <svg viewBox="0 0 400 300" width="100%" height="100%">
+                            <defs>
+                                <linearGradient id="pipeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#3b82f6" />
+                                    <stop offset="100%" stop-color="#8b5cf6" />
+                                </linearGradient>
+                            </defs>
+                            
+                            <!-- Nodes -->
+                            <rect x="20" y="20" width="100" height="40" rx="5" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+                            <text x="70" y="45" fill="#fff" text-anchor="middle" font-size="12" font-family="sans-serif">Raw Data</text>
+                            
+                            <rect x="150" y="70" width="100" height="40" rx="5" fill="#1e293b" stroke="#10b981" stroke-width="2"/>
+                            <text x="200" y="95" fill="#fff" text-anchor="middle" font-size="12" font-family="sans-serif">Pandas/NumPy</text>
+
+                            <rect x="20" y="120" width="100" height="40" rx="5" fill="#1e293b" stroke="#ec4899" stroke-width="2"/>
+                            <text x="70" y="145" fill="#fff" text-anchor="middle" font-size="12" font-family="sans-serif">Matplotlib (EDA)</text>
+                            
+                            <rect x="150" y="170" width="100" height="40" rx="5" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+                            <text x="200" y="195" fill="#fff" text-anchor="middle" font-size="12" font-family="sans-serif">Scikit-Learn</text>
+                            
+                            <rect x="280" y="220" width="100" height="40" rx="5" fill="#8b5cf6" />
+                            <text x="330" y="245" fill="#fff" text-anchor="middle" font-weight="bold" font-size="12" font-family="sans-serif">Trained Model</text>
+
+                            <!-- Connectors with animation -->
+                            <path d="M 70 60 L 70 90 L 150 90" fill="none" stroke="url(#pipeGrad)" stroke-width="3" class="animated-path"/>
+                            <path d="M 200 110 L 200 140 L 120 140" fill="none" stroke="url(#pipeGrad)" stroke-width="3" class="animated-path"/>
+                            <path d="M 70 160 L 70 190 L 150 190" fill="none" stroke="url(#pipeGrad)" stroke-width="3" class="animated-path"/>
+                            <path d="M 250 190 L 330 190 L 330 220" fill="none" stroke="url(#pipeGrad)" stroke-width="3" class="animated-path"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2 -->
+        <section id="basics">
+            <h2>2. Python Basics for ML</h2>
+            
+            <h3>2A. Data Types in ML Context</h3>
+            <div class="grid-3">
+                <div class="card">
+                    <span class="tag blue">list</span>
+                    <p>Good for variable length sequences or initial data collection before conversion to arrays.</p>
+                </div>
+                <div class="card">
+                    <span class="tag green">dict</span>
+                    <p>Perfect for storing model hyperparameters or mapping categorical labels to integers.</p>
+                </div>
+                <div class="card">
+                    <span class="tag purple">tuple</span>
+                    <p>Used for fixed shapes, like representing the dimensions of an image <code>(224, 224, 3)</code>.</p>
+                </div>
+            </div>
+
+            <div class="svg-container">
+                <svg viewBox="0 0 800 200" width="100%" height="100%">
+                    <text x="400" y="30" fill="#fff" text-anchor="middle" font-size="16" font-family="sans-serif">Memory Layout: Python List vs NumPy Array</text>
+                    
+                    <!-- Python List -->
+                    <text x="200" y="70" fill="#94a3b8" text-anchor="middle" font-size="14">Python List (Pointers to Objects scattered in memory)</text>
+                    <rect x="50" y="90" width="300" height="30" fill="#1e293b" stroke="#334155"/>
+                    <rect x="55" y="95" width="20" height="20" fill="#3b82f6"/>
+                    <rect x="150" y="95" width="20" height="20" fill="#3b82f6"/>
+                    <rect x="250" y="95" width="20" height="20" fill="#3b82f6"/>
+                    
+                    <circle cx="65" cy="150" r="15" fill="#ec4899"/>
+                    <circle cx="160" cy="150" r="15" fill="#ec4899"/>
+                    <circle cx="260" cy="150" r="15" fill="#ec4899"/>
+                    
+                    <path d="M 65 115 L 65 135" fill="none" stroke="#fff" stroke-width="2" marker-end="url(#arrow)"/>
+                    <path d="M 160 115 L 160 135" fill="none" stroke="#fff" stroke-width="2" marker-end="url(#arrow)"/>
+                    <path d="M 260 115 L 260 135" fill="none" stroke="#fff" stroke-width="2" marker-end="url(#arrow)"/>
+
+                    <!-- NumPy Array -->
+                    <text x="600" y="70" fill="#94a3b8" text-anchor="middle" font-size="14">NumPy Array (Contiguous memory block)</text>
+                    <rect x="450" y="90" width="300" height="30" fill="#1e293b" stroke="#334155"/>
+                    <rect x="455" y="95" width="290" height="20" fill="#10b981"/>
+                    
+                    <text x="600" y="140" fill="#10b981" text-anchor="middle" font-size="12">Fast iteration, CPU cache friendly</text>
+                </svg>
+            </div>
+
+            <div class="grid-2">
+                <div>
+                    <h3>2B. List Comprehensions</h3>
+<pre><code><span class="comment"># Slow for-loop approach</span>
+squares = []
+<span class="keyword">for</span> x <span class="keyword">in</span> data:
+    squares.append(x**<span class="number">2</span>)
+
+<span class="comment"># Fast list comprehension</span>
+squares = [x**<span class="number">2</span> <span class="keyword">for</span> x <span class="keyword">in</span> data]</code></pre>
+                </div>
+                <div>
+                    <h3>2C. Lambda & Map</h3>
+<pre><code><span class="comment"># Quick data transformations</span>
+prices = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>]
+
+<span class="comment"># Apply discount using lambda</span>
+discounted = list(map(<span class="keyword">lambda</span> x: x * <span class="number">0.9</span>, prices))
+<span class="comment"># Output: [9.0, 18.0, 27.0]</span></code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3 -->
+        <section id="numpy">
+            <h2>3. NumPy — The Math Engine</h2>
+            
+            <h3>3A. ndarray — The Core Object</h3>
+            <div class="svg-container">
+                <svg viewBox="0 0 800 300" width="100%" height="100%">
+                    <!-- Scalar -->
+                    <text x="100" y="40" fill="#fff" text-anchor="middle">Scalar (0D)</text>
+                    <rect x="80" y="100" width="40" height="40" fill="#3b82f6" opacity="0.8" stroke="#fff" stroke-width="1"/>
+                    <text x="100" y="125" fill="#fff" text-anchor="middle">5</text>
+                    <text x="100" y="160" fill="#94a3b8" text-anchor="middle" font-size="12">Shape: ()</text>
+                    
+                    <!-- Vector -->
+                    <text x="300" y="40" fill="#fff" text-anchor="middle">Vector (1D)</text>
+                    <rect x="280" y="100" width="40" height="40" fill="#10b981" opacity="0.8" stroke="#fff" stroke-width="1"/>
+                    <rect x="280" y="140" width="40" height="40" fill="#10b981" opacity="0.8" stroke="#fff" stroke-width="1"/>
+                    <rect x="280" y="180" width="40" height="40" fill="#10b981" opacity="0.8" stroke="#fff" stroke-width="1"/>
+                    <text x="300" y="240" fill="#94a3b8" text-anchor="middle" font-size="12">Shape: (3,)</text>
+
+                    <!-- Matrix -->
+                    <text x="500" y="40" fill="#fff" text-anchor="middle">Matrix (2D)</text>
+                    <g transform="translate(460, 100)">
+                        <rect x="0" y="0" width="40" height="40" fill="#8b5cf6" opacity="0.8" stroke="#fff" stroke-width="1"/>
+                        <rect x="40" y="0" width="40" height="40" fill="#8b5cf6" opacity="0.8" stroke="#fff" stroke-width="1"/>
+                        <rect x="80" y="0" width="40" height="40" fill="#8b5cf6" opacity="0.8" stroke="#fff" stroke-width="1"/>
+                        <rect x="0" y="40" width="40" height="40" fill="#8b5cf6" opacity="0.8" stroke="#fff" stroke-width="1"/>
+                        <rect x="40" y="40" width="40" height="40" fill="#8b5cf6" opacity="0.8" stroke="#fff" stroke-width="1"/>
+                        <rect x="80" y="40" width="40" height="40" fill="#8b5cf6" opacity="0.8" stroke="#fff" stroke-width="1"/>
+                    </g>
+                    <text x="500" y="200" fill="#94a3b8" text-anchor="middle" font-size="12">Shape: (2, 3)</text>
+
+                    <!-- Tensor (3D Isometric trick) -->
+                    <text x="700" y="40" fill="#fff" text-anchor="middle">Tensor (3D)</text>
+                    <g transform="translate(680, 120)">
+                        <!-- Back layer -->
+                        <polygon points="0,0 20,-10 40,0 20,10" fill="#ec4899" opacity="0.5" stroke="#fff" stroke-width="0.5"/>
+                        <polygon points="0,0 0,20 20,30 20,10" fill="#ec4899" opacity="0.7" stroke="#fff" stroke-width="0.5"/>
+                        <polygon points="40,0 40,20 20,30 20,10" fill="#ec4899" opacity="0.9" stroke="#fff" stroke-width="0.5"/>
+                        
+                        <!-- Front layer shifted -->
+                        <g transform="translate(-15, 15)">
+                            <polygon points="0,0 20,-10 40,0 20,10" fill="#ec4899" opacity="0.5" stroke="#fff" stroke-width="0.5"/>
+                            <polygon points="0,0 0,20 20,30 20,10" fill="#ec4899" opacity="0.7" stroke="#fff" stroke-width="0.5"/>
+                            <polygon points="40,0 40,20 20,30 20,10" fill="#ec4899" opacity="0.9" stroke="#fff" stroke-width="0.5"/>
+                        </g>
+                    </g>
+                    <text x="700" y="200" fill="#94a3b8" text-anchor="middle" font-size="12">Shape: (2, 2, 2)</text>
+                </svg>
+            </div>
+
+            <div class="grid-2">
+                <div>
+                    <h3>3B. Broadcasting</h3>
+                    <p>NumPy automatically aligns dimensions when performing operations on arrays of different shapes, saving memory and avoiding explicit loops.</p>
+<pre><code><span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+A = np.ones((<span class="number">3</span>, <span class="number">3</span>))  <span class="comment"># Shape (3, 3)</span>
+B = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]) <span class="comment"># Shape (3,)</span>
+
+<span class="comment"># B is broadcasted across the rows of A</span>
+C = A + B 
+</code></pre>
+                </div>
+                <div>
+                    <h3>3C. Vectorization Speed</h3>
+                    <div class="svg-container" style="padding: 1rem;">
+                        <svg viewBox="0 0 300 150" width="100%" height="100%">
+                            <text x="10" y="20" fill="#fff" font-size="12">Pure Python loop (Math.sin)</text>
+                            <rect x="10" y="30" width="250" height="20" fill="#ef4444"/>
+                            <text x="265" y="45" fill="#fff" font-size="10">2.5s</text>
+                            
+                            <text x="10" y="80" fill="#fff" font-size="12">NumPy Vectorized (np.sin)</text>
+                            <rect x="10" y="90" width="15" height="20" fill="#10b981"/>
+                            <text x="30" y="105" fill="#fff" font-size="10">0.05s</text>
+                        </svg>
+                    </div>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">Vectorization pushes operations down to optimized C and BLAS libraries.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4 -->
+        <section id="pandas">
+            <h2>4. Pandas — Data Wrangling</h2>
+            
+            <h3>4A. DataFrame Structure</h3>
+            <div class="svg-container">
+                <svg viewBox="0 0 600 250" width="100%" height="100%">
+                    <!-- Columns -->
+                    <rect x="100" y="30" width="120" height="30" fill="#3b82f6" stroke="#1e293b"/>
+                    <text x="160" y="50" fill="#fff" text-anchor="middle">Age</text>
+                    <rect x="220" y="30" width="120" height="30" fill="#3b82f6" stroke="#1e293b"/>
+                    <text x="280" y="50" fill="#fff" text-anchor="middle">Income</text>
+                    <rect x="340" y="30" width="120" height="30" fill="#8b5cf6" stroke="#1e293b"/>
+                    <text x="400" y="50" fill="#fff" text-anchor="middle">Target</text>
+                    
+                    <!-- Index -->
+                    <rect x="40" y="60" width="60" height="30" fill="#475569" stroke="#1e293b"/>
+                    <text x="70" y="80" fill="#fff" text-anchor="middle">0</text>
+                    <rect x="40" y="90" width="60" height="30" fill="#475569" stroke="#1e293b"/>
+                    <text x="70" y="110" fill="#fff" text-anchor="middle">1</text>
+                    
+                    <!-- Values -->
+                    <rect x="100" y="60" width="120" height="30" fill="#1e293b" stroke="#334155"/>
+                    <text x="160" y="80" fill="#fff" text-anchor="middle">25</text>
+                    <rect x="220" y="60" width="120" height="30" fill="#1e293b" stroke="#334155"/>
+                    <text x="280" y="80" fill="#fff" text-anchor="middle">$50k</text>
+                    <rect x="340" y="60" width="120" height="30" fill="#1e293b" stroke="#334155"/>
+                    <text x="400" y="80" fill="#fff" text-anchor="middle">1</text>
+                    
+                    <rect x="100" y="90" width="120" height="30" fill="#1e293b" stroke="#334155"/>
+                    <text x="160" y="110" fill="#fff" text-anchor="middle">34</text>
+                    <rect x="220" y="90" width="120" height="30" fill="#1e293b" stroke="#334155"/>
+                    <text x="280" y="110" fill="#fff" text-anchor="middle">$75k</text>
+                    <rect x="340" y="90" width="120" height="30" fill="#1e293b" stroke="#334155"/>
+                    <text x="400" y="110" fill="#fff" text-anchor="middle">0</text>
+
+                    <!-- Annotations -->
+                    <path d="M 160 20 L 160 10" stroke="#fff" fill="none"/>
+                    <path d="M 160 10 L 280 10" stroke="#fff" fill="none"/>
+                    <text x="220" y="0" fill="#94a3b8" text-anchor="middle" font-size="12">Features (X)</text>
+                    
+                    <path d="M 400 20 L 400 10" stroke="#fff" fill="none"/>
+                    <text x="400" y="0" fill="#94a3b8" text-anchor="middle" font-size="12">Label (y)</text>
+                    
+                    <text x="70" y="150" fill="#94a3b8" text-anchor="middle" font-size="12">Index</text>
+                </svg>
+            </div>
+
+            <div class="grid-2">
+                <div>
+                    <h3>4C. Data Cleaning Pipeline</h3>
+<pre><code><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+
+df = pd.read_csv(<span class="string">'data.csv'</span>)
+
+<span class="comment"># 1. Handle Missing Values</span>
+df[<span class="string">'age'</span>] = df[<span class="string">'age'</span>].fillna(df[<span class="string">'age'</span>].median())
+
+<span class="comment"># 2. Drop useless columns</span>
+df = df.drop(columns=[<span class="string">'id'</span>])
+
+<span class="comment"># 3. Categorical encoding (Basic)</span>
+df[<span class="string">'gender'</span>] = df[<span class="string">'gender'</span>].map({<span class="string">'M'</span>: <span class="number">1</span>, <span class="string">'F'</span>: <span class="number">0</span>})
+</code></pre>
+                </div>
+                <div>
+                    <h3>4D. Merging (Joins)</h3>
+                    <div class="svg-container">
+                        <svg viewBox="0 0 400 200" width="100%" height="100%">
+                            <!-- Left Circle -->
+                            <circle cx="150" cy="100" r="60" fill="rgba(59, 130, 246, 0.4)" stroke="#3b82f6" stroke-width="2"/>
+                            <!-- Right Circle -->
+                            <circle cx="250" cy="100" r="60" fill="rgba(139, 92, 246, 0.4)" stroke="#8b5cf6" stroke-width="2"/>
+                            
+                            <text x="110" y="105" fill="#fff">df1</text>
+                            <text x="290" y="105" fill="#fff">df2</text>
+                            
+                            <!-- Intersection Highlight (Inner Join) -->
+                            <path d="M 198 65 A 60 60 0 0 0 198 135 A 60 60 0 0 0 198 65" fill="#ec4899" opacity="0.8"/>
+                            <text x="200" y="105" fill="#fff" text-anchor="middle" font-size="12">Inner Join</text>
+                            
+                            <text x="200" y="180" fill="#94a3b8" text-anchor="middle" font-size="12">pd.merge(df1, df2, on='key', how='inner')</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5 -->
+        <section id="viz">
+            <h2>5. Matplotlib & Seaborn — Visualization</h2>
+            
+            <h3>5A. Chart Type Gallery</h3>
+            <div class="chart-gallery">
+                <div class="chart-item">
+                    <svg viewBox="0 0 100 100">
+                        <polyline points="10,90 30,60 50,70 70,30 90,40" fill="none" stroke="#3b82f6" stroke-width="4" stroke-linejoin="round"/>
+                    </svg>
+                    <h4>Line Chart</h4>
+                    <p style="font-size: 0.8rem; color: var(--text-muted)">Time Series</p>
+                    <div class="chart-code">
+                        <pre><code>plt.plot(x, y)</code></pre>
+                    </div>
+                </div>
+                
+                <div class="chart-item">
+                    <svg viewBox="0 0 100 100">
+                        <circle cx="20" cy="80" r="4" fill="#10b981"/>
+                        <circle cx="30" cy="70" r="4" fill="#10b981"/>
+                        <circle cx="50" cy="50" r="4" fill="#10b981"/>
+                        <circle cx="70" cy="40" r="4" fill="#10b981"/>
+                        <circle cx="80" cy="20" r="4" fill="#10b981"/>
+                        <line x1="10" y1="90" x2="90" y2="10" stroke="#fff" stroke-width="2" stroke-dasharray="4"/>
+                    </svg>
+                    <h4>Scatter Plot</h4>
+                    <p style="font-size: 0.8rem; color: var(--text-muted)">Regression</p>
+                    <div class="chart-code">
+                        <pre><code>plt.scatter(x, y)</code></pre>
+                    </div>
+                </div>
+
+                <div class="chart-item">
+                    <svg viewBox="0 0 100 100">
+                        <rect x="20" y="40" width="15" height="60" fill="#8b5cf6"/>
+                        <rect x="45" y="20" width="15" height="80" fill="#8b5cf6"/>
+                        <rect x="70" y="60" width="15" height="40" fill="#8b5cf6"/>
+                    </svg>
+                    <h4>Bar Chart</h4>
+                    <p style="font-size: 0.8rem; color: var(--text-muted)">Categories</p>
+                    <div class="chart-code">
+                        <pre><code>sns.barplot(x, y)</code></pre>
+                    </div>
+                </div>
+
+                <div class="chart-item">
+                    <svg viewBox="0 0 100 100">
+                        <rect x="10" y="80" width="10" height="20" fill="#ec4899"/>
+                        <rect x="20" y="50" width="10" height="50" fill="#ec4899"/>
+                        <rect x="30" y="20" width="10" height="80" fill="#ec4899"/>
+                        <rect x="40" y="30" width="10" height="70" fill="#ec4899"/>
+                        <rect x="50" y="60" width="10" height="40" fill="#ec4899"/>
+                        <rect x="60" y="85" width="10" height="15" fill="#ec4899"/>
+                    </svg>
+                    <h4>Histogram</h4>
+                    <p style="font-size: 0.8rem; color: var(--text-muted)">Distributions</p>
+                    <div class="chart-code">
+                        <pre><code>plt.hist(x, bins)</code></pre>
+                    </div>
+                </div>
+                
+                <div class="chart-item">
+                    <svg viewBox="0 0 100 100">
+                        <rect x="10" y="10" width="25" height="25" fill="#fca5a5"/>
+                        <rect x="40" y="10" width="25" height="25" fill="#ef4444"/>
+                        <rect x="70" y="10" width="25" height="25" fill="#991b1b"/>
+                        <rect x="10" y="40" width="25" height="25" fill="#ef4444"/>
+                        <rect x="40" y="40" width="25" height="25" fill="#fca5a5"/>
+                        <rect x="70" y="40" width="25" height="25" fill="#7f1d1d"/>
+                    </svg>
+                    <h4>Heatmap</h4>
+                    <p style="font-size: 0.8rem; color: var(--text-muted)">Correlation</p>
+                    <div class="chart-code">
+                        <pre><code>sns.heatmap(corr)</code></pre>
+                    </div>
+                </div>
+
+                <div class="chart-item">
+                    <svg viewBox="0 0 100 100">
+                        <line x1="50" y1="20" x2="50" y2="80" stroke="#fff" stroke-width="2"/>
+                        <rect x="30" y="40" width="40" height="30" fill="#3b82f6" stroke="#fff" stroke-width="2"/>
+                        <line x1="30" y1="55" x2="70" y2="55" stroke="#fff" stroke-width="2"/>
+                        <line x1="40" y1="20" x2="60" y2="20" stroke="#fff" stroke-width="2"/>
+                        <line x1="40" y1="80" x2="60" y2="80" stroke="#fff" stroke-width="2"/>
+                        <circle cx="50" cy="10" r="2" fill="#fff"/>
+                    </svg>
+                    <h4>Box Plot</h4>
+                    <p style="font-size: 0.8rem; color: var(--text-muted)">Outliers</p>
+                    <div class="chart-code">
+                        <pre><code>sns.boxplot(y)</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6 -->
+        <section id="sklearn">
+            <h2>6. Scikit-Learn — The ML Library</h2>
+            
+            <h3>6A. The Estimator API</h3>
+            <p>Every algorithm in scikit-learn uses the same consistent API interface. Once you learn it for one model, you know it for all of them.</p>
+            
+            <div class="svg-container">
+                <svg viewBox="0 0 800 200" width="100%" height="100%">
+                    <rect x="50" y="80" width="100" height="40" rx="5" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+                    <text x="100" y="105" fill="#fff" text-anchor="middle">X_train, y_train</text>
+                    
+                    <path d="M 150 100 L 250 100" stroke="#fff" stroke-width="2" marker-end="url(#arrow)"/>
+                    <text x="200" y="90" fill="#10b981" text-anchor="middle">.fit()</text>
+                    
+                    <rect x="250" y="70" width="120" height="60" rx="30" fill="#8b5cf6"/>
+                    <text x="310" y="105" fill="#fff" text-anchor="middle" font-weight="bold">Model</text>
+                    
+                    <path d="M 370 100 L 470 100" stroke="#fff" stroke-width="2" marker-end="url(#arrow)"/>
+                    <text x="420" y="90" fill="#ec4899" text-anchor="middle">.predict()</text>
+                    
+                    <rect x="470" y="80" width="100" height="40" rx="5" fill="#1e293b" stroke="#ec4899" stroke-width="2"/>
+                    <text x="520" y="105" fill="#fff" text-anchor="middle">y_pred</text>
+                    
+                    <!-- X_test flowing in -->
+                    <rect x="370" y="10" width="80" height="30" fill="#1e293b" stroke="#475569"/>
+                    <text x="410" y="30" fill="#fff" text-anchor="middle">X_test</text>
+                    <path d="M 410 40 L 410 95" stroke="#fff" stroke-width="2" marker-end="url(#arrow)"/>
+                </svg>
+            </div>
+
+            <h3>6B. The sklearn Pipeline & Preventing Data Leakage</h3>
+            <p><strong>Data Leakage</strong> occurs when information from outside the training dataset is used to create the model. Calling <code>fit_transform()</code> on the entire dataset BEFORE splitting is the most common cause.</p>
+            
+            <div class="grid-2">
+                <div>
+                    <h4 style="color: #ef4444; margin-bottom: 0.5rem;">❌ BAD: Leakage</h4>
+<pre><code>scaler = StandardScaler()
+<span class="comment"># Scaler sees test data stats!</span>
+X_scaled = scaler.fit_transform(X) 
+X_tr, X_te, y_tr, y_te = train_test_split(
+    X_scaled, y
+)
+model.fit(X_tr, y_tr)</code></pre>
+                </div>
+                <div>
+                    <h4 style="color: #10b981; margin-bottom: 0.5rem;">✅ GOOD: Pipelines</h4>
+<pre><code>pipe = Pipeline([
+    (<span class="string">'scaler'</span>, StandardScaler()),
+    (<span class="string">'model'</span>, RandomForestClassifier())
+])
+
+X_tr, X_te, y_tr, y_te = train_test_split(X, y)
+<span class="comment"># Safe: scaler only fits on X_tr</span>
+pipe.fit(X_tr, y_tr) </code></pre>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- SECTION 7 -->
+        <section id="workflow">
+            <h2>7. Complete ML Code Workflow</h2>
+            <p>A full, end-to-end machine learning script using all the libraries we've discussed.</p>
+
+            <div class="tabs">
+                <div class="tab-headers">
+                    <button class="tab-btn active" onclick="openTab(event, 'tab1')">1. Load & EDA</button>
+                    <button class="tab-btn" onclick="openTab(event, 'tab2')">2. Preprocess</button>
+                    <button class="tab-btn" onclick="openTab(event, 'tab3')">3. Train</button>
+                    <button class="tab-btn" onclick="openTab(event, 'tab4')">4. Evaluate & Save</button>
+                </div>
+                
+                <div id="tab1" class="tab-content active">
+<pre><code><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> seaborn <span class="keyword">as</span> sns
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+
+<span class="comment"># Load Data</span>
+df = pd.read_csv(<span class="string">'housing_data.csv'</span>)
+
+<span class="comment"># EDA</span>
+print(df.info())
+print(df.describe())
+
+<span class="comment"># Visualize correlations</span>
+plt.figure(figsize=(<span class="number">10</span>, <span class="number">8</span>))
+sns.heatmap(df.corr(), annot=<span class="keyword">True</span>, cmap=<span class="string">'coolwarm'</span>)
+plt.title(<span class="string">'Feature Correlation Matrix'</span>)
+plt.show()
+
+X = df.drop(<span class="string">'Price'</span>, axis=<span class="number">1</span>)
+y = df[<span class="string">'Price'</span>]</code></pre>
+                </div>
+
+                <div id="tab2" class="tab-content">
+<pre><code><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+<span class="keyword">from</span> sklearn.pipeline <span class="keyword">import</span> Pipeline
+<span class="keyword">from</span> sklearn.compose <span class="keyword">import</span> ColumnTransformer
+<span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler, OneHotEncoder
+<span class="keyword">from</span> sklearn.impute <span class="keyword">import</span> SimpleImputer
+
+<span class="comment"># Define features</span>
+num_features = [<span class="string">'sqft'</span>, <span class="string">'bedrooms'</span>, <span class="string">'age'</span>]
+cat_features = [<span class="string">'neighborhood'</span>]
+
+<span class="comment"># Create preprocessors</span>
+num_transformer = Pipeline(steps=[
+    (<span class="string">'imputer'</span>, SimpleImputer(strategy=<span class="string">'median'</span>)),
+    (<span class="string">'scaler'</span>, StandardScaler())
+])
+
+cat_transformer = Pipeline(steps=[
+    (<span class="string">'imputer'</span>, SimpleImputer(strategy=<span class="string">'constant'</span>, fill_value=<span class="string">'missing'</span>)),
+    (<span class="string">'onehot'</span>, OneHotEncoder(handle_unknown=<span class="string">'ignore'</span>))
+])
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        (<span class="string">'num'</span>, num_transformer, num_features),
+        (<span class="string">'cat'</span>, cat_transformer, cat_features)
+    ])</code></pre>
+                </div>
+                
+                <div id="tab3" class="tab-content">
+<pre><code><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestRegressor
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> GridSearchCV
+
+<span class="comment"># Split data</span>
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>
+)
+
+<span class="comment"># Create Full Pipeline</span>
+model_pipeline = Pipeline(steps=[
+    (<span class="string">'preprocessor'</span>, preprocessor),
+    (<span class="string">'regressor'</span>, RandomForestRegressor(random_state=<span class="number">42</span>))
+])
+
+<span class="comment"># Hyperparameter tuning</span>
+param_grid = {
+    <span class="string">'regressor__n_estimators'</span>: [<span class="number">100</span>, <span class="number">200</span>],
+    <span class="string">'regressor__max_depth'</span>: [<span class="keyword">None</span>, <span class="number">10</span>, <span class="number">20</span>]
+}
+
+grid_search = GridSearchCV(model_pipeline, param_grid, cv=<span class="number">5</span>)
+grid_search.fit(X_train, y_train)
+
+print(f<span class="string">"Best params: {grid_search.best_params_}"</span>)
+best_model = grid_search.best_estimator_</code></pre>
+                </div>
+
+                <div id="tab4" class="tab-content">
+<pre><code><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> mean_squared_error, r2_score
+<span class="keyword">import</span> joblib
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="comment"># Evaluate</span>
+y_pred = best_model.predict(X_test)
+rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+r2 = r2_score(y_test, y_pred)
+
+print(f<span class="string">"Test RMSE: ${rmse:.2f}"</span>)
+print(f<span class="string">"Test R2 Score: {r2:.3f}"</span>)
+
+<span class="comment"># Save model for deployment</span>
+joblib.dump(best_model, <span class="string">'housing_model.pkl'</span>)
+print(<span class="string">"Model saved successfully!"</span>)
+
+<span class="comment"># Load later:</span>
+<span class="comment"># loaded_model = joblib.load('housing_model.pkl')</span></code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 8: MASTER FUNCTIONS ENCYCLOPEDIA -->
+        <section id="encyclopedia">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem">
+                <div>
+                    <span style="background:rgba(34,211,238,0.15);color:#22d3ee;border:1px solid rgba(34,211,238,0.3);padding:4px 14px;border-radius:999px;font-size:0.75rem;font-weight:800;letter-spacing:1px;text-transform:uppercase">Interactive Reference</span>
+                    <h2 style="margin-top:0.5rem;margin-bottom:0.5rem;border-bottom:none;padding-bottom:0">8. Complete NumPy &amp; Pandas Built-in Functions Encyclopedia</h2>
+                    <p style="margin-bottom:0">Every essential built-in method explained with syntax, visual transformations, code examples, and real-world ML scenarios.</p>
+                </div>
+            </div>
+
+            <!-- Search & Filter Controls -->
+            <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:2rem">
+                <div style="position:relative;margin-bottom:1.25rem">
+                    <input type="text" id="funcSearch" onkeyup="filterFunctions()" placeholder="🔍 Type function name or keyword (e.g. fillna, linspace, groupby, reshape, dot, smote, merge)..." style="width:100%;background:#0f172a;border:1px solid var(--border);color:#fff;padding:0.9rem 1.25rem;border-radius:8px;font-family:var(--font-sans);font-size:1rem;outline:none;transition:border-color 0.2s">
+                </div>
+                <div style="display:flex;gap:0.5rem;flex-wrap:wrap" id="categoryPills">
+                    <button class="pill-btn active" onclick="setCategoryFilter('all', this)">All Functions (<span id="totalCount">36</span>)</button>
+                    <button class="pill-btn" onclick="setCategoryFilter('np-create', this)">NumPy: Creation</button>
+                    <button class="pill-btn" onclick="setCategoryFilter('np-shape', this)">NumPy: Shapes &amp; Manipulation</button>
+                    <button class="pill-btn" onclick="setCategoryFilter('np-math', this)">NumPy: Math &amp; Linear Algebra</button>
+                    <button class="pill-btn" onclick="setCategoryFilter('pd-io', this)">Pandas: Ingestion &amp; EDA</button>
+                    <button class="pill-btn" onclick="setCategoryFilter('pd-clean', this)">Pandas: Data Cleaning</button>
+                    <button class="pill-btn" onclick="setCategoryFilter('pd-trans', this)">Pandas: Feature Engineering</button>
+                    <button class="pill-btn" onclick="setCategoryFilter('pd-group', this)">Pandas: Grouping &amp; Reshaping</button>
+                    <button class="pill-btn" onclick="setCategoryFilter('pd-merge', this)">Pandas: Merging &amp; Indexing</button>
+                </div>
+            </div>
+
+            <!-- Encyclopedia Grid -->
+            <div class="encyclopedia-grid" id="encyclopediaGrid">
+
+                <!-- 1. np.linspace -->
+                <div class="func-card" data-category="np-create" data-name="linspace np.linspace array creation range plot">
+                    <div class="func-badge np">NumPy · Creation</div>
+                    <div class="func-sig">np.linspace(start, stop, num=50, endpoint=True)</div>
+                    <p class="func-desc">Generates <code>num</code> evenly spaced numbers over a specified interval <code>[start, stop]</code>. Crucial when you need exact float point density.</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Generating a continuous coordinate grid (e.g. 100x100 points) to evaluate and plot a non-linear Decision Boundary (contour map) for SVMs or Neural Networks.
+                    </div>
+                    <pre><code><span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="comment"># Generate 5 evenly spaced numbers between 0 and 1</span>
+x = np.linspace(<span class="number">0</span>, <span class="number">1</span>, num=<span class="number">5</span>)
+<span class="comment"># Output: array([0.  , 0.25, 0.5 , 0.75, 1.  ])</span></code></pre>
+                </div>
+
+                <!-- 2. np.arange -->
+                <div class="func-card" data-category="np-create" data-name="arange np.arange sequence step integer">
+                    <div class="func-badge np">NumPy · Creation</div>
+                    <div class="func-sig">np.arange([start,] stop[, step,], dtype=None)</div>
+                    <p class="func-desc">Returns evenly spaced values within a given interval step by step (like Python's built-in <code>range()</code> but returns a high-speed C-backed ndarray).</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Creating sample index batch offsets for custom training loops in SGD or mini-batch epoch iterating.
+                    </div>
+                    <pre><code><span class="comment"># Generate step values for hyperparameter learning rates</span>
+lrs = np.arange(<span class="number">0.01</span>, <span class="number">0.05</span>, step=<span class="number">0.01</span>)
+<span class="comment"># Output: array([0.01, 0.02, 0.03, 0.04])</span></code></pre>
+                </div>
+
+                <!-- 3. np.zeros & np.ones -->
+                <div class="func-card" data-category="np-create" data-name="zeros ones np.zeros np.ones weights initialization matrix">
+                    <div class="func-badge np">NumPy · Creation</div>
+                    <div class="func-sig">np.zeros(shape) | np.ones(shape) | np.full(shape, fill_value)</div>
+                    <p class="func-desc">Allocates arrays of given dimensions pre-filled with 0s, 1s, or a specified constant. Highly optimized memory buffer creation.</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Initializing bias vectors $b = \mathbf{0}$ in Neural Network layers before forward-pass backpropagation.
+                    </div>
+                    <pre><code><span class="comment"># Initialize weights (3x2) with ones and bias (1x2) with zeros</span>
+W = np.ones((<span class="number">3</span>, <span class="number">2</span>))
+b = np.zeros((<span class="number">1</span>, <span class="number">2</span>))
+<span class="comment"># Constant fill for mask initialization</span>
+mask = np.full((<span class="number">2</span>, <span class="number">2</span>), fill_value=-<span class="number">999</span>)</code></pre>
+                </div>
+
+                <!-- 4. np.random.randn & seed -->
+                <div class="func-card" data-category="np-create" data-name="random randn randint seed gaussian normal distribution weights">
+                    <div class="func-badge np">NumPy · Creation</div>
+                    <div class="func-sig">np.random.randn(d0, d1, ...) | np.random.seed(seed)</div>
+                    <p class="func-desc">Samples random values from a Standard Normal Distribution ($\mu=0, \sigma=1$). <code>seed()</code> guarantees identical numbers for reproducible experiments.</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> He/Xavier weight initialization in deep learning to avoid vanishing/exploding gradients on layer zero.
+                    </div>
+                    <pre><code>np.random.seed(<span class="number">42</span>)  <span class="comment"># Reproducible</span>
+<span class="comment"># Initialize 4 features x 3 hidden neurons weight matrix</span>
+weights = np.random.randn(<span class="number">4</span>, <span class="number">3</span>) * <span class="number">0.01</span></code></pre>
+                </div>
+
+                <!-- 5. np.reshape -->
+                <div class="func-card" data-category="np-shape" data-name="reshape np.reshape dimension flatten 2d 3d matrix image">
+                    <div class="func-badge np">NumPy · Shapes</div>
+                    <div class="func-sig">np.reshape(a, newshape) | arr.reshape(-1, 1)</div>
+                    <p class="func-desc">Gives a new shape to an array without changing its underlying data. Passing <code>-1</code> automatically calculates the remaining dimension.</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Scikit-Learn estimators require 2D input $(N, 1)$ for single-feature regression. Also flattening $28 \times 28$ MNIST images into $784$-dim vectors.
+                    </div>
+                    <pre><code>x_1d = np.array([<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>])
+<span class="comment"># Convert to 2D column vector for sklearn .fit()</span>
+x_2d = x_1d.reshape(-<span class="number">1</span>, <span class="number">1</span>)  <span class="comment"># Shape becomes (4, 1)</span>
+<span class="comment"># Reshape 784-vector into 28x28 image</span>
+img = np.zeros(<span class="number">784</span>).reshape(<span class="number">28</span>, <span class="number">28</span>)</code></pre>
+                </div>
+
+                <!-- 6. np.expand_dims & np.squeeze -->
+                <div class="func-card" data-category="np-shape" data-name="expand_dims squeeze batch tensor dimension axis">
+                    <div class="func-badge np">NumPy · Shapes</div>
+                    <div class="func-sig">np.expand_dims(a, axis) | np.squeeze(a, axis=None)</div>
+                    <p class="func-desc"><code>expand_dims</code> inserts a new axis of length 1. <code>squeeze</code> drops single-dimensional entries from the shape of an array.</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Passing a single image $(224, 224, 3)$ to a CNN API that expects a batch dimension $(1, 224, 224, 3)$.
+                    </div>
+                    <pre><code>img = np.zeros((<span class="number">224</span>, <span class="number">224</span>, <span class="number">3</span>))
+batched_img = np.expand_dims(img, axis=<span class="number">0</span>)  <span class="comment"># (1, 224, 224, 3)</span>
+preds = np.squeeze(batched_img, axis=<span class="number">0</span>)    <span class="comment"># Back to (224, 224, 3)</span></code></pre>
+                </div>
+
+                <!-- 7. np.concatenate, vstack, hstack -->
+                <div class="func-card" data-category="np-shape" data-name="concatenate vstack hstack merge stack combine columns">
+                    <div class="func-badge np">NumPy · Shapes</div>
+                    <div class="func-sig">np.concatenate((a1, a2), axis=0) | np.hstack() | np.vstack()</div>
+                    <p class="func-desc">Joins a sequence of arrays along an existing axis. <code>hstack</code> stacks horizontally (columns), <code>vstack</code> stacks vertically (rows).</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Appending an intercept column of ones $\mathbf{1}$ to feature matrix $X$ for Ordinary Least Squares (OLS) closed-form solution.
+                    </div>
+                    <pre><code>X = np.array([[<span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>]])
+ones_col = np.ones((<span class="number">2</span>, <span class="number">1</span>))
+<span class="comment"># Add bias column as first feature</span>
+X_with_bias = np.hstack((ones_col, X))
+<span class="comment"># array([[1., 2., 3.], [1., 4., 5.]])</span></code></pre>
+                </div>
+
+                <!-- 8. np.where & np.clip -->
+                <div class="func-card" data-category="np-shape" data-name="where clip condition filter bounds outliers binary">
+                    <div class="func-badge np">NumPy · Shapes</div>
+                    <div class="func-sig">np.where(condition[, x, y]) | np.clip(a, a_min, a_max)</div>
+                    <p class="func-desc"><code>np.where</code> returns elements chosen from <code>x</code> or <code>y</code> depending on condition. <code>np.clip</code> clamps all array values within min and max thresholds.</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Thresholding model probabilities into binary labels ($\hat{y} \ge 0.5 \to 1$), and gradient clipping in RNNs to prevent exploding gradients.
+                    </div>
+                    <pre><code>probs = np.array([<span class="number">0.12</span>, <span class="number">0.87</span>, <span class="number">0.45</span>, <span class="number">0.99</span>])
+<span class="comment"># Vectorized decision threshold</span>
+predictions = np.where(probs >= <span class="number">0.5</span>, <span class="number">1</span>, <span class="number">0</span>)  <span class="comment"># [0, 1, 0, 1]</span>
+<span class="comment"># Clip extreme gradients between -5 and 5</span>
+clipped_grads = np.clip(np.array([<span class="number">12.5</span>, -<span class="number">8.0</span>, <span class="number">0.3</span>]), -<span class="number">5.0</span>, <span class="number">5.0</span>)</code></pre>
+                </div>
+
+                <!-- 9. np.argmax & np.argmin -->
+                <div class="func-card" data-category="np-shape" data-name="argmax argmin index classification softmax prediction">
+                    <div class="func-badge np">NumPy · Shapes</div>
+                    <div class="func-sig">np.argmax(a, axis=None) | np.argmin(a, axis=None)</div>
+                    <p class="func-desc">Returns the indices of the maximum/minimum values along an axis. Eliminates the need for manual loops over probability vectors.</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Extracting the winning class label index from a multi-class Softmax output tensor.
+                    </div>
+                    <pre><code><span class="comment"># Softmax output probabilities for [Cat, Dog, Bird]</span>
+probs = np.array([[<span class="number">0.1</span>, <span class="number">0.85</span>, <span class="number">0.05</span>], [<span class="number">0.7</span>, <span class="number">0.2</span>, <span class="number">0.1</span>]])
+predicted_classes = np.argmax(probs, axis=<span class="number">1</span>)  <span class="comment"># array([1, 0]) -> Dog, Cat</span></code></pre>
+                </div>
+
+                <!-- 10. np.dot, matmul, @ -->
+                <div class="func-card" data-category="np-math" data-name="dot matmul matrix multiplication @ linear algebra">
+                    <div class="func-badge np">NumPy · Math</div>
+                    <div class="func-sig">np.dot(a, b) | np.matmul(a, b) | a @ b</div>
+                    <p class="func-desc">Computes the dot product of two arrays. For 2D matrices, performs matrix multiplication $(M \times K) \cdot (K \times N) \to (M \times N)$.</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Computing the linear forward step $Z = XW + b$ in every linear layer of neural networks and logistic regression.
+                    </div>
+                    <pre><code>X = np.array([[<span class="number">1.0</span>, <span class="number">2.0</span>], [<span class="number">3.0</span>, <span class="number">4.0</span>]])  <span class="comment"># (2, 2)</span>
+W = np.array([[<span class="number">0.5</span>], [<span class="number">1.5</span>]])            <span class="comment"># (2, 1)</span>
+Z = X @ W                               <span class="comment"># (2, 1) -> array([[3.5], [7.5]])</span></code></pre>
+                </div>
+
+                <!-- 11. np.mean, std, sum with axis -->
+                <div class="func-card" data-category="np-math" data-name="mean std var sum axis normalization zscore stats">
+                    <div class="func-badge np">NumPy · Math</div>
+                    <div class="func-sig">np.mean(a, axis=0) | np.std(a, axis=0) | np.sum(a, axis=1)</div>
+                    <p class="func-desc">Statistical reductions along dimensions. <code>axis=0</code> aggregates down columns (per feature); <code>axis=1</code> aggregates across rows (per sample).</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Implementing manual StandardScaler Z-score normalization: $Z = (X - \mu) / \sigma$.
+                    </div>
+                    <pre><code>X = np.array([[<span class="number">10</span>, <span class="number">200</span>], [<span class="number">20</span>, <span class="number">400</span>], [<span class="number">30</span>, <span class="number">600</span>]])
+mu = np.mean(X, axis=<span class="number">0</span>)  <span class="comment"># [20., 400.]</span>
+sigma = np.std(X, axis=<span class="number">0</span>) <span class="comment"># [8.16, 163.29]</span>
+X_norm = (X - mu) / sigma <span class="comment"># Standardized feature matrix</span></code></pre>
+                </div>
+
+                <!-- 12. np.exp, log, sqrt -->
+                <div class="func-card" data-category="np-math" data-name="exp log sqrt activation sigmoid softmax logloss">
+                    <div class="func-badge np">NumPy · Math</div>
+                    <div class="func-sig">np.exp(x) | np.log(x) | np.sqrt(x)</div>
+                    <p class="func-desc">Element-wise exponential, natural logarithm, and square root operations executed directly in optimized C loops.</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Writing the Sigmoid activation function $\sigma(z) = \frac{1}{1 + e^{-z}}$ and calculating Log-Loss error.
+                    </div>
+                    <pre><code><span class="keyword">def</span> <span class="function">sigmoid</span>(z):
+    <span class="keyword">return</span> <span class="number">1</span> / (<span class="number">1</span> + np.exp(-z))
+
+z = np.array([<span class="number">0.0</span>, <span class="number">2.0</span>, -<span class="number">2.0</span>])
+<span class="comment"># Output: array([0.5, 0.880797, 0.119202])</span></code></pre>
+                </div>
+
+                <!-- 13. np.linalg.inv & eig -->
+                <div class="func-card" data-category="np-math" data-name="linalg inv eig eigenvalues eigenvectors inverse ols pca">
+                    <div class="func-badge np">NumPy · Math</div>
+                    <div class="func-sig">np.linalg.inv(a) | np.linalg.eig(a) | np.linalg.norm(x, ord=2)</div>
+                    <p class="func-desc">Linear algebra solver routines: Matrix inverse $A^{-1}$, Eigenvalues/Eigenvectors, and Vector/Matrix norms (L1/L2).</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Calculating the Principal Components in PCA via eigen-decomposition of the Covariance Matrix $\Sigma$.
+                    </div>
+                    <pre><code>cov_matrix = np.cov(X.T)
+eigenvalues, eigenvectors = np.linalg.eig(cov_matrix)
+<span class="comment"># Top eigenvector represents direction of maximum variance (PC1)</span></code></pre>
+                </div>
+
+                <!-- PANDAS SECTION -->
+
+                <!-- 14. pd.read_csv & read_parquet -->
+                <div class="func-card" data-category="pd-io" data-name="read_csv read_parquet read_sql to_parquet ingestion io pandas">
+                    <div class="func-badge pd">Pandas · Ingestion</div>
+                    <div class="func-sig">pd.read_csv(filepath, usecols, dtype, nrows) | pd.read_parquet()</div>
+                    <p class="func-desc">Loads tabular data from disk into a DataFrame. <code>usecols</code> and <code>dtype</code> optimize RAM consumption on massive files.</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Ingesting a 50GB enterprise customer clickstream file by reading only necessary modeling columns to prevent Out-Of-Memory (OOM) crashes.
+                    </div>
+                    <pre><code><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="comment"># Memory-efficient enterprise loading</span>
+df = pd.read_csv(<span class="string">'data.csv'</span>, 
+                 usecols=[<span class="string">'user_id'</span>, <span class="string">'age'</span>, <span class="string">'spent'</span>, <span class="string">'churn'</span>],
+                 dtype={<span class="string">'churn'</span>: <span class="string">'int8'</span>, <span class="string">'age'</span>: <span class="string">'float32'</span>})</code></pre>
+                </div>
+
+                <!-- 15. df.info & describe -->
+                <div class="func-card" data-category="pd-io" data-name="info describe head tail eda exploration summary stats">
+                    <div class="func-badge pd">Pandas · EDA</div>
+                    <div class="func-sig">df.info() | df.describe(include='all') | df.shape</div>
+                    <p class="func-desc"><code>info()</code> audits column types and null counts. <code>describe()</code> computes count, mean, std, min, IQR (25%, 50%, 75%), and max.</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> First 30 seconds of any Data Science interview or Kaggle project to identify skewness and missing values.
+                    </div>
+                    <pre><code>print(df.shape)       <span class="comment"># (100000, 15) -> 100k rows, 15 columns</span>
+print(df.info())        <span class="comment"># Checks non-null counts & memory footprint</span>
+print(df.describe())    <span class="comment"># Detects extreme max values (e.g. age=999)</span></code></pre>
+                </div>
+
+                <!-- 16. df.isna & value_counts -->
+                <div class="func-card" data-category="pd-io" data-name="isna isnull value_counts nunique class imbalance missing check">
+                    <div class="func-badge pd">Pandas · EDA</div>
+                    <div class="func-sig">df.isna().sum() | df['target'].value_counts(normalize=True)</div>
+                    <p class="func-desc">Returns counts of null entries per column, and frequency distributions of categorical values (or percentage share with <code>normalize=True</code>).</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Detecting target class imbalance (e.g. 99% Non-Fraud vs 1% Fraud) before choosing evaluation metrics.
+                    </div>
+                    <pre><code><span class="comment"># Audit missing percentage per feature</span>
+missing_pct = (df.isna().sum() / len(df)) * <span class="number">100</span>
+<span class="comment"># Check class imbalance distribution</span>
+class_dist = df[<span class="string">'fraud'</span>].value_counts(normalize=<span class="keyword">True</span>)
+<span class="comment"># Output: 0 -> 0.992 (99.2%), 1 -> 0.008 (0.8%)</span></code></pre>
+                </div>
+
+                <!-- 17. df.dropna & fillna -->
+                <div class="func-card" data-category="pd-clean" data-name="dropna fillna impute missing clean na null median ffill">
+                    <div class="func-badge pd">Pandas · Cleaning</div>
+                    <div class="func-sig">df.dropna(subset, thresh) | df.fillna(value, method='ffill')</div>
+                    <p class="func-desc"><code>dropna</code> removes rows/columns with missing data. <code>fillna</code> imputes missing entries with specific constants, summary stats, or forward-fills.</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Dropping rows where the Target label is missing, while imputing missing numeric features with the training median.
+                    </div>
+                    <pre><code><span class="comment"># 1. Drop rows where Target is null</span>
+df = df.dropna(subset=[<span class="string">'target_price'</span>])
+<span class="comment"># 2. Impute median for numerical columns</span>
+median_age = df[<span class="string">'age'</span>].median()
+df[<span class="string">'age'</span>] = df[<span class="string">'age'</span>].fillna(median_age)
+<span class="comment"># 3. Forward-fill stock prices across weekends</span>
+df[<span class="string">'stock_price'</span>] = df[<span class="string">'stock_price'</span>].fillna(method=<span class="string">'ffill'</span>)</code></pre>
+                </div>
+
+                <!-- 18. df.interpolate & replace -->
+                <div class="func-card" data-category="pd-clean" data-name="interpolate replace outliers dirty data clean time series">
+                    <div class="func-badge pd">Pandas · Cleaning</div>
+                    <div class="func-sig">df.interpolate(method='linear') | df.replace(to_replace, value)</div>
+                    <p class="func-desc"><code>interpolate</code> fills NaN values using mathematical curves (linear, spline, polynomial). <code>replace</code> swaps rogue sentinel strings with proper values.</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Replacing legacy database sentinels (like <code>-999</code> or <code>"?"</code>) with <code>np.nan</code> before feeding into an Imputer pipeline.
+                    </div>
+                    <pre><code><span class="comment"># Replace rogue database sentinels with NaN</span>
+df[<span class="string">'income'</span>] = df[<span class="string">'income'</span>].replace([-<span class="number">999</span>, <span class="string">'?'</span>, <span class="string">'NULL'</span>], np.nan)
+<span class="comment"># Smoothly interpolate IoT sensor temperature gaps over time</span>
+df[<span class="string">'sensor_temp'</span>] = df[<span class="string">'sensor_temp'</span>].interpolate(method=<span class="string">'linear'</span>)</code></pre>
+                </div>
+
+                <!-- 19. df.drop_duplicates & astype -->
+                <div class="func-card" data-category="pd-clean" data-name="drop_duplicates astype cast types memory deduplicate">
+                    <div class="func-badge pd">Pandas · Cleaning</div>
+                    <div class="func-sig">df.drop_duplicates(subset, keep='first') | df['col'].astype(dtype)</div>
+                    <p class="func-desc"><code>drop_duplicates</code> removes duplicate records. <code>astype</code> casts data types (e.g. converting float64 to float32 or strings to categories for speed).</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Deduplicating transaction records generated by webhook retries in payment gateway logs.
+                    </div>
+                    <pre><code><span class="comment"># Deduplicate transactions</span>
+df = df.drop_duplicates(subset=[<span class="string">'transaction_id'</span>], keep=<span class="string">'first'</span>)
+<span class="comment"># Optimize category memory footprint (cuts RAM by ~80%)</span>
+df[<span class="string">'city'</span>] = df[<span class="string">'city'</span>].astype(<span class="string">'category'</span>)</code></pre>
+                </div>
+
+                <!-- 20. df.apply & Series.map -->
+                <div class="func-card" data-category="pd-trans" data-name="apply map lambda transform feature engineering custom">
+                    <div class="func-badge pd">Pandas · Transforms</div>
+                    <div class="func-sig">df.apply(func, axis=0|1) | df['col'].map(dict_or_func)</div>
+                    <p class="func-desc">Executes arbitrary Python functions row-wise (<code>axis=1</code>) or column-wise (<code>axis=0</code>). <code>map()</code> maps dictionary keys to column values.</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Parsing complex email domains or calculating BMI from Height &amp; Weight columns row by row.
+                    </div>
+                    <pre><code><span class="comment"># Map binary flags via dictionary</span>
+df[<span class="string">'is_vip'</span>] = df[<span class="string">'tier'</span>].map({<span class="string">'Gold'</span>: <span class="number">1</span>, <span class="string">'Silver'</span>: <span class="number">1</span>, <span class="string">'Bronze'</span>: <span class="number">0</span>})
+<span class="comment"># Calculate custom interaction feature across columns</span>
+df[<span class="string">'debt_to_income'</span>] = df.apply(
+    <span class="keyword">lambda</span> row: row[<span class="string">'debt'</span>] / (row[<span class="string">'income'</span>] + <span class="number">1e-5</span>), axis=<span class="number">1</span>
+)</code></pre>
+                </div>
+
+                <!-- 21. pd.cut & pd.qcut -->
+                <div class="func-card" data-category="pd-trans" data-name="cut qcut binning discretization buckets quantiles">
+                    <div class="func-badge pd">Pandas · Transforms</div>
+                    <div class="func-sig">pd.cut(x, bins, labels) | pd.qcut(x, q=4, labels)</div>
+                    <p class="func-desc">Discretizes continuous numerical values into discrete bins. <code>cut</code> uses fixed numerical thresholds; <code>qcut</code> uses equal-frequency quantile divisions.</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Converting continuous customer ages into demographic bins: <code>['Child', 'Young', 'Adult', 'Senior']</code> for Decision Trees.
+                    </div>
+                    <pre><code><span class="comment"># Bin continuous age into 4 demographic buckets</span>
+df[<span class="string">'age_group'</span>] = pd.cut(df[<span class="string">'age'</span>], 
+                         bins=[<span class="number">0</span>, <span class="number">18</span>, <span class="number">35</span>, <span class="number">60</span>, <span class="number">100</span>], 
+                         labels=[<span class="string">'Minor'</span>, <span class="string">'Young'</span>, <span class="string">'Adult'</span>, <span class="string">'Senior'</span>])</code></pre>
+                </div>
+
+                <!-- 22. pd.get_dummies -->
+                <div class="func-card" data-category="pd-trans" data-name="get_dummies one hot encoding dummy variables categorical">
+                    <div class="func-badge pd">Pandas · Transforms</div>
+                    <div class="func-sig">pd.get_dummies(data, columns, drop_first=True)</div>
+                    <p class="func-desc">Converts categorical variable columns into indicator 0/1 dummy columns (One-Hot Encoding). <code>drop_first=True</code> prevents multicollinearity.</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Converting categorical features like <code>'Device_Type' (iOS, Android, Windows)</code> into binary numeric columns before Linear/Logistic regression.
+                    </div>
+                    <pre><code><span class="comment"># Convert 'device' column into 0/1 indicator columns</span>
+df_encoded = pd.get_dummies(df, columns=[<span class="string">'device'</span>], drop_first=<span class="keyword">True</span>)
+<span class="comment"># Produces: device_iOS, device_Windows (with Android as base reference)</span></code></pre>
+                </div>
+
+                <!-- 23. df.groupby & df.agg -->
+                <div class="func-card" data-category="pd-group" data-name="groupby agg aggregate split apply combine cohort">
+                    <div class="func-badge pd">Pandas · Grouping</div>
+                    <div class="func-sig">df.groupby(by).agg({'col1': 'mean', 'col2': ['sum', 'count']})</div>
+                    <p class="func-desc">Implements the Split-Apply-Combine paradigm. Groups records by a category key and computes statistical aggregates across groups.</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Engineering behavioral features: calculating historical average transaction amounts and total transaction frequency per user.
+                    </div>
+                    <pre><code><span class="comment"># Calculate user behavior stats</span>
+user_features = df.groupby(<span class="string">'user_id'</span>).agg({
+    <span class="string">'amount'</span>: [<span class="string">'mean'</span>, <span class="string">'std'</span>, <span class="string">'max'</span>],
+    <span class="string">'transaction_id'</span>: <span class="string">'count'</span>
+})</code></pre>
+                </div>
+
+                <!-- 24. df.transform -->
+                <div class="func-card" data-category="pd-group" data-name="transform groupby normalization broadcast group level">
+                    <div class="func-badge pd">Pandas · Grouping</div>
+                    <div class="func-sig">df.groupby('group_col')['val'].transform('mean')</div>
+                    <p class="func-desc">Computes group-level aggregations and broadcasts the result back to match the original DataFrame length, without collapsing rows.</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Calculating how much a customer's current purchase deviates from their personal historical mean (vital fraud signal).
+                    </div>
+                    <pre><code><span class="comment"># Calculate user's personal average without changing row count</span>
+df[<span class="string">'user_avg_spend'</span>] = df.groupby(<span class="string">'user_id'</span>)[<span class="string">'spend'</span>].transform(<span class="string">'mean'</span>)
+<span class="comment"># Anomaly ratio feature</span>
+df[<span class="string">'spend_anomaly_ratio'</span>] = df[<span class="string">'spend'</span>] / df[<span class="string">'user_avg_spend'</span>]</code></pre>
+                </div>
+
+                <!-- 25. df.rolling & df.expanding -->
+                <div class="func-card" data-category="pd-group" data-name="rolling expanding window moving average time series trend">
+                    <div class="func-badge pd">Pandas · Grouping</div>
+                    <div class="func-sig">df['col'].rolling(window=7).mean() | df['col'].expanding().mean()</div>
+                    <p class="func-desc">Applies moving sliding window calculations over sequential/time-series data. <code>expanding</code> computes cumulative calculations from start to current point.</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Computing 7-day and 30-day moving average stock prices or website traffic to filter out high-frequency noise.
+                    </div>
+                    <pre><code><span class="comment"># 7-day rolling moving average of server response times</span>
+df[<span class="string">'latency_7d_ma'</span>] = df[<span class="string">'latency_ms'</span>].rolling(window=<span class="number">7</span>, min_periods=<span class="number">1</span>).mean()</code></pre>
+                </div>
+
+                <!-- 26. df.pivot_table & pd.crosstab -->
+                <div class="func-card" data-category="pd-group" data-name="pivot_table crosstab pivot melt reshape matrix contingency">
+                    <div class="func-badge pd">Pandas · Grouping</div>
+                    <div class="func-sig">df.pivot_table(index, columns, values, aggfunc='mean') | pd.crosstab()</div>
+                    <p class="func-desc">Reshapes data into multi-dimensional matrix tables. <code>crosstab</code> calculates frequency contingency tables for evaluating categorical correlations.</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Building a User $\times$ Movie rating matrix for Collaborative Filtering in Recommendation Systems.
+                    </div>
+                    <pre><code><span class="comment"># Recommendation matrix: Users on rows, Movies on columns</span>
+user_movie_matrix = df.pivot_table(
+    index=<span class="string">'user_id'</span>, 
+    columns=<span class="string">'movie_title'</span>, 
+    values=<span class="string">'rating'</span>,
+    fill_value=<span class="number">0</span>
+)</code></pre>
+                </div>
+
+                <!-- 27. pd.merge & df.join -->
+                <div class="func-card" data-category="pd-merge" data-name="merge join concat inner left right outer sql database">
+                    <div class="func-badge pd">Pandas · Merging</div>
+                    <div class="func-sig">pd.merge(left, right, on='key', how='inner'|'left'|'right'|'outer')</div>
+                    <p class="func-desc">Joins two DataFrames on common key columns using relational database SQL algebra (INNER, LEFT, RIGHT, FULL OUTER).</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Merging real-time web session clicks with offline user demographic profiles from the customer master database.
+                    </div>
+                    <pre><code><span class="comment"># Left join clickstream with user metadata</span>
+full_df = pd.merge(click_df, user_profile_df, on=<span class="string">'user_id'</span>, how=<span class="string">'left'</span>)</code></pre>
+                </div>
+
+                <!-- 28. pd.concat -->
+                <div class="func-card" data-category="pd-merge" data-name="concat append stack rows columns concatenate merge">
+                    <div class="func-badge pd">Pandas · Merging</div>
+                    <div class="func-sig">pd.concat([df1, df2], axis=0|1, ignore_index=True)</div>
+                    <p class="func-desc">Stacks multiple DataFrames along rows (<code>axis=0</code>, appending rows) or along columns (<code>axis=1</code>, appending features).</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Combining 12 monthly CSV files into one unified annual training dataset.
+                    </div>
+                    <pre><code><span class="comment"># Combine list of monthly log dataframes</span>
+monthly_dfs = [pd.read_csv(f<span class="string">'month_{i}.csv'</span>) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">13</span>)]
+annual_dataset = pd.concat(monthly_dfs, axis=<span class="number">0</span>, ignore_index=<span class="keyword">True</span>)</code></pre>
+                </div>
+
+                <!-- 29. df.loc vs df.iloc -->
+                <div class="func-card" data-category="pd-merge" data-name="loc iloc indexing slice filter selection position label">
+                    <div class="func-badge pd">Pandas · Indexing</div>
+                    <div class="func-sig">df.loc[row_label, col_label] | df.iloc[row_index, col_index]</div>
+                    <p class="func-desc"><code>loc</code> is label-based indexing (select by column/index name). <code>iloc</code> is strict zero-based integer positional indexing.</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Extracting feature matrix $X$ and target vector $y$ by positional slicing: <code>X = df.iloc[:, :-1], y = df.iloc[:, -1]</code>.
+                    </div>
+                    <pre><code><span class="comment"># Position-based split (All rows, all cols except last -> X; last col -> y)</span>
+X = df.iloc[:, :-<span class="number">1</span>]
+y = df.iloc[:, -<span class="number">1</span>]
+<span class="comment"># Label-based slice with condition</span>
+high_risk = df.loc[df[<span class="string">'risk_score'</span>] > <span class="number">85</span>, [<span class="string">'user_id'</span>, <span class="string">'email'</span>]]</code></pre>
+                </div>
+
+                <!-- 30. df.query & df.isin -->
+                <div class="func-card" data-category="pd-merge" data-name="query isin filter string expression boolean sql where">
+                    <div class="func-badge pd">Pandas · Indexing</div>
+                    <div class="func-sig">df.query('expr') | df['col'].isin(values_list)</div>
+                    <p class="func-desc"><code>query()</code> filters DataFrame rows using readable string boolean expressions. <code>isin()</code> checks if elements belong to a list of categories.</p>
+                    <div class="func-scenario">
+                        <strong>🏢 Real IT Scenario:</strong> Filtering production test sets by target regions and active customer statuses cleanly without messy bracket syntax.
+                    </div>
+                    <pre><code><span class="comment"># Clean query expression with local variable lookup (@target_cities)</span>
+target_cities = [<span class="string">'New York'</span>, <span class="string">'London'</span>, <span class="string">'Tokyo'</span>]
+filtered = df.query(<span class="string">'age >= 21 and city in @target_cities and active == 1'</span>)</code></pre>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 9 -->
+        <section id="qa">
+            <h2>9. Python for ML Interview Q&A</h2>
+            
+            <div class="qa-item">
+                <div class="qa-q">1. What is the difference between a NumPy array and a Python list?</div>
+                <div class="qa-a">Python lists contain pointers to objects scattered in memory, making them slow for iteration. NumPy arrays store elements of a single data type in a contiguous block of memory. This allows NumPy to utilize CPU caching and vectorized C operations, making mathematical operations orders of magnitude faster.</div>
+            </div>
+
+            <div class="qa-item">
+                <div class="qa-q">2. Why use sklearn Pipeline instead of calling transform() manually?</div>
+                <div class="qa-a">Pipelines ensure that data preprocessing steps (like scaling or encoding) are applied consistently to both training and testing data. Crucially, they prevent data leakage during cross-validation by ensuring that transformers are only fit on the training folds, not the validation fold.</div>
+            </div>
+
+            <div class="qa-item">
+                <div class="qa-q">3. What is data leakage and how does train_test_split prevent it?</div>
+                <div class="qa-a">Data leakage occurs when information from outside the training dataset is used to create the model, leading to overly optimistic performance estimates. <code>train_test_split</code> prevents this by completely hiding a portion of the data (the test set) until the very end, simulating how the model will perform on unseen future data.</div>
+            </div>
+
+            <div class="qa-item">
+                <div class="qa-q">4. What is broadcasting in NumPy?</div>
+                <div class="qa-a">Broadcasting is how NumPy handles operations between arrays of different shapes. If dimensions match from the trailing edge (or if one dimension is 1), NumPy implicitly "stretches" the smaller array to match the larger one without actually copying data in memory, allowing for fast, loop-free vector math.</div>
+            </div>
+
+            <div class="qa-item">
+                <div class="qa-q">5. When would you use groupby() in a ML preprocessing pipeline?</div>
+                <div class="qa-a"><code>groupby()</code> is used for feature engineering to create aggregated features. For example, grouping by "customer_id" to calculate a customer's average purchase value or total transaction count, which can then be joined back to the main dataset to give the model historical context about that entity.</div>
+            </div>
+
+            <div class="qa-item">
+                <div class="qa-q">6. What is the difference between `df.loc` and `df.iloc` in Pandas?</div>
+                <div class="qa-a"><code>df.loc</code> performs label-based selection using explicit index or column names (e.g. <code>df.loc[0:5, 'age']</code> includes index label 5). <code>df.iloc</code> performs strict integer position-based selection (e.g. <code>df.iloc[0:5, 1]</code> excludes index 5, exactly like standard Python slicing).</div>
+            </div>
+
+            <div class="qa-item">
+                <div class="qa-q">7. Why is `np.reshape(-1, 1)` required when feeding a single feature to scikit-learn?</div>
+                <div class="qa-a">Scikit-learn estimator API mandates a 2D matrix shape $(N_{\text{samples}}, N_{\text{features}})$ for feature inputs. A 1D NumPy array has shape $(N,)$, which causes a shape mismatch error. <code>reshape(-1, 1)</code> converts it into $(N, 1)$ without altering the data.</div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 ML Mastery Educational Platform. Built for Data Science &amp; IT Job Seekers.</p>
+        <p style="margin-top: 1rem;">
+            <a href="index.html">⌂ Portal Hub</a> &nbsp;|&nbsp; 
+            <a href="math_foundations.html">📐 Page 0: Math</a> &nbsp;|&nbsp; 
+            <a href="full_platform.html">📘 Page 1: Foundation</a> &nbsp;|&nbsp; 
+            <a href="advanced_modules.html">⚡ Page 2: Advanced</a> &nbsp;|&nbsp; 
+            <a href="deep_modules.html">🔬 Page 3: Deep Dive</a> &nbsp;|&nbsp; 
+            <a href="python_ml.html">🐍 Page 4: Python</a> &nbsp;|&nbsp; 
+            <a href="real_world_ml.html">🚀 Page 5: Real-World MLOps</a> &nbsp;|&nbsp; 
+            <a href="career_and_quiz.html">🏆 Page 6: Career &amp; Quiz</a> &nbsp;|&nbsp; 
+            <a href="interactive_3d_lab.html">🌐 Page 7: 3D WebGL</a> &nbsp;|&nbsp; 
+            <a href="system_design_and_incidents.html">🚨 Page 8: Staff War Room</a> &nbsp;|&nbsp; 
+            <a href="algorithm_arena.html">⚔️ Page 9: Algorithm Arena</a> &nbsp;|&nbsp; 
+            <a href="industrial_systems.html">💡 Page 10: Industrial AI</a> &nbsp;|&nbsp; 
+            <a href="python_teaching_mastery.html" style="color:var(--accent);font-weight:700">🎓 Page 11: Python Master Codex</a>
+        </p>
+    </footer>
+
+    <style>
+        /* Encyclopedia Styling */
+        .encyclopedia-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .func-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.2s ease;
+        }
+
+        .func-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(34, 211, 238, 0.4);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .func-badge {
+            display: inline-block;
+            align-self: flex-start;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 3px 10px;
+            border-radius: 999px;
+            margin-bottom: 0.75rem;
+        }
+
+        .func-badge.np {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .func-badge.pd {
+            background: rgba(236, 72, 153, 0.15);
+            color: #f472b6;
+            border: 1px solid rgba(236, 72, 153, 0.3);
+        }
+
+        .func-sig {
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.75rem;
+            word-break: break-word;
+        }
+
+        .func-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .func-scenario {
+            background: rgba(15, 23, 42, 0.6);
+            border-left: 3px solid #22d3ee;
+            border-radius: 4px;
+            padding: 0.6rem 0.8rem;
+            font-size: 0.8rem;
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+            line-height: 1.45;
+        }
+
+        .func-scenario strong {
+            color: #22d3ee;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .func-card pre {
+            margin: 0;
+            padding: 0.85rem;
+            font-size: 0.8rem;
+            border-radius: 6px;
+            background: #090d16;
+            margin-top: auto;
+        }
+
+        .pill-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .pill-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .pill-btn.active {
+            background: #22d3ee;
+            color: #0f172a;
+            border-color: #22d3ee;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .encyclopedia-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].className = tabcontent[i].className.replace(" active", "");
+            }
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).className += " active";
+            evt.currentTarget.className += " active";
+        }
+
+        let currentCategory = 'all';
+
+        function setCategoryFilter(cat, btn) {
+            currentCategory = cat;
+            document.querySelectorAll('#categoryPills .pill-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            filterFunctions();
+        }
+
+        function filterFunctions() {
+            const query = document.getElementById('funcSearch').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.func-card');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                const nameData = card.getAttribute('data-name').toLowerCase();
+                const textContent = card.innerText.toLowerCase();
+
+                const matchesCat = (currentCategory === 'all') || (category === currentCategory);
+                const matchesQuery = query === '' || nameData.includes(query) || textContent.includes(query);
+
+                if (matchesCat && matchesQuery) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            document.getElementById('totalCount').textContent = visibleCount;
+        }
+
+        // =========================================================
+        // UNIVERSAL 3D CARD TILT & PARALLAX ENGINE
+        // =========================================================
+        function init3DCardTilt() {
+            const cards = document.querySelectorAll('.card, .func-card, .chart-card');
+            cards.forEach(card => {
+                card.style.transition = 'transform 0.15s ease-out, box-shadow 0.15s ease-out';
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    const rotX = -(y / (rect.height / 2)) * 5;
+                    const rotY = (x / (rect.width / 2)) * 5;
+                    card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.01, 1.01, 1.01)`;
+                    card.style.boxShadow = `0 15px 35px rgba(0,0,0,0.3), ${rotY * 2}px ${-rotX * 2}px 25px rgba(6,182,212,0.15)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+                    card.style.boxShadow = 'none';
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            init3DCardTilt();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>In-Browser Python &amp; Data Science WASM Studio — Run NumPy, Pandas &amp; Sklearn Live</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+<!-- Pyodide WebAssembly CDN -->
+<script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#2563eb;--blue-d:#1d4ed8;--blue-l:#eff6ff;
+  --emerald:#059669;--emerald-l:#ecfdf5;
+  --amber:#d97706;--amber-l:#fffbeb;
+  --purple:#7c3aed;--purple-l:#f5f3ff;
+  --cyan:#0891b2;--cyan-l:#ecfeff;
+  --rose:#e11d48;--rose-l:#fff1f2;
+  --s50:#f8fafc;--s100:#f1f5f9;--s200:#e2e8f0;
+  --s300:#cbd5e1;--s400:#94a3b8;--s500:#64748b;--s600:#475569;
+  --s700:#334155;--s800:#1e293b;--s900:#0f172a;--s950:#090d16;
+  --r:16px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--s950);color:#f8fafc;min-height:100vh;line-height:1.65;overflow-x:hidden}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:64px;background:rgba(9,13,22,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08)}
+.nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:#fff;font-weight:900;font-size:18px}
+.nav-brand em{font-style:normal;color:#10b981}
+.nav-links{display:flex;gap:16px;align-items:center}
+.nav-links a{color:var(--s400);text-decoration:none;font-size:13px;font-weight:600;transition:.2s}
+.nav-links a:hover{color:#10b981}
+.nav-badge{font-size:11px;font-weight:800;color:#10b981;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);padding:4px 12px;border-radius:999px}
+
+/* Hero */
+.hero{padding:110px 24px 50px;text-align:center;background:radial-gradient(ellipse 90% 60% at 50% 0%,rgba(16,185,129,.2) 0%,transparent 70%),linear-gradient(180deg,#090d16 0%,#0f172a 100%)}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:#34d399;font-size:11px;font-weight:800;padding:6px 16px;border-radius:999px;letter-spacing:1px;text-transform:uppercase;margin-bottom:20px}
+.hero h1{font-size:clamp(32px,5vw,56px);font-weight:900;line-height:1.15;letter-spacing:-1.2px;margin-bottom:16px}
+.hero h1 span{background:linear-gradient(135deg,#34d399,#38bdf8,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:clamp(15px,2vw,18px);color:var(--s400);max-width:860px;margin:0 auto 28px}
+
+.wrap{max-width:1300px;margin:0 auto;padding:0 24px}
+
+/* Studio Layout */
+.studio-grid{display:grid;grid-template-columns:320px 1fr;gap:24px;margin-bottom:60px}
+@media(max-width:960px){.studio-grid{grid-template-columns:1fr}}
+
+/* Presets Sidebar */
+.presets-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:20px;height:fit-content}
+.preset-btn{width:100%;text-align:left;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:12px 14px;border-radius:10px;color:#fff;font-size:13px;font-weight:600;margin-bottom:10px;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:space-between}
+.preset-btn:hover, .preset-btn.active{background:rgba(16,185,129,.15);border-color:rgba(16,185,129,.4);color:#34d399}
+.preset-btn small{font-size:10px;color:var(--s400);font-weight:500;text-transform:uppercase}
+
+/* Editor & Output Pane */
+.editor-pane{display:flex;flex-direction:column;gap:18px}
+.editor-card{background:#050811;border:1px solid rgba(255,255,255,.1);border-radius:var(--r);overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.6)}
+.editor-header{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.08)}
+.editor-title{font-size:13px;font-weight:700;color:var(--s300);display:flex;align-items:center;gap:8px}
+
+#pyEditor{width:100%;height:320px;background:#050811;color:#f8fafc;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.7;padding:16px;border:none;outline:none;resize:vertical}
+
+/* Output Console */
+.console-card{background:#030712;border:1px solid rgba(255,255,255,.1);border-radius:var(--r);padding:20px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7;min-height:200px;max-height:400px;overflow-y:auto}
+.console-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.06);font-size:12px;color:var(--s400);font-weight:700}
+.stdout-text{color:#34d399;white-space:pre-wrap}
+.stderr-text{color:#fb7185;white-space:pre-wrap}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:.2s}
+.btn-run{background:linear-gradient(135deg,#10b981,#059669);color:#000;box-shadow:0 6px 20px rgba(16,185,129,.35)}
+.btn-run:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(16,185,129,.5)}
+.btn-clear{background:rgba(255,255,255,.08);color:#cbd5e1;border:1px solid rgba(255,255,255,.12)}
+.btn-clear:hover{background:rgba(255,255,255,.15)}
+
+/* Loading indicator */
+#wasmLoadingState{display:flex;align-items:center;gap:8px;font-size:12px;color:#fbbf24;font-weight:600}
+.spinner{width:14px;height:14px;border:2px solid rgba(251,191,36,.3);border-top-color:#fbbf24;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+section[id]{scroll-margin-top:84px}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">
+    <em>ML</em>Mastery
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Portal Index</a>
+    <a href="python_ml.html">Python for ML</a>
+    <a href="sql_for_data_science.html">SQL Codex</a>
+    <a href="prompt_engineering_mastery.html">Prompt Engineering</a>
+    <span class="nav-badge">⚡ In-Browser Python WASM</span>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-tag">🚀 100% In-Browser WebAssembly Engine · Zero Setup</div>
+    <h1>Live Python &amp; <span>Data Science</span> Sandbox</h1>
+    <p>Run real NumPy, Pandas, Scikit-Learn, and Python 3.11 algorithms directly inside your browser. No installations, zero server latency, instant execution.</p>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="studio-grid">
+    <!-- Presets Sidebar -->
+    <div class="presets-card">
+      <h3 style="font-size:14px;font-weight:800;color:#fff;margin-bottom:16px;text-transform:uppercase;letter-spacing:1px">📚 Algorithm Presets</h3>
+      
+      <button class="preset-btn active" onclick="loadPreset('numpy_ops', this)">
+        <span>1. NumPy Dot Product &amp; Eig</span>
+        <small>NumPy</small>
+      </button>
+
+      <button class="preset-btn" onclick="loadPreset('pandas_eda', this)">
+        <span>2. Pandas DataFrame &amp; GroupBy</span>
+        <small>Pandas</small>
+      </button>
+
+      <button class="preset-btn" onclick="loadPreset('linear_reg', this)">
+        <span>3. Linear Regression &amp; MSE</span>
+        <small>Scikit-Learn</small>
+      </button>
+
+      <button class="preset-btn" onclick="loadPreset('kmeans_cluster', this)">
+        <span>4. K-Means Clustering Sandbox</span>
+        <small>Scikit-Learn</small>
+      </button>
+
+      <button class="preset-btn" onclick="loadPreset('cpython_internals', this)">
+        <span>5. Small Int Caching Proof</span>
+        <small>CPython</small>
+      </button>
+
+      <button class="preset-btn" onclick="loadPreset('gradient_descent', this)">
+        <span>6. Gradient Descent from Scratch</span>
+        <small>Pure Math</small>
+      </button>
+    </div>
+
+    <!-- Main Workspace -->
+    <div class="editor-pane">
+      <div class="editor-card">
+        <div class="editor-header">
+          <div class="editor-title">
+            <span>🐍</span>
+            <span id="currentPresetName">main.py (NumPy Dot Product &amp; Eigenvalues)</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div id="wasmLoadingState">
+              <div class="spinner"></div>
+              <span>Initializing Pyodide Python Engine...</span>
+            </div>
+            <button class="btn btn-clear" onclick="clearConsole()">🧹 Clear</button>
+            <button id="runBtn" class="btn btn-run" onclick="runPythonCode()" disabled>▶ Run Script</button>
+          </div>
+        </div>
+        <textarea id="pyEditor" spellcheck="false"></textarea>
+      </div>
+
+      <!-- Execution Console -->
+      <div class="console-card">
+        <div class="console-header">
+          <span>TERMINAL STDOUT / EXECUTION OUTPUT</span>
+          <span id="execStats">Latency: 0ms | Memory: Ready</span>
+        </div>
+        <div id="consoleOutput" class="stdout-text">Waiting for Python runtime initialization...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let pyodideInstance = null;
+
+const presets = {
+  numpy_ops: `# 1. NUMPY DOT PRODUCT & EIGENVALUES
+import numpy as np
+
+# Create two 3x3 matrices
+A = np.array([[4.0, -2.0, 1.0], 
+              [1.0,  3.0, 2.0], 
+              [0.0, -1.0, 5.0]])
+
+B = np.array([[1.0, 2.0, 3.0], 
+              [4.0, 5.0, 6.0], 
+              [7.0, 8.0, 9.0]])
+
+# 1. Matrix Multiplication (Dot Product)
+C = np.dot(A, B)
+print("=== MATRIX MULTIPLICATION (A x B) ===")
+print(C)
+
+# 2. Eigenvalues and Eigenvectors (Foundational to PCA)
+eigenvalues, eigenvectors = np.linalg.eig(A)
+print("\\n=== EIGENVALUES (Av = λv) ===")
+print(eigenvalues)
+print("\\n=== EIGENVECTORS ===")
+print(eigenvectors)
+`,
+
+  pandas_eda: `# 2. PANDAS DATAFRAME & GROUPBY ANALYTICS
+import pandas as pd
+import numpy as np
+
+# Sample E-Commerce Order Records
+data = {
+    'order_id': [101, 102, 103, 104, 105, 106, 107, 108],
+    'customer': ['Alice', 'Bob', 'Alice', 'Charlie', 'Bob', 'David', 'Alice', 'Charlie'],
+    'category': ['Electronics', 'Clothing', 'Electronics', 'Home', 'Clothing', 'Electronics', 'Home', 'Clothing'],
+    'spend_inr': [14500, 2300, 8900, 4200, 1800, 29000, 3400, 5100]
+}
+
+df = pd.DataFrame(data)
+print("=== RAW TRANSACTIONS DATAFRAME ===")
+print(df)
+
+# GroupBy Aggregation: Total & Average spend per customer
+agg_df = df.groupby('customer')['spend_inr'].agg(['count', 'sum', 'mean']).reset_index()
+agg_df.columns = ['Customer', 'Total Orders', 'Total Spend (₹)', 'Average Order Value (₹)']
+print("\\n=== CUSTOMER SEGMENTATION SUMMARY ===")
+print(agg_df.to_string(index=False))
+`,
+
+  linear_reg: `# 3. SCIKIT-LEARN LINEAR REGRESSION
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+# Feature: House Area in SqFt
+X = np.array([[600], [800], [1000], [1200], [1500], [1800], [2200], [2500]])
+
+# Target: Price in Lakhs (₹)
+y = np.array([35, 45, 58, 68, 85, 98, 120, 140])
+
+# Fit Model
+model = LinearRegression()
+model.fit(X, y)
+
+# Predictions
+y_pred = model.predict(X)
+mse = mean_squared_error(y, y_pred)
+r2 = r2_score(y, y_pred)
+
+print(f"=== LINEAR REGRESSION MODEL RESULTS ===")
+print(f"Slope (w1 / Weight): {model.coef_[0]:.4f} Lakhs / SqFt")
+print(f"Intercept (w0 / Bias): {model.intercept_:.4f} Lakhs")
+print(f"Mean Squared Error (MSE): {mse:.4f}")
+print(f"R² Score (Variance Explained): {r2:.4f}")
+
+# Predict for new 2,000 SqFt property
+new_prop = np.array([[2000]])
+pred_val = model.predict(new_prop)[0]
+print(f"\\nEstimated Price for 2,000 SqFt House: ₹{pred_val:.2f} Lakhs")
+`,
+
+  kmeans_cluster: `# 4. K-MEANS CLUSTERING (UNSUPERVISED LEARNING)
+import numpy as np
+from sklearn.cluster import KMeans
+
+# Customer Data: [Annual Income (k$), Spending Score (1-100)]
+customers = np.array([
+    [15, 39], [15, 81], [16, 6], [16, 77], [17, 40],
+    [55, 49], [58, 54], [60, 52], [62, 42], [64, 48],
+    [85, 86], [87, 82], [88, 92], [90, 75], [92, 88]
+])
+
+# Fit 3 Clusters
+kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
+kmeans.fit(customers)
+
+labels = kmeans.labels_
+centroids = kmeans.cluster_centers_
+
+print("=== K-MEANS CUSTOMER CLUSTERS ===")
+for i, c in enumerate(centroids):
+    print(f"Centroid {i}: Income = {c[0]:.1f}k$, Spending Score = {c[1]:.1f}")
+
+print(f"\\nInertia (Within-Cluster Sum of Squares): {kmeans.inertia_:.2f}")
+`,
+
+  cpython_internals: `# 5. CPYTHON MEMORY & SMALL INTEGER CACHING PROOF
+import sys
+
+# Small integers [-5 to 256] are pre-allocated singletons in CPython
+a = 256
+b = 256
+print(f"a = 256, b = 256")
+print(f"Is identical in RAM (a is b)? -> {a is b}")
+print(f"Memory Address of a: {id(a)}")
+print(f"Memory Address of b: {id(b)}")
+
+print("-" * 50)
+
+# Integers > 256 get distinct heap allocations
+x = 257
+y = 257
+print(f"x = 257, y = 257")
+print(f"Values equal (x == y)? -> {x == y}")
+print(f"Is identical in RAM (x is y)? -> {x is y}")
+print(f"Memory Address of x: {id(x)}")
+print(f"Memory Address of y: {id(y)}")
+`,
+
+  gradient_descent: `# 6. GRADIENT DESCENT OPTIMIZATION FROM SCRATCH
+# Function: f(w) = (w - 4)^2 + 3
+# Derivative: f'(w) = 2*(w - 4)
+
+w = 20.0  # Initial starting point (far from minimum at w=4)
+learning_rate = 0.1
+iterations = 25
+
+print(f"=== OPTIMIZING f(w) = (w - 4)^2 + 3 ===")
+print(f"Starting Point: w = {w:.2f}\\n")
+
+for i in range(1, iterations + 1):
+    grad = 2.0 * (w - 4.0)       # Compute gradient
+    w = w - (learning_rate * grad) # Update step
+    cost = (w - 4.0)**2 + 3.0
+    if i % 5 == 0 or i == 1:
+        print(f"Step {i:2d}: w = {w:8.4f} | Loss = {cost:8.4f} | Grad = {grad:8.4f}")
+
+print(f"\\nOptimal Minimum found at: w = {w:.4f} (True Minimum is 4.0)")
+`
+};
+
+async function initPyodide() {
+  try {
+    const loadingState = document.getElementById('wasmLoadingState');
+    const runBtn = document.getElementById('runBtn');
+    
+    pyodideInstance = await loadPyodide();
+    await pyodideInstance.loadPackage(['numpy', 'pandas', 'scikit-learn']);
+    
+    loadingState.innerHTML = '<span style="color:#34d399">✅ Python 3.11 WASM Ready</span>';
+    runBtn.disabled = false;
+    document.getElementById('consoleOutput').textContent = "Python 3.11 WASM Runtime Ready. Click 'Run Script' to execute.";
+    
+    // Load initial preset
+    loadPreset('numpy_ops', document.querySelector('.preset-btn'));
+  } catch (err) {
+    document.getElementById('wasmLoadingState').innerHTML = `<span style="color:#fb7185">❌ Failed to load WASM: ${err.message}</span>`;
+  }
+}
+
+function loadPreset(key, btn) {
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  
+  const editor = document.getElementById('pyEditor');
+  editor.value = presets[key] || '';
+  
+  const names = {
+    numpy_ops: "main.py (NumPy Dot Product & Eigenvalues)",
+    pandas_eda: "analytics.py (Pandas GroupBy & EDA)",
+    linear_reg: "model.py (Scikit-Learn Linear Regression)",
+    kmeans_cluster: "cluster.py (K-Means Clustering)",
+    cpython_internals: "internals.py (CPython Small Int Caching)",
+    gradient_descent: "optimizer.py (Gradient Descent Optimization)"
+  };
+  document.getElementById('currentPresetName').textContent = names[key] || "script.py";
+}
+
+async function runPythonCode() {
+  if (!pyodideInstance) return;
+  
+  const code = document.getElementById('pyEditor').value;
+  const consoleOut = document.getElementById('consoleOutput');
+  const stats = document.getElementById('execStats');
+  
+  consoleOut.className = 'stdout-text';
+  consoleOut.textContent = "Executing in WebAssembly sandbox...";
+  
+  const startTime = performance.now();
+  
+  try {
+    // Capture stdout
+    pyodideInstance.setStdout({ batched: (str) => {
+      consoleOut.textContent += str + "\n";
+    }});
+    
+    consoleOut.textContent = "";
+    await pyodideInstance.runPythonAsync(code);
+    
+    const elapsed = Math.round(performance.now() - startTime);
+    stats.textContent = `Latency: ${elapsed}ms | Memory: Active (WASM)`;
+    stats.style.color = "#34d399";
+  } catch (err) {
+    consoleOut.className = 'stderr-text';
+    consoleOut.textContent = `Traceback (most recent call last):\n${err.message}`;
+    stats.textContent = `Execution Error`;
+    stats.style.color = "#fb7185";
+  }
+}
+
+function clearConsole() {
+  document.getElementById('consoleOutput').textContent = "Console cleared.";
+}
+
+window.addEventListener('DOMContentLoaded', initPyodide);
+</script>
+
+</body>
+</html>

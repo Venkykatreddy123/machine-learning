@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Foundations for ML | ML Mastery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --bg-card-hover: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-green: #10b981;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --border-color: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-main);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span {
+            color: var(--accent-green);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text-main);
+        }
+
+        /* Banner */
+        .banner {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0d9488 100%);
+            padding: 6rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .banner h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -0.05em;
+        }
+
+        .banner p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* Sections and Cards */
+        .section-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tag-intro { background: rgba(16, 185, 129, 0.1); color: var(--accent-green); }
+        .tag-algebra { background: rgba(59, 130, 246, 0.1); color: var(--accent-blue); }
+        .tag-stats { background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); }
+        .tag-calc { background: rgba(245, 158, 11, 0.1); color: var(--accent-orange); }
+        .tag-opt { background: rgba(239, 68, 68, 0.1); color: var(--accent-red); }
+        .tag-code { background: rgba(148, 163, 184, 0.1); color: #cbd5e1; }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--accent-green);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        /* Math Formulas */
+        .math-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--accent-green);
+            overflow-x: auto;
+        }
+
+        /* Code Blocks */
+        .code-block {
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            border: 1px solid var(--border-color);
+        }
+
+        .keyword { color: #ff7b72; }
+        .function { color: #d2a8ff; }
+        .string { color: #a5d6ff; }
+        .comment { color: #8b949e; }
+        .number { color: #79c0ff; }
+        .operator { color: #ff7b72; }
+
+        /* Diagrams Area */
+        .diagram-container {
+            width: 100%;
+            background: #0b1120;
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            position: relative;
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Animations */
+        @keyframes pulseData {
+            0% { opacity: 0.3; transform: scale(0.95); }
+            50% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0.3; transform: scale(0.95); }
+        }
+
+        .animate-flow {
+            animation: flowDash 3s linear infinite;
+        }
+        
+        @keyframes flowDash {
+            to {
+                stroke-dashoffset: -20;
+            }
+        }
+
+        .bell-region {
+            transition: fill-opacity 0.3s;
+        }
+        .bell-region:hover {
+            fill-opacity: 0.5;
+        }
+
+        @keyframes descendPath {
+            0% { stroke-dashoffset: 300; }
+            100% { stroke-dashoffset: 0; }
+        }
+
+        .descend-anim {
+            stroke-dasharray: 300;
+            animation: descendPath 4s ease-out infinite alternate;
+        }
+        
+        @keyframes flowChain {
+            0% { stroke-dashoffset: 100; opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { stroke-dashoffset: 0; opacity: 0; }
+        }
+        
+        .chain-flow {
+            stroke-dasharray: 10 5;
+            animation: flowChain 2s linear infinite;
+        }
+
+        /* Grid for layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Interactive Elements */
+        #run-gd:hover {
+            background: #2563eb !important;
+        }
+
+        /* Q&A Section */
+        .qa-item {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1.5rem;
+        }
+        
+        .qa-item:last-child {
+            border-bottom: none;
+        }
+
+        .qa-q {
+            font-weight: 600;
+            color: var(--accent-green);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #0b1120;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+        }
+    
+section[id]{scroll-margin-top:84px}
+</style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">
+            <span>&lt;/&gt;</span> ML Mastery
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="#intro">Intro</a>
+            <a href="#linalg">Linear Algebra</a>
+            <a href="#stats">Statistics</a>
+            <a href="#calc">Calculus</a>
+            <a href="#opt">Optimization</a>
+            <a href="#qa">Q&A</a>
+        </div>
+    </nav>
+
+    <header class="banner">
+        <h1>Math Foundations for ML</h1>
+        <p>Master the fundamental mathematics driving modern Machine Learning, from zero to advanced concepts.</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- SECTION 0: INTRO -->
+        <section id="intro" class="section-header">
+            <span class="section-tag tag-intro">0. Why Math?</span>
+            <h2>The Language of Machine Learning</h2>
+            <p>Mathematics is the underlying fabric of all machine learning algorithms. Understanding these concepts allows you to not just use algorithms as black boxes, but to build, debug, and optimize them.</p>
+            
+            <div class="diagram-container">
+                <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8" />
+                        </marker>
+                    </defs>
+                    <rect x="300" y="20" width="200" height="50" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="2"/>
+                    <text x="400" y="50" fill="#f8fafc" text-anchor="middle" font-weight="bold" font-family="Inter">Machine Learning</text>
+                    
+                    <path d="M400 70 L200 120" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <path d="M400 70 L400 120" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <path d="M400 70 L600 120" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    
+                    <rect x="100" y="120" width="180" height="40" rx="8" fill="#3b82f6" fill-opacity="0.2" stroke="#3b82f6"/>
+                    <text x="190" y="145" fill="#3b82f6" text-anchor="middle" font-weight="bold" font-family="Inter">Linear Algebra</text>
+                    
+                    <rect x="310" y="120" width="180" height="40" rx="8" fill="#f59e0b" fill-opacity="0.2" stroke="#f59e0b"/>
+                    <text x="400" y="145" fill="#f59e0b" text-anchor="middle" font-weight="bold" font-family="Inter">Calculus</text>
+                    
+                    <rect x="520" y="120" width="180" height="40" rx="8" fill="#8b5cf6" fill-opacity="0.2" stroke="#8b5cf6"/>
+                    <text x="610" y="145" fill="#8b5cf6" text-anchor="middle" font-weight="bold" font-family="Inter">Stats & Probability</text>
+                    
+                    <!-- Lin Alg Children -->
+                    <path d="M190 160 L140 210" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arrowhead)"/>
+                    <path d="M190 160 L240 210" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arrowhead)"/>
+                    <text x="140" y="230" fill="#94a3b8" text-anchor="middle" font-size="12">Linear/Logistic Reg.</text>
+                    <text x="240" y="230" fill="#94a3b8" text-anchor="middle" font-size="12">Neural Nets (Weights)</text>
+                    
+                    <!-- Calc Children -->
+                    <path d="M400 160 L350 210" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arrowhead)"/>
+                    <path d="M400 160 L450 210" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arrowhead)"/>
+                    <text x="350" y="230" fill="#94a3b8" text-anchor="middle" font-size="12">Gradient Descent</text>
+                    <text x="450" y="230" fill="#94a3b8" text-anchor="middle" font-size="12">Backpropagation</text>
+                    
+                    <!-- Stats Children -->
+                    <path d="M610 160 L560 210" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arrowhead)"/>
+                    <path d="M610 160 L660 210" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arrowhead)"/>
+                    <text x="560" y="230" fill="#94a3b8" text-anchor="middle" font-size="12">Bayesian Models</text>
+                    <text x="660" y="230" fill="#94a3b8" text-anchor="middle" font-size="12">Distributions</text>
+                </svg>
+            </div>
+        </section>
+
+        <!-- SECTION 1: LINEAR ALGEBRA -->
+        <section id="linalg" class="section-header">
+            <span class="section-tag tag-algebra">1. Linear Algebra</span>
+            <h2>The Mathematics of Data Structures</h2>
+            
+            <div class="card">
+                <h3>1A. Scalars, Vectors, Matrices</h3>
+                <p>Data in ML is organized into arrays of different dimensions.</p>
+                <div class="diagram-container">
+                    <svg viewBox="0 0 800 250" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Scalar -->
+                        <circle cx="150" cy="125" r="5" fill="#3b82f6"/>
+                        <text x="150" y="150" fill="#f8fafc" text-anchor="middle" font-family="Inter">Scalar (0D)</text>
+                        <text x="150" y="170" fill="#94a3b8" text-anchor="middle" font-family="JetBrains Mono" font-size="14">x = 5</text>
+                        <text x="150" y="190" fill="#94a3b8" text-anchor="middle" font-size="12">Magnitude only</text>
+                        
+                        <!-- Vector -->
+                        <line x1="350" y1="140" x2="420" y2="80" stroke="#10b981" stroke-width="3" marker-end="url(#arrowhead)"/>
+                        <circle cx="350" cy="140" r="3" fill="#10b981"/>
+                        <text x="385" y="160" fill="#f8fafc" text-anchor="middle" font-family="Inter">Vector (1D)</text>
+                        <text x="385" y="180" fill="#94a3b8" text-anchor="middle" font-family="JetBrains Mono" font-size="14">v = [2, 3, 1]</text>
+                        <text x="385" y="200" fill="#94a3b8" text-anchor="middle" font-size="12">Magnitude + Direction</text>
+                        
+                        <!-- Matrix -->
+                        <rect x="600" y="75" width="100" height="100" fill="none" stroke="#8b5cf6" stroke-width="2" rx="4"/>
+                        <text x="625" y="105" fill="#f8fafc" font-family="JetBrains Mono" font-size="14">1 2 3</text>
+                        <text x="625" y="130" fill="#f8fafc" font-family="JetBrains Mono" font-size="14">4 5 6</text>
+                        <text x="625" y="155" fill="#f8fafc" font-family="JetBrains Mono" font-size="14">7 8 9</text>
+                        <text x="650" y="195" fill="#f8fafc" text-anchor="middle" font-family="Inter">Matrix (2D)</text>
+                        <text x="650" y="215" fill="#94a3b8" text-anchor="middle" font-family="JetBrains Mono" font-size="14">3x3 Grid</text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>1B. Vector Operations (Dot Product)</h3>
+                <p>The dot product is a fundamental operation that measures similarity between vectors (e.g., word embeddings).</p>
+                <div class="math-box">a · b = |a||b|cos(θ) = a₁b₁ + a₂b₂ + ... + aₙbₙ</div>
+                <div class="diagram-container">
+                    <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="300" cy="150" r="100" fill="none" stroke="#334155" stroke-dasharray="5 5"/>
+                        <line x1="100" y1="150" x2="500" y2="150" stroke="#334155"/>
+                        <line x1="300" y1="20" x2="300" y2="280" stroke="#334155"/>
+                        
+                        <!-- Vectors -->
+                        <line x1="300" y1="150" x2="400" y2="150" stroke="#3b82f6" stroke-width="3" marker-end="url(#arrowhead)"/>
+                        <line x1="300" y1="150" x2="370" y2="80" stroke="#10b981" stroke-width="3" marker-end="url(#arrowhead)"/>
+                        
+                        <!-- Angle -->
+                        <path d="M 330 150 A 30 30 0 0 0 320 130" fill="none" stroke="#f59e0b" stroke-width="2"/>
+                        <text x="340" y="140" fill="#f59e0b">θ</text>
+                        
+                        <text x="420" y="155" fill="#3b82f6" font-family="JetBrains Mono">b</text>
+                        <text x="380" y="70" fill="#10b981" font-family="JetBrains Mono">a</text>
+                        
+                        <text x="450" y="50" fill="#f8fafc">Small θ → cos(θ) ≈ 1 → High Similarity</text>
+                        <text x="450" y="250" fill="#f8fafc">θ = 90° → cos(θ) = 0 → Orthogonal</text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>1C. Matrix Multiplication</h3>
+                <p>Multiplying matrices involves taking the dot product of rows from the first matrix and columns from the second.</p>
+                <div class="diagram-container">
+                    <svg viewBox="0 0 800 250" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Matrix A -->
+                        <rect x="100" y="70" width="80" height="60" fill="none" stroke="#334155" rx="4"/>
+                        <rect x="100" y="70" width="80" height="30" fill="rgba(59, 130, 246, 0.2)"/> <!-- Row 1 Highlight -->
+                        <text x="120" y="90" fill="#3b82f6">a</text> <text x="160" y="90" fill="#3b82f6">b</text>
+                        <text x="120" y="120" fill="#f8fafc">c</text> <text x="160" y="120" fill="#f8fafc">d</text>
+                        <text x="140" y="160" fill="#94a3b8" text-anchor="middle">(2x2)</text>
+                        
+                        <text x="210" y="105" fill="#f8fafc" font-size="20">×</text>
+                        
+                        <!-- Matrix B -->
+                        <rect x="250" y="70" width="80" height="60" fill="none" stroke="#334155" rx="4"/>
+                        <rect x="250" y="70" width="40" height="60" fill="rgba(16, 185, 129, 0.2)"/> <!-- Col 1 Highlight -->
+                        <text x="270" y="90" fill="#10b981">e</text> <text x="310" y="90" fill="#f8fafc">f</text>
+                        <text x="270" y="120" fill="#10b981">g</text> <text x="310" y="120" fill="#f8fafc">h</text>
+                        <text x="290" y="160" fill="#94a3b8" text-anchor="middle">(2x2)</text>
+                        
+                        <text x="360" y="105" fill="#f8fafc" font-size="20">=</text>
+                        
+                        <!-- Result -->
+                        <rect x="400" y="70" width="200" height="60" fill="none" stroke="#334155" rx="4"/>
+                        <rect x="400" y="70" width="100" height="30" fill="rgba(245, 158, 11, 0.3)"/> <!-- Result Highlight -->
+                        <text x="450" y="90" fill="#f59e0b" text-anchor="middle">ae + bg</text>
+                        <text x="550" y="90" fill="#f8fafc" text-anchor="middle">af + bh</text>
+                        <text x="450" y="120" fill="#f8fafc" text-anchor="middle">ce + dg</text>
+                        <text x="550" y="120" fill="#f8fafc" text-anchor="middle">cf + dh</text>
+                        <text x="500" y="160" fill="#94a3b8" text-anchor="middle">(2x2)</text>
+                        
+                        <text x="400" y="220" fill="#f8fafc" font-size="14">Rule: (m × n) × (n × p) = (m × p)</text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3>1D. Transpose and Inverse</h3>
+                    <p><strong>Transpose (Aᵀ):</strong> Flips a matrix over its diagonal, switching rows and columns.</p>
+                    <p><strong>Inverse (A⁻¹):</strong> The matrix that, when multiplied by A, yields the Identity matrix (I).</p>
+                    <div class="math-box">A × A⁻¹ = I</div>
+                </div>
+                <div class="card">
+                    <h3>1E. Eigenvalues & Eigenvectors</h3>
+                    <p>When a linear transformation (matrix A) is applied to an eigenvector (v), the vector only scales by a factor (λ, eigenvalue), without changing direction.</p>
+                    <div class="math-box">Av = λv</div>
+                    <p class="text-sm" style="color: var(--text-muted); font-size: 0.875rem;">Used heavily in PCA for dimensionality reduction.</p>
+                </div>
+            </div>
+
+            <!-- INTERACTIVE 3D VECTOR & MATRIX TRANSFORMATION STUDIO -->
+            <div class="card" style="margin-top:24px;border:1px solid rgba(59,130,246,0.3)">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+                    <h3>🌐 Interactive 3D Vector &amp; Matrix Transformation Studio</h3>
+                    <span style="font-size:11px;background:rgba(59,130,246,0.15);color:#60a5fa;padding:3px 10px;border-radius:999px;font-weight:700">3D Spatial Math</span>
+                </div>
+                <p style="font-size:13px;color:#94a3b8;margin-bottom:16px">Drag to rotate the 3D coordinate space. Adjust rotation matrices and watch vector $\vec{v} = [x, y, z]$ transform dynamically in 3D Euclidean space!</p>
+                
+                <div style="display:grid;grid-template-columns:1fr 280px;gap:20px;align-items:center">
+                    <canvas id="vec3d-canvas" width="500" height="300" style="width:100%;height:300px;background:#030712;border-radius:10px;border:1px solid #1e293b;cursor:grab"></canvas>
+                    
+                    <div style="background:rgba(255,255,255,0.03);padding:16px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);font-size:12px">
+                        <div style="margin-bottom:12px">
+                            <label style="display:flex;justify-content:space-between;color:#cbd5e1;font-weight:600;margin-bottom:4px">
+                                <span>Rotation X (θ):</span>
+                                <strong id="lbl-rot-x" style="color:#60a5fa">30°</strong>
+                            </label>
+                            <input type="range" id="slider-rot-x" min="0" max="360" value="30" style="width:100%;accent-color:#3b82f6" oninput="update3DVector()">
+                        </div>
+                        <div style="margin-bottom:12px">
+                            <label style="display:flex;justify-content:space-between;color:#cbd5e1;font-weight:600;margin-bottom:4px">
+                                <span>Rotation Y (φ):</span>
+                                <strong id="lbl-rot-y" style="color:#34d399">45°</strong>
+                            </label>
+                            <input type="range" id="slider-rot-y" min="0" max="360" value="45" style="width:100%;accent-color:#10b981" oninput="update3DVector()">
+                        </div>
+                        <div style="margin-bottom:14px">
+                            <label style="display:flex;justify-content:space-between;color:#cbd5e1;font-weight:600;margin-bottom:4px">
+                                <span>Vector Magnitude (|v|):</span>
+                                <strong id="lbl-vec-scale" style="color:#fbbf24">1.5x</strong>
+                            </label>
+                            <input type="range" id="slider-vec-scale" min="0.5" max="2.5" step="0.1" value="1.5" style="width:100%;accent-color:#f59e0b" oninput="update3DVector()">
+                        </div>
+                        <div style="background:#0f172a;padding:8px 12px;border-radius:6px;border-left:3px solid #60a5fa;font-family:'JetBrains Mono',monospace;font-size:11px;color:#e2e8f0" id="vec-output-math">
+                            v' = [1.06, 1.06, 0.75]
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: STATISTICS & PROBABILITY -->
+        <section id="stats" class="section-header">
+            <span class="section-tag tag-stats">2. Statistics & Probability</span>
+            <h2>Understanding Data and Uncertainty</h2>
+
+            <div class="card">
+                <h3>2A & 2B. Descriptive Stats, Variance, and Std Dev</h3>
+                <p>Statistics help us summarize datasets. Variance and Standard Deviation (σ) measure how spread out the data is around the mean (μ).</p>
+                <div class="math-box">σ = √[ Σ(xᵢ - μ)² / N ]</div>
+                <div class="diagram-container">
+                    <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Low Variance -->
+                        <line x1="50" y1="150" x2="250" y2="150" stroke="#334155"/>
+                        <circle cx="120" cy="150" r="4" fill="#3b82f6"/><circle cx="135" cy="150" r="4" fill="#3b82f6"/>
+                        <circle cx="150" cy="150" r="4" fill="#3b82f6"/><circle cx="165" cy="150" r="4" fill="#3b82f6"/>
+                        <circle cx="180" cy="150" r="4" fill="#3b82f6"/>
+                        <line x1="150" y1="130" x2="150" y2="170" stroke="#10b981" stroke-width="2"/>
+                        <text x="150" y="120" fill="#10b981" text-anchor="middle">μ</text>
+                        <text x="150" y="190" fill="#f8fafc" text-anchor="middle">Low Variance (Low σ)</text>
+
+                        <!-- High Variance -->
+                        <line x1="350" y1="150" x2="550" y2="150" stroke="#334155"/>
+                        <circle cx="360" cy="150" r="4" fill="#ef4444"/><circle cx="390" cy="150" r="4" fill="#ef4444"/>
+                        <circle cx="450" cy="150" r="4" fill="#ef4444"/><circle cx="480" cy="150" r="4" fill="#ef4444"/>
+                        <circle cx="530" cy="150" r="4" fill="#ef4444"/>
+                        <line x1="450" y1="130" x2="450" y2="170" stroke="#10b981" stroke-width="2"/>
+                        <text x="450" y="120" fill="#10b981" text-anchor="middle">μ</text>
+                        <text x="450" y="190" fill="#f8fafc" text-anchor="middle">High Variance (High σ)</text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>2C. Normal (Gaussian) Distribution</h3>
+                <p>The bell curve is everywhere. The 68-95-99.7 rule dictates where data falls relative to standard deviations.</p>
+                <div class="diagram-container">
+                    <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Bell curve path -->
+                        <path d="M 50 250 Q 150 250 200 150 T 300 50 T 400 150 T 550 250" fill="none" stroke="#f8fafc" stroke-width="2"/>
+                        
+                        <!-- 1 Sigma (68%) -->
+                        <path class="bell-region" d="M 230 250 L 230 110 Q 260 60 300 50 Q 340 60 370 110 L 370 250 Z" fill="#3b82f6" fill-opacity="0.3"/>
+                        
+                        <!-- Axes and lines -->
+                        <line x1="50" y1="250" x2="550" y2="250" stroke="#334155" stroke-width="2"/>
+                        <line x1="300" y1="50" x2="300" y2="250" stroke="#f8fafc" stroke-dasharray="4"/>
+                        <line x1="230" y1="110" x2="230" y2="250" stroke="#94a3b8" stroke-dasharray="4"/>
+                        <line x1="370" y1="110" x2="370" y2="250" stroke="#94a3b8" stroke-dasharray="4"/>
+                        
+                        <!-- Labels -->
+                        <text x="300" y="270" fill="#f8fafc" text-anchor="middle">μ</text>
+                        <text x="230" y="270" fill="#94a3b8" text-anchor="middle">-1σ</text>
+                        <text x="370" y="270" fill="#94a3b8" text-anchor="middle">+1σ</text>
+                        
+                        <text x="300" y="150" fill="#3b82f6" font-weight="bold" text-anchor="middle">68%</text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>2D & 2E. Probability Basics & Bayes' Theorem</h3>
+                <p>Bayes' Theorem updates our beliefs based on new evidence. It is the foundation of Naive Bayes classifiers.</p>
+                <div class="math-box">P(A|B) = [ P(B|A) × P(A) ] / P(B)</div>
+                <div class="diagram-container">
+                    <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="50" y="75" width="120" height="50" rx="4" fill="#1e293b" stroke="#3b82f6"/>
+                        <text x="110" y="105" fill="#3b82f6" text-anchor="middle">Prior P(A)</text>
+                        
+                        <path d="M 170 100 L 220 100" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        
+                        <rect x="230" y="75" width="140" height="50" rx="4" fill="#1e293b" stroke="#f59e0b"/>
+                        <text x="300" y="105" fill="#f59e0b" text-anchor="middle">Likelihood P(B|A)</text>
+                        
+                        <path d="M 370 100 L 420 100" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        
+                        <rect x="430" y="75" width="130" height="50" rx="4" fill="#1e293b" stroke="#10b981"/>
+                        <text x="495" y="105" fill="#10b981" text-anchor="middle">Posterior P(A|B)</text>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: CALCULUS FOR ML -->
+        <section id="calc" class="section-header">
+            <span class="section-tag tag-calc">3. Calculus for ML</span>
+            <h2>Optimization and Rates of Change</h2>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3>3B. What is a Derivative?</h3>
+                    <p>The derivative is the instantaneous rate of change, or the slope of the tangent line at a specific point. It tells us how the output changes as we tweak the input.</p>
+                    <div class="math-box">f'(x) = d/dx (x²) = 2x</div>
+                </div>
+                <div class="card">
+                    <h3>3C. Chain Rule (Backpropagation)</h3>
+                    <p>Used to compute derivatives of composed functions. In Neural Networks, it allows us to calculate gradients across multiple layers (Backpropagation).</p>
+                    <div class="math-box">dz/dx = (dz/dy) × (dy/dx)</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>3D. Partial Derivatives and Gradients</h3>
+                <p>When a function has multiple variables (like weights in a neural network), we use partial derivatives. The gradient (∇f) is a vector of all partial derivatives. The negative gradient points towards the steepest descent (minimum loss).</p>
+                <div class="diagram-container">
+                    <svg viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Contour Bowl -->
+                        <ellipse cx="250" cy="150" rx="200" ry="80" fill="none" stroke="#334155"/>
+                        <ellipse cx="250" cy="150" rx="150" ry="60" fill="none" stroke="#475569"/>
+                        <ellipse cx="250" cy="150" rx="100" ry="40" fill="none" stroke="#64748b"/>
+                        <ellipse cx="250" cy="150" rx="40" ry="15" fill="none" stroke="#10b981"/>
+                        <circle cx="250" cy="150" r="3" fill="#10b981"/> <!-- Minimum -->
+                        
+                        <!-- Gradient Descent Path -->
+                        <path class="descend-anim" d="M 100 90 Q 150 100 180 120 T 220 140 T 250 150" fill="none" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        <circle cx="100" cy="90" r="4" fill="#ef4444"/>
+                        <text x="100" y="80" fill="#f8fafc">Start (Initial Weights)</text>
+                        <text x="260" y="155" fill="#10b981">Minimum Loss</text>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: OPTIMIZATION MATH -->
+        <section id="opt" class="section-header">
+            <span class="section-tag tag-opt">4. Optimization Math</span>
+            <h2>Finding the Minimum</h2>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3>4A. Convex vs Non-Convex</h3>
+                    <p><strong>Convex:</strong> One global minimum (e.g., Linear Regression). Gradient descent always works.<br/>
+                    <strong>Non-Convex:</strong> Multiple local minima (e.g., Deep Neural Nets). We can get stuck.</p>
+                </div>
+                <div class="card">
+                    <h3>4C. Learning Rate (α) Effect</h3>
+                    <p>The step size we take in the direction of the negative gradient.</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-muted);">
+                        <li><span style="color:var(--accent-red)">Too High:</span> Oscillates, diverges.</li>
+                        <li><span style="color:var(--accent-orange)">Too Low:</span> Takes forever to converge.</li>
+                        <li><span style="color:var(--accent-green)">Optimal:</span> Smooth convergence.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 2rem; border-color: var(--accent-blue);">
+                <h3 style="display: flex; align-items: center; gap: 0.5rem;"><span style="color: var(--accent-blue);">Interactive:</span> Gradient Descent Playground</h3>
+                <p>Adjust the learning rate (α) and see how it affects the gradient descent convergence on a simple parabola, <code style="color: var(--accent-purple);">f(x) = x²</code>.</p>
+                
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-top: 1.5rem; background: rgba(15, 23, 42, 0.4); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color);">
+                    <div style="width: 100%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <label for="lr-slider" style="font-weight: 600;">Learning Rate (α): <span id="lr-display" style="color: var(--accent-green); font-family: 'JetBrains Mono', monospace; display: inline-block; width: 40px;">0.10</span></label>
+                            <input type="range" id="lr-slider" min="0.01" max="1.05" step="0.01" value="0.10" style="width: 200px; accent-color: var(--accent-blue); cursor: pointer;">
+                        </div>
+                        <button id="run-gd" style="padding: 0.5rem 1.5rem; background: var(--accent-blue); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: background 0.3s; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">Restart Descent</button>
+                    </div>
+                    
+                    <div class="diagram-container" style="padding: 1rem; margin: 0; width: 100%; border: none; background: transparent;">
+                        <canvas id="gd-canvas" width="600" height="300" style="width: 100%; max-width: 600px; height: auto; background: #0b1120; border-radius: 6px; border: 1px solid var(--border-color); box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: NUMPY MATH IN PYTHON -->
+        <section id="code" class="section-header">
+            <span class="section-tag tag-code">5. NumPy Math in Python</span>
+            <h2>Translating Math to Code</h2>
+            <div class="card">
+                <p>Python's <code>numpy</code> library is the standard for numerical computation in ML.</p>
+                <div class="code-block">
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="comment"># 1. Linear Algebra (Dot Product)</span>
+a = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])
+b = np.array([<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>])
+dot_product = np.dot(a, b)
+
+<span class="comment"># Matrix Multiplication</span>
+A = np.array([[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>]])
+B = np.array([[<span class="number">5</span>, <span class="number">6</span>], [<span class="number">7</span>, <span class="number">8</span>]])
+C = np.matmul(A, B) <span class="comment"># or A @ B</span>
+
+<span class="comment"># 2. Statistics</span>
+data = np.array([<span class="number">10</span>, <span class="number">12</span>, <span class="number">23</span>, <span class="number">23</span>, <span class="number">16</span>])
+mean_val = np.mean(data)
+std_dev = np.std(data)
+
+<span class="comment"># 3. Calculus (Numerical Gradient)</span>
+x = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])
+y = x**<span class="number">2</span>
+dy_dx = np.gradient(y, x) <span class="comment"># Approximates derivative</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Q&A SECTION -->
+        <section id="qa" class="section-header">
+            <h2>Interview Q&A</h2>
+            <div class="card">
+                <div class="qa-item">
+                    <div class="qa-q">1. What is the dot product and why does ML use it?</div>
+                    <div class="qa-a">The dot product is an algebraic operation that takes two equal-length sequences of numbers (vectors) and returns a single number. In ML, it's heavily used to calculate the similarity between two vectors (e.g., measuring how similar two word embeddings are) and is the core operation in neural network layers (weights dot inputs).</div>
+                </div>
+                <div class="qa-item">
+                    <div class="qa-q">2. Why does gradient descent use the negative gradient?</div>
+                    <div class="qa-a">The gradient of a function points in the direction of the steepest *ascent* (maximum increase). Since our goal in ML is to minimize the cost/loss function, we take steps in the opposite direction—the negative gradient—to reach the minimum.</div>
+                </div>
+                <div class="qa-item">
+                    <div class="qa-q">3. What is the difference between variance and standard deviation?</div>
+                    <div class="qa-a">Variance measures the average squared deviation of each number from the mean. Standard deviation is the square root of variance. We often prefer standard deviation because it is in the same units as the original data, making it easier to interpret.</div>
+                </div>
+                <div class="qa-item">
+                    <div class="qa-q">4. Why is the normal distribution so important in ML?</div>
+                    <div class="qa-a">Many natural phenomena follow a normal (Gaussian) distribution due to the Central Limit Theorem. Many ML algorithms (like Linear Regression and Gaussian Naive Bayes) assume the errors or data are normally distributed. It also simplifies calculations mathematically.</div>
+                </div>
+                <div class="qa-item">
+                    <div class="qa-q">5. What is the chain rule and why is it essential for neural networks?</div>
+                    <div class="qa-a">The chain rule is a formula to compute the derivative of a composite function. In neural networks, models are composed of nested functions (layers). The chain rule allows backpropagation to calculate how much each weight contributed to the final error by multiplying the local gradients backwards through the layers.</div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <div style="font-weight: 700; font-size: 1.25rem; margin-bottom: 1rem;">
+            <span style="color: var(--accent-green)">&lt;/&gt;</span> ML Mastery
+        </div>
+        <p style="color: var(--text-muted); margin-bottom: 1rem;">Comprehensive foundations for modern Machine Learning.</p>
+        <div style="display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap; font-size: 0.9rem;">
+            <a href="index.html" style="color: var(--text-muted); text-decoration: none;">⌂ Portal Hub</a>
+            <a href="math_foundations.html" style="color: var(--accent-green); text-decoration: none; font-weight: 700;">📐 Page 0: Math</a>
+            <a href="full_platform.html" style="color: var(--text-muted); text-decoration: none;">📘 Page 1: Foundation</a>
+            <a href="advanced_modules.html" style="color: var(--text-muted); text-decoration: none;">⚡ Page 2: Advanced</a>
+            <a href="deep_modules.html" style="color: var(--text-muted); text-decoration: none;">🔬 Page 3: Deep Dive</a>
+            <a href="python_ml.html" style="color: var(--text-muted); text-decoration: none;">🐍 Page 4: Python</a>
+            <a href="real_world_ml.html" style="color: var(--text-muted); text-decoration: none;">🚀 Page 5: Real-World MLOps</a>
+            <a href="career_and_quiz.html" style="color: var(--text-muted); text-decoration: none;">🏆 Page 6: Career &amp; Quiz</a>
+            <a href="interactive_3d_lab.html" style="color: var(--text-muted); text-decoration: none;">🌐 Page 7: 3D WebGL</a>
+            <a href="system_design_and_incidents.html" style="color: var(--text-muted); text-decoration: none;">🚨 Page 8: Staff War Room</a>
+            <a href="algorithm_arena.html" style="color: var(--text-muted); text-decoration: none;">⚔️ Page 9: Algorithm Arena</a>
+            <a href="industrial_systems.html" style="color: var(--text-muted); text-decoration: none;">💡 Page 10: Industrial AI</a>
+            <a href="python_teaching_mastery.html" style="color: #34d399; text-decoration: none; font-weight: 700;">🎓 Page 11: Python Master Codex</a>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const canvas = document.getElementById('gd-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const lrSlider = document.getElementById('lr-slider');
+            const lrDisplay = document.getElementById('lr-display');
+            const runBtn = document.getElementById('run-gd');
+
+            let animationId;
+            let x = -9;
+            let path = [];
+
+            function f(x) { return x * x; }
+            function df(x) { return 2 * x; }
+
+            function mapX(val) { return (val + 10) * (canvas.width / 20); }
+            function mapY(val) { return canvas.height - (val * (canvas.height / 100)) - 10; }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Grid
+                ctx.strokeStyle = '#1e293b';
+                ctx.lineWidth = 1;
+                for(let i = -10; i <= 10; i += 2) {
+                    ctx.beginPath(); ctx.moveTo(mapX(i), 0); ctx.lineTo(mapX(i), canvas.height); ctx.stroke();
+                    ctx.beginPath(); ctx.moveTo(0, mapY(i*10)); ctx.lineTo(canvas.width, mapY(i*10)); ctx.stroke();
+                }
+
+                // Axes
+                ctx.strokeStyle = '#334155';
+                ctx.lineWidth = 2;
+                ctx.beginPath(); ctx.moveTo(0, mapY(0)); ctx.lineTo(canvas.width, mapY(0)); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(mapX(0), 0); ctx.lineTo(mapX(0), canvas.height); ctx.stroke();
+
+                // Parabola
+                ctx.strokeStyle = '#8b5cf6';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let i = -10; i <= 10; i += 0.2) {
+                    const px = mapX(i);
+                    const py = mapY(f(i));
+                    if (i === -10) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // Path
+                if (path.length > 0) {
+                    ctx.strokeStyle = '#ef4444';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    for (let i = 0; i < path.length; i++) {
+                        const px = mapX(path[i].x);
+                        const py = mapY(path[i].y);
+                        if (i === 0) ctx.moveTo(px, py);
+                        else ctx.lineTo(px, py);
+                    }
+                    ctx.stroke();
+
+                    for (let i = 0; i < path.length; i++) {
+                        const px = mapX(path[i].x);
+                        const py = mapY(path[i].y);
+                        ctx.fillStyle = '#f59e0b';
+                        ctx.beginPath();
+                        ctx.arc(px, py, 5, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.strokeStyle = '#fff';
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            function step() {
+                if (path.length > 50) return;
+                const lr = parseFloat(lrSlider.value);
+                const grad = df(x);
+                const nextX = x - lr * grad;
+                
+                if (Math.abs(nextX) > 10) {
+                    // Out of bounds - draw last line pointing out
+                    path.push({ x: nextX, y: f(nextX) });
+                    draw();
+                    return;
+                }
+                
+                path.push({ x: nextX, y: f(nextX) });
+                x = nextX;
+                
+                draw();
+                
+                if (Math.abs(grad) > 0.01) {
+                    animationId = setTimeout(step, 300);
+                }
+            }
+
+            function startGD() {
+                clearTimeout(animationId);
+                x = -9;
+                path = [{ x: x, y: f(x) }];
+                
+                const lr = parseFloat(lrSlider.value);
+                if (lr >= 0.9) lrDisplay.style.color = 'var(--accent-red)';
+                else if (lr <= 0.05) lrDisplay.style.color = 'var(--accent-orange)';
+                else lrDisplay.style.color = 'var(--accent-green)';
+                
+                draw();
+                animationId = setTimeout(step, 300);
+            }
+
+            lrSlider.addEventListener('input', (e) => {
+                lrDisplay.textContent = parseFloat(e.target.value).toFixed(2);
+                startGD();
+            });
+
+            runBtn.addEventListener('click', startGD);
+
+            startGD();
+        });
+
+        // =========================================================
+        // 2. INTERACTIVE 3D VECTOR & MATRIX TRANSFORMATION ENGINE
+        // =========================================================
+        let vCanvas, vCtx;
+        let rotX = 30 * Math.PI / 180;
+        let rotY = 45 * Math.PI / 180;
+        let vecScale = 1.5;
+        let isDraggingVec = false;
+        let lastMouseX = 0, lastMouseY = 0;
+
+        function init3DVectorCanvas() {
+            vCanvas = document.getElementById('vec3d-canvas');
+            if (!vCanvas) return;
+            vCtx = vCanvas.getContext('2d');
+
+            vCanvas.addEventListener('mousedown', e => {
+                isDraggingVec = true;
+                lastMouseX = e.clientX;
+                lastMouseY = e.clientY;
+                vCanvas.style.cursor = 'grabbing';
+            });
+            window.addEventListener('mouseup', () => {
+                isDraggingVec = false;
+                if (vCanvas) vCanvas.style.cursor = 'grab';
+            });
+            window.addEventListener('mousemove', e => {
+                if (!isDraggingVec) return;
+                const dx = e.clientX - lastMouseX;
+                const dy = e.clientY - lastMouseY;
+                rotY += dx * 0.01;
+                rotX += dy * 0.01;
+                lastMouseX = e.clientX;
+                lastMouseY = e.clientY;
+                draw3DVector();
+            });
+
+            draw3DVector();
+        }
+
+        function project3D(x, y, z) {
+            // Rotate Y
+            let x1 = x * Math.cos(rotY) + z * Math.sin(rotY);
+            let z1 = -x * Math.sin(rotY) + z * Math.cos(rotY);
+
+            // Rotate X
+            let y2 = y * Math.cos(rotX) - z1 * Math.sin(rotX);
+            let z2 = y * Math.sin(rotX) + z1 * Math.cos(rotX);
+
+            const scale = 110;
+            const cx = vCanvas.width / 2;
+            const cy = vCanvas.height / 2;
+
+            return {
+                x: cx + x1 * scale,
+                y: cy - y2 * scale,
+                z: z2
+            };
+        }
+
+        function draw3DVector() {
+            if (!vCtx) return;
+            vCtx.clearRect(0, 0, vCanvas.width, vCanvas.height);
+
+            const origin = project3D(0, 0, 0);
+
+            // Draw 3D Grid floor
+            vCtx.strokeStyle = 'rgba(255,255,255,0.05)';
+            vCtx.lineWidth = 1;
+            for (let i = -2; i <= 2; i += 0.5) {
+                let p1 = project3D(i, 0, -2);
+                let p2 = project3D(i, 0, 2);
+                vCtx.beginPath(); vCtx.moveTo(p1.x, p1.y); vCtx.lineTo(p2.x, p2.y); vCtx.stroke();
+
+                let p3 = project3D(-2, 0, i);
+                let p4 = project3D(2, 0, i);
+                vCtx.beginPath(); vCtx.moveTo(p3.x, p3.y); vCtx.lineTo(p4.x, p4.y); vCtx.stroke();
+            }
+
+            // Draw 3D Cartesian Axes
+            const axes = [
+                { dir: [2, 0, 0], color: '#ef4444', label: 'X' },
+                { dir: [0, 2, 0], color: '#10b981', label: 'Y' },
+                { dir: [0, 0, 2], color: '#3b82f6', label: 'Z' }
+            ];
+
+            axes.forEach(a => {
+                const end = project3D(a.dir[0], a.dir[1], a.dir[2]);
+                vCtx.strokeStyle = a.color;
+                vCtx.lineWidth = 2;
+                vCtx.beginPath();
+                vCtx.moveTo(origin.x, origin.y);
+                vCtx.lineTo(end.x, end.y);
+                vCtx.stroke();
+
+                vCtx.fillStyle = a.color;
+                vCtx.font = 'bold 12px JetBrains Mono';
+                vCtx.fillText(a.label, end.x + 6, end.y + 4);
+            });
+
+            // Base vector v = [1, 1, 0.8] scaled
+            const vx = 1.0 * vecScale;
+            const vy = 1.0 * vecScale;
+            const vz = 0.8 * vecScale;
+
+            const vecEnd = project3D(vx, vy, vz);
+
+            // Vector projection shadow on XZ plane
+            const shadowEnd = project3D(vx, 0, vz);
+            vCtx.strokeStyle = 'rgba(245,158,11,0.3)';
+            vCtx.setLineDash([4, 4]);
+            vCtx.beginPath();
+            vCtx.moveTo(shadowEnd.x, shadowEnd.y);
+            vCtx.lineTo(vecEnd.x, vecEnd.y);
+            vCtx.stroke();
+            vCtx.setLineDash([]);
+
+            // Draw Transformed Vector
+            vCtx.strokeStyle = '#f59e0b';
+            vCtx.lineWidth = 4;
+            vCtx.beginPath();
+            vCtx.moveTo(origin.x, origin.y);
+            vCtx.lineTo(vecEnd.x, vecEnd.y);
+            vCtx.stroke();
+
+            // Glowing arrow head
+            vCtx.fillStyle = '#fbbf24';
+            vCtx.beginPath();
+            vCtx.arc(vecEnd.x, vecEnd.y, 6, 0, Math.PI * 2);
+            vCtx.fill();
+
+            // Math readout update
+            const mathBox = document.getElementById('vec-output-math');
+            if (mathBox) {
+                mathBox.innerHTML = `v' = [${vx.toFixed(2)}, ${vy.toFixed(2)}, ${vz.toFixed(2)}] · |v|=${Math.sqrt(vx*vx+vy*vy+vz*vz).toFixed(2)}`;
+            }
+        }
+
+        function update3DVector() {
+            const rx = parseFloat(document.getElementById('slider-rot-x').value);
+            const ry = parseFloat(document.getElementById('slider-rot-y').value);
+            vecScale = parseFloat(document.getElementById('slider-vec-scale').value);
+
+            document.getElementById('lbl-rot-x').textContent = `${rx.toFixed(0)}°`;
+            document.getElementById('lbl-rot-y').textContent = `${ry.toFixed(0)}°`;
+            document.getElementById('lbl-vec-scale').textContent = `${vecScale.toFixed(1)}x`;
+
+            rotX = rx * Math.PI / 180;
+            rotY = ry * Math.PI / 180;
+
+            draw3DVector();
+        }
+
+        // =========================================================
+        // 3. UNIVERSAL 3D CARD TILT & PARALLAX ENGINE
+        // =========================================================
+        function init3DCardTilt() {
+            const cards = document.querySelectorAll('.card, .diagram-container');
+            cards.forEach(card => {
+                card.style.transition = 'transform 0.15s ease-out, box-shadow 0.15s ease-out';
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    const rotX = -(y / (rect.height / 2)) * 6; // max 6 deg
+                    const rotY = (x / (rect.width / 2)) * 6;
+                    card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.01, 1.01, 1.01)`;
+                    card.style.boxShadow = `0 15px 35px rgba(0,0,0,0.5), ${rotY * 2}px ${-rotX * 2}px 25px rgba(59,130,246,0.15)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+                    card.style.boxShadow = 'none';
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            init3DVectorCanvas();
+            init3DCardTilt();
+        });
+    </script>
+</body>
+</html>

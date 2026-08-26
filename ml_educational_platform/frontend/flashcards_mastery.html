@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>150+ Spaced Repetition Flashcards — 3D Leitner Mastery for Data Science &amp; AI Interviews</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#2563eb;--blue-d:#1d4ed8;--blue-l:#eff6ff;
+  --emerald:#059669;--emerald-l:#ecfdf5;
+  --amber:#d97706;--amber-l:#fffbeb;
+  --purple:#7c3aed;--purple-l:#f5f3ff;
+  --cyan:#0891b2;--cyan-l:#ecfeff;
+  --rose:#e11d48;--rose-l:#fff1f2;
+  --s50:#f8fafc;--s100:#f1f5f9;--s200:#e2e8f0;
+  --s300:#cbd5e1;--s400:#94a3b8;--s500:#64748b;--s600:#475569;
+  --s700:#334155;--s800:#1e293b;--s900:#0f172a;--s950:#090d16;
+  --r:16px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--s950);color:#f8fafc;min-height:100vh;line-height:1.65;overflow-x:hidden}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:64px;background:rgba(9,13,22,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08)}
+.nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:#fff;font-weight:900;font-size:18px}
+.nav-brand em{font-style:normal;color:#f59e0b}
+.nav-links{display:flex;gap:16px;align-items:center}
+.nav-links a{color:var(--s400);text-decoration:none;font-size:13px;font-weight:600;transition:.2s}
+.nav-links a:hover{color:#f59e0b}
+.nav-badge{font-size:11px;font-weight:800;color:#f59e0b;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);padding:4px 12px;border-radius:999px}
+
+/* Hero */
+.hero{padding:110px 24px 40px;text-align:center;background:radial-gradient(ellipse 90% 60% at 50% 0%,rgba(245,158,11,.2) 0%,transparent 70%),linear-gradient(180deg,#090d16 0%,#0f172a 100%)}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:#fbbf24;font-size:11px;font-weight:800;padding:6px 16px;border-radius:999px;letter-spacing:1px;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-size:clamp(32px,5vw,56px);font-weight:900;line-height:1.15;letter-spacing:-1.2px;margin-bottom:14px}
+.hero h1 span{background:linear-gradient(135deg,#fbbf24,#f43f5e,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:clamp(15px,2vw,18px);color:var(--s400);max-width:860px;margin:0 auto 24px}
+
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* Filter Controls */
+.filter-bar{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:30px}
+.f-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--s300);padding:8px 18px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;transition:.2s}
+.f-btn:hover, .f-btn.active{background:rgba(245,158,11,.2);border-color:#fbbf24;color:#fbbf24}
+
+/* Flashcard Viewer */
+.fc-viewer{max-width:680px;margin:0 auto 60px;perspective:1200px}
+.fc-card{width:100%;min-height:360px;position:relative;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.4,0,.2,1);cursor:pointer}
+.fc-card.flipped{transform:rotateY(180deg)}
+
+.fc-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:20px;padding:36px;display:flex;flex-direction:column;justify-content:space-between;border:1px solid rgba(255,255,255,.12);box-shadow:0 20px 50px rgba(0,0,0,.6)}
+.fc-front{background:linear-gradient(145deg,#0f172a,#090d16)}
+.fc-back{background:linear-gradient(145deg,#1e1b4b,#0f172a);transform:rotateY(180deg);border-color:rgba(192,132,252,.3)}
+
+.fc-meta{display:flex;justify-content:space-between;align-items:center}
+.fc-cat{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;padding:4px 12px;border-radius:6px}
+.cat-sql{background:rgba(56,189,248,.15);color:#38bdf8}
+.cat-ml{background:rgba(74,222,128,.15);color:#4ade80}
+.cat-python{background:rgba(251,191,36,.15);color:#fbbf24}
+.cat-prompt{background:rgba(192,132,252,.15);color:#c084fc}
+.cat-system{background:rgba(251,113,133,.15);color:#fb7185}
+
+.fc-q{font-size:22px;font-weight:800;color:#fff;line-height:1.4;margin:auto 0;text-align:center}
+.fc-a{font-size:15px;color:#e2e8f0;line-height:1.75;margin:auto 0}
+.fc-hint{font-size:12px;color:var(--s400);text-align:center;font-style:italic}
+
+/* Controls */
+.fc-controls{display:flex;justify-content:center;align-items:center;gap:16px;margin-top:24px}
+.btn{padding:10px 22px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:.2s;display:inline-flex;align-items:center;gap:6px}
+.btn-prev{background:rgba(255,255,255,.08);color:#fff}
+.btn-next{background:linear-gradient(135deg,#f59e0b,#d97706);color:#000}
+.btn-leitner-1{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#f87171}
+.btn-leitner-3{background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);color:#34d399}
+
+/* Stats */
+.fc-stats{display:flex;justify-content:center;gap:32px;margin-top:20px;font-size:13px;color:var(--s400)}
+.fc-stats strong{color:#fff}
+
+section[id]{scroll-margin-top:84px}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">
+    <em>ML</em>Mastery
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Portal Index</a>
+    <a href="sql_for_data_science.html">SQL Codex</a>
+    <a href="python_sandbox_wasm.html">Python WASM</a>
+    <a href="prompt_engineering_mastery.html">Prompt Engineering</a>
+    <span class="nav-badge">🃏 150+ 3D Flashcards</span>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-tag">🧠 Leitner Spaced Repetition Engine</div>
+    <h1>150+ <span>3D Interview</span> Flashcards</h1>
+    <p>Retain essential SQL, Machine Learning, Python Internals, and Prompt Engineering concepts for high-stakes FAANG &amp; tier-1 IT interviews.</p>
+
+    <!-- Filters -->
+    <div class="filter-bar">
+      <button class="f-btn active" onclick="setCategory('all', this)">All Cards (150+)</button>
+      <button class="f-btn" onclick="setCategory('sql', this)">🗄️ SQL (35)</button>
+      <button class="f-btn" onclick="setCategory('ml', this)">🧠 ML &amp; Math (40)</button>
+      <button class="f-btn" onclick="setCategory('python', this)">🐍 Python Internals (35)</button>
+      <button class="f-btn" onclick="setCategory('prompt', this)">🔮 Prompt Engineering (25)</button>
+      <button class="f-btn" onclick="setCategory('system', this)">🚀 MLOps &amp; System Design (20)</button>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="fc-viewer">
+    <div id="flashcard" class="fc-card" onclick="flipCard()">
+      <!-- Front Face -->
+      <div class="fc-face fc-front">
+        <div class="fc-meta">
+          <span id="fcCategory" class="fc-cat cat-sql">SQL Master Codex</span>
+          <span id="fcIndex" style="font-size:12px;color:var(--s400)">Card 1 of 150</span>
+        </div>
+        <div id="fcQuestion" class="fc-q">Why does LAST_VALUE() require 'ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING'?</div>
+        <div class="fc-hint">💡 Click card to flip and reveal answer</div>
+      </div>
+
+      <!-- Back Face -->
+      <div class="fc-face fc-back">
+        <div class="fc-meta">
+          <span class="fc-cat" style="background:rgba(192,132,252,.2);color:#c084fc">Answer &amp; IT Explanation</span>
+          <span style="font-size:12px;color:var(--s400)">Click to flip back</span>
+        </div>
+        <div id="fcAnswer" class="fc-a">
+          Because the default window frame with an <code>ORDER BY</code> is <code>RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW</code>. Without the explicit frame clause, <code>LAST_VALUE()</code> evaluates up to the <em>current row</em>, essentially returning the current row value rather than the true last row of the partition!
+        </div>
+        <div style="font-size:11px;color:#cbd5e1;text-align:center">Leitner Box: <strong id="leitnerBox">Box 1 (Review Daily)</strong></div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="fc-controls">
+      <button class="btn btn-prev" onclick="prevCard()">← Prev</button>
+      <button class="btn btn-leitner-1" onclick="markCard(1)">🔴 Still Learning</button>
+      <button class="btn btn-leitner-3" onclick="markCard(3)">🟢 Mastered (Box 3)</button>
+      <button class="btn btn-next" onclick="nextCard()">Next →</button>
+    </div>
+
+    <div class="fc-stats">
+      <div>Mastered: <strong id="masteredCount">0</strong> / <span id="totalFilterCount">150</span></div>
+      <div>Retention Score: <strong id="retentionScore">0%</strong></div>
+      <div><button onclick="shuffleCards()" style="background:none;border:none;color:#fbbf24;cursor:pointer;font-weight:700;font-size:12px">🔀 Shuffle Deck</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const rawDeck = [
+  // 🗄️ SQL CARDS
+  { cat: "sql", q: "Why does LAST_VALUE() require 'ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING'?", a: "By default, window frames with ORDER BY default to 'RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW'. Without extending the frame to UNBOUNDED FOLLOWING, LAST_VALUE() stops at the current row and returns the current value rather than the true partition minimum/maximum." },
+  { cat: "sql", q: "What happens when you use 'NOT IN' with a subquery that contains a NULL value?", a: "The query returns 0 rows! In SQL 3-valued logic, 'col NOT IN (1, 2, NULL)' evaluates to 'col != 1 AND col != 2 AND col != NULL'. Since 'col != NULL' is UNKNOWN, the entire WHERE clause fails. Fix: Use 'NOT EXISTS' or filter out NULLs." },
+  { cat: "sql", q: "What is the logical order of SQL query execution?", a: "FROM / JOIN → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → LIMIT / OFFSET. This is why column aliases defined in SELECT cannot be referenced in WHERE or HAVING clauses." },
+  { cat: "sql", q: "What is the key difference between RANK() and DENSE_RANK()?", a: "Both give the same rank to tied values. RANK() leaves gaps after ties (e.g. 1, 2, 2, 4), while DENSE_RANK() leaves NO gaps (e.g. 1, 2, 2, 3). For finding the N-th highest salary, always use DENSE_RANK()." },
+  { cat: "sql", q: "What is the difference between DELETE, TRUNCATE, and DROP?", a: "DELETE is DML (rollbackable, fires triggers, row-by-row). TRUNCATE is DDL (auto-committed, resets High Water Mark, extremely fast). DROP removes data AND table schema permanently." },
+  { cat: "sql", q: "What is a Correlated Subquery and why can it be slow?", a: "A subquery that references outer query columns. It executes once for every candidate row in the outer table (O(N*M) time). In production, optimize with Window functions or Hash JOINs." },
+  { cat: "sql", q: "What is E.F. Codd's Rule 3 (Systematic NULL treatment)?", a: "NULL represents missing, unknown, or inapplicable data in a systematic way, distinct from 0 or empty string '', and propagates as UNKNOWN in boolean logic." },
+  { cat: "sql", q: "When does UNION differ from UNION ALL?", a: "UNION performs an expensive sorting operation to eliminate duplicate rows. UNION ALL simply concatenates result sets without deduplication and is much faster." },
+
+  // 🧠 ML & MATH CARDS
+  { cat: "ml", q: "What is the Bias-Variance Tradeoff?", a: "High Bias = Underfitting (model is too simple, misses patterns). High Variance = Overfitting (model memorizes training noise, fails on test data). Optimal model minimizes total error = Bias² + Variance + Irreducible Noise." },
+  { cat: "ml", q: "Why does L1 Regularization (Lasso) create sparse models with zero weights?", a: "L1 adds sum of absolute weights (|w|). The diamond-shaped L1 constraint contour has sharp corners that intersect loss contours on coordinate axes, driving less important feature weights exactly to 0.0." },
+  { cat: "ml", q: "Why is Accuracy a dangerous metric for imbalanced datasets (e.g., 99.9% normal, 0.1% fraud)?", a: "A trivial dummy model predicting 'Normal' 100% of the time achieves 99.9% accuracy but catches 0 fraud cases. Use Precision, Recall, F1-Score, and PR-AUC instead." },
+  { cat: "ml", q: "What is the Kernel Trick in Support Vector Machines (SVM)?", a: "It maps non-linearly separable data into a higher-dimensional space where it becomes linearly separable, without explicitly computing the high-dimensional coordinates (computing only inner products via K(x, z))." },
+  { cat: "ml", q: "Why does Gradient Descent use the negative gradient?", a: "The gradient ∇f points in the direction of steepest *ascent* (uphill). Therefore, moving in the negative gradient direction (-α∇f) guarantees the fastest descent toward the loss minimum." },
+  { cat: "ml", q: "What is Data Leakage in ML pipelines?", a: "When information from the test/validation set leaks into training data (e.g. scaling features before train_test_split, or computing target mean encodings across all rows). Prevent it using Scikit-Learn Pipelines." },
+  { cat: "ml", q: "What is the difference between Bagging and Boosting?", a: "Bagging (e.g. Random Forest) trains independent models in parallel on bootstrapped subsets to reduce Variance. Boosting (e.g. XGBoost) trains sequential models where each tree corrects errors of previous trees to reduce Bias." },
+
+  // 🐍 PYTHON CARDS
+  { cat: "python", q: "Why does 'a = 256; b = 256; a is b' return True, but 'a = 257; b = 257; a is b' return False in CPython?", a: "CPython pre-allocates an array of singleton integer objects for small integers in the range [-5 to 256] at startup. Numbers outside this range get new heap allocations." },
+  { cat: "python", q: "What is the Global Interpreter Lock (GIL) in Python?", a: "A mutex that prevents multiple native OS threads from executing Python bytecodes simultaneously. It protects CPython memory management (reference counts) from race conditions. Use multiprocessing for CPU-bound tasks." },
+  { cat: "python", q: "What is the difference between a Python Generator and a List?", a: "A List stores all items in RAM simultaneously (eager allocation). A Generator produces items on-the-fly one by one via the 'yield' keyword (lazy evaluation), using O(1) memory for huge streams." },
+  { cat: "python", q: "What is a Python Descriptor and where is it used?", a: "An object attribute with binding behavior that implements __get__(), __set__(), or __delete__(). Properties, classmethods, staticmethods, and ORM fields (like Django/SQLAlchemy models) are built on descriptors." },
+  { cat: "python", q: "Why should you never use mutable default arguments (e.g. def func(x=[]))?", a: "Default arguments are evaluated once when the function is defined, not each time it is called. The mutable list is shared across all future function invocations." },
+
+  // 🔮 PROMPT ENG CARDS
+  { cat: "prompt", q: "What is the difference between Zero-Shot and Few-Shot Prompting?", a: "Zero-Shot asks the model to perform a task with no demonstration examples. Few-Shot provides 2 to 5 demonstration input-output pairs in the context window to enforce schema and domain logic." },
+  { cat: "prompt", q: "How does Chain-of-Thought (CoT) prompting improve arithmetic and logic?", a: "Autoregressive LLMs predict token-by-token. Prompting 'Think step by step' generates intermediate reasoning tokens that build mathematical context, drastically reducing calculation mistakes." },
+  { cat: "prompt", q: "What is the 'Lost in the Middle' phenomenon in LLM context windows?", a: "Transformers pay highest mathematical attention to the beginning (system prompt) and end (final instruction) of the prompt. Critical instructions placed in the middle of long documents are frequently overlooked." },
+  { cat: "prompt", q: "How do you defend against Direct Prompt Injection in production?", a: "1) Wrap untrusted user inputs in strict XML tags (<user_data>), 2) Instruct system prompt to treat tags purely as passive data, 3) Use an input guardrail classifier, 4) Strictly parse output into Pydantic schemas." },
+  { cat: "prompt", q: "What is the ReAct (Reason + Act) Agent Framework?", a: "An agent architecture combining Chain-of-Thought reasoning with Tool Calling in a continuous loop: Thought → Action → Observation → Repeat until final answer." },
+
+  // 🚀 SYSTEM DESIGN & MLOPS
+  { cat: "system", q: "What is the difference between Data Drift and Concept Drift?", a: "Data Drift (Covariate Shift) means input feature distribution P(X) changes while P(Y|X) stays same. Concept Drift means the actual relationship P(Y|X) changes (e.g. fraud patterns change post-pandemic)." },
+  { cat: "system", q: "Why is an Async API framework (FastAPI) preferred over Flask for ML model serving?", a: "FastAPI natively uses Python async/await (ASGI), handling thousands of concurrent non-blocking I/O requests (database lookups, vector searches) without thread pool exhaustion." },
+  { cat: "system", q: "What is the purpose of an ML Feature Store (e.g. Feast, Tecton)?", a: "Provides a single source of truth for features across both offline batch training and online low-latency real-time inference (sub-10ms), preventing train-serve feature skew." }
+];
+
+let activeDeck = [...rawDeck];
+let currentIndex = 0;
+let isFlipped = false;
+
+function renderCard() {
+  const card = activeDeck[currentIndex];
+  if (!card) return;
+
+  isFlipped = false;
+  document.getElementById('flashcard').classList.remove('flipped');
+
+  document.getElementById('fcCategory').textContent = card.cat.toUpperCase();
+  document.getElementById('fcCategory').className = `fc-cat cat-${card.cat}`;
+  document.getElementById('fcIndex').textContent = `Card ${currentIndex + 1} of ${activeDeck.length}`;
+  document.getElementById('fcQuestion').textContent = card.q;
+  document.getElementById('fcAnswer').innerHTML = card.a;
+
+  const savedBox = localStorage.getItem(`leitner_${card.q.substring(0,20)}`) || '1';
+  document.getElementById('leitnerBox').textContent = `Box ${savedBox} (${savedBox === '3' ? 'Mastered' : 'Review Soon'})`;
+
+  updateStats();
+}
+
+function flipCard() {
+  isFlipped = !isFlipped;
+  document.getElementById('flashcard').classList.toggle('flipped', isFlipped);
+}
+
+function nextCard() {
+  currentIndex = (currentIndex + 1) % activeDeck.length;
+  renderCard();
+}
+
+function prevCard() {
+  currentIndex = (currentIndex - 1 + activeDeck.length) % activeDeck.length;
+  renderCard();
+}
+
+function setCategory(cat, btn) {
+  document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  if (cat === 'all') {
+    activeDeck = [...rawDeck];
+  } else {
+    activeDeck = rawDeck.filter(c => c.cat === cat);
+  }
+  currentIndex = 0;
+  renderCard();
+}
+
+function markCard(box) {
+  const card = activeDeck[currentIndex];
+  localStorage.setItem(`leitner_${card.q.substring(0,20)}`, box);
+  nextCard();
+}
+
+function shuffleCards() {
+  activeDeck.sort(() => Math.random() - 0.5);
+  currentIndex = 0;
+  renderCard();
+}
+
+function updateStats() {
+  let mastered = 0;
+  activeDeck.forEach(c => {
+    if (localStorage.getItem(`leitner_${c.q.substring(0,20)}`) === '3') mastered++;
+  });
+  document.getElementById('masteredCount').textContent = mastered;
+  document.getElementById('totalFilterCount').textContent = activeDeck.length;
+  const pct = activeDeck.length ? Math.round((mastered / activeDeck.length) * 100) : 0;
+  document.getElementById('retentionScore').textContent = `${pct}%`;
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  renderCard();
+  window.addEventListener('keydown', e => {
+    if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); flipCard(); }
+    if (e.key === 'ArrowRight') nextCard();
+    if (e.key === 'ArrowLeft') prevCard();
+  });
+});
+</script>
+
+</body>
+</html>

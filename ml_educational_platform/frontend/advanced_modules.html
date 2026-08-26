@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ML Mastery — Advanced Modules | Data Preprocessing · Classification · Ensemble · MLOps</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#2563eb;--blue-d:#1d4ed8;--blue-l:#eff6ff;--blue-xl:#dbeafe;
+  --green:#16a34a;--green-l:#f0fdf4;--green-xl:#dcfce7;
+  --amber:#d97706;--amber-l:#fffbeb;
+  --purple:#7c3aed;--purple-l:#f5f3ff;
+  --red:#dc2626;--red-l:#fef2f2;
+  --cyan:#0891b2;--cyan-l:#ecfeff;
+  --pink:#db2777;--pink-l:#fdf2f8;
+  --s50:#f8fafc;--s100:#f1f5f9;--s200:#e2e8f0;--s300:#cbd5e1;
+  --s400:#94a3b8;--s500:#64748b;--s600:#475569;--s700:#334155;
+  --s800:#1e293b;--s900:#0f172a;--r:12px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--s50);color:var(--s800);line-height:1.6}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--s200);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;gap:12px}
+.brand{font-size:17px;font-weight:900;color:var(--blue);letter-spacing:-.5px;white-space:nowrap}
+.brand span{color:var(--s800)}
+.nav-links{display:flex;gap:4px;flex-wrap:wrap}
+.nav-links a{font-size:11px;font-weight:600;color:var(--s500);text-decoration:none;padding:4px 8px;border-radius:6px;transition:.15s;white-space:nowrap}
+.nav-links a:hover{background:var(--s100);color:var(--blue)}
+.back-btn{background:var(--blue-l);color:var(--blue);font-size:11px;font-weight:700;padding:5px 12px;border-radius:6px;text-decoration:none;white-space:nowrap}
+
+/* HERO BANNER */
+.banner{background:linear-gradient(135deg,#0a0f1e,#1a2f6b,#2563eb);color:#fff;padding:52px 24px 60px;text-align:center;position:relative;overflow:hidden}
+.banner::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M20 20.5V18H0v5h5v5H0v5h20v-9.5zm-2 4.5h-1v-1h1v1zm2 0h-1v-1h1v1zm0-2h-1v-1h1v1zm-2 0h-1v-1h1v1z'/%3E%3C/g%3E%3C/svg%3E")}
+.banner-content{position:relative;z-index:1}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#93c5fd;font-size:10px;font-weight:800;padding:4px 14px;border-radius:999px;margin-bottom:16px;text-transform:uppercase;letter-spacing:1.5px}
+.banner h1{font-size:clamp(24px,4vw,44px);font-weight:900;line-height:1.1;letter-spacing:-1px;margin-bottom:14px}
+.banner h1 em{font-style:normal;color:#60a5fa}
+.banner p{font-size:15px;color:#94a3b8;max-width:540px;margin:0 auto}
+.module-pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+.pill{padding:6px 16px;border-radius:999px;font-size:12px;font-weight:700;text-decoration:none;transition:.2s}
+
+/* LAYOUT */
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+.sec{padding:64px 0}
+.sec-head{text-align:center;margin-bottom:48px}
+.sec-tag{display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:2px;padding:4px 12px;border-radius:999px;margin-bottom:10px}
+.tag-blue{background:var(--blue-l);color:var(--blue)}
+.tag-green{background:var(--green-l);color:var(--green)}
+.tag-purple{background:var(--purple-l);color:var(--purple)}
+.tag-amber{background:var(--amber-l);color:var(--amber)}
+.tag-cyan{background:var(--cyan-l);color:var(--cyan)}
+.tag-pink{background:var(--pink-l);color:var(--pink)}
+.sec-head h2{font-size:clamp(22px,3vw,34px);font-weight:900;color:var(--s900);letter-spacing:-.5px}
+.sec-head p{color:var(--s500);font-size:15px;margin-top:10px;max-width:520px;margin-left:auto;margin-right:auto}
+
+/* ALGO BODY */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+@media(max-width:700px){.two-col{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid var(--s200);border-radius:var(--r);padding:24px}
+.card h3{font-size:14px;font-weight:700;color:var(--s800);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card p,.card li{font-size:13.5px;color:var(--s600);line-height:1.7}
+.card ul{padding-left:18px;margin-top:6px}
+.card li{margin-bottom:4px}
+
+/* diagram card */
+.dcard{background:#fff;border:1px solid var(--s200);border-radius:var(--r);padding:22px}
+.dcard h3{font-size:14px;font-weight:700;color:var(--s800);margin-bottom:12px}
+svg text{font-family:'Inter',sans-serif}
+
+/* analogy */
+.analogy{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #bbf7d0;border-radius:10px;padding:12px 14px;margin-top:12px;font-size:13px;color:#166534;line-height:1.6}
+.analogy strong{display:block;font-weight:700;margin-bottom:2px}
+
+/* formula */
+.formula{background:var(--s900);border-radius:8px;padding:12px 16px;margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#4ade80;line-height:1.8}
+
+/* steps */
+.steps{display:flex;flex-direction:column;gap:9px;margin-top:10px}
+.step{display:flex;gap:10px;align-items:flex-start}
+.sn{width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step p{font-size:13px;color:var(--s600);line-height:1.6}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+.chip{font-size:10px;font-weight:700;padding:3px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:.5px}
+
+/* wide card */
+.wide-card{background:#fff;border:1px solid var(--s200);border-radius:var(--r);padding:24px;margin-bottom:24px}
+.wide-card h3{font-size:16px;font-weight:800;color:var(--s900);margin-bottom:16px}
+
+/* algo header */
+.algo-hdr{display:flex;align-items:center;gap:14px;margin-bottom:22px;padding-bottom:16px;border-bottom:2px solid var(--s100)}
+.algo-num{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;flex-shrink:0}
+.algo-title{font-size:20px;font-weight:900;color:var(--s900)}
+.algo-sub{font-size:12px;color:var(--s500);margin-top:2px}
+
+/* pipeline */
+.pipeline{display:flex;align-items:center;gap:0;background:#fff;border:1px solid var(--s200);border-radius:var(--r);overflow:hidden}
+.pipe-step{flex:1;padding:18px 12px;text-align:center;border-right:1px solid var(--s200);position:relative}
+.pipe-step:last-child{border-right:none}
+.pipe-icon{font-size:22px;margin-bottom:6px}
+.pipe-name{font-size:11px;font-weight:700;color:var(--s800)}
+.pipe-tech{font-size:10px;color:var(--s500);margin-top:3px}
+.pipe-arrow{position:absolute;right:-10px;top:50%;transform:translateY(-50%);background:var(--blue);color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;z-index:1}
+.pipe-step:last-child .pipe-arrow{display:none}
+@media(max-width:600px){.pipeline{flex-direction:column}.pipe-step{border-right:none;border-bottom:1px solid var(--s200)}.pipe-arrow{display:none!important}}
+
+/* grid 3 */
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:700px){.grid-3{grid-template-columns:1fr}}
+
+/* code tabs */
+.code-box{background:#fff;border:1px solid var(--s200);border-radius:var(--r);overflow:hidden}
+.tab-bar{display:flex;background:var(--s100);border-bottom:1px solid var(--s200);overflow-x:auto}
+.tb{padding:9px 16px;font-size:12px;font-weight:600;color:var(--s400);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;font-family:inherit;transition:.15s}
+.tb.on{color:var(--blue);border-bottom-color:var(--blue);background:#fff}
+.tc{display:none}.tc.on{display:block}
+pre{background:#0f172a;color:#e2e8f0;font-family:'JetBrains Mono',monospace;font-size:12.5px;padding:22px;overflow-x:auto;line-height:1.75;margin:0;tab-size:4}
+.kw{color:#c084fc}.fn{color:#60a5fa}.str{color:#4ade80}.cm{color:#475569}.nm{color:#fb923c}.tp{color:#fde68a}
+
+/* divider */
+.divider{height:1px;background:var(--s200);margin:0}
+
+/* Q&A */
+.qa+.qa{margin-top:8px}
+.qa{background:#fff;border:1px solid var(--s200);border-radius:10px;overflow:hidden}
+.qa-q{padding:14px 18px;font-size:13.5px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:.15s;user-select:none}
+.qa-q:hover{background:var(--s50)}
+.qa-q::after{content:'+';color:var(--blue);font-size:20px;font-weight:300;flex-shrink:0}
+.qa.open .qa-q::after{content:'−'}
+.qa-a{display:none;padding:14px 18px;font-size:13px;color:var(--s600);border-top:1px solid var(--s200);line-height:1.75}
+.qa.open .qa-a{display:block}
+code{background:var(--s100);color:var(--blue);padding:1px 5px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px}
+
+/* footer */
+footer{background:var(--s900);color:var(--s500);text-align:center;padding:32px 24px;font-size:12px;line-height:1.8}
+footer strong{color:#fff}
+
+section[id]{scroll-margin-top:84px}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="brand">ML<span>Mastery</span></div>
+  <div class="nav-links">
+    <a href="#preprocessing">Module 2</a>
+    <a href="#logistic">Logistic</a>
+    <a href="#svm">SVM</a>
+    <a href="#knn">KNN</a>
+    <a href="#ensemble">Ensemble</a>
+    <a href="#mlops">MLOps</a>
+    <a href="#interview">Interview</a>
+  </div>
+  <a href="full_platform.html" class="back-btn">← Back to Main</a>
+</nav>
+
+<!-- BANNER -->
+<div class="banner">
+  <div class="banner-content">
+    <div class="badge">📘 Advanced Modules · GFG-Inspired · Visual</div>
+    <h1>Complete <em>ML Curriculum</em><br>Advanced Modules</h1>
+    <p>Data Preprocessing · Logistic Regression · SVM · KNN · Ensemble Methods · MLOps — every topic explained with diagrams, analogies, and code.</p>
+    <div class="module-pills">
+      <a href="#preprocessing" class="pill" style="background:#eff6ff;color:#2563eb">📊 Module 2: Preprocessing</a>
+      <a href="#logistic" class="pill" style="background:#f5f3ff;color:#7c3aed">📈 Logistic Regression</a>
+      <a href="#svm" class="pill" style="background:#fdf2f8;color:#db2777">🎯 SVM</a>
+      <a href="#knn" class="pill" style="background:#ecfeff;color:#0891b2">🔍 KNN</a>
+      <a href="#ensemble" class="pill" style="background:#fffbeb;color:#d97706">🚀 Ensemble</a>
+      <a href="#mlops" class="pill" style="background:#f0fdf4;color:#16a34a">⚙️ MLOps</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     MODULE 2: DATA PREPROCESSING & EDA
+════════════════════════════════════════════ -->
+<section id="preprocessing" class="sec" style="background:#fff">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-blue">Module 2</div>
+    <h2>Data Preprocessing & EDA — The Dirty Work</h2>
+    <p>80% of a real Data Science job is data cleaning. Master this and you will stand out from every other candidate.</p>
+  </div>
+
+  <!-- THE 5-STEP PIPELINE -->
+  <h3 style="font-size:16px;font-weight:800;color:var(--s900);margin-bottom:14px">🔄 The Data Preprocessing Pipeline</h3>
+  <div class="pipeline" style="margin-bottom:32px">
+    <div class="pipe-step"><div class="pipe-arrow">→</div><div class="pipe-icon">📥</div><div class="pipe-name">1. Load Data</div><div class="pipe-tech">pd.read_csv() / SQL</div></div>
+    <div class="pipe-step"><div class="pipe-arrow">→</div><div class="pipe-icon">🔍</div><div class="pipe-name">2. Explore (EDA)</div><div class="pipe-tech">df.info() / .describe()</div></div>
+    <div class="pipe-step"><div class="pipe-arrow">→</div><div class="pipe-icon">🧹</div><div class="pipe-name">3. Clean</div><div class="pipe-tech">Handle Nulls & Outliers</div></div>
+    <div class="pipe-step"><div class="pipe-arrow">→</div><div class="pipe-icon">🔤</div><div class="pipe-name">4. Encode</div><div class="pipe-tech">One-Hot / Label Encode</div></div>
+    <div class="pipe-step"><div class="pipe-icon">⚖️</div><div class="pipe-name">5. Scale</div><div class="pipe-tech">StandardScaler / MinMax</div></div>
+  </div>
+
+  <!-- MISSING VALUES -->
+  <div class="algo-hdr">
+    <div class="algo-num" style="background:#eff6ff;color:#2563eb">2A</div>
+    <div><div class="algo-title">Handling Missing Values</div><div class="algo-sub">The most common problem in real-world data</div></div>
+  </div>
+  <div class="two-col" style="margin-bottom:32px">
+    <div class="card">
+      <h3>📖 Why Data is Missing</h3>
+      <ul>
+        <li><strong>MCAR</strong> — Missing Completely At Random (user skipped a form field)</li>
+        <li><strong>MAR</strong> — Missing At Random (older users skip tech questions)</li>
+        <li><strong>MNAR</strong> — Missing Not At Random (high earners hide income)</li>
+      </ul>
+      <div style="margin-top:16px">
+        <p style="font-weight:700;color:var(--s800);margin-bottom:8px">Strategies:</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div style="background:var(--red-l);border:1px solid #fecaca;border-radius:8px;padding:12px">
+            <div style="font-size:11px;font-weight:800;color:var(--red);text-transform:uppercase;margin-bottom:4px">❌ Drop Row</div>
+            <div style="font-size:12px;color:#7f1d1d">Use only if &lt;5% of data is missing and it's random</div>
+          </div>
+          <div style="background:var(--green-l);border:1px solid #bbf7d0;border-radius:8px;padding:12px">
+            <div style="font-size:11px;font-weight:800;color:var(--green);text-transform:uppercase;margin-bottom:4px">✅ Impute</div>
+            <div style="font-size:12px;color:#14532d">Fill with mean/median (numeric) or mode (categorical)</div>
+          </div>
+          <div style="background:var(--blue-l);border:1px solid #bfdbfe;border-radius:8px;padding:12px">
+            <div style="font-size:11px;font-weight:800;color:var(--blue);text-transform:uppercase;margin-bottom:4px">🤖 ML Impute</div>
+            <div style="font-size:12px;color:#1e3a8a">Predict missing values using another ML model (KNN Imputer)</div>
+          </div>
+          <div style="background:var(--purple-l);border:1px solid #ddd6fe;border-radius:8px;padding:12px">
+            <div style="font-size:11px;font-weight:800;color:var(--purple);text-transform:uppercase;margin-bottom:4px">🏷️ Flag It</div>
+            <div style="font-size:12px;color:#4c1d95">Add a new column: "age_was_missing = 1/0"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dcard">
+      <h3>📊 Visual: Missing Value Heatmap</h3>
+      <svg viewBox="0 0 340 240" width="100%" style="background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0">
+        <!-- Header -->
+        <text x="170" y="18" text-anchor="middle" font-size="11" font-weight="700" fill="#334155">Dataset Missing Value Overview</text>
+        <!-- Column headers -->
+        <text x="80" y="38" text-anchor="middle" font-size="9" font-weight="700" fill="#64748b">Age</text>
+        <text x="120" y="38" text-anchor="middle" font-size="9" font-weight="700" fill="#64748b">Income</text>
+        <text x="165" y="38" text-anchor="middle" font-size="9" font-weight="700" fill="#64748b">City</text>
+        <text x="210" y="38" text-anchor="middle" font-size="9" font-weight="700" fill="#64748b">Churn</text>
+        <text x="260" y="38" text-anchor="middle" font-size="9" font-weight="700" fill="#64748b">Score</text>
+        <!-- Row labels and cells -->
+        <!-- Row 1 - all present -->
+        <text x="40" y="58" text-anchor="middle" font-size="8" fill="#94a3b8">Row 1</text>
+        <rect x="58" y="44" width="44" height="18" rx="3" fill="#4ade80"/><text x="80" y="57" text-anchor="middle" font-size="8" fill="#14532d">✓ 35</text>
+        <rect x="98" y="44" width="44" height="18" rx="3" fill="#4ade80"/><text x="120" y="57" text-anchor="middle" font-size="8" fill="#14532d">✓ 75k</text>
+        <rect x="143" y="44" width="44" height="18" rx="3" fill="#4ade80"/><text x="165" y="57" text-anchor="middle" font-size="8" fill="#14532d">✓ NYC</text>
+        <rect x="188" y="44" width="44" height="18" rx="3" fill="#4ade80"/><text x="210" y="57" text-anchor="middle" font-size="8" fill="#14532d">✓ No</text>
+        <rect x="238" y="44" width="44" height="18" rx="3" fill="#4ade80"/><text x="260" y="57" text-anchor="middle" font-size="8" fill="#14532d">✓ 8.2</text>
+        <!-- Row 2 - missing income -->
+        <text x="40" y="78" text-anchor="middle" font-size="8" fill="#94a3b8">Row 2</text>
+        <rect x="58" y="64" width="44" height="18" rx="3" fill="#4ade80"/><text x="80" y="77" text-anchor="middle" font-size="8" fill="#14532d">✓ 42</text>
+        <rect x="98" y="64" width="44" height="18" rx="3" fill="#fecaca"/><text x="120" y="77" text-anchor="middle" font-size="8" fill="#991b1b">✗ NULL</text>
+        <rect x="143" y="64" width="44" height="18" rx="3" fill="#4ade80"/><text x="165" y="77" text-anchor="middle" font-size="8" fill="#14532d">✓ LA</text>
+        <rect x="188" y="64" width="44" height="18" rx="3" fill="#4ade80"/><text x="210" y="77" text-anchor="middle" font-size="8" fill="#14532d">✓ Yes</text>
+        <rect x="238" y="64" width="44" height="18" rx="3" fill="#4ade80"/><text x="260" y="77" text-anchor="middle" font-size="8" fill="#14532d">✓ 6.1</text>
+        <!-- Row 3 - missing age and city -->
+        <text x="40" y="98" text-anchor="middle" font-size="8" fill="#94a3b8">Row 3</text>
+        <rect x="58" y="84" width="44" height="18" rx="3" fill="#fecaca"/><text x="80" y="97" text-anchor="middle" font-size="8" fill="#991b1b">✗ NULL</text>
+        <rect x="98" y="84" width="44" height="18" rx="3" fill="#4ade80"/><text x="120" y="97" text-anchor="middle" font-size="8" fill="#14532d">✓ 90k</text>
+        <rect x="143" y="84" width="44" height="18" rx="3" fill="#fecaca"/><text x="165" y="97" text-anchor="middle" font-size="8" fill="#991b1b">✗ NULL</text>
+        <rect x="188" y="84" width="44" height="18" rx="3" fill="#4ade80"/><text x="210" y="97" text-anchor="middle" font-size="8" fill="#14532d">✓ No</text>
+        <rect x="238" y="84" width="44" height="18" rx="3" fill="#fecaca"/><text x="260" y="97" text-anchor="middle" font-size="8" fill="#991b1b">✗ NULL</text>
+        <!-- Row 4 -->
+        <text x="40" y="118" text-anchor="middle" font-size="8" fill="#94a3b8">Row 4</text>
+        <rect x="58" y="104" width="44" height="18" rx="3" fill="#4ade80"/><text x="80" y="117" text-anchor="middle" font-size="8" fill="#14532d">✓ 28</text>
+        <rect x="98" y="104" width="44" height="18" rx="3" fill="#4ade80"/><text x="120" y="117" text-anchor="middle" font-size="8" fill="#14532d">✓ 55k</text>
+        <rect x="143" y="104" width="44" height="18" rx="3" fill="#4ade80"/><text x="165" y="117" text-anchor="middle" font-size="8" fill="#14532d">✓ Chi</text>
+        <rect x="188" y="104" width="44" height="18" rx="3" fill="#fecaca"/><text x="210" y="117" text-anchor="middle" font-size="8" fill="#991b1b">✗ NULL</text>
+        <rect x="238" y="104" width="44" height="18" rx="3" fill="#4ade80"/><text x="260" y="117" text-anchor="middle" font-size="8" fill="#14532d">✓ 7.5</text>
+        <!-- missing % bars -->
+        <text x="170" y="148" text-anchor="middle" font-size="10" font-weight="700" fill="#334155">Missing % per Column</text>
+        <rect x="58" y="155" width="44" height="8" rx="2" fill="#e2e8f0"/>
+        <rect x="58" y="155" width="0" height="8" rx="2" fill="#4ade80"/>
+        <text x="80" y="175" text-anchor="middle" font-size="9" font-weight="700" fill="#16a34a">0%</text>
+        <rect x="98" y="155" width="44" height="8" rx="2" fill="#e2e8f0"/>
+        <rect x="98" y="155" width="11" height="8" rx="2" fill="#fbbf24"/>
+        <text x="120" y="175" text-anchor="middle" font-size="9" font-weight="700" fill="#d97706">25%</text>
+        <rect x="143" y="155" width="44" height="8" rx="2" fill="#e2e8f0"/>
+        <rect x="143" y="155" width="11" height="8" rx="2" fill="#fbbf24"/>
+        <text x="165" y="175" text-anchor="middle" font-size="9" font-weight="700" fill="#d97706">25%</text>
+        <rect x="188" y="155" width="44" height="8" rx="2" fill="#e2e8f0"/>
+        <rect x="188" y="155" width="11" height="8" rx="2" fill="#fbbf24"/>
+        <text x="210" y="175" text-anchor="middle" font-size="9" font-weight="700" fill="#d97706">25%</text>
+        <rect x="238" y="155" width="44" height="8" rx="2" fill="#e2e8f0"/>
+        <rect x="238" y="155" width="11" height="8" rx="2" fill="#fbbf24"/>
+        <text x="260" y="175" text-anchor="middle" font-size="9" font-weight="700" fill="#d97706">25%</text>
+        <!-- legend -->
+        <rect x="80" y="192" width="12" height="10" rx="2" fill="#4ade80"/>
+        <text x="96" y="201" font-size="9" fill="#475569">Present</text>
+        <rect x="150" y="192" width="12" height="10" rx="2" fill="#fecaca"/>
+        <text x="166" y="201" font-size="9" fill="#475569">Missing (NULL)</text>
+        <rect x="240" y="192" width="12" height="10" rx="2" fill="#fbbf24"/>
+        <text x="256" y="201" font-size="9" fill="#475569">25% missing</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ENCODING -->
+  <div class="algo-hdr">
+    <div class="algo-num" style="background:#f5f3ff;color:#7c3aed">2B</div>
+    <div><div class="algo-title">Feature Encoding — Text → Numbers</div><div class="algo-sub">Machines only understand numbers. We must translate everything.</div></div>
+  </div>
+  <div class="two-col" style="margin-bottom:32px">
+    <div class="dcard">
+      <h3>🔤 Label Encoding vs One-Hot Encoding</h3>
+      <svg viewBox="0 0 340 200" width="100%" style="background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0">
+        <!-- Label encoding -->
+        <text x="80" y="18" text-anchor="middle" font-size="10" font-weight="700" fill="#334155">Label Encoding</text>
+        <text x="80" y="32" text-anchor="middle" font-size="9" fill="#64748b">(Ordinal — has order)</text>
+        <rect x="20" y="38" width="55" height="20" rx="4" fill="#dbeafe"/><text x="47" y="52" text-anchor="middle" font-size="10" font-weight="600" fill="#1d4ed8">Small</text>
+        <text x="82" y="52" font-size="12" fill="#94a3b8">→</text>
+        <rect x="93" y="38" width="30" height="20" rx="4" fill="#bfdbfe"/><text x="108" y="52" text-anchor="middle" font-size="10" font-weight="700" fill="#1e3a8a">0</text>
+        <rect x="20" y="64" width="55" height="20" rx="4" fill="#dbeafe"/><text x="47" y="78" text-anchor="middle" font-size="10" font-weight="600" fill="#1d4ed8">Medium</text>
+        <text x="82" y="78" font-size="12" fill="#94a3b8">→</text>
+        <rect x="93" y="64" width="30" height="20" rx="4" fill="#bfdbfe"/><text x="108" y="78" text-anchor="middle" font-size="10" font-weight="700" fill="#1e3a8a">1</text>
+        <rect x="20" y="90" width="55" height="20" rx="4" fill="#dbeafe"/><text x="47" y="104" text-anchor="middle" font-size="10" font-weight="600" fill="#1d4ed8">Large</text>
+        <text x="82" y="104" font-size="12" fill="#94a3b8">→</text>
+        <rect x="93" y="90" width="30" height="20" rx="4" fill="#bfdbfe"/><text x="108" y="104" text-anchor="middle" font-size="10" font-weight="700" fill="#1e3a8a">2</text>
+        <text x="67" y="132" text-anchor="middle" font-size="9" fill="#7c3aed">✓ Use for size, ratings, grades</text>
+        <text x="67" y="145" text-anchor="middle" font-size="9" fill="#dc2626">⚠ Don't use for cities, colours!</text>
+        <!-- One-hot encoding -->
+        <text x="245" y="18" text-anchor="middle" font-size="10" font-weight="700" fill="#334155">One-Hot Encoding</text>
+        <text x="245" y="32" text-anchor="middle" font-size="9" fill="#64748b">(No order — nominal)</text>
+        <!-- header row -->
+        <text x="185" y="52" text-anchor="middle" font-size="8" font-weight="700" fill="#64748b">City</text>
+        <text x="215" y="52" text-anchor="middle" font-size="8" font-weight="700" fill="#64748b">NYC</text>
+        <text x="248" y="52" text-anchor="middle" font-size="8" font-weight="700" fill="#64748b">LA</text>
+        <text x="278" y="52" text-anchor="middle" font-size="8" font-weight="700" fill="#64748b">CHI</text>
+        <text x="310" y="52" text-anchor="middle" font-size="8" font-weight="700" fill="#64748b">HOU</text>
+        <!-- NYC row -->
+        <text x="185" y="68" text-anchor="middle" font-size="9" fill="#334155">NYC</text>
+        <rect x="203" y="57" width="24" height="16" rx="3" fill="#dcfce7"/><text x="215" y="68" text-anchor="middle" font-size="9" font-weight="700" fill="#166534">1</text>
+        <rect x="236" y="57" width="24" height="16" rx="3" fill="#f1f5f9"/><text x="248" y="68" text-anchor="middle" font-size="9" fill="#94a3b8">0</text>
+        <rect x="266" y="57" width="24" height="16" rx="3" fill="#f1f5f9"/><text x="278" y="68" text-anchor="middle" font-size="9" fill="#94a3b8">0</text>
+        <rect x="298" y="57" width="24" height="16" rx="3" fill="#f1f5f9"/><text x="310" y="68" text-anchor="middle" font-size="9" fill="#94a3b8">0</text>
+        <!-- LA row -->
+        <text x="185" y="88" text-anchor="middle" font-size="9" fill="#334155">LA</text>
+        <rect x="203" y="77" width="24" height="16" rx="3" fill="#f1f5f9"/><text x="215" y="88" text-anchor="middle" font-size="9" fill="#94a3b8">0</text>
+        <rect x="236" y="77" width="24" height="16" rx="3" fill="#dcfce7"/><text x="248" y="88" text-anchor="middle" font-size="9" font-weight="700" fill="#166534">1</text>
+        <rect x="266" y="77" width="24" height="16" rx="3" fill="#f1f5f9"/><text x="278" y="88" text-anchor="middle" font-size="9" fill="#94a3b8">0</text>
+        <rect x="298" y="77" width="24" height="16" rx="3" fill="#f1f5f9"/><text x="310" y="88" text-anchor="middle" font-size="9" fill="#94a3b8">0</text>
+        <!-- CHI row -->
+        <text x="185" y="108" text-anchor="middle" font-size="9" fill="#334155">CHI</text>
+        <rect x="203" y="97" width="24" height="16" rx="3" fill="#f1f5f9"/><text x="215" y="108" text-anchor="middle" font-size="9" fill="#94a3b8">0</text>
+        <rect x="236" y="97" width="24" height="16" rx="3" fill="#f1f5f9"/><text x="248" y="108" text-anchor="middle" font-size="9" fill="#94a3b8">0</text>
+        <rect x="266" y="97" width="24" height="16" rx="3" fill="#dcfce7"/><text x="278" y="108" text-anchor="middle" font-size="9" font-weight="700" fill="#166534">1</text>
+        <rect x="298" y="97" width="24" height="16" rx="3" fill="#f1f5f9"/><text x="310" y="108" text-anchor="middle" font-size="9" fill="#94a3b8">0</text>
+        <text x="255" y="132" text-anchor="middle" font-size="9" fill="#16a34a">✓ Use for cities, colours, categories</text>
+        <text x="255" y="145" text-anchor="middle" font-size="9" fill="#64748b">Creates a binary column per category</text>
+      </svg>
+    </div>
+    <div class="card">
+      <h3>⚖️ Feature Scaling Explained</h3>
+      <p>Without scaling, a salary of <strong>$100,000</strong> will completely dominate an age of <strong>25</strong> purely because the number is 4000× bigger. The model will think salary matters infinitely more than age!</p>
+      <div style="margin-top:14px">
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px;margin-bottom:10px">
+          <div style="font-size:12px;font-weight:800;color:#1d4ed8;margin-bottom:4px">StandardScaler (Z-score)</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#3b82f6">z = (x − mean) / std</div>
+          <div style="font-size:11px;color:#475569;margin-top:4px">Output: mean=0, std=1. Best for algorithms that assume normal distribution (Linear Regression, SVM).</div>
+        </div>
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px">
+          <div style="font-size:12px;font-weight:800;color:#166534;margin-bottom:4px">MinMaxScaler</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#16a34a">x' = (x − min) / (max − min)</div>
+          <div style="font-size:11px;color:#475569;margin-top:4px">Output: range [0, 1]. Best for Neural Networks and KNN.</div>
+        </div>
+      </div>
+      <div class="analogy" style="margin-top:12px">
+        <strong>📏 The Ruler Analogy</strong>
+        Scaling is like converting all measurements to the same unit. You can't compare a race time in seconds with a distance in kilometres — you need a common scale!
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════
+     LOGISTIC REGRESSION
+════════════════════════════════════════════ -->
+<section id="logistic" class="sec">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-purple">Module 4A</div>
+    <h2>Logistic Regression — Classification with Probability</h2>
+    <p>Despite its name, Logistic Regression is a Classification algorithm — not Regression!</p>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <h3>📖 How It Works</h3>
+      <p>Logistic Regression predicts the <strong>probability</strong> that something belongs to a class. Instead of predicting a number (like Linear Regression), it maps any input to a value between <strong>0 and 1</strong> using the <strong>Sigmoid Function</strong>.</p>
+      <div class="formula" style="margin-top:14px">
+        Sigmoid: σ(z) = 1 / (1 + e^(−z))<br>
+        <span style="color:#94a3b8;font-size:11px">
+        If σ(z) ≥ 0.5 → Class 1 (Spam, Fraud, Yes)<br>
+        If σ(z) &lt;  0.5 → Class 0 (Not Spam, Normal, No)
+        </span>
+      </div>
+      <div class="analogy">
+        <strong>🌡️ The Thermometer Analogy</strong>
+        Linear Regression gives you the temperature (any number). Logistic Regression is like a fever test: it tells you if the temperature is "Normal" (0) or "Fever" (1). The sigmoid squishes any temperature into that 0-1 scale.
+      </div>
+      <p style="margin-top:12px;font-size:13px"><strong>✉️ Real IT Scenario:</strong> Email Spam Detection — predict probability (0–100%) that an email is spam. If &gt;50%, move it to spam folder.</p>
+      <div class="chips">
+        <span class="chip" style="background:var(--purple-l);color:var(--purple)">Binary Classification</span>
+        <span class="chip" style="background:var(--blue-l);color:var(--blue)">sklearn.linear_model</span>
+        <span class="chip" style="background:var(--green-l);color:var(--green)">Interpretable</span>
+      </div>
+    </div>
+    <div class="dcard">
+      <h3>📊 Sigmoid Curve — Logistic Regression's Secret Weapon</h3>
+      <svg viewBox="0 0 340 220" width="100%" style="background:#faf5ff;border-radius:8px;border:1px solid #ddd6fe">
+        <!-- axes -->
+        <line x1="40" y1="185" x2="310" y2="185" stroke="#c4b5fd" stroke-width="1.5"/>
+        <line x1="175" y1="200" x2="175" y2="15" stroke="#c4b5fd" stroke-width="1.5"/>
+        <!-- axis labels -->
+        <text x="175" y="210" text-anchor="middle" font-size="10" fill="#6d28d9" font-weight="600">Input (z)</text>
+        <text x="10" y="100" text-anchor="middle" font-size="10" fill="#6d28d9" font-weight="600" transform="rotate(-90 10 100)">Probability</text>
+        <!-- ticks -->
+        <text x="50" y="198" text-anchor="middle" font-size="8" fill="#8b5cf6">-6</text>
+        <text x="100" y="198" text-anchor="middle" font-size="8" fill="#8b5cf6">-3</text>
+        <text x="175" y="198" text-anchor="middle" font-size="8" fill="#8b5cf6">0</text>
+        <text x="250" y="198" text-anchor="middle" font-size="8" fill="#8b5cf6">+3</text>
+        <text x="300" y="198" text-anchor="middle" font-size="8" fill="#8b5cf6">+6</text>
+        <text x="36" y="188" text-anchor="end" font-size="8" fill="#8b5cf6">0</text>
+        <text x="36" y="100" text-anchor="end" font-size="8" fill="#8b5cf6">0.5</text>
+        <text x="36" y="22" text-anchor="end" font-size="8" fill="#8b5cf6">1.0</text>
+        <!-- horizontal dashed lines -->
+        <line x1="40" y1="100" x2="310" y2="100" stroke="#c4b5fd" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="40" y1="22" x2="310" y2="22" stroke="#c4b5fd" stroke-width="1" stroke-dasharray="4,3"/>
+        <!-- sigmoid curve -->
+        <path d="M40,183 C55,183 75,182 95,175 C115,168 125,145 140,128 C150,116 160,105 175,100 C190,95 200,83 215,72 C230,60 245,24 265,20 C280,18 300,18 310,18" stroke="#7c3aed" stroke-width="3" fill="none"/>
+        <!-- decision boundary -->
+        <line x1="175" y1="100" x2="310" y2="100" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="250" y="95" font-size="9" font-weight="700" fill="#dc2626">Decision Boundary (0.5)</text>
+        <!-- class labels -->
+        <rect x="45" y="140" width="80" height="26" rx="5" fill="#fecaca"/>
+        <text x="85" y="153" text-anchor="middle" font-size="10" font-weight="700" fill="#dc2626">Class 0</text>
+        <text x="85" y="162" text-anchor="middle" font-size="9" fill="#dc2626">Not Spam</text>
+        <rect x="215" y="28" width="80" height="26" rx="5" fill="#dcfce7"/>
+        <text x="255" y="41" text-anchor="middle" font-size="10" font-weight="700" fill="#166534">Class 1</text>
+        <text x="255" y="50" text-anchor="middle" font-size="9" fill="#166534">Spam ✉️</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- STEP-BY-STEP HAND CALCULATION CARD FOR LOGISTIC REGRESSION -->
+  <div style="background:#faf5ff;border:1px solid #ddd6fe;border-left:4px solid #7c3aed;border-radius:var(--r);padding:24px;margin-top:24px">
+    <h3 style="font-size:16px;font-weight:800;color:#5b21b6;margin-bottom:12px">🧮 Step-by-Step Hand Calculation: From Linear Score to Probability &amp; Cross-Entropy Penalty</h3>
+    <p style="font-size:13px;color:#475569;margin-bottom:14px">Here is the exact numerical path from raw features to binary fraud verdict and model punishment:</p>
+    
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;font-size:12px">
+      <div style="background:#fff;padding:12px;border-radius:8px;border:1px solid #e9d5ff">
+        <strong style="color:#7c3aed">Step 1: Compute Linear Score \(z\)</strong>
+        <p style="margin-top:4px;color:#475569">Features: \(X_1 = 5\text{ failed logins}\), \(X_2 = \$900\)<br>Weights: \(w_1 = 0.4, w_2 = 0.001, b = -1.5\)<br>\(z = 0.4(5) + 0.001(900) - 1.5 = \mathbf{1.386}\)</p>
+      </div>
+
+      <div style="background:#fff;padding:12px;border-radius:8px;border:1px solid #e9d5ff">
+        <strong style="color:#7c3aed">Step 2: Squish into Probability \(\sigma(z)\)</strong>
+        <p style="margin-top:4px;color:#475569">\(\sigma(1.386) = \frac{1}{1 + e^{-1.386}} = \frac{1}{1 + 0.25} = \mathbf{0.80}\)<br><span style="color:#16a34a;font-weight:700">80% Probability of Fraud \(\to\) Alert Triggered!</span></p>
+      </div>
+
+      <div style="background:#fff;padding:12px;border-radius:8px;border:1px solid #e9d5ff">
+        <strong style="color:#7c3aed">Step 3: If Actual \(y = 1\) (True Fraud)</strong>
+        <p style="margin-top:4px;color:#475569">\(\text{Loss} = -\ln(0.80) = \mathbf{0.223}\)<br><span style="color:#16a34a;font-weight:700">Tiny Loss: The model was confident and right!</span></p>
+      </div>
+
+      <div style="background:#fff;padding:12px;border-radius:8px;border:1px solid #e9d5ff">
+        <strong style="color:#7c3aed">Step 4: If Actual \(y = 0\) (False Alarm)</strong>
+        <p style="margin-top:4px;color:#475569">\(\text{Loss} = -\ln(1 - 0.80) = -\ln(0.20) = \mathbf{1.609}\)<br><span style="color:#dc2626;font-weight:700">7.2x Higher Penalty: Confident wrong answers are punished harshly!</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE 3D LOGISTIC SIGMOID SURFACE STUDIO -->
+  <div class="card" style="margin-top:24px;border:1px solid rgba(124,58,237,0.3);background:#0f172a;color:#fff;border-radius:12px;padding:24px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h3 style="color:#a78bfa">🌐 Interactive 3D Logistic Sigmoid Probability Surface Studio</h3>
+      <span style="font-size:11px;background:rgba(124,58,237,0.2);color:#c084fc;padding:3px 10px;border-radius:999px;font-weight:700">3D Probability Topography</span>
+    </div>
+    <p style="font-size:13px;color:#94a3b8;margin-bottom:16px">Drag to rotate the 3D Sigmoid S-Surface $P(Y=1 \mid X_1, X_2) = \frac{1}{1 + e^{-(w_1 X_1 + w_2 X_2 + b)}}$. Shift weights to tilt the decision cliff in 3D!</p>
+
+    <div style="display:grid;grid-template-columns:1fr 280px;gap:20px;align-items:center">
+      <canvas id="sigmoid3d-canvas" width="500" height="300" style="width:100%;height:300px;background:#030712;border-radius:10px;border:1px solid #1e293b;cursor:grab"></canvas>
+
+      <div style="background:rgba(255,255,255,0.03);padding:16px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);font-size:12px">
+        <div style="margin-bottom:12px">
+          <label style="display:flex;justify-content:space-between;color:#cbd5e1;font-weight:600;margin-bottom:4px">
+            <span>Weight \(w_1\) (Logins Slope):</span>
+            <strong id="lbl-w1" style="color:#a78bfa">0.8</strong>
+          </label>
+          <input type="range" id="slider-w1" min="0.1" max="2.0" step="0.1" value="0.8" style="width:100%;accent-color:#7c3aed" oninput="update3DSigmoid()">
+        </div>
+        <div style="margin-bottom:12px">
+          <label style="display:flex;justify-content:space-between;color:#cbd5e1;font-weight:600;margin-bottom:4px">
+            <span>Weight \(w_2\) (Amount Slope):</span>
+            <strong id="lbl-w2" style="color:#60a5fa">0.8</strong>
+          </label>
+          <input type="range" id="slider-w2" min="0.1" max="2.0" step="0.1" value="0.8" style="width:100%;accent-color:#3b82f6" oninput="update3DSigmoid()">
+        </div>
+        <div style="margin-bottom:14px">
+          <label style="display:flex;justify-content:space-between;color:#cbd5e1;font-weight:600;margin-bottom:4px">
+            <span>Decision Cutoff Threshold:</span>
+            <strong id="lbl-cutoff" style="color:#fbbf24">P = 0.50</strong>
+          </label>
+          <input type="range" id="slider-cutoff" min="0.2" max="0.8" step="0.05" value="0.50" style="width:100%;accent-color:#f59e0b" oninput="update3DSigmoid()">
+        </div>
+        <div style="background:#030712;padding:10px 12px;border-radius:6px;border-left:3px solid #a78bfa;font-family:'JetBrains Mono',monospace;font-size:11px;color:#e2e8f0" id="sigmoid-output-math">
+          Boundary: 0.8·X₁ + 0.8·X₂ = 0.00
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════
+     SVM
+════════════════════════════════════════════ -->
+<section id="svm" class="sec" style="background:#fff">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-pink">Module 4B</div>
+    <h2>Support Vector Machine (SVM)</h2>
+    <p>Find the best boundary between classes by maximising the margin — one of the most powerful classifiers.</p>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <h3>📖 The Core Idea — Maximise the Margin</h3>
+      <p>SVM finds a <strong>hyperplane</strong> (a line in 2D, a plane in 3D) that best separates classes. Unlike Logistic Regression which just finds any boundary, SVM finds the one that <strong>maximises the gap</strong> (margin) between the two classes.</p>
+      <div class="steps">
+        <div class="step"><div class="sn">1</div><p>Find the data points closest to the boundary — these are called <strong>Support Vectors</strong></p></div>
+        <div class="step"><div class="sn">2</div><p>Draw the boundary (hyperplane) that is <strong>equidistant</strong> from both classes' support vectors</p></div>
+        <div class="step"><div class="sn">3</div><p>The gap between support vectors and the hyperplane is the <strong>Margin</strong></p></div>
+        <div class="step"><div class="sn">4</div><p>SVM maximises this margin → more margin = better generalisation on new data</p></div>
+      </div>
+      <div style="margin-top:12px;background:#fdf2f8;border:1px solid #f9a8d4;border-radius:10px;padding:12px;font-size:13px">
+        <strong style="color:#db2777;display:block;margin-bottom:4px">🌀 The Kernel Trick</strong>
+        <span style="color:#9d174d">What if data isn't linearly separable? SVM uses a <strong>Kernel Function</strong> to map data into a higher dimension where a hyperplane CAN separate it. Think of crumpling a flat piece of paper (2D data) and cutting it — that cut in 3D is the hyperplane!</span>
+      </div>
+      <p style="margin-top:12px;font-size:13px"><strong>🧬 Real IT Scenario:</strong> Medical image classification — SVM can classify tumour images as benign or malignant even with small datasets.</p>
+    </div>
+    <div class="dcard">
+      <h3>📊 Visual: SVM — Maximum Margin Hyperplane</h3>
+      <svg viewBox="0 0 340 240" width="100%" style="background:#fff7f9;border-radius:8px;border:1px solid #fecdd3">
+        <!-- Class A points (circles - left) -->
+        <circle cx="70" cy="80" r="7" fill="#fbcfe8" stroke="#db2777" stroke-width="2"/>
+        <circle cx="55" cy="110" r="7" fill="#fbcfe8" stroke="#db2777" stroke-width="2"/>
+        <circle cx="85" cy="130" r="7" fill="#fbcfe8" stroke="#db2777" stroke-width="2"/>
+        <circle cx="60" cy="150" r="7" fill="#fbcfe8" stroke="#db2777" stroke-width="2"/>
+        <circle cx="90" cy="165" r="7" fill="#fbcfe8" stroke="#db2777" stroke-width="2"/>
+        <circle cx="45" cy="135" r="7" fill="#fbcfe8" stroke="#db2777" stroke-width="2"/>
+        <circle cx="75" cy="60" r="7" fill="#fbcfe8" stroke="#db2777" stroke-width="2"/>
+        <!-- Class B points (squares - right) -->
+        <rect x="205" y="55" width="14" height="14" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="2"/>
+        <rect x="235" y="75" width="14" height="14" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="2"/>
+        <rect x="255" y="100" width="14" height="14" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="2"/>
+        <rect x="220" y="115" width="14" height="14" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="2"/>
+        <rect x="260" y="140" width="14" height="14" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="2"/>
+        <rect x="230" y="155" width="14" height="14" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="2"/>
+        <!-- Support vectors (circled) -->
+        <circle cx="85" cy="130" r="12" fill="none" stroke="#db2777" stroke-width="2" stroke-dasharray="4,2"/>
+        <circle cx="90" cy="165" r="12" fill="none" stroke="#db2777" stroke-width="2" stroke-dasharray="4,2"/>
+        <rect x="203" y="113" width="18" height="18" rx="4" fill="none" stroke="#16a34a" stroke-width="2" stroke-dasharray="4,2"/>
+        <rect x="218" y="153" width="18" height="18" rx="4" fill="none" stroke="#16a34a" stroke-width="2" stroke-dasharray="4,2"/>
+        <!-- margin lines -->
+        <line x1="113" y1="30" x2="145" y2="210" stroke="#db2777" stroke-width="1.5" stroke-dasharray="6,3"/>
+        <line x1="165" y1="30" x2="197" y2="210" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="6,3"/>
+        <!-- hyperplane (center) -->
+        <line x1="139" y1="30" x2="171" y2="210" stroke="#1d4ed8" stroke-width="2.5"/>
+        <!-- margin fill -->
+        <path d="M113,30 L145,210 L197,210 L165,30 Z" fill="#eff6ff" opacity="0.5"/>
+        <!-- labels -->
+        <text x="155" y="24" text-anchor="middle" font-size="10" font-weight="700" fill="#1d4ed8">Hyperplane</text>
+        <text x="120" y="220" font-size="9" fill="#db2777">Margin-</text>
+        <text x="170" y="220" font-size="9" fill="#16a34a">Margin+</text>
+        <text x="60" y="200" font-size="10" font-weight="700" fill="#db2777">Class A</text>
+        <text x="240" y="200" font-size="10" font-weight="700" fill="#16a34a">Class B</text>
+        <!-- support vector label -->
+        <text x="155" y="120" text-anchor="middle" font-size="9" font-weight="700" fill="#2563eb">Maximum</text>
+        <text x="155" y="132" text-anchor="middle" font-size="9" font-weight="700" fill="#2563eb">Margin</text>
+        <text x="155" y="144" text-anchor="middle" font-size="8" fill="#60a5fa">↔</text>
+        <!-- support vector annotation -->
+        <text x="22" y="135" font-size="8" fill="#db2777">Support</text>
+        <text x="22" y="145" font-size="8" fill="#db2777">Vectors</text>
+        <line x1="56" y1="130" x2="73" y2="130" stroke="#db2777" stroke-width="1" marker-end="url(#arr)"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE SVM SANDBOX -->
+  <div class="wide-card" style="margin-top:24px;border-color:#fecdd3;">
+    <h3 style="color:#db2777;">🕹️ Interactive SVM Margin Sandbox</h3>
+    <p style="font-size:13px;color:var(--s600);margin-bottom:12px;">Drag the yellow outlier point to see how the SVM boundary and margins react dynamically!</p>
+    <div style="position:relative;width:100%;max-width:700px;margin:0 auto;border:1px solid #fecdd3;border-radius:8px;background:#fff7f9;overflow:hidden;touch-action:none;">
+      <canvas id="svmCanvas" width="700" height="300" style="width:100%;display:block;cursor:grab;"></canvas>
+    </div>
+  </div>
+</div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const canvas = document.getElementById('svmCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  
+  let width = canvas.width;
+  let height = canvas.height;
+  
+  // Class A (Pink Circles)
+  let classA = [
+    {x: 120, y: 100}, {x: 140, y: 80}, {x: 100, y: 150},
+    {x: 170, y: 120}, {x: 130, y: 200}, {x: 160, y: 180},
+    {x: 90, y: 120}, {x: 150, y: 150}, {x: 110, y: 220}, {x: 180, y: 240}
+  ];
+  
+  // Class B (Green Squares)
+  let classB = [
+    {x: 520, y: 100}, {x: 550, y: 150}, {x: 490, y: 200},
+    {x: 570, y: 180}, {x: 530, y: 220}, {x: 590, y: 120},
+    {x: 510, y: 140}, {x: 560, y: 80}, {x: 600, y: 250}, {x: 480, y: 70}
+  ];
+  
+  // Draggable outlier (Belongs to Class B)
+  let outlier = {x: 400, y: 150, isOutlier: true};
+  classB.push(outlier);
+  
+  let isDragging = false;
+  
+  function getMousePos(e) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    return {
+      x: (e.clientX - rect.left) * scaleX,
+      y: (e.clientY - rect.top) * scaleY
+    };
+  }
+
+  function getTouchPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    return {
+      x: (e.touches[0].clientX - rect.left) * scaleX,
+      y: (e.touches[0].clientY - rect.top) * scaleY
+    };
+  }
+  
+  // Interaction
+  canvas.addEventListener('mousedown', (e) => {
+    const pos = getMousePos(e);
+    const dx = pos.x - outlier.x;
+    const dy = pos.y - outlier.y;
+    if (Math.sqrt(dx*dx + dy*dy) < 20) {
+      isDragging = true;
+      canvas.style.cursor = 'grabbing';
+    }
+  });
+  
+  window.addEventListener('mouseup', () => {
+    isDragging = false;
+    canvas.style.cursor = 'grab';
+  });
+  
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const pos = getMousePos(e);
+    outlier.x = pos.x;
+    outlier.y = pos.y;
+    draw();
+  });
+  
+  // Touch support
+  canvas.addEventListener('touchstart', (e) => {
+    const pos = getTouchPos(e);
+    const dx = pos.x - outlier.x;
+    const dy = pos.y - outlier.y;
+    if (Math.sqrt(dx*dx + dy*dy) < 30) {
+      isDragging = true;
+      e.preventDefault();
+    }
+  }, {passive: false});
+  
+  window.addEventListener('touchend', () => {
+    isDragging = false;
+  });
+  
+  window.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const pos = getTouchPos(e);
+    outlier.x = pos.x;
+    outlier.y = pos.y;
+    draw();
+  }, {passive: false});
+  
+  function getCentroid(pts) {
+    let cx = 0, cy = 0;
+    pts.forEach(p => { cx += p.x; cy += p.y; });
+    return {x: cx/pts.length, y: cy/pts.length};
+  }
+  
+  function dot(p, v) {
+    return p.x * v.x + p.y * v.y;
+  }
+  
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    
+    const cA = getCentroid(classA);
+    const cB = getCentroid(classB);
+    
+    // Normal vector from A to B
+    let nx = cB.x - cA.x;
+    let ny = cB.y - cA.y;
+    const len = Math.sqrt(nx*nx + ny*ny);
+    if(len > 0) { nx /= len; ny /= len; }
+    
+    // Project points to find margins
+    let maxA = -Infinity;
+    let minB = Infinity;
+    
+    classA.forEach(p => {
+      let d = dot(p, {x: nx, y: ny});
+      if (d > maxA) maxA = d;
+    });
+    
+    classB.forEach(p => {
+      let d = dot(p, {x: nx, y: ny});
+      if (d < minB) minB = d;
+    });
+    
+    const mid = (maxA + minB) / 2;
+    
+    function drawLine(C, color, dash, lw=2) {
+      const px = C * nx;
+      const py = C * ny;
+      const dx = -ny;
+      const dy = nx;
+      
+      ctx.beginPath();
+      ctx.moveTo(px - dx*2000, py - dy*2000);
+      ctx.lineTo(px + dx*2000, py + dy*2000);
+      ctx.strokeStyle = color;
+      ctx.lineWidth = lw;
+      if (dash) ctx.setLineDash(dash);
+      else ctx.setLineDash([]);
+      ctx.stroke();
+    }
+    
+    // Margin fill
+    ctx.save();
+    ctx.beginPath();
+    const p1x = maxA * nx - (-ny)*2000, p1y = maxA * ny - nx*2000;
+    const p2x = maxA * nx + (-ny)*2000, p2y = maxA * ny + nx*2000;
+    const p3x = minB * nx + (-ny)*2000, p3y = minB * ny + nx*2000;
+    const p4x = minB * nx - (-ny)*2000, p4y = minB * ny - nx*2000;
+    ctx.moveTo(p1x, p1y);
+    ctx.lineTo(p2x, p2y);
+    ctx.lineTo(p3x, p3y);
+    ctx.lineTo(p4x, p4y);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(239, 246, 255, 0.5)';
+    ctx.fill();
+    ctx.restore();
+    
+    drawLine(maxA, '#db2777', [6,4], 1.5);
+    drawLine(minB, '#16a34a', [6,4], 1.5);
+    drawLine(mid, '#1d4ed8', [], 2.5); // Hyperplane
+    
+    ctx.setLineDash([]);
+    
+    classA.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 6, 0, Math.PI*2);
+      ctx.fillStyle = '#fbcfe8';
+      ctx.fill();
+      ctx.strokeStyle = '#db2777';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    });
+    
+    classB.forEach(p => {
+      ctx.beginPath();
+      if(p.isOutlier) {
+        ctx.arc(p.x, p.y, 10, 0, Math.PI*2);
+        ctx.fillStyle = '#fef08a';
+        ctx.fill();
+        ctx.strokeStyle = '#d97706';
+      } else {
+        ctx.rect(p.x-6, p.y-6, 12, 12);
+        ctx.fillStyle = '#bbf7d0';
+        ctx.fill();
+        ctx.strokeStyle = '#16a34a';
+      }
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    });
+  }
+  
+  draw();
+});
+</script>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════
+     KNN
+════════════════════════════════════════════ -->
+<section id="knn" class="sec">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-cyan">Module 4C</div>
+    <h2>K-Nearest Neighbours (KNN)</h2>
+    <p>The simplest algorithm in ML — "You are who your neighbours are."</p>
+  </div>
+
+  <div class="two-col">
+    <div class="dcard">
+      <h3>📊 Visual: KNN with K=3</h3>
+      <svg viewBox="0 0 340 240" width="100%" style="background:#ecfeff;border-radius:8px;border:1px solid #a5f3fc">
+        <!-- existing class A points -->
+        <circle cx="80" cy="70" r="7" fill="#7dd3fc" stroke="#0284c7" stroke-width="2"/>
+        <circle cx="110" cy="55" r="7" fill="#7dd3fc" stroke="#0284c7" stroke-width="2"/>
+        <circle cx="65" cy="100" r="7" fill="#7dd3fc" stroke="#0284c7" stroke-width="2"/>
+        <circle cx="95" cy="120" r="7" fill="#7dd3fc" stroke="#0284c7" stroke-width="2"/>
+        <circle cx="130" cy="90" r="7" fill="#7dd3fc" stroke="#0284c7" stroke-width="2"/>
+        <!-- existing class B points -->
+        <circle cx="230" cy="80" r="7" fill="#f9a8d4" stroke="#db2777" stroke-width="2"/>
+        <circle cx="260" cy="60" r="7" fill="#f9a8d4" stroke="#db2777" stroke-width="2"/>
+        <circle cx="250" cy="110" r="7" fill="#f9a8d4" stroke="#db2777" stroke-width="2"/>
+        <circle cx="280" cy="90" r="7" fill="#f9a8d4" stroke="#db2777" stroke-width="2"/>
+        <circle cx="270" cy="140" r="7" fill="#f9a8d4" stroke="#db2777" stroke-width="2"/>
+        <!-- New unknown point -->
+        <circle cx="170" cy="100" r="9" fill="#fde68a" stroke="#d97706" stroke-width="2.5"/>
+        <text x="170" y="104" text-anchor="middle" font-size="11" font-weight="900" fill="#d97706">?</text>
+        <text x="170" y="122" text-anchor="middle" font-size="9" font-weight="700" fill="#d97706">New Point</text>
+        <!-- K=3 circle -->
+        <circle cx="170" cy="100" r="68" fill="none" stroke="#0891b2" stroke-width="2" stroke-dasharray="6,4"/>
+        <text x="225" y="42" font-size="9" fill="#0891b2" font-weight="700">K=3 boundary</text>
+        <!-- distance lines to 3 nearest neighbours -->
+        <line x1="170" y1="100" x2="130" y2="90" stroke="#0891b2" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <line x1="170" y1="100" x2="95" y2="120" stroke="#0891b2" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <line x1="170" y1="100" x2="230" y2="80" stroke="#db2777" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <!-- vote count -->
+        <rect x="60" y="165" width="220" height="55" rx="8" fill="white" stroke="#e0f2fe" stroke-width="1.5"/>
+        <text x="170" y="182" text-anchor="middle" font-size="10" font-weight="700" fill="#0c4a6e">Voting Result (K=3)</text>
+        <circle cx="95" cy="200" r="6" fill="#7dd3fc" stroke="#0284c7" stroke-width="1.5"/>
+        <text x="105" y="204" font-size="9" fill="#0284c7">Blue: 2 votes</text>
+        <circle cx="185" cy="200" r="6" fill="#f9a8d4" stroke="#db2777" stroke-width="1.5"/>
+        <text x="195" y="204" font-size="9" fill="#db2777">Pink: 1 vote</text>
+        <text x="170" y="215" text-anchor="middle" font-size="10" font-weight="700" fill="#0891b2">→ Classified as BLUE (2/3 majority)</text>
+        <!-- legend -->
+        <text x="20" y="157" font-size="9" fill="#0284c7" font-weight="700">Class A (Blue)</text>
+        <text x="270" y="157" font-size="9" fill="#db2777" font-weight="700">Class B</text>
+      </svg>
+    </div>
+    <div class="card">
+      <h3>📖 How KNN Works</h3>
+      <p>KNN is a <strong>lazy learner</strong> — it doesn't learn a model. Instead, when a new point arrives, it:</p>
+      <div class="steps">
+        <div class="step"><div class="sn">1</div><p>Calculates the <strong>distance</strong> between the new point and every training point (using Euclidean distance)</p></div>
+        <div class="step"><div class="sn">2</div><p>Finds the <strong>K closest</strong> training points (neighbours)</p></div>
+        <div class="step"><div class="sn">3</div><p>Takes a <strong>majority vote</strong> among those K neighbours</p></div>
+        <div class="step"><div class="sn">4</div><p>Assigns the new point to the <strong>winning class</strong></p></div>
+      </div>
+      <div class="formula">
+        Euclidean Distance:<br>
+        d = √[(x₂−x₁)² + (y₂−y₁)²]<br>
+        <span style="color:#94a3b8;font-size:11px">Small K → Complex boundary (overfit)<br>Large K → Simple boundary (underfit)<br>Best K → Use Cross-Validation!</span>
+      </div>
+      <div class="analogy" style="margin-top:12px">
+        <strong>🏘️ The Neighbourhood Analogy</strong>
+        If you move to a new city and want to know what restaurants are good nearby, you ask your 5 nearest neighbours. If 4 of them recommend Italian and 1 recommends Thai — you try Italian! That's KNN.
+      </div>
+      <p style="margin-top:12px;font-size:13px"><strong>🎬 Real IT Scenario:</strong> Netflix recommendation system — find the K most similar users to you, and recommend the movies those users liked.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════
+     ENSEMBLE METHODS
+════════════════════════════════════════════ -->
+<section id="ensemble" class="sec" style="background:#fff">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-amber">Module 5B</div>
+    <h2>Ensemble Methods — Stronger Together</h2>
+    <p>Combine multiple weak models to create one powerful model. XGBoost wins Kaggle competitions. Know it deeply.</p>
+  </div>
+
+  <!-- Comparison table -->
+  <div class="wide-card" style="overflow-x:auto">
+    <h3>⚡ Ensemble Methods Comparison</h3>
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <thead>
+        <tr style="background:var(--s100)">
+          <th style="padding:10px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--s500)">Method</th>
+          <th style="padding:10px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--s500)">How It Combines</th>
+          <th style="padding:10px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--s500)">Training</th>
+          <th style="padding:10px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--s500)">Best For</th>
+          <th style="padding:10px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--s500)">Speed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-top:1px solid var(--s200)">
+          <td style="padding:12px 14px;font-weight:700;color:#2563eb">Random Forest</td>
+          <td style="padding:12px 14px;color:var(--s600)">Majority vote of N trees</td>
+          <td style="padding:12px 14px;color:var(--s600)">Parallel (independent trees)</td>
+          <td style="padding:12px 14px;color:var(--s600)">General classification, tabular data</td>
+          <td style="padding:12px 14px"><span style="color:#16a34a;font-weight:700">Fast</span></td>
+        </tr>
+        <tr style="border-top:1px solid var(--s200);background:#fffbeb">
+          <td style="padding:12px 14px;font-weight:700;color:#d97706">AdaBoost</td>
+          <td style="padding:12px 14px;color:var(--s600)">Weighted vote (harder samples weighted more)</td>
+          <td style="padding:12px 14px;color:var(--s600)">Sequential (each tree corrects previous)</td>
+          <td style="padding:12px 14px;color:var(--s600)">Binary classification</td>
+          <td style="padding:12px 14px"><span style="color:#d97706;font-weight:700">Medium</span></td>
+        </tr>
+        <tr style="border-top:1px solid var(--s200)">
+          <td style="padding:12px 14px;font-weight:700;color:#7c3aed">Gradient Boosting</td>
+          <td style="padding:12px 14px;color:var(--s600)">Each tree corrects the error (residuals) of previous</td>
+          <td style="padding:12px 14px;color:var(--s600)">Sequential</td>
+          <td style="padding:12px 14px;color:var(--s600)">Structured/tabular data, high accuracy</td>
+          <td style="padding:12px 14px"><span style="color:#d97706;font-weight:700">Medium</span></td>
+        </tr>
+        <tr style="border-top:1px solid var(--s200);background:#f0fdf4">
+          <td style="padding:12px 14px;font-weight:700;color:#16a34a">XGBoost ⭐</td>
+          <td style="padding:12px 14px;color:var(--s600)">Gradient Boosting + Regularisation + Parallel computing</td>
+          <td style="padding:12px 14px;color:var(--s600)">Sequential + Parallelised internals</td>
+          <td style="padding:12px 14px;color:var(--s600)">🏆 Kaggle competitions, production ML</td>
+          <td style="padding:12px 14px"><span style="color:#16a34a;font-weight:700">Very Fast</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Boosting diagram -->
+  <div class="wide-card">
+    <h3>🔁 Visual: How Boosting Works (AdaBoost / XGBoost)</h3>
+    <svg viewBox="0 0 700 160" width="100%" style="background:#fffbeb;border-radius:8px;border:1px solid #fde68a">
+      <!-- step 1 -->
+      <rect x="10" y="20" width="115" height="120" rx="8" fill="white" stroke="#fbbf24" stroke-width="1.5"/>
+      <text x="67" y="38" text-anchor="middle" font-size="10" font-weight="700" fill="#d97706">Round 1 (Weak)</text>
+      <circle cx="35" cy="60" r="6" fill="#fca5a5"/><circle cx="55" cy="55" r="6" fill="#fca5a5"/>
+      <circle cx="75" cy="65" r="6" fill="#86efac"/><circle cx="95" cy="58" r="6" fill="#86efac"/>
+      <circle cx="40" cy="85" r="6" fill="#fca5a5"/><circle cx="65" cy="90" r="6" fill="#86efac"/>
+      <circle cx="90" cy="80" r="6" fill="#fca5a5"/>
+      <line x1="30" y1="125" x2="115" y2="100" stroke="#ef4444" stroke-width="1.5"/>
+      <text x="67" y="145" text-anchor="middle" font-size="9" fill="#dc2626">3 wrong ❌</text>
+      <!-- arrow -->
+      <text x="140" y="90" font-size="18" fill="#d97706">→</text>
+      <text x="133" y="78" font-size="9" fill="#92400e">Upweight</text>
+      <text x="133" y="88" font-size="9" fill="#92400e">errors</text>
+      <!-- step 2 -->
+      <rect x="165" y="20" width="115" height="120" rx="8" fill="white" stroke="#f59e0b" stroke-width="1.5"/>
+      <text x="222" y="38" text-anchor="middle" font-size="10" font-weight="700" fill="#d97706">Round 2 (Corrects)</text>
+      <circle cx="190" cy="60" r="8" fill="#fca5a5" stroke="#dc2626" stroke-width="2"/><circle cx="210" cy="55" r="8" fill="#fca5a5" stroke="#dc2626" stroke-width="2"/>
+      <circle cx="230" cy="65" r="6" fill="#86efac"/><circle cx="250" cy="58" r="6" fill="#86efac"/>
+      <circle cx="195" cy="85" r="8" fill="#fca5a5" stroke="#dc2626" stroke-width="2"/><circle cx="220" cy="90" r="6" fill="#86efac"/>
+      <circle cx="245" cy="80" r="6" fill="#86efac"/>
+      <line x1="185" y1="105" x2="270" y2="80" stroke="#ef4444" stroke-width="1.5"/>
+      <text x="222" y="145" text-anchor="middle" font-size="9" fill="#dc2626">1 wrong ❌</text>
+      <!-- arrow -->
+      <text x="295" y="90" font-size="18" fill="#d97706">→</text>
+      <text x="288" y="78" font-size="9" fill="#92400e">Upweight</text>
+      <text x="288" y="88" font-size="9" fill="#92400e">errors</text>
+      <!-- step 3 -->
+      <rect x="320" y="20" width="115" height="120" rx="8" fill="white" stroke="#d97706" stroke-width="1.5"/>
+      <text x="377" y="38" text-anchor="middle" font-size="10" font-weight="700" fill="#d97706">Round 3 (Better)</text>
+      <circle cx="345" cy="60" r="6" fill="#fca5a5"/><circle cx="365" cy="55" r="6" fill="#fca5a5"/>
+      <circle cx="385" cy="65" r="6" fill="#86efac"/><circle cx="405" cy="58" r="6" fill="#86efac"/>
+      <circle cx="350" cy="85" r="6" fill="#fca5a5"/><circle cx="375" cy="90" r="6" fill="#86efac"/>
+      <circle cx="400" cy="80" r="8" fill="#fca5a5" stroke="#dc2626" stroke-width="2"/>
+      <line x1="340" y1="112" x2="425" y2="62" stroke="#ef4444" stroke-width="1.5"/>
+      <text x="377" y="145" text-anchor="middle" font-size="9" fill="#dc2626">1 wrong ❌</text>
+      <!-- arrow to combine -->
+      <text x="450" y="90" font-size="18" fill="#16a34a">→</text>
+      <text x="444" y="78" font-size="9" fill="#166534">Combine</text>
+      <text x="444" y="88" font-size="9" fill="#166534">(weighted)</text>
+      <!-- final result -->
+      <rect x="475" y="20" width="215" height="120" rx="8" fill="#dcfce7" stroke="#4ade80" stroke-width="2"/>
+      <text x="582" y="40" text-anchor="middle" font-size="11" font-weight="800" fill="#14532d">Final Strong Model ✅</text>
+      <text x="582" y="58" text-anchor="middle" font-size="9" fill="#166534">Weighted sum of all rounds</text>
+      <circle cx="510" cy="80" r="6" fill="#fca5a5"/><circle cx="530" cy="75" r="6" fill="#fca5a5"/>
+      <circle cx="555" cy="85" r="6" fill="#86efac"/><circle cx="580" cy="75" r="6" fill="#86efac"/>
+      <circle cx="515" cy="105" r="6" fill="#fca5a5"/><circle cx="545" cy="108" r="6" fill="#86efac"/>
+      <circle cx="575" cy="100" r="6" fill="#86efac"/>
+      <line x1="490" y1="118" x2="680" y2="70" stroke="#16a34a" stroke-width="2.5"/>
+      <text x="582" y="148" text-anchor="middle" font-size="10" font-weight="700" fill="#16a34a">✅ All correct!</text>
+    </svg>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════
+     MODULE 7: MLOPS & DEPLOYMENT
+════════════════════════════════════════════ -->
+<section id="mlops" class="sec">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-green">Module 7</div>
+    <h2>MLOps & Deployment — Ship It to Production</h2>
+    <p>A model in a notebook earns nothing. A model in production earns everything. This is what separates a Data Scientist from an ML Engineer.</p>
+  </div>
+
+  <!-- DEPLOYMENT PIPELINE -->
+  <h3 style="font-size:16px;font-weight:800;color:var(--s900);margin-bottom:14px">🚀 The MLOps Pipeline</h3>
+  <div class="pipeline" style="margin-bottom:32px">
+    <div class="pipe-step"><div class="pipe-arrow">→</div><div class="pipe-icon">🧠</div><div class="pipe-name">Train Model</div><div class="pipe-tech">Jupyter / Python</div></div>
+    <div class="pipe-step"><div class="pipe-arrow">→</div><div class="pipe-icon">💾</div><div class="pipe-name">Save Model</div><div class="pipe-tech">joblib / pickle</div></div>
+    <div class="pipe-step"><div class="pipe-arrow">→</div><div class="pipe-icon">⚡</div><div class="pipe-name">Build API</div><div class="pipe-tech">FastAPI / Flask</div></div>
+    <div class="pipe-step"><div class="pipe-arrow">→</div><div class="pipe-icon">🐳</div><div class="pipe-name">Containerise</div><div class="pipe-tech">Docker</div></div>
+    <div class="pipe-step"><div class="pipe-arrow">→</div><div class="pipe-icon">☁️</div><div class="pipe-name">Deploy Cloud</div><div class="pipe-tech">AWS / GCP / Azure</div></div>
+    <div class="pipe-step"><div class="pipe-icon">📊</div><div class="pipe-name">Monitor</div><div class="pipe-tech">Data Drift / Logs</div></div>
+  </div>
+
+  <div class="two-col" style="margin-bottom:24px">
+    <!-- DOCKER VISUAL -->
+    <div class="dcard">
+      <h3>🐳 Docker — Why It Matters for ML</h3>
+      <svg viewBox="0 0 340 240" width="100%" style="background:#f0fdf4;border-radius:8px;border:1px solid #bbf7d0">
+        <!-- Problem: works on my machine -->
+        <rect x="10" y="15" width="145" height="100" rx="8" fill="white" stroke="#fecaca" stroke-width="1.5"/>
+        <text x="82" y="32" text-anchor="middle" font-size="10" font-weight="700" fill="#dc2626">❌ Without Docker</text>
+        <text x="82" y="50" text-anchor="middle" font-size="9" fill="#475569">Dev machine: Python 3.10</text>
+        <text x="82" y="62" text-anchor="middle" font-size="9" fill="#475569">sklearn v1.1, numpy 1.24</text>
+        <text x="82" y="80" text-anchor="middle" font-size="9" fill="#dc2626">→ Works on my laptop!</text>
+        <text x="82" y="96" text-anchor="middle" font-size="9" fill="#dc2626">→ Crashes on server 😱</text>
+        <text x="82" y="108" text-anchor="middle" font-size="9" fill="#94a3b8">Python 3.8, sklearn v0.9</text>
+
+        <!-- Solution: Docker -->
+        <rect x="185" y="15" width="145" height="100" rx="8" fill="white" stroke="#bbf7d0" stroke-width="1.5"/>
+        <text x="257" y="32" text-anchor="middle" font-size="10" font-weight="700" fill="#16a34a">✅ With Docker</text>
+        <rect x="195" y="38" width="125" height="70" rx="6" fill="#f0fdf4" stroke="#4ade80" stroke-width="1"/>
+        <text x="257" y="54" text-anchor="middle" font-size="9" font-weight="700" fill="#166534">📦 Container</text>
+        <text x="257" y="68" text-anchor="middle" font-size="8" fill="#166534">Python 3.10 ✓</text>
+        <text x="257" y="80" text-anchor="middle" font-size="8" fill="#166534">sklearn v1.1 ✓</text>
+        <text x="257" y="92" text-anchor="middle" font-size="8" fill="#166534">numpy 1.24 ✓</text>
+        <text x="257" y="104" text-anchor="middle" font-size="8" fill="#16a34a">Runs ANYWHERE ✓</text>
+
+        <!-- Dockerfile content -->
+        <rect x="10" y="128" width="320" height="100" rx="8" fill="#0f172a"/>
+        <text x="20" y="146" font-size="10" font-weight="700" fill="#4ade80">Dockerfile</text>
+        <text x="20" y="161" font-family="monospace" font-size="10" fill="#c084fc">FROM</text>
+        <text x="60" y="161" font-family="monospace" font-size="10" fill="#fde68a">python:3.10-slim</text>
+        <text x="20" y="175" font-family="monospace" font-size="10" fill="#c084fc">WORKDIR</text>
+        <text x="80" y="175" font-family="monospace" font-size="10" fill="#fde68a">/app</text>
+        <text x="20" y="189" font-family="monospace" font-size="10" fill="#c084fc">COPY</text>
+        <text x="55" y="189" font-family="monospace" font-size="10" fill="#fde68a">requirements.txt .</text>
+        <text x="20" y="203" font-family="monospace" font-size="10" fill="#c084fc">RUN</text>
+        <text x="47" y="203" font-family="monospace" font-size="10" fill="#60a5fa">pip install -r requirements.txt</text>
+        <text x="20" y="218" font-family="monospace" font-size="10" fill="#c084fc">CMD</text>
+        <text x="48" y="218" font-family="monospace" font-size="10" fill="#fde68a">["uvicorn", "main:app", "--host", "0.0.0.0"]</text>
+      </svg>
+    </div>
+
+    <!-- DATA DRIFT -->
+    <div class="card">
+      <h3>📉 Data Drift — The Silent Killer</h3>
+      <p>After deploying your model, the real world keeps changing. <strong>Data Drift</strong> is when the distribution of incoming data starts to differ from your training data — causing your model's accuracy to silently drop.</p>
+      <div style="margin-top:14px">
+        <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px;margin-bottom:10px">
+          <div style="font-size:12px;font-weight:800;color:#dc2626;margin-bottom:4px">🔴 Feature Drift</div>
+          <div style="font-size:12px;color:#7f1d1d">Input data distribution changes. e.g., Your model was trained on pre-COVID travel data. Post-COVID, travel patterns are completely different!</div>
+        </div>
+        <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:12px;margin-bottom:10px">
+          <div style="font-size:12px;font-weight:800;color:#d97706;margin-bottom:4px">🟡 Concept Drift</div>
+          <div style="font-size:12px;color:#78350f">The relationship between features and labels changes. e.g., The words that indicate spam emails change over time as spammers adapt.</div>
+        </div>
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px">
+          <div style="font-size:12px;font-weight:800;color:#16a34a;margin-bottom:4px">🟢 Solution — Monitor & Retrain</div>
+          <div style="font-size:12px;color:#14532d">Track metrics weekly. Set alerts if accuracy drops below threshold. Retrain the model on fresh data on a schedule (daily/weekly/monthly).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MLOps code -->
+  <div class="code-box">
+    <div class="tab-bar">
+      <button class="tb on" onclick="tab('docker')">🐳 Dockerfile</button>
+      <button class="tb" onclick="tab('deploy')">☁️ deploy.sh</button>
+      <button class="tb" onclick="tab('monitor')">📊 monitor.py</button>
+    </div>
+    <div class="tc on" id="tc-docker">
+<pre><span class="cm"># ═══════════════════════════════════════════════
+# Dockerfile — Package Your ML Model for Deployment
+# Run: docker build -t ml-api . && docker run -p 8000:8000 ml-api
+# ═══════════════════════════════════════════════</span>
+
+<span class="cm"># Start from an official Python slim image (smaller size)</span>
+<span class="kw">FROM</span> python:<span class="nm">3.10</span>-slim
+
+<span class="cm"># Set the working directory inside the container</span>
+<span class="kw">WORKDIR</span> /app
+
+<span class="cm"># Copy requirements first (Docker cache optimisation)</span>
+<span class="kw">COPY</span> requirements.txt .
+<span class="kw">RUN</span> pip install --no-cache-dir -r requirements.txt
+
+<span class="cm"># Copy the rest of the application code</span>
+<span class="kw">COPY</span> . .
+
+<span class="cm"># Expose the port FastAPI will run on</span>
+<span class="kw">EXPOSE</span> <span class="nm">8000</span>
+
+<span class="cm"># The command to run when the container starts</span>
+<span class="kw">CMD</span> ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+<span class="cm"># Build:  docker build -t my-ml-api .
+# Run:    docker run -p 8000:8000 my-ml-api
+# Push:   docker push your-registry/my-ml-api:latest</span>
+</pre></div>
+    <div class="tc" id="tc-deploy">
+<pre><span class="cm">#!/bin/bash
+# ═══════════════════════════════════════════════
+# deploy.sh — Automated Deployment Script
+# Simulates a CI/CD pipeline for your ML API
+# ═══════════════════════════════════════════════</span>
+
+<span class="fn">echo</span> <span class="str">"🚀 Starting ML API Deployment Pipeline..."</span>
+
+<span class="cm"># Step 1: Run tests</span>
+<span class="fn">echo</span> <span class="str">"[1/5] Running unit tests..."</span>
+pytest tests/ -v
+<span class="kw">if</span> [ $? -ne 0 ]; <span class="kw">then</span>
+    <span class="fn">echo</span> <span class="str">"❌ Tests failed. Deployment aborted."</span>
+    exit 1
+<span class="kw">fi</span>
+
+<span class="cm"># Step 2: Retrain model with latest data</span>
+<span class="fn">echo</span> <span class="str">"[2/5] Retraining model with latest data..."</span>
+python ml_model/train_model.py
+
+<span class="cm"># Step 3: Build Docker image</span>
+<span class="fn">echo</span> <span class="str">"[3/5] Building Docker image..."</span>
+docker build -t ml-api:latest .
+
+<span class="cm"># Step 4: Push to container registry</span>
+<span class="fn">echo</span> <span class="str">"[4/5] Pushing to registry..."</span>
+docker tag ml-api:latest gcr.io/YOUR_PROJECT/ml-api:latest
+docker push gcr.io/YOUR_PROJECT/ml-api:latest
+
+<span class="cm"># Step 5: Deploy to Google Cloud Run (serverless)</span>
+<span class="fn">echo</span> <span class="str">"[5/5] Deploying to Cloud Run..."</span>
+gcloud run deploy ml-api \
+    --image gcr.io/YOUR_PROJECT/ml-api:latest \
+    --platform managed \
+    --region us-central1 \
+    --allow-unauthenticated
+
+<span class="fn">echo</span> <span class="str">"✅ Deployment complete!"</span>
+</pre></div>
+    <div class="tc" id="tc-monitor">
+<pre><span class="cm"># ═══════════════════════════════════════════════
+# monitor.py — Track Model Performance in Production
+# Schedule this to run daily with a cron job
+# ═══════════════════════════════════════════════</span>
+
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">from</span> scipy <span class="kw">import</span> stats
+<span class="kw">import</span> joblib, logging
+
+<span class="fn">logging.basicConfig</span>(level=logging.INFO)
+logger = logging.<span class="fn">getLogger</span>(__name__)
+
+<span class="kw">def</span> <span class="fn">check_data_drift</span>(train_data: pd.DataFrame, new_data: pd.DataFrame):
+    <span class="str">"""
+    Compare statistical distributions between training data 
+    and new incoming data. If they diverge, trigger a retrain.
+    """</span>
+    drift_detected = <span class="kw">False</span>
+    
+    <span class="kw">for</span> col <span class="kw">in</span> train_data.columns:
+        <span class="cm"># Kolmogorov-Smirnov test: checks if two distributions are the same</span>
+        ks_stat, p_value = stats.<span class="fn">ks_2samp</span>(train_data[col], new_data[col])
+        
+        <span class="kw">if</span> p_value < <span class="nm">0.05</span>:  <span class="cm"># p < 0.05 means significant difference!</span>
+            logger.<span class="fn">warning</span>(<span class="str">f"⚠️  DRIFT DETECTED in '{col}': p={p_value:.4f}"</span>)
+            drift_detected = <span class="kw">True</span>
+        <span class="kw">else</span>:
+            logger.<span class="fn">info</span>(<span class="str">f"✓ '{col}' distribution: stable (p={p_value:.4f})"</span>)
+    
+    <span class="kw">return</span> drift_detected
+
+<span class="kw">def</span> <span class="fn">monitor_accuracy</span>(threshold: <span class="tp">float</span> = <span class="nm">0.85</span>):
+    <span class="cm"># Load last week's predictions + actual outcomes</span>
+    df = pd.<span class="fn">read_csv</span>(<span class="str">'logs/predictions_last_7_days.csv'</span>)
+    current_accuracy = (df[<span class="str">'prediction'</span>] == df[<span class="str">'actual'</span>]).<span class="fn">mean</span>()
+    
+    logger.<span class="fn">info</span>(<span class="str">f"Current 7-day accuracy: {current_accuracy:.2%}"</span>)
+    
+    <span class="kw">if</span> current_accuracy < threshold:
+        logger.<span class="fn">error</span>(<span class="str">f"🚨 ACCURACY BELOW THRESHOLD! {current_accuracy:.2%} < {threshold:.2%}"</span>)
+        <span class="fn">trigger_retrain</span>()  <span class="cm"># Automatically kick off retraining!</span>
+
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    train_df = pd.<span class="fn">read_csv</span>(<span class="str">'data/training_data.csv'</span>)
+    live_df  = pd.<span class="fn">read_csv</span>(<span class="str">'data/last_7_days.csv'</span>)
+    
+    <span class="fn">check_data_drift</span>(train_df, live_df)
+    <span class="fn">monitor_accuracy</span>(threshold=<span class="nm">0.85</span>)
+</pre></div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ADVANCED INTERVIEW PREP -->
+<section id="interview" class="sec" style="background:#fff">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-green">Advanced Interview Prep</div>
+    <h2>Hard Interview Questions — Expert Answers</h2>
+    <p>These questions are asked in senior/mid-level Data Science roles. Know them and you will stand out.</p>
+  </div>
+  <div>
+    <div class="qa"><div class="qa-q" onclick="this.parentElement.classList.toggle('open')">What is the Kernel Trick in SVM and why is it needed?</div><div class="qa-a">In real data, classes are often not linearly separable — you can't draw a straight line to separate them. The <strong>Kernel Trick</strong> is a mathematical technique that maps data from a lower-dimensional space to a higher-dimensional space where a hyperplane CAN separate the classes.<br><br>For example, data arranged in concentric circles (not linearly separable in 2D) can be separated by adding a third dimension (Z = X² + Y²), making it perfectly separable by a flat plane.<br><br><strong>Common Kernels:</strong> <code>Linear</code> (no transformation), <code>RBF/Gaussian</code> (most common, handles circular boundaries), <code>Polynomial</code> (for polynomial boundaries).<br><br>The trick is that the algorithm never explicitly computes the high-dimensional space — it only computes the dot products, making it computationally efficient.</div></div>
+    <div class="qa"><div class="qa-q" onclick="this.parentElement.classList.toggle('open')">Why does KNN get slow with large datasets? What are the alternatives?</div><div class="qa-a">KNN's prediction time scales as <strong>O(n × d)</strong> where n is the number of training samples and d is the number of dimensions. For 10 million samples, every single prediction requires computing distance to 10 million points — extremely slow.<br><br><strong>Solutions:</strong><br>• <code>KD-Tree</code>: Organises data in a tree structure, reducing search from O(n) to O(log n). Efficient for low dimensions (&lt;20).<br>• <code>Ball Tree</code>: Better than KD-Tree for high-dimensional data.<br>• <code>Approximate Nearest Neighbours (ANN)</code>: Libraries like Faiss (by Facebook) or Annoy (by Spotify) trade a tiny bit of accuracy for massive speed gains — used in production recommendation systems.<br>• <strong>Alternative</strong>: If KNN is too slow, consider switching to Random Forest or a trained Neural Network for faster inference.</div></div>
+    <div class="qa"><div class="qa-q" onclick="this.parentElement.classList.toggle('open')">What is XGBoost and why does it outperform standard Gradient Boosting?</div><div class="qa-a">XGBoost (Extreme Gradient Boosting) improves on standard Gradient Boosting in several key ways:<br><br><strong>1. Regularisation (L1 + L2):</strong> XGBoost has built-in regularisation that prevents overfitting — standard Gradient Boosting doesn't.<br><strong>2. Parallelisation:</strong> Building each tree is parallelised across CPU cores, making it much faster.<br><strong>3. Tree Pruning:</strong> Uses "max_depth" pruning strategy instead of stopping early, building deeper trees then pruning back.<br><strong>4. Handling Missing Values:</strong> Automatically learns which direction to assign missing values — no imputation needed!<br><strong>5. Cache Optimisation:</strong> Designed for modern CPU cache architecture.<br><br><strong>Interview Rule:</strong> For any structured/tabular data problem, try XGBoost first. It wins most Kaggle competitions involving tabular data.</div></div>
+    <div class="qa"><div class="qa-q" onclick="this.parentElement.classList.toggle('open')">Explain how you would handle a class imbalance problem (e.g., 99% Normal, 1% Fraud).</div><div class="qa-a">Never just "do nothing" — the model will ignore the minority class. Here are the strategies:<br><br><strong>Data-Level Solutions:</strong><br>• <code>Oversampling</code>: Duplicate minority class samples (simple but can overfit)<br>• <code>SMOTE</code> (Synthetic Minority Over-sampling Technique): Creates synthetic samples between existing minority samples — much better than simple duplication<br>• <code>Undersampling</code>: Remove majority class samples to balance (loses information)<br><br><strong>Algorithm-Level Solutions:</strong><br>• Use <code>class_weight='balanced'</code> in sklearn — automatically adjusts weights inversely proportional to class frequency<br>• In XGBoost: use <code>scale_pos_weight = count(negative)/count(positive)</code><br><br><strong>Evaluation:</strong><br>• Never use Accuracy. Use <code>Precision</code>, <code>Recall</code>, <code>F1-Score</code>, and <code>ROC-AUC</code>.<br>• For extreme imbalance (0.1%), use <code>Precision-Recall AUC</code> instead of ROC-AUC.</div></div>
+    <div class="qa"><div class="qa-q" onclick="this.parentElement.classList.toggle('open')">What happens when you deploy a model and its accuracy starts dropping after 3 months?</div><div class="qa-a">This is the <strong>Data Drift / Concept Drift</strong> problem — one of the most important things to understand for production ML.<br><br><strong>Step 1 — Diagnose:</strong><br>• Check your monitoring dashboards for accuracy trends<br>• Run a <strong>Kolmogorov-Smirnov test</strong> or <strong>Population Stability Index (PSI)</strong> to compare the distribution of incoming features vs. training data<br>• Check if the label distribution has changed (concept drift)<br><br><strong>Step 2 — Solutions:</strong><br>• <strong>Retrain:</strong> Collect new labelled data and retrain the model (most reliable)<br>• <strong>Continuous Learning:</strong> Set up an automated pipeline that retrains on a rolling window of recent data (e.g., last 90 days)<br>• <strong>Model Ensembling:</strong> Blend old model with a new model trained on recent data<br><br><strong>Step 3 — Prevent:</strong><br>• Set up automated monitoring with alerts (accuracy below threshold triggers retrain pipeline automatically)<br>• Store all predictions and ground truth labels for analysis</div></div>
+  </div>
+</div>
+</section>
+
+<footer>
+  <strong>ML Mastery — Advanced Modules</strong><br>
+  Preprocessing · Logistic Regression · SVM · KNN · Ensemble (AdaBoost, XGBoost) · MLOps &amp; Docker<br>
+  <div style="display:flex;justify-content:center;gap:15px;flex-wrap:wrap;margin-top:12px">
+    <a href="index.html" style="color:#94a3b8;text-decoration:none;font-size:12px">⌂ Portal Hub</a>
+    <a href="math_foundations.html" style="color:#94a3b8;text-decoration:none;font-size:12px">📐 Page 0: Math</a>
+    <a href="full_platform.html" style="color:#94a3b8;text-decoration:none;font-size:12px">📘 Page 1: Foundation</a>
+    <a href="advanced_modules.html" style="color:#a78bfa;text-decoration:none;font-size:12px;font-weight:700">⚡ Page 2: Advanced</a>
+    <a href="deep_modules.html" style="color:#94a3b8;text-decoration:none;font-size:12px">🔬 Page 3: Deep Dive</a>
+    <a href="python_ml.html" style="color:#94a3b8;text-decoration:none;font-size:12px">🐍 Page 4: Python</a>
+    <a href="real_world_ml.html" style="color:#94a3b8;text-decoration:none;font-size:12px">🚀 Page 5: Real-World MLOps</a>
+    <a href="career_and_quiz.html" style="color:#94a3b8;text-decoration:none;font-size:12px">🏆 Page 6: Career &amp; Quiz</a>
+    <a href="interactive_3d_lab.html" style="color:#94a3b8;text-decoration:none;font-size:12px">🌐 Page 7: 3D WebGL</a>
+    <a href="system_design_and_incidents.html" style="color:#94a3b8;text-decoration:none;font-size:12px">🚨 Page 8: Staff War Room</a>
+    <a href="algorithm_arena.html" style="color:#94a3b8;text-decoration:none;font-size:12px">⚔️ Page 9: Algorithm Arena</a>
+    <a href="industrial_systems.html" style="color:#94a3b8;text-decoration:none;font-size:12px">💡 Page 10: Industrial AI</a>
+    <a href="python_teaching_mastery.html" style="color:#34d399;text-decoration:none;font-size:12px;font-weight:700">🎓 Page 11: Python Master Codex</a>
+  </div>
+</footer>
+
+<script>
+function tab(id){
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.tc').forEach(c=>c.classList.remove('on'));
+  document.getElementById('tc-'+id).classList.add('on');
+  event.target.classList.add('on');
+// =========================================================
+// 1. INTERACTIVE 3D LOGISTIC SIGMOID SURFACE ENGINE
+// =========================================================
+let sigCanvas, sigCtx;
+let sigRotX = 30 * Math.PI / 180;
+let sigRotY = -40 * Math.PI / 180;
+let sigW1 = 0.8, sigW2 = 0.8, sigCutoff = 0.5;
+let isDraggingSig = false;
+let lastSigX = 0, lastSigY = 0;
+
+function init3DSigmoidCanvas() {
+  sigCanvas = document.getElementById('sigmoid3d-canvas');
+  if (!sigCanvas) return;
+  sigCtx = sigCanvas.getContext('2d');
+
+  sigCanvas.addEventListener('mousedown', e => {
+    isDraggingSig = true;
+    lastSigX = e.clientX;
+    lastSigY = e.clientY;
+    sigCanvas.style.cursor = 'grabbing';
+  });
+  window.addEventListener('mouseup', () => {
+    isDraggingSig = false;
+    if (sigCanvas) sigCanvas.style.cursor = 'grab';
+  });
+  window.addEventListener('mousemove', e => {
+    if (!isDraggingSig) return;
+    const dx = e.clientX - lastSigX;
+    const dy = e.clientY - lastSigY;
+    sigRotY += dx * 0.01;
+    sigRotX += dy * 0.01;
+    lastSigX = e.clientX;
+    lastSigY = e.clientY;
+    draw3DSigmoid();
+  });
+
+  draw3DSigmoid();
+}
+
+function projectSig3D(x, y, z) {
+  let x1 = x * Math.cos(sigRotY) + z * Math.sin(sigRotY);
+  let z1 = -x * Math.sin(sigRotY) + z * Math.cos(sigRotY);
+
+  let y2 = y * Math.cos(sigRotX) - z1 * Math.sin(sigRotX);
+  let z2 = y * Math.sin(sigRotX) + z1 * Math.cos(sigRotX);
+
+  const scale = 50;
+  const cx = sigCanvas.width / 2;
+  const cy = sigCanvas.height / 2;
+
+  return { x: cx + x1 * scale, y: cy - y2 * scale, z: z2 };
+}
+
+function draw3DSigmoid() {
+  if (!sigCtx) return;
+  sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
+
+  const gridSize = 14;
+  const range = 2.5;
+  const step = (range * 2) / gridSize;
+
+  // Draw 3D Sigmoid Grid Surface
+  for (let i = 0; i < gridSize; i++) {
+    for (let j = 0; j < gridSize; j++) {
+      const x1 = -range + i * step;
+      const y1 = -range + j * step;
+      const x2 = x1 + step;
+      const y2 = y1 + step;
+
+      const z_val1 = 1 / (1 + Math.exp(-(sigW1 * x1 + sigW2 * y1)));
+      const z_val2 = 1 / (1 + Math.exp(-(sigW1 * x2 + sigW2 * y1)));
+      const z_val3 = 1 / (1 + Math.exp(-(sigW1 * x2 + sigW2 * y2)));
+      const z_val4 = 1 / (1 + Math.exp(-(sigW1 * x1 + sigW2 * y2)));
+
+      const p1 = projectSig3D(x1, (z_val1 - 0.5) * 2, y1);
+      const p2 = projectSig3D(x2, (z_val2 - 0.5) * 2, y1);
+      const p3 = projectSig3D(x2, (z_val3 - 0.5) * 2, y2);
+      const p4 = projectSig3D(x1, (z_val4 - 0.5) * 2, y2);
+
+      const avgProb = (z_val1 + z_val2 + z_val3 + z_val4) / 4;
+      sigCtx.fillStyle = avgProb >= sigCutoff ? 'rgba(124, 58, 237, 0.6)' : 'rgba(59, 130, 246, 0.4)';
+      sigCtx.beginPath();
+      sigCtx.moveTo(p1.x, p1.y);
+      sigCtx.lineTo(p2.x, p2.y);
+      sigCtx.lineTo(p3.x, p3.y);
+      sigCtx.lineTo(p4.x, p4.y);
+      sigCtx.closePath();
+      sigCtx.fill();
+
+      sigCtx.strokeStyle = 'rgba(255,255,255,0.1)';
+      sigCtx.lineWidth = 0.5;
+      sigCtx.stroke();
+    }
+  }
+
+  // Draw Decision Hyperplane Cutoff Line
+  const cutP1 = projectSig3D(-range, (sigCutoff - 0.5) * 2, ( -sigW1 * -range ) / (sigW2 || 0.001));
+  const cutP2 = projectSig3D(range, (sigCutoff - 0.5) * 2, ( -sigW1 * range ) / (sigW2 || 0.001));
+  sigCtx.strokeStyle = '#fbbf24';
+  sigCtx.lineWidth = 2.5;
+  sigCtx.beginPath();
+  sigCtx.moveTo(cutP1.x, cutP1.y);
+  sigCtx.lineTo(cutP2.x, cutP2.y);
+  sigCtx.stroke();
+}
+
+function update3DSigmoid() {
+  sigW1 = parseFloat(document.getElementById('slider-w1').value);
+  sigW2 = parseFloat(document.getElementById('slider-w2').value);
+  sigCutoff = parseFloat(document.getElementById('slider-cutoff').value);
+
+  document.getElementById('lbl-w1').textContent = sigW1.toFixed(1);
+  document.getElementById('lbl-w2').textContent = sigW2.toFixed(1);
+  document.getElementById('lbl-cutoff').textContent = `P = ${sigCutoff.toFixed(2)}`;
+
+  document.getElementById('sigmoid-output-math').innerHTML = `Boundary: ${sigW1.toFixed(1)}·X₁ + ${sigW2.toFixed(1)}·X₂ = ${(Math.log(sigCutoff / (1 - sigCutoff))).toFixed(2)}`;
+
+  draw3DSigmoid();
+}
+
+// =========================================================
+// 2. UNIVERSAL 3D CARD TILT & PARALLAX ENGINE
+// =========================================================
+function init3DCardTilt() {
+  const cards = document.querySelectorAll('.card, .dcard, .module-box');
+  cards.forEach(card => {
+    card.style.transition = 'transform 0.15s ease-out, box-shadow 0.15s ease-out';
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      const rotX = -(y / (rect.height / 2)) * 5;
+      const rotY = (x / (rect.width / 2)) * 5;
+      card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.01, 1.01, 1.01)`;
+      card.style.boxShadow = `0 15px 35px rgba(0,0,0,0.3), ${rotY * 2}px ${-rotX * 2}px 25px rgba(124,58,237,0.15)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      card.style.boxShadow = 'none';
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  init3DSigmoidCanvas();
+  init3DCardTilt();
+});
+</script>
+</body>
+</html>

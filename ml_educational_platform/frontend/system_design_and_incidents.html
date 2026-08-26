@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ML Mastery — Page 8: Senior ML System Design & Production Incidents</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#090d16;--card-bg:#131b2e;--card-border:rgba(255,255,255,0.08);
+  --cyan:#06b6d4;--blue:#3b82f6;--purple:#a855f7;--pink:#ec4899;
+  --amber:#f59e0b;--emerald:#10b981;--red:#ef4444;
+  --text:#f8fafc;--text-dim:#94a3b8;--text-muted:#64748b;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:rgba(9,13,22,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--card-border);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.brand{font-size:17px;font-weight:900;color:#fff;text-decoration:none;display:flex;align-items:center;gap:6px}
+.brand em{color:var(--cyan);font-style:normal}
+.nav-links{display:flex;gap:16px;align-items:center}
+.nav-links a{color:var(--text-dim);text-decoration:none;font-size:13px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:#fff}
+.nav-badge{background:rgba(6,182,212,0.15);border:1px solid rgba(6,182,212,0.3);color:var(--cyan);padding:4px 12px;border-radius:999px;font-size:12px;font-weight:700;text-decoration:none}
+
+/* HERO */
+.hero{background:radial-gradient(ellipse at 50% 0%,rgba(6,182,212,0.2) 0%,rgba(9,13,22,0) 70%),#090d16;padding:50px 24px 36px;text-align:center;border-bottom:1px solid var(--card-border)}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#fca5a5;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:4px 14px;border-radius:999px;margin-bottom:16px}
+.hero h1{font-size:36px;font-weight:900;letter-spacing:-1px;color:#fff;margin-bottom:12px}
+.hero p{font-size:15px;color:var(--text-dim);max-width:780px;margin:0 auto}
+
+/* WRAP & SECTION */
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.sec{padding:54px 0;border-bottom:1px solid var(--card-border)}
+.sec-head{margin-bottom:24px}
+.sec-tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:999px;margin-bottom:8px}
+.tag-red{background:rgba(239,68,68,0.2);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
+.tag-cyan{background:rgba(6,182,212,0.2);color:#22d3ee;border:1px solid rgba(6,182,212,0.3)}
+.tag-amber{background:rgba(245,158,11,0.2);color:#fbbf24;border:1px solid rgba(245,158,11,0.3)}
+.tag-purple{background:rgba(168,85,247,0.2);color:#c084fc;border:1px solid rgba(168,85,247,0.3)}
+.sec-head h2{font-size:26px;font-weight:800;color:#fff;margin-bottom:6px}
+.sec-head p{font-size:14px;color:var(--text-dim)}
+
+/* GRID & CARDS */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media (max-width:900px){.grid-2{grid-template-columns:1fr}}
+
+.card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;padding:24px;box-shadow:0 8px 24px rgba(0,0,0,0.3)}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.card-title{font-size:16px;font-weight:700;color:#fff}
+
+/* TERMINAL / WAR ROOM */
+.terminal-window{background:#030712;border:1px solid #1f2937;border-radius:12px;overflow:hidden;font-family:'JetBrains Mono',monospace;box-shadow:0 12px 36px rgba(0,0,0,0.6)}
+.terminal-bar{background:#111827;padding:8px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #1f2937}
+.term-dots{display:flex;gap:6px}
+.term-dot{width:10px;height:10px;border-radius:50%}
+.term-dot.red{background:#ef4444}.term-dot.yellow{background:#f59e0b}.term-dot.green{background:#10b981}
+.term-body{padding:16px;font-size:12px;color:#e5e7eb;max-height:360px;overflow-y:auto}
+
+/* TABS / INCIDENTS */
+.incident-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.inc-btn{background:rgba(255,255,255,0.05);border:1px solid var(--card-border);color:var(--text-dim);padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+.inc-btn:hover{background:rgba(255,255,255,0.1);color:#fff}
+.inc-btn.active{background:rgba(239,68,68,0.2);color:#fca5a5;border-color:rgba(239,68,68,0.4);font-weight:700}
+
+/* BUTTONS & SLIDERS */
+.btn-action{background:#2563eb;color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-action:hover{background:#1d4ed8}
+.btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.2);color:#cbd5e1;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-outline:hover{background:rgba(255,255,255,0.1);color:#fff}
+.range-slider{width:100%;accent-color:var(--cyan);cursor:pointer}
+
+/* SYSTEM DESIGN TOPOLOGY */
+.topology-box{background:#030712;border:1px solid #1f2937;border-radius:12px;padding:16px;position:relative;overflow-x:auto}
+.calc-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:12px}
+.calc-table th,.calc-table td{padding:8px 12px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.06)}
+.calc-table th{color:var(--text-muted);font-weight:600}
+.calc-table td{color:#e2e8f0}
+.calc-total{font-size:18px;font-weight:900;color:var(--emerald)}
+
+/* CROSS-EXAM Q&A */
+.interview-box{border-left:3px solid var(--purple);background:rgba(168,85,247,0.05);padding:16px;border-radius:0 12px 12px 0;margin-bottom:16px}
+.interview-q{font-size:14px;font-weight:700;color:#fff;margin-bottom:10px}
+.opt-choice{background:rgba(255,255,255,0.04);border:1px solid var(--card-border);padding:10px 14px;border-radius:8px;margin-bottom:8px;cursor:pointer;font-size:12px;transition:all .2s}
+.opt-choice:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.2)}
+.opt-choice.correct{background:rgba(16,185,129,0.15);border-color:#10b981;color:#6ee7b7}
+.opt-choice.wrong{background:rgba(239,68,68,0.15);border-color:#ef4444;color:#fca5a5}
+.staff-feedback{display:none;background:#030712;border:1px solid #374151;border-radius:8px;padding:12px;margin-top:10px;font-size:12px;color:#cbd5e1;line-height:1.5}
+
+/* FOOTER */
+footer{background:#030712;border-top:1px solid var(--card-border);padding:36px 24px;text-align:center;color:var(--text-dim);font-size:13px}
+.footer-links{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin:12px 0}
+.footer-links a{color:var(--text-dim);text-decoration:none;font-size:12px;transition:color .2s}
+.footer-links a:hover{color:#fff}
+
+section[id]{scroll-margin-top:84px}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand"><em>ML</em>Mastery <span style="font-size:11px;background:rgba(239,68,68,0.2);color:#fca5a5;border:1px solid rgba(239,68,68,0.4);padding:2px 8px;border-radius:999px">Page 8</span></a>
+  <div class="nav-links">
+    <a href="#incidents">🚨 3:00 AM Incidents</a>
+    <a href="#system-design">🏗️ System Design &amp; Costs</a>
+    <a href="#failure-lab">🔬 Failure Lab</a>
+    <a href="#cross-exam">🗣️ Staff Cross-Exam</a>
+    <a href="index.html" class="nav-badge">⌂ Portal Hub</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-tag">🚨 Senior AI / MLOps War Room</div>
+  <h1>Senior ML System Design &amp; Production Incident Simulator</h1>
+  <p>Think like a Staff AI Engineer. Troubleshoot real 3:00 AM production outages, calculate cloud infrastructure budgets on AWS, and master system design tradeoffs.</p>
+</header>
+
+<main class="wrap">
+
+  <!-- =========================================================
+       SECTION 1: 3:00 AM PRODUCTION INCIDENT SIMULATOR
+  ========================================================== -->
+  <section id="incidents" class="sec">
+    <div class="sec-head">
+      <div class="sec-tag tag-red">Emergency On-Call War Room</div>
+      <h2>🚨 The 3:00 AM Production Incident Simulator</h2>
+      <p>PagerDuty is ringing. Your enterprise machine learning model is failing in production. Investigate telemetry logs, diagnose the root cause, and apply the correct hotfix under SLA pressure.</p>
+    </div>
+
+    <!-- Incident Selector -->
+    <div class="incident-tabs" id="incidentTabs">
+      <button class="inc-btn active" onclick="loadIncident(0, this)">🔴 #101: Churn Model Accuracy Drops (58%)</button>
+      <button class="inc-btn" onclick="loadIncident(1, this)">🔴 #102: PyTorch Loss Explodes to NaN</button>
+      <button class="inc-btn" onclick="loadIncident(2, this)">🔴 #103: Real-Time Fraud Latency Spikes (850ms)</button>
+      <button class="inc-btn" onclick="loadIncident(3, this)">🔴 #104: Recommender Diversity Collapse</button>
+    </div>
+
+    <div class="grid-2">
+      <!-- Left: Terminal Log Console -->
+      <div class="terminal-window">
+        <div class="terminal-bar">
+          <div class="term-dots"><div class="term-dot red"></div><div class="term-dot yellow"></div><div class="term-dot green"></div></div>
+          <div style="font-size:11px;color:#9ca3af" id="termHeader">prod-eks-cluster-us-east-1 // logs</div>
+          <div style="font-size:10px;color:#ef4444;font-weight:700">● LIVE INCIDENT</div>
+        </div>
+        <div class="term-body" id="termLogBody">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- Right: Diagnostic & Hotfix Panel -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title" id="incTitle">Incident #101: Churn Model Accuracy Drop</div>
+          <span style="font-size:11px;background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-weight:700">SEV-1 ALERT</span>
+        </div>
+
+        <div style="font-size:13px;color:var(--text-dim);margin-bottom:16px" id="incDesc">
+          At 03:15 AM, user churn prediction accuracy dropped from 94% to 58% immediately following the mobile app v4.2 release.
+        </div>
+
+        <!-- Investigation Actions -->
+        <div style="margin-bottom:16px">
+          <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:8px">1. Run Diagnostic Tools:</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn-outline" onclick="runDiagnostic('logs')">🔍 Inspect Raw JSON Logs</button>
+            <button class="btn-outline" onclick="runDiagnostic('psi')">📊 Check Feature Drift (PSI)</button>
+            <button class="btn-outline" onclick="runDiagnostic('nulls')">🧹 Inspect Missing Values</button>
+          </div>
+        </div>
+
+        <!-- Hotfix Actions -->
+        <div>
+          <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:8px">2. Select &amp; Apply Hotfix:</div>
+          <div id="hotfixOptions">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Post-Mortem Report -->
+        <div id="postMortemBox" style="display:none;background:#030712;border-left:3px solid #10b981;padding:12px;border-radius:6px;margin-top:16px;font-size:12px;line-height:1.5">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       SECTION 2: INTERACTIVE ML SYSTEM DESIGN & CLOUD COSTS
+  ========================================================== -->
+  <section id="system-design" class="sec">
+    <div class="sec-head">
+      <div class="sec-tag tag-cyan">Enterprise Architecture</div>
+      <h2>🏗️ Interactive ML System Design &amp; AWS Cloud Cost Calculator</h2>
+      <p>Design a production-grade ML inference system. Adjust queries per second (QPS), hardware tiers, and vector storage to see real-time AWS monthly cloud costs and P99 latency.</p>
+    </div>
+
+    <!-- Architecture Visual Topology -->
+    <div class="topology-box" style="margin-bottom:24px">
+      <svg viewBox="0 0 1000 180" style="width:100%;min-width:750px;height:auto;font-family:'Inter',sans-serif">
+        <defs>
+          <linearGradient id="gBlue" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1e40af"/><stop offset="100%" stop-color="#3b82f6"/></linearGradient>
+          <linearGradient id="gPurple" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#6b21a8"/><stop offset="100%" stop-color="#a855f7"/></linearGradient>
+          <linearGradient id="gCyan" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0e7490"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient>
+        </defs>
+
+        <!-- Node 1: Ingestion -->
+        <rect x="20" y="50" width="130" height="70" rx="8" fill="url(#gBlue)" stroke="#60a5fa" stroke-width="1.5"/>
+        <text x="85" y="80" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">Kafka Stream</text>
+        <text x="85" y="100" text-anchor="middle" fill="#bfdbfe" font-size="10">Event Ingestion</text>
+
+        <!-- Arrow -->
+        <path d="M 150 85 L 210 85" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+
+        <!-- Node 2: Feature Store -->
+        <rect x="210" y="50" width="140" height="70" rx="8" fill="url(#gPurple)" stroke="#c084fc" stroke-width="1.5"/>
+        <text x="280" y="80" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">Feast / Redis</text>
+        <text x="280" y="100" text-anchor="middle" fill="#e9d5ff" font-size="10">Online Feature Store</text>
+
+        <!-- Arrow -->
+        <path d="M 350 85 L 410 85" stroke="#64748b" stroke-width="2"/>
+
+        <!-- Node 3: Model Serving -->
+        <rect x="410" y="30" width="170" height="110" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+        <text x="495" y="60" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="800">Triton / FastAPI</text>
+        <text x="495" y="80" text-anchor="middle" fill="#94a3b8" font-size="10">EKS GPU Auto-Scaling</text>
+        <text x="495" y="100" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="700" id="topoModelTxt">ONNX / TensorRT</text>
+        <text x="495" y="120" text-anchor="middle" fill="#10b981" font-size="10" id="topoSla">SLA: P99 &lt; 25ms</text>
+
+        <!-- Arrow -->
+        <path d="M 580 85 L 640 85" stroke="#64748b" stroke-width="2"/>
+
+        <!-- Node 4: Vector DB -->
+        <rect x="640" y="50" width="150" height="70" rx="8" fill="url(#gCyan)" stroke="#67e8f9" stroke-width="1.5"/>
+        <text x="715" y="80" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">Pinecone / Chroma</text>
+        <text x="715" y="100" text-anchor="middle" fill="#cffafe" font-size="10">Vector Index (RAG)</text>
+
+        <!-- Arrow -->
+        <path d="M 790 85 L 850 85" stroke="#64748b" stroke-width="2"/>
+
+        <!-- Node 5: Monitoring -->
+        <rect x="850" y="50" width="130" height="70" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5"/>
+        <text x="915" y="80" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="700">Evidently AI</text>
+        <text x="915" y="100" text-anchor="middle" fill="#94a3b8" font-size="10">Drift &amp; Latency Alerts</text>
+      </svg>
+    </div>
+
+    <!-- Sliders & Cost Dashboard -->
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title" style="margin-bottom:16px">⚙️ Infrastructure Parameters</div>
+
+        <div style="margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:6px">
+            <span>Incoming Traffic Load:</span>
+            <strong id="lbl-qps" style="color:var(--cyan)">1,000 QPS (Requests/sec)</strong>
+          </div>
+          <input type="range" class="range-slider" id="slider-qps" min="50" max="10000" step="50" value="1000" oninput="calculateCosts()">
+        </div>
+
+        <div style="margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:6px">
+            <span>Inference Compute Tier:</span>
+            <strong id="lbl-compute" style="color:var(--purple)">GPU (NVIDIA T4 - g4dn.xlarge)</strong>
+          </div>
+          <select id="sel-compute" style="width:100%;background:#030712;border:1px solid var(--card-border);color:#fff;padding:8px;border-radius:6px;font-size:12px" onchange="calculateCosts()">
+            <option value="cpu">CPU Instances (c5.2xlarge - 8 vCPU) — Cheap, High Latency</option>
+            <option value="gpu-t4" selected>GPU Instances (g4dn.xlarge - NVIDIA T4) — Balanced</option>
+            <option value="gpu-a100">High-End GPU (p4d.24xlarge - NVIDIA A100) — Ultra-Low Latency</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:6px">
+            <span>Vector Store Database Size (RAG):</span>
+            <strong id="lbl-vectors" style="color:var(--cyan)">1,000,000 Embeddings</strong>
+          </div>
+          <input type="range" class="range-slider" id="slider-vectors" min="100000" max="10000000" step="100000" value="1000000" oninput="calculateCosts()">
+        </div>
+
+        <div>
+          <label style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer">
+            <input type="checkbox" id="chk-redis" checked onchange="calculateCosts()">
+            <span>Enable Redis Multi-Tier Caching (Caches 40% frequent requests)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Right: Real-time Cloud Bill & Latency -->
+      <div class="card">
+        <div class="card-title" style="margin-bottom:12px">💰 Estimated Monthly Cloud Bill &amp; Latency</div>
+
+        <table class="calc-table">
+          <tr><th>Infrastructure Component</th><th>Monthly Cost</th></tr>
+          <tr><td>EKS Compute Pods (<span id="txt-nodes">4 nodes</span>)</td><td id="cost-compute">$720 / mo</td></tr>
+          <tr><td>Redis Online Feature Store</td><td id="cost-redis">$180 / mo</td></tr>
+          <tr><td>Pinecone Vector DB Tier</td><td id="cost-vector">$240 / mo</td></tr>
+          <tr><td>Data Transfer &amp; Load Balancers</td><td id="cost-network">$140 / mo</td></tr>
+          <tr style="border-top:2px solid rgba(255,255,255,0.15)">
+            <td style="font-weight:700;color:#fff">Total Estimated AWS Cloud Bill:</td>
+            <td class="calc-total" id="cost-total">$1,280 / mo</td>
+          </tr>
+        </table>
+
+        <div style="margin-top:20px;padding:14px;background:#030712;border-radius:8px;border:1px solid #1f2937">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <span style="font-size:12px;font-weight:700;color:#fff">⚡ Estimated P99 Latency:</span>
+            <span style="font-size:16px;font-weight:900;color:var(--cyan)" id="p99-latency">18 ms</span>
+          </div>
+          <div style="font-size:11px;color:var(--text-muted)" id="latency-verdict">
+            🟢 Meets Enterprise SLA (&lt; 50ms). Ready for high-concurrency production.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       SECTION 3: "HOW ALGORITHMS FAIL" DIAGNOSTIC LAB
+  ========================================================== -->
+  <section id="failure-lab" class="sec">
+    <div class="sec-head">
+      <div class="sec-tag tag-amber">Root Cause Analysis</div>
+      <h2>🔬 The "How Algorithms Fail" Diagnostic Laboratory</h2>
+      <p>Senior engineers understand algorithms by seeing how they break. Explore the 3 most dangerous silent failure modes in applied machine learning.</p>
+    </div>
+
+    <div class="grid-2">
+      <!-- Failure 1: Data Leakage Trap -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">1. The Data Leakage Illusion</div>
+          <span style="font-size:11px;background:#f59e0b;color:#000;padding:2px 8px;border-radius:4px;font-weight:800">SILENT BUG #1</span>
+        </div>
+        <p style="font-size:12px;color:var(--text-dim);margin-bottom:12px">
+          What happens when a developer scales data with <code>StandardScaler().fit_transform(X)</code> <em>before</em> calling <code>train_test_split()</code>?
+        </p>
+
+        <div style="display:flex;gap:8px;margin-bottom:14px">
+          <button class="btn-action" id="btn-leak-bad" onclick="toggleLeakage(true)" style="background:#ef4444;font-size:11px">❌ Leaky Preprocessing (Before Split)</button>
+          <button class="btn-outline" id="btn-leak-good" onclick="toggleLeakage(false)" style="font-size:11px">✅ Clean Pipeline (Inside CV Fold)</button>
+        </div>
+
+        <div style="background:#030712;padding:12px;border-radius:8px;border:1px solid #1f2937;font-size:12px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span>Validation / Test Score (In Notebook):</span>
+            <strong id="leakTestScore" style="color:#ef4444">99.4% (Fake Perfection)</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between">
+            <span>Real Production Accuracy (Day 1):</span>
+            <strong id="leakProdScore" style="color:#ef4444">71.2% (Crashes in Production!)</strong>
+          </div>
+        </div>
+        <p style="font-size:11px;color:var(--text-muted);margin-top:10px" id="leakExplanation">
+          ⚠️ <strong>Why it broke:</strong> The test set's mean ($\mu$) and variance ($\sigma$) leaked into the scaler during training. In production, future unseen data has different distributions, causing massive prediction errors!
+        </p>
+      </div>
+
+      <!-- Failure 2: Multicollinearity Bomb -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">2. The Multicollinearity Weight Explosion</div>
+          <span style="font-size:11px;background:#a855f7;color:#fff;padding:2px 8px;border-radius:4px;font-weight:800">SILENT BUG #2</span>
+        </div>
+        <p style="font-size:12px;color:var(--text-dim);margin-bottom:12px">
+          When two features are 99% correlated (e.g. <code>sqft_living</code> and <code>sqft_total</code>), the matrix $(\mathbf{X}^T \mathbf{X})$ becomes singular, causing weights to violently explode with opposite signs!
+        </p>
+
+        <div style="margin-bottom:12px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:4px">
+            <span>Correlation $r(X_1, X_2)$:</span>
+            <strong id="lbl-corr" style="color:var(--purple)">0.98</strong>
+          </div>
+          <input type="range" class="range-slider" id="slider-corr" min="0.0" max="0.99" step="0.01" value="0.98" oninput="updateCollinearity()">
+        </div>
+
+        <div style="background:#030712;padding:12px;border-radius:8px;border:1px solid #1f2937;font-size:12px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span>Feature 1 Weight ($w_1$):</span>
+            <strong id="collinearW1" style="color:#f87171">+184.2</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between">
+            <span>Feature 2 Weight ($w_2$):</span>
+            <strong id="collinearW2" style="color:#60a5fa">-179.0</strong>
+          </div>
+        </div>
+        <p style="font-size:11px;color:var(--text-muted);margin-top:10px">
+          💡 <strong>Solution:</strong> Apply Ridge Regression (L2 Penalty adds $\lambda I$ to invertibility) or drop one correlated feature via VIF (Variance Inflation Factor).
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       SECTION 4: HIRING MANAGER CROSS-EXAMINATION SIMULATOR
+  ========================================================== -->
+  <section id="cross-exam" class="sec">
+    <div class="sec-head">
+      <div class="sec-tag tag-purple">Staff / Lead Engineer Interview</div>
+      <h2>🗣️ The "Hiring Manager Cross-Examination" Simulator</h2>
+      <p>Top tech companies don't just ask for definitions—they challenge your architectural decisions with counter-attacks. Choose your answers and see how a Staff AI Lead critiques your reasoning.</p>
+    </div>
+
+    <!-- Question 1 -->
+    <div class="interview-box">
+      <div class="interview-q">
+        1. "You chose XGBoost for tabular churn prediction, but training takes 4 hours on 25 million records. The CTO asks you to reduce training time to under 15 minutes without sacrificing accuracy. What 2 specific architectural features in LightGBM do you leverage?"
+      </div>
+      <div class="opt-choice" onclick="checkExam(1, 0, this)">A) Randomly drop 80% of rows and train a smaller 3-layer XGBoost model.</div>
+      <div class="opt-choice" onclick="checkExam(1, 1, this)">B) GOSS (Gradient-based One-Side Sampling) to keep large gradients + EFB (Exclusive Feature Bundling) with Histogram Binning.</div>
+      <div class="opt-choice" onclick="checkExam(1, 2, this)">C) Convert tabular features into text embeddings and run BERT on AWS A100 GPUs.</div>
+      <div class="staff-feedback" id="feedback-1">
+        <strong>🎯 Staff Engineer Critique:</strong>
+        <p><strong>Correct (B)!</strong> LightGBM achieves a 15x-20x speedup over exact XGBoost by using <strong>Histogram Binning</strong> (groups continuous floats into 256 integer bins), <strong>GOSS</strong> (keeps all samples with large gradients $\partial L / \partial \hat{y}$ and randomly samples 10% of small gradients), and <strong>EFB</strong> (bundles mutually exclusive sparse features). Option A degrades model quality, while Option C wastes millions on unnecessary GPU compute.</p>
+      </div>
+    </div>
+
+    <!-- Question 2 -->
+    <div class="interview-box">
+      <div class="interview-q">
+        2. "How do you implement a Shadow Deployment (Dark Traffic) for a new Deep Learning Recommendation Model on Kubernetes without affecting end-user response time?"
+      </div>
+      <div class="opt-choice" onclick="checkExam(2, 0, this)">A) Deploy the new model directly into the main API container and run both models sequentially with <code>await asyncio.gather()</code>.</div>
+      <div class="opt-choice" onclick="checkExam(2, 1, this)">B) Configure Envoy / Istio service mesh to asynchronously mirror live production traffic to the new model pod, discarding its response while logging telemetry to Evidently AI.</div>
+      <div class="opt-choice" onclick="checkExam(2, 2, this)">C) Run the model locally on your laptop connected to production database via VPN.</div>
+      <div class="staff-feedback" id="feedback-2">
+        <strong>🎯 Staff Engineer Critique:</strong>
+        <p><strong>Correct (B)!</strong> Shadow Deployments (Dark Traffic) use a service mesh proxy (like Istio/Envoy) to clone live incoming user requests. The production user receives the fast response from the legacy model (V1), while the candidate model (V2) processes the exact same live payload in the background asynchronously. If V2 crashes or has high latency, zero end-users are impacted.</p>
+      </div>
+    </div>
+
+    <!-- Question 3 -->
+    <div class="interview-box">
+      <div class="interview-q">
+        3. "Our Churn Model is exhibiting Training-Serving Skew. The feature pipeline in training uses SQL Batch tables (Snowflake), but the online inference API computes features in memory from Kafka. How do you permanently eliminate this skew?"
+      </div>
+      <div class="opt-choice" onclick="checkExam(3, 0, this)">A) Introduce an Enterprise Feature Store (like Feast) that unifies offline batch feature definition and low-latency online Redis serving from a single source of truth.</div>
+      <div class="opt-choice" onclick="checkExam(3, 1, this)">B) Manually write identical Python logic in Snowflake SQL and FastAPI endpoints and hope developers don't change either.</div>
+      <div class="opt-choice" onclick="checkExam(3, 2, this)">C) Stop using real-time features and only predict churn once a month.</div>
+      <div class="staff-feedback" id="feedback-3">
+        <strong>🎯 Staff Engineer Critique:</strong>
+        <p><strong>Correct (A)!</strong> Training-Serving Skew is the #1 silent killer of production ML models. It happens when feature transformations (e.g. `mean_transactions_7d`) are calculated slightly differently in SQL training scripts vs online Python APIs. A <strong>Feature Store (Feast / Hopsworks)</strong> uses a single feature definition code file to populate both historical offline tables (for training) and ultra-low latency Redis key-value stores (for online serving).</p>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <strong>ML Mastery — Page 8: Senior ML System Design &amp; Incident Studio</strong>
+  <div class="footer-links">
+    <a href="index.html">⌂ Portal Hub</a>
+    <a href="math_foundations.html">📐 Page 0: Math</a>
+    <a href="full_platform.html">📘 Page 1: Foundation</a>
+    <a href="advanced_modules.html">⚡ Page 2: Advanced</a>
+    <a href="deep_modules.html">🔬 Page 3: Deep Dive</a>
+    <a href="python_ml.html">🐍 Page 4: Python</a>
+    <a href="real_world_ml.html">🚀 Page 5: Enterprise MLOps</a>
+    <a href="career_and_quiz.html">🏆 Page 6: Career &amp; Quiz</a>
+    <a href="interactive_3d_lab.html">🌐 Page 7: 3D WebGL</a>
+    <a href="system_design_and_incidents.html" style="color:var(--cyan);font-weight:700">🚨 Page 8: Staff War Room</a>
+    <a href="algorithm_arena.html">⚔️ Page 9: Algorithm Arena</a>
+    <a href="industrial_systems.html">💡 Page 10: Industrial AI</a>
+    <a href="python_teaching_mastery.html" style="color:var(--emerald);font-weight:700">🎓 Page 11: Python Master Codex</a>
+  </div>
+  <p style="margin-top:10px">&copy; 2026 ML Mastery Educational Platform · Built for Senior Data Science &amp; MLOps Job Seekers</p>
+</footer>
+
+<!-- JAVASCRIPT LOGIC -->
+<script>
+// 1. INCIDENTS DATA
+const incidents = [
+  {
+    title: "Incident #101: Churn Model Accuracy Drops (58%)",
+    desc: "At 03:15 AM, user churn prediction accuracy plummeted from 94% to 58% immediately following the mobile app v4.2 release.",
+    logs: [
+      "[03:15:02 UTC] [WARN] FeatureExtractor: 'country_code' received unmapped categorical value 'US'",
+      "[03:15:05 UTC] [WARN] OneHotEncoder: Transforming 'US' to all-zeros vector (UnknownCategory)",
+      "[03:15:10 UTC] [ERROR] ModelInference: Output prediction probability collapsed to baseline prior P(churn)=0.50",
+      "[03:15:20 UTC] [ALERT] PagerDuty: Churn accuracy SLA breach. F1-Score: 0.58. Traffic affected: 100% US Users."
+    ],
+    hotfixes: [
+      { text: "A) Retrain the entire model immediately on incoming dirty logs", correct: false, reason: "❌ Retraining takes 4 hours and will learn corrupted all-zero distributions!" },
+      { text: "B) Add a robust fallback mapping {'US': 'USA'} in FastAPI ingestion pipeline and redeploy", correct: true, reason: "✅ Root Cause: Frontend changed ISO format. Hotfix restores 94% accuracy in 2 minutes!" },
+      { text: "C) Disable churn predictions and email all users manually", correct: false, reason: "❌ Business failure." }
+    ],
+    rca: "<strong>Root Cause Analysis (RCA):</strong> Mobile app v4.2 sent 2-letter ISO country codes ('US') instead of 3-letter codes ('USA'). The Scikit-Learn OneHotEncoder dropped unknown categories to 0, stripping 40% feature importance. <em>Prevention:</em> Added Pydantic schema validation at API boundary."
+  },
+  {
+    title: "Incident #102: PyTorch Loss Exploded to NaN",
+    desc: "Distributed neural network training crashed at Epoch 14 on AWS EC2 GPU cluster with Loss = NaN.",
+    logs: [
+      "[03:14:10 UTC] Epoch 13/50 - Loss: 0.2415 - GradNorm: 4.82",
+      "[03:14:45 UTC] Epoch 14/50 - Batch 412: Gradient norm spiked to 1.84e+07!",
+      "[03:14:46 UTC] [FATAL] TensorOverflow: Weight tensor w_layer3 contains Inf/NaN values.",
+      "[03:14:47 UTC] Training process exited with status code 139."
+    ],
+    hotfixes: [
+      { text: "A) Add torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0) and use AdamW with weight decay", correct: true, reason: "✅ Exploding gradients capped at max_norm=1.0, stabilizing backpropagation!" },
+      { text: "B) Increase learning rate by 10x to skip over the NaN", correct: false, reason: "❌ Higher learning rate will cause immediate explosion on batch 1." },
+      { text: "C) Delete all negative numbers from the dataset", correct: false, reason: "❌ Destroys mathematical integrity." }
+    ],
+    rca: "<strong>Root Cause Analysis (RCA):</strong> Deep recurrent connection caused matrix multiplications of large eigenvalues, triggering gradient explosion. <em>Fix:</em> Implemented Gradient Clipping + LayerNorm."
+  },
+  {
+    title: "Incident #103: Real-Time Fraud Latency Spikes (850ms)",
+    desc: "Black Friday traffic surge caused Fraud Detection API P99 latency to spike to 850ms (SLA is 50ms), causing checkout drop-offs.",
+    logs: [
+      "[03:14:00 UTC] Traffic spike: Ingestion rate jumped from 200 QPS to 4,200 QPS.",
+      "[03:14:02 UTC] [WARN] PostgresPool: Connection pool exhausted (Max 100 connections).",
+      "[03:14:05 UTC] [TIMEOUT] SQL query 'SELECT COUNT(*) FROM transactions WHERE user_id=...' latency: 790ms.",
+      "[03:14:12 UTC] API Gateway returning 504 Gateway Timeout on 34% checkout requests."
+    ],
+    hotfixes: [
+      { text: "A) Pre-compute rolling transaction aggregations into Redis Online Feature Store", correct: true, reason: "✅ Sub-millisecond (1.2ms) Redis key-value lookups bypass relational SQL bottlenecks completely!" },
+      { text: "B) Remove fraud detection completely during Black Friday", correct: false, reason: "❌ Exposes enterprise to millions in fraud chargebacks." },
+      { text: "C) Increase Postgres server to 128 cores without caching", correct: false, reason: "❌ Massive cloud expense that will still bottleneck on concurrent table locks." }
+    ],
+    rca: "<strong>Root Cause Analysis (RCA):</strong> Real-time feature calculation was running expensive `COUNT(*)` SQL queries synchronously on relational OLTP database per API request. <em>Fix:</em> Moved to Redis Feature Store."
+  },
+  {
+    title: "Incident #104: Recommender Diversity Collapse",
+    desc: "E-commerce recommender system is repeatedly suggesting the exact same 3 viral items to 100% of users, collapsing catalog diversity and long-tail sales.",
+    logs: [
+      "[03:14:00 UTC] MetricTracker: Catalog Gini Index = 0.98 (Extreme popularity bias).",
+      "[03:14:10 UTC] MetricTracker: 88% of impressions allocated to top 3 SKUs.",
+      "[03:14:20 UTC] [ALERT] Retention drop: Long-tail category revenue dropped by 42% over 7 days."
+    ],
+    hotfixes: [
+      { text: "A) Add MMR (Maximal Marginal Relevance) re-ranking with epsilon-greedy exploration", correct: true, reason: "✅ Penalizes similarity to already selected items, balancing relevance with catalog discovery!" },
+      { text: "B) Randomly shuffle items with no machine learning", correct: false, reason: "❌ Destroys recommendation relevance." },
+      { text: "C) Hardcode recommendations by hand in an Excel sheet", correct: false, reason: "❌ Impossible to scale to millions of users." }
+    ],
+    rca: "<strong>Root Cause Analysis (RCA):</strong> Model had a positive feedback loop: clicks increased item probability $\to$ model recommended it more $\to$ received more clicks. <em>Fix:</em> Added MMR + Thompson Sampling exploration."
+  }
+];
+
+let activeInc = 0;
+
+function loadIncident(idx, btn) {
+  activeInc = idx;
+  document.querySelectorAll('#incidentTabs .inc-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  const inc = incidents[idx];
+  document.getElementById('incTitle').textContent = inc.title;
+  document.getElementById('incDesc').textContent = inc.desc;
+
+  const logBody = document.getElementById('termLogBody');
+  logBody.innerHTML = inc.logs.map(l => {
+    let color = "#e5e7eb";
+    if (l.includes("ERROR") || l.includes("FATAL") || l.includes("ALERT")) color = "#f87171";
+    if (l.includes("WARN")) color = "#fbbf24";
+    return `<div style="color:${color};margin-bottom:4px">${l}</div>`;
+  }).join('');
+
+  const hfBox = document.getElementById('hotfixOptions');
+  hfBox.innerHTML = inc.hotfixes.map((hf, i) => {
+    return `<div class="opt-choice" onclick="applyHotfix(${i}, this)">${hf.text}</div>`;
+  }).join('');
+
+  document.getElementById('postMortemBox').style.display = 'none';
+}
+
+function runDiagnostic(tool) {
+  const inc = incidents[activeInc];
+  const logBody = document.getElementById('termLogBody');
+  if (tool === 'logs') {
+    logBody.innerHTML += `<div style="color:#38bdf8;margin-top:8px">>>> DIAGNOSTIC: Raw Payload Inspection: { "user_id": 89412, "country_code": "US", "amount": 42.50 }</div>`;
+  } else if (tool === 'psi') {
+    logBody.innerHTML += `<div style="color:#fbbf24;margin-top:8px">>>> DIAGNOSTIC: Population Stability Index (PSI) = 0.48 (Severe Distribution Shift in 'country_code')</div>`;
+  } else {
+    logBody.innerHTML += `<div style="color:#34d399;margin-top:8px">>>> DIAGNOSTIC: Null Count = 0. All fields present but format mismatch detected.</div>`;
+  }
+  logBody.scrollTop = logBody.scrollHeight;
+}
+
+function applyHotfix(hfIdx, el) {
+  const inc = incidents[activeInc];
+  const hf = inc.hotfixes[hfIdx];
+  const allChoices = document.querySelectorAll('#hotfixOptions .opt-choice');
+  allChoices.forEach(c => c.classList.remove('correct', 'wrong'));
+
+  const pmBox = document.getElementById('postMortemBox');
+  pmBox.style.display = 'block';
+
+  if (hf.correct) {
+    el.classList.add('correct');
+    pmBox.style.borderLeftColor = '#10b981';
+    pmBox.innerHTML = `<span style="color:#10b981;font-weight:700">✅ RESOLVED!</span> ${hf.reason}<br><br>${inc.rca}`;
+  } else {
+    el.classList.add('wrong');
+    pmBox.style.borderLeftColor = '#ef4444';
+    pmBox.innerHTML = `<span style="color:#ef4444;font-weight:700">❌ FIX FAILED:</span> ${hf.reason}`;
+  }
+}
+
+// 2. SYSTEM DESIGN CALCULATOR
+function calculateCosts() {
+  const qps = parseInt(document.getElementById('slider-qps').value);
+  const compute = document.getElementById('sel-compute').value;
+  const vectors = parseInt(document.getElementById('slider-vectors').value);
+  const redisEnabled = document.getElementById('chk-redis').checked;
+
+  document.getElementById('lbl-qps').textContent = `${qps.toLocaleString()} QPS`;
+  document.getElementById('lbl-vectors').textContent = `${vectors.toLocaleString()} Embeddings`;
+
+  let nodeCost = 0;
+  let nodeCount = 1;
+  let p99 = 15;
+
+  if (compute === 'cpu') {
+    nodeCount = Math.max(2, Math.ceil(qps / 250));
+    nodeCost = nodeCount * 140; // $140/mo per c5.2xlarge
+    p99 = 48;
+    document.getElementById('lbl-compute').textContent = "CPU (c5.2xlarge)";
+  } else if (compute === 'gpu-t4') {
+    nodeCount = Math.max(1, Math.ceil(qps / 800));
+    nodeCost = nodeCount * 380; // $380/mo per g4dn.xlarge
+    p99 = 18;
+    document.getElementById('lbl-compute').textContent = "GPU (NVIDIA T4 - g4dn.xlarge)";
+  } else {
+    nodeCount = Math.max(1, Math.ceil(qps / 3000));
+    nodeCost = nodeCount * 1200; // $1200/mo
+    p99 = 6;
+    document.getElementById('lbl-compute').textContent = "High-End GPU (A100 - p4d)";
+  }
+
+  let redisCost = redisEnabled ? 180 : 0;
+  if (redisEnabled) p99 = Math.round(p99 * 0.65); // 35% latency drop with caching
+
+  let vectorCost = Math.round((vectors / 1000000) * 120 + 80);
+  let networkCost = Math.round(qps * 0.08 + 60);
+  let total = nodeCost + redisCost + vectorCost + networkCost;
+
+  document.getElementById('txt-nodes').textContent = `${nodeCount} pods`;
+  document.getElementById('cost-compute').textContent = `$${nodeCost} / mo`;
+  document.getElementById('cost-redis').textContent = `$${redisCost} / mo`;
+  document.getElementById('cost-vector').textContent = `$${vectorCost} / mo`;
+  document.getElementById('cost-network').textContent = `$${networkCost} / mo`;
+  document.getElementById('cost-total').textContent = `$${total.toLocaleString()} / mo`;
+
+  document.getElementById('p99-latency').textContent = `${p99} ms`;
+  const verdict = document.getElementById('latency-verdict');
+  if (p99 <= 25) {
+    verdict.innerHTML = "🟢 <strong>Ultra-Low Latency:</strong> Far below 50ms SLA. Ready for real-time high-throughput workloads.";
+    verdict.style.color = "#10b981";
+  } else if (p99 <= 45) {
+    verdict.innerHTML = "🟡 <strong>Acceptable:</strong> Meets SLA but near upper boundary during peak spikes.";
+    verdict.style.color = "#fbbf24";
+  } else {
+    verdict.innerHTML = "🔴 <strong>High Latency Risk:</strong> Above 45ms. Consider enabling GPU inference or Redis caching.";
+    verdict.style.color = "#f87171";
+  }
+}
+
+// 3. FAILURE LAB: DATA LEAKAGE & MULTICOLLINEARITY
+function toggleLeakage(isLeaky) {
+  const tScore = document.getElementById('leakTestScore');
+  const pScore = document.getElementById('leakProdScore');
+  const btnBad = document.getElementById('btn-leak-bad');
+  const btnGood = document.getElementById('btn-leak-good');
+  const exp = document.getElementById('leakExplanation');
+
+  if (isLeaky) {
+    btnBad.className = "btn-action"; btnBad.style.background = "#ef4444";
+    btnGood.className = "btn-outline";
+    tScore.textContent = "99.4% (Fake Perfection)"; tScore.style.color = "#ef4444";
+    pScore.textContent = "71.2% (Crashes in Production!)"; pScore.style.color = "#ef4444";
+    exp.innerHTML = "⚠️ <strong>Why it broke:</strong> The test set's mean ($\mu$) and variance ($\sigma$) leaked into the scaler during training. In production, unseen data has different distributions, causing massive prediction errors!";
+  } else {
+    btnGood.className = "btn-action"; btnGood.style.background = "#10b981";
+    btnBad.className = "btn-outline"; btnBad.style.background = "transparent";
+    tScore.textContent = "89.1% (Honest Evaluation)"; tScore.style.color = "#10b981";
+    pScore.textContent = "88.7% (Reliable in Production!)"; pScore.style.color = "#10b981";
+    exp.innerHTML = "✅ <strong>Why it works:</strong> `StandardScaler` was fitted strictly on training folds inside a Scikit-Learn `Pipeline`. No future data leaked into parameter calculations!";
+  }
+}
+
+function updateCollinearity() {
+  const r = parseFloat(document.getElementById('slider-corr').value);
+  document.getElementById('lbl-corr').textContent = r.toFixed(2);
+
+  // Simulate weight explosion
+  const baseW = 5.2;
+  const explosion = (1 / (1.001 - r)) * 3.5;
+  const w1 = baseW + explosion;
+  const w2 = baseW - explosion;
+
+  document.getElementById('collinearW1').textContent = `+${w1.toFixed(1)}`;
+  document.getElementById('collinearW2').textContent = `${w2.toFixed(1)}`;
+}
+
+// 4. CROSS-EXAM Q&A
+function checkExam(qId, choiceIdx, el) {
+  const parent = el.parentElement;
+  parent.querySelectorAll('.opt-choice').forEach(c => c.classList.remove('correct', 'wrong'));
+  const feedback = document.getElementById(`feedback-${qId}`);
+  feedback.style.display = 'block';
+
+  // For all 3 questions, option B (index 1) is correct
+  if (choiceIdx === 1) {
+    el.classList.add('correct');
+  } else {
+    el.classList.add('wrong');
+  }
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+  loadIncident(0);
+  calculateCosts();
+  updateCollinearity();
+  init3DCardTilt();
+});
+
+// =========================================================
+// UNIVERSAL 3D CARD TILT & PARALLAX ENGINE
+// =========================================================
+function init3DCardTilt() {
+  const cards = document.querySelectorAll('.card, .sim-body, .calc-box');
+  cards.forEach(card => {
+    card.style.transition = 'transform 0.15s ease-out, box-shadow 0.15s ease-out';
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      const rotX = -(y / (rect.height / 2)) * 5;
+      const rotY = (x / (rect.width / 2)) * 5;
+      card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.01, 1.01, 1.01)`;
+      card.style.boxShadow = `0 15px 35px rgba(0,0,0,0.3), ${rotY * 2}px ${-rotX * 2}px 25px rgba(239,68,68,0.15)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      card.style.boxShadow = 'none';
+    });
+  });
+}
+</script>
+</body>
+</html>

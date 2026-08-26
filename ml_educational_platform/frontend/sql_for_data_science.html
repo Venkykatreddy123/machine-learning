@@ -1,0 +1,2486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SQL for Data Science &amp; AI Master Codex — Complete 125-Page Curriculum, Window Functions &amp; Production DS Project</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#2563eb;--blue-d:#1d4ed8;--blue-l:#eff6ff;
+  --indigo:#4f46e5;--indigo-l:#eef2ff;
+  --emerald:#059669;--emerald-l:#ecfdf5;
+  --amber:#d97706;--amber-l:#fffbeb;
+  --purple:#7c3aed;--purple-l:#f5f3ff;
+  --cyan:#0891b2;--cyan-l:#ecfeff;
+  --rose:#e11d48;--rose-l:#fff1f2;
+  --s50:#f8fafc;--s100:#f1f5f9;--s200:#e2e8f0;
+  --s300:#cbd5e1;--s400:#94a3b8;--s500:#64748b;--s600:#475569;
+  --s700:#334155;--s800:#1e293b;--s900:#0f172a;--s950:#090d16;
+  --r:16px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--s950);color:#f8fafc;min-height:100vh;line-height:1.65;overflow-x:hidden}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:64px;background:rgba(9,13,22,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08)}
+.nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:#fff;font-weight:900;font-size:18px}
+.nav-brand em{font-style:normal;color:#38bdf8}
+.nav-links{display:flex;gap:16px;align-items:center}
+.nav-links a{color:var(--s400);text-decoration:none;font-size:13px;font-weight:600;transition:.2s}
+.nav-links a:hover{color:#38bdf8}
+.nav-badge{font-size:11px;font-weight:800;color:#38bdf8;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3);padding:4px 12px;border-radius:999px}
+
+/* Hero */
+.hero{padding:120px 24px 70px;text-align:center;position:relative;overflow:hidden;background:radial-gradient(ellipse 90% 60% at 50% 0%,rgba(14,165,233,.25) 0%,transparent 70%),linear-gradient(180deg,#090d16 0%,#0f172a 100%)}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.3);color:#38bdf8;font-size:11px;font-weight:800;padding:6px 16px;border-radius:999px;letter-spacing:1px;text-transform:uppercase;margin-bottom:24px}
+.hero h1{font-size:clamp(34px,6vw,64px);font-weight:900;line-height:1.1;letter-spacing:-1.5px;margin-bottom:20px}
+.hero h1 span{background:linear-gradient(135deg,#38bdf8,#818cf8,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:clamp(16px,2vw,19px);color:var(--s400);max-width:880px;margin:0 auto 36px;line-height:1.75}
+
+.hero-stats{display:flex;justify-content:center;gap:36px;flex-wrap:wrap;margin-bottom:40px}
+.h-stat{text-align:center}
+.h-stat .num{font-size:32px;font-weight:900;color:#fff}
+.h-stat .lbl{font-size:12px;color:var(--s400);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+
+.hero-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 26px;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;transition:.25s;cursor:pointer;border:none}
+.btn-primary{background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff;box-shadow:0 8px 24px rgba(2,132,199,.4)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(2,132,199,.6)}
+.btn-secondary{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.15)}
+.btn-secondary:hover{background:rgba(255,255,255,.15)}
+
+/* Container & Sections */
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.sec{padding:80px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.sec-tag{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#38bdf8;background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.25);padding:4px 14px;border-radius:999px;margin-bottom:14px}
+.sec-head{margin-bottom:44px}
+.sec-head h2{font-size:clamp(24px,3.5vw,36px);font-weight:900;letter-spacing:-.5px;margin-bottom:12px;color:#fff}
+.sec-head p{font-size:16px;color:var(--s400);max-width:840px}
+
+/* Cards & Layout */
+.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:28px;transition:.3s;position:relative;overflow:hidden}
+.card:hover{border-color:rgba(56,189,248,.3);background:rgba(255,255,255,.05)}
+.card-grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px}
+.card-grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.card-grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+
+.drama-box{background:linear-gradient(135deg,rgba(15,23,42,.9),rgba(2,132,199,.15));border-left:4px solid #38bdf8;padding:16px 20px;border-radius:0 12px 12px 0;margin:16px 0;font-size:13px;line-height:1.7}
+.drama-box strong{color:#38bdf8;font-size:14px;display:block;margin-bottom:4px}
+
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+.b-blue{background:rgba(56,189,248,.15);color:#38bdf8;border:1px solid rgba(56,189,248,.3)}
+.b-green{background:rgba(74,222,128,.15);color:#4ade80;border:1px solid rgba(74,222,128,.3)}
+.b-amber{background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.3)}
+.b-purple{background:rgba(192,132,252,.15);color:#c084fc;border:1px solid rgba(192,132,252,.3)}
+.b-rose{background:rgba(251,113,133,.15);color:#fb7185;border:1px solid rgba(251,113,133,.3)}
+
+/* Code Blocks */
+pre, code{font-family:'JetBrains Mono',monospace}
+.code-box{background:#090d16;border:1px solid rgba(255,255,255,.1);border-radius:12px;overflow:hidden;margin:16px 0}
+.code-header{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.08);font-size:12px;color:var(--s400);font-weight:600}
+.code-header .lang{color:#38bdf8;font-weight:700}
+.code-body{padding:18px;font-size:13px;line-height:1.75;overflow-x:auto;color:#e2e8f0}
+.hl-kw{color:#38bdf8;font-weight:700}
+.hl-func{color:#a78bfa;font-weight:600}
+.hl-str{color:#4ade80}
+.hl-num{color:#f59e0b}
+.hl-cm{color:#64748b;font-style:italic}
+.hl-tbl{color:#f43f5e;font-weight:700}
+
+/* Tables */
+.table-wrap{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid rgba(255,255,255,.08)}
+.data-table{width:100%;border-collapse:collapse;font-size:13px;text-align:left}
+.data-table th{background:rgba(255,255,255,.06);color:#fff;padding:12px 16px;font-weight:700;border-bottom:1px solid rgba(255,255,255,.12);text-transform:uppercase;font-size:11px;letter-spacing:.5px}
+.data-table td{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.05);color:var(--s300)}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:rgba(255,255,255,.03)}
+
+/* Interactive Query Sandbox */
+.sandbox-card{background:linear-gradient(145deg,rgba(15,23,42,.9),rgba(9,13,22,.95));border:1px solid rgba(56,189,248,.3);box-shadow:0 16px 40px rgba(0,0,0,.6);border-radius:20px;padding:32px;margin:32px 0}
+.sb-presets{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.sb-preset-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--s300);padding:6px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:.2s}
+.sb-preset-btn:hover,.sb-preset-btn.active{background:rgba(56,189,248,.2);border-color:#38bdf8;color:#fff}
+.sb-editor{width:100%;height:150px;background:#050811;border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:14px;color:#38bdf8;font-family:'JetBrains Mono',monospace;font-size:14px;resize:vertical;outline:none;transition:.2s}
+.sb-editor:focus{border-color:#38bdf8;box-shadow:0 0 15px rgba(56,189,248,.25)}
+.sb-controls{display:flex;justify-content:space-between;align-items:center;margin:14px 0}
+.sb-results{margin-top:16px;background:#050811;border-radius:10px;border:1px solid rgba(255,255,255,.08);padding:16px;min-height:120px;overflow-x:auto}
+
+/* Stepper */
+.step-container{display:flex;flex-direction:column;gap:16px;margin:24px 0}
+.step-item{display:flex;gap:18px;align-items:flex-start}
+.step-circle{width:36px;height:36px;border-radius:50%;background:rgba(56,189,248,.15);border:2px solid #38bdf8;color:#38bdf8;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0}
+.step-content{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px 20px;flex:1}
+.step-title{font-size:15px;font-weight:800;color:#fff;margin-bottom:4px}
+.step-desc{font-size:13px;color:var(--s400)}
+
+/* Tabs */
+.tab-nav{display:flex;gap:6px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:20px;overflow-x:auto;padding-bottom:2px}
+.tab-btn{background:transparent;border:none;color:var(--s400);padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;border-bottom:2px solid transparent;transition:.2s;white-space:nowrap}
+.tab-btn:hover{color:#fff}
+.tab-btn.active{color:#38bdf8;border-bottom-color:#38bdf8}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+
+/* Footer */
+footer{background:#050811;border-top:1px solid rgba(255,255,255,.08);padding:60px 24px;text-align:center}
+.f-links{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin:24px 0}
+.f-links a{color:var(--s400);text-decoration:none;font-size:13px;font-weight:500;transition:.2s}
+.f-links a:hover{color:#38bdf8}
+
+section[id]{scroll-margin-top:84px}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <a href="index.html" class="nav-brand">
+    <em>ML</em>Mastery
+  </a>
+  <div class="nav-links">
+    <a href="#codd-rules">Foundation</a>
+    <a href="#classifications">Classifications</a>
+    <a href="#single-row-fn">SRFs</a>
+    <a href="#set-ops">SET Ops</a>
+    <a href="#nested-case">Nested CASE</a>
+    <a href="#all-joins">Joins Encyclopedia</a>
+    <a href="#window-functions">Window Functions (All 18)</a>
+    <a href="#subqueries">Subqueries</a>
+    <a href="#schema-objects">Views/Seq/Idx</a>
+    <a href="#sandbox">SQL Sandbox</a>
+    <a href="#project">End-to-End DS Project</a>
+    <a href="#interview">Interview Q&amp;A</a>
+    <span class="nav-badge">Page 12 · SQL Master Codex</span>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-tag">📖 Complete 125-Page SQL Notes · Window Functions Encyclopedia &amp; DS Project</div>
+    <h1>SQL for <span>Data Science &amp; AI</span> Master Codex</h1>
+    <p>From fundamental table lifecycles, nested conditional branching, and multi-tier relational joins to all 18 analytical window functions, time-series velocity calculations, and a production-grade machine learning project.</p>
+    
+    <div class="hero-stats">
+      <div class="h-stat"><div class="num">125</div><div class="lbl">PDF Pages Extracted</div></div>
+      <div class="h-stat"><div class="num">18</div><div class="lbl">Window Functions</div></div>
+      <div class="h-stat"><div class="num">10+</div><div class="lbl">Join Paradigms</div></div>
+      <div class="h-stat"><div class="num">1</div><div class="lbl">Full Working DS Project</div></div>
+      <div class="h-stat"><div class="num">100%</div><div class="lbl">Interactive Playground</div></div>
+    </div>
+
+    <div class="hero-actions">
+      <a href="#sandbox" class="btn btn-primary">⚡ Open Interactive SQL Playground</a>
+      <a href="#window-functions" class="btn btn-secondary">🪟 Explore All 18 Window Functions</a>
+      <a href="#project" class="btn btn-secondary">🚀 View Full Working Data Science Project</a>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN CONTENT WRAPPER -->
+<div class="wrap">
+
+  <!-- ========================================== -->
+  <!-- MODULE 0: RDBMS ARCHITECTURE & E.F. CODD 12 RULES -->
+  <!-- ========================================== -->
+  <section id="codd-rules" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag">Module 0 · Core Architecture</span>
+      <h2>Data, DBMS, RDBMS &amp; Dr. E.F. Codd's 12 Relational Rules</h2>
+      <p>From raw unorganized facts to mathematically rigorous relational database engines: Master the 12 Codd rules and enterprise data type memory footprints.</p>
+    </div>
+
+    <div class="card-grid-2" style="margin-bottom:28px">
+      <div class="card">
+        <h3 style="font-size:18px;font-weight:800;color:#fff;margin-bottom:12px">🏢 Data vs Information vs DBMS vs RDBMS</h3>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
+          <div style="background:rgba(255,255,255,.03);padding:10px 14px;border-radius:8px;border-left:3px solid #38bdf8">
+            <strong style="color:#38bdf8">1. DATA (Raw Facts)</strong>: Unorganized observations (e.g. <code>[42, 'Bangalore', 1200]</code>).
+          </div>
+          <div style="background:rgba(255,255,255,.03);padding:10px 14px;border-radius:8px;border-left:3px solid #4ade80">
+            <strong style="color:#4ade80">2. INFORMATION (Contextualized)</strong>: Structured facts with business meaning (e.g. <em>"Customer #42 spent $1,200 in Bangalore store"</em>).
+          </div>
+          <div style="background:rgba(255,255,255,.03);padding:10px 14px;border-radius:8px;border-left:3px solid #fbbf24">
+            <strong style="color:#fbbf24">3. DBMS (Software)</strong>: Program to store/retrieve files (e.g. hierarchical, file systems, NoSQL).
+          </div>
+          <div style="background:rgba(255,255,255,.03);padding:10px 14px;border-radius:8px;border-left:3px solid #c084fc">
+            <strong style="color:#c084fc">4. RDBMS (Relational + ACID)</strong>: Mathematical table relations, primary-foreign keys, and ACID transaction guarantees (e.g. Oracle, PostgreSQL).
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="font-size:18px;font-weight:800;color:#fff;margin-bottom:12px">💾 Enterprise SQL Data Types &amp; Memory Layout</h3>
+        <div class="table-wrap" style="margin:0">
+          <table class="data-table" style="font-size:11px">
+            <thead>
+              <tr><th>Data Type</th><th>Storage Footprint</th><th>Best Use Case</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>CHAR(n)</code></td><td>Fixed $n$ bytes (blank-padded)</td><td>Fixed codes (`'IND'`, `'USD'`)</td></tr>
+              <tr><td><code>VARCHAR2(n)</code></td><td>Variable ($L + 1$ bytes)</td><td>Names, emails, text strings</td></tr>
+              <tr><td><code>NUMBER(p,s)</code></td><td>Exact binary decimal</td><td>Banking balances (`NUMBER(15,2)`)</td></tr>
+              <tr><td><code>TIMESTAMP(6)</code></td><td>11 bytes (nanosecond precision)</td><td>Stock market trade timestamps</td></tr>
+              <tr><td><code>CLOB / BLOB</code></td><td>Up to 4GB out-of-line</td><td>PDF contracts, medical scans</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- The 12 Codd Rules Grid -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <h3 style="font-size:18px;font-weight:800;color:#fff">📜 Dr. Edgar F. Codd's 12 Relational Database Rules</h3>
+        <span class="badge b-purple">Mathematical Relational Standard</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;font-size:12px">
+        <div style="background:rgba(255,255,255,.03);padding:10px 12px;border-radius:8px">
+          <strong style="color:#38bdf8">Rule 0: Foundation Rule</strong>
+          <p style="color:var(--s400);margin-top:2px">The system must manage the database entirely through its relational capabilities.</p>
+        </div>
+        <div style="background:rgba(255,255,255,.03);padding:10px 12px;border-radius:8px">
+          <strong style="color:#38bdf8">Rule 1: Information Rule</strong>
+          <p style="color:var(--s400);margin-top:2px">All data and metadata are stored solely as values in table cells.</p>
+        </div>
+        <div style="background:rgba(255,255,255,.03);padding:10px 12px;border-radius:8px">
+          <strong style="color:#38bdf8">Rule 2: Guaranteed Access</strong>
+          <p style="color:var(--s400);margin-top:2px">Every atomic cell is reachable via: Table Name + Primary Key + Column Name.</p>
+        </div>
+        <div style="background:rgba(255,255,255,.03);padding:10px 12px;border-radius:8px">
+          <strong style="color:#38bdf8">Rule 3: Systematic NULLs</strong>
+          <p style="color:var(--s400);margin-top:2px">NULL is distinct from 0 or empty string; represents missing/unknown values.</p>
+        </div>
+        <div style="background:rgba(255,255,255,.03);padding:10px 12px;border-radius:8px">
+          <strong style="color:#38bdf8">Rule 4: Online Catalog</strong>
+          <p style="color:var(--s400);margin-top:2px">Schema dictionary is queried using the exact same relational SQL syntax.</p>
+        </div>
+        <div style="background:rgba(255,255,255,.03);padding:10px 12px;border-radius:8px">
+          <strong style="color:#38bdf8">Rule 5: Comprehensive Sublanguage</strong>
+          <p style="color:var(--s400);margin-top:2px">Must support at least 1 language for DDL, DML, DQL, TCL, and DCL.</p>
+        </div>
+        <div style="background:rgba(255,255,255,.03);padding:10px 12px;border-radius:8px">
+          <strong style="color:#38bdf8">Rule 6: View Updating</strong>
+          <p style="color:var(--s400);margin-top:2px">All theoretically modifiable views must be updatable by the RDBMS engine.</p>
+        </div>
+        <div style="background:rgba(255,255,255,.03);padding:10px 12px;border-radius:8px">
+          <strong style="color:#38bdf8">Rule 7: Set-Level Operations</strong>
+          <p style="color:var(--s400);margin-top:2px">INSERT, UPDATE, DELETE act on entire sets of records at once, not row loops.</p>
+        </div>
+        <div style="background:rgba(255,255,255,.03);padding:10px 12px;border-radius:8px">
+          <strong style="color:#38bdf8">Rule 8: Physical Data Independence</strong>
+          <p style="color:var(--s400);margin-top:2px">Changing disk storage or B-Tree indexes does not alter SQL queries.</p>
+        </div>
+        <div style="background:rgba(255,255,255,.03);padding:10px 12px;border-radius:8px">
+          <strong style="color:#38bdf8">Rule 9: Logical Data Independence</strong>
+          <p style="color:var(--s400);margin-top:2px">Schema refactoring (adding columns) does not break user views.</p>
+        </div>
+        <div style="background:rgba(255,255,255,.03);padding:10px 12px;border-radius:8px">
+          <strong style="color:#38bdf8">Rule 10: Integrity Independence</strong>
+          <p style="color:var(--s400);margin-top:2px">Constraints reside inside the RDBMS catalog, not client frontend code.</p>
+        </div>
+        <div style="background:rgba(255,255,255,.03);padding:10px 12px;border-radius:8px">
+          <strong style="color:#38bdf8">Rule 11: Distribution Independence</strong>
+          <p style="color:var(--s400);margin-top:2px">SQL runs identically on local single servers or distributed multi-node clusters.</p>
+        </div>
+        <div style="background:rgba(255,255,255,.03);padding:10px 12px;border-radius:8px">
+          <strong style="color:#38bdf8">Rule 12: Non-Subversion Rule</strong>
+          <p style="color:var(--s400);margin-top:2px">Low-level record interfaces cannot bypass relational constraints or security.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SECTION: CONSTRAINTS & REFERENTIAL INTEGRITY -->
+  <!-- ========================================== -->
+  <section id="constraints-deep" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag">Foundation</span>
+      <h2>Constraints &amp; Referential Integrity</h2>
+      <p>Think of constraints like the bouncers at a club. They ensure that only valid, high-quality data enters your tables, keeping your database clean and error-free.</p>
+    </div>
+
+    <div class="drama-box">
+      <strong>🎬 Real-World Dramatic Story: Netflix Subscriber Deduplication Incident</strong>
+      During a massive global rollout, Netflix's registration API had a bug. Because the `email` column lacked a `UNIQUE` constraint, millions of duplicate accounts were created. It took a whole week to clean up the mess. The DBA team was furious. A simple `UNIQUE` constraint would have blocked the duplicate inserts instantly at the database level!
+    </div>
+
+    <div class="card-grid-2">
+      <div class="card">
+        <h3 style="color:#fff;font-size:18px;margin-bottom:12px;">The 6 Key Constraints</h3>
+        <ul style="color:var(--s300);font-size:13px;line-height:1.8;padding-left:20px;">
+          <li><span class="badge b-amber">PRIMARY KEY</span> Uniquely identifies each row (NOT NULL + UNIQUE).</li>
+          <li><span class="badge b-blue">FOREIGN KEY</span> Links to another table's PK. Maintains referential integrity.</li>
+          <li><span class="badge b-green">UNIQUE</span> Ensures all values are different.</li>
+          <li><span class="badge b-purple">CHECK</span> Validates conditions (e.g., age &gt; 18).</li>
+          <li><span class="badge b-rose">NOT NULL</span> Ensures a column cannot have a NULL value.</li>
+          <li><span class="badge b-blue">DEFAULT</span> Provides a default value when none is specified.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3 style="color:#fff;font-size:18px;margin-bottom:12px;">Referential Integrity Diagram</h3>
+        <div style="background:rgba(255,255,255,.03);padding:15px;border-radius:10px;">
+          <p style="color:#38bdf8;font-weight:bold;margin-bottom:5px;">Users Table (Parent)</p>
+          <code style="color:var(--s400);font-size:12px;">user_id (PK) | username</code><br/>
+          <p style="text-align:center;color:#4ade80;">↓ (References)</p>
+          <p style="color:#38bdf8;font-weight:bold;margin-bottom:5px;">Orders Table (Child)</p>
+          <code style="color:var(--s400);font-size:12px;">order_id (PK) | user_id (FK) | amount</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-box">
+      <div class="code-header"><span>Creating a Table with All Constraints</span><span class="lang">SQL</span></div>
+      <div class="code-body">
+<span class="hl-kw">CREATE TABLE</span> <span class="hl-tbl">Employees</span> (
+  emp_id <span class="hl-kw">NUMBER</span> <span class="hl-kw">PRIMARY KEY</span>,
+  email <span class="hl-kw">VARCHAR2</span>(100) <span class="hl-kw">UNIQUE NOT NULL</span>,
+  salary <span class="hl-kw">NUMBER</span> <span class="hl-kw">CHECK</span> (salary &gt; 0),
+  hire_date <span class="hl-kw">DATE DEFAULT</span> <span class="hl-func">SYSDATE</span>,
+  dept_id <span class="hl-kw">NUMBER</span> <span class="hl-kw">REFERENCES</span> <span class="hl-tbl">Departments</span>(dept_id)
+);
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <h3 style="color:#fff;font-size:16px;margin-bottom:10px;">🎤 Interview Questions</h3>
+      <ol style="color:var(--s400);font-size:13px;padding-left:20px;line-height:1.6;">
+        <li>What is the difference between a Primary Key and a Unique constraint?</li>
+        <li>What happens if you try to DELETE a parent row when child rows exist (ON DELETE CASCADE vs RESTRICT)?</li>
+        <li>Can a table have multiple Foreign Keys pointing to the same Parent table?</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SECTION: SINGLE ROW FUNCTIONS -->
+  <!-- ========================================== -->
+  <section id="single-row-fn" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag">Data Transformation</span>
+      <h2>Single Row Functions (SRF)</h2>
+      <p>A single row function takes ONE piece of data from a row, modifies it, and returns ONE output. It does this for every single row in the result set.</p>
+    </div>
+
+    <div class="drama-box">
+      <strong>🎬 Real-World Dramatic Story: Zomato Food Order Search Normalization</strong>
+      Users were searching for "PAnEer tIKka", "paneer tikka", and " PANEER TIKKA ". By applying `UPPER()` and `TRIM()` Single Row Functions on both user input and menu items, Zomato dramatically fixed the search drop-off rate!
+    </div>
+
+    <div class="card-grid-3">
+      <div class="card">
+        <span class="badge b-purple">Character</span>
+        <ul style="color:var(--s300);font-size:13px;line-height:1.8;padding-left:20px;margin-top:10px;">
+          <li><code class="hl-func">UPPER/LOWER/INITCAP</code>: Case conversion</li>
+          <li><code class="hl-func">LENGTH/SUBSTR/INSTR</code>: Text slicing</li>
+          <li><code class="hl-func">LPAD/RPAD</code>: Pad with characters</li>
+          <li><code class="hl-func">TRIM/REPLACE/CONCAT</code>: Modify strings</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="badge b-blue">Number</span>
+        <ul style="color:var(--s300);font-size:13px;line-height:1.8;padding-left:20px;margin-top:10px;">
+          <li><code class="hl-func">ROUND/TRUNC</code></li>
+          <li><code class="hl-func">MOD(10, 3)</code></li>
+          <li><code class="hl-func">POWER(2, 3)</code></li>
+          <li><code class="hl-func">ABS(-50)</code></li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="badge b-green">Date &amp; Conversion</span>
+        <ul style="color:var(--s300);font-size:13px;line-height:1.8;padding-left:20px;margin-top:10px;">
+          <li><code class="hl-func">SYSDATE / MONTHS_BETWEEN</code></li>
+          <li><code class="hl-func">ADD_MONTHS / NEXT_DAY / LAST_DAY</code></li>
+          <li><code class="hl-func">TO_DATE / TO_CHAR / NVL / NVL2 / NULLIF / COALESCE / DECODE</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <h3 style="color:#fff;font-size:16px;margin-bottom:10px;">🎤 Interview Questions</h3>
+      <ol style="color:var(--s400);font-size:13px;padding-left:20px;line-height:1.6;">
+        <li>What is the difference between SUBSTR and INSTR?</li>
+        <li>How does ROUND differ from TRUNC when applied to dates?</li>
+        <li>How do implicit conversion and explicit TO_CHAR differ?</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SECTION: NULL HANDLING & DECODE -->
+  <!-- ========================================== -->
+  <section id="null-functions" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag">Nullability &amp; Logic</span>
+      <h2>NULL Handling &amp; Conditional Functions</h2>
+      <p>NULL means "Unknown" or "Missing". We need special functions (NVL, NVL2, NULLIF, COALESCE, DECODE) to handle these black holes.</p>
+    </div>
+
+    <div class="drama-box">
+      <strong>🎬 Real-World Dramatic Story: Amazon Missing Seller Data Defaults</strong>
+      Amazon calculates final payout = `Sales - Commission - Penalty`. If a new seller had no penalty logged, the database returned NULL. The math `1000 - 100 - NULL` resulted in a NULL payout! Adding `NVL(Penalty, 0)` saved the finance team from a disaster.
+    </div>
+
+    <div class="card-grid-2">
+      <div class="card">
+        <h3 style="color:#fff;font-size:18px;margin-bottom:12px;">NULL Functions</h3>
+        <ul style="color:var(--s300);font-size:13px;line-height:1.8;padding-left:20px;">
+          <li><span class="badge b-blue">NVL(col, val)</span> If col is NULL, return val. Else return col.</li>
+          <li><span class="badge b-green">NVL2(col, val1, val2)</span> If NOT NULL return val1, else val2.</li>
+          <li><span class="badge b-amber">NULLIF(e1, e2)</span> NULL if both equal, else e1.</li>
+          <li><span class="badge b-purple">COALESCE(e1, e2...)</span> Returns FIRST non-null expression.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="color:#fff;font-size:18px;margin-bottom:12px;">DECODE() Function</h3>
+        <p style="color:var(--s400);font-size:13px;margin-bottom:10px;">Oracle's IF-THEN-ELSE. Replaced by CASE WHEN, but tested heavily.</p>
+        <code style="color:#38bdf8;font-size:12px;">DECODE(col, search1, res1, search2, res2, default)</code>
+        <div style="margin-top:10px; font-size:12px; color:var(--s400)">
+          <strong>CASE WHEN vs DECODE:</strong> CASE WHEN is ANSI SQL and supports inequalities (&gt;, &lt;) while DECODE is Oracle-specific and only checks equality (=).
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <h3 style="color:#fff;font-size:16px;margin-bottom:10px;">🎤 Interview Questions</h3>
+      <ol style="color:var(--s400);font-size:13px;padding-left:20px;line-height:1.6;">
+        <li>What is the difference between NVL and COALESCE?</li>
+        <li>How does NULL interact with aggregate functions like COUNT()?</li>
+        <li>Can you rewrite a DECODE statement using a CASE WHEN expression?</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SECTION: CORRELATED SUBQUERIES -->
+  <!-- ========================================== -->
+  <section id="correlated-sub" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag">Advanced Execution</span>
+      <h2>Correlated Subqueries Deep Dive</h2>
+      <p>A Correlated Subquery is evaluated ONCE FOR EVERY ROW processed by the outer query.</p>
+    </div>
+
+    <div class="drama-box">
+      <strong>🎬 Real-World Dramatic Story: Banking Fraud Detection Alert</strong>
+      A bank wanted to find accounts whose current withdrawal exceeded the AVERAGE withdrawal for that specific branch. Since every branch has a different average, the database calculated the average withdrawal row-by-row for millions of transactions using a Correlated Subquery!
+    </div>
+
+    <div class="card">
+      <h3 style="color:#fff;font-size:18px;margin-bottom:12px;">Visual Walk-through of Execution</h3>
+      <div class="code-box">
+        <div class="code-body">
+<span class="hl-kw">SELECT</span> outer.ename, outer.sal
+<span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span> outer
+<span class="hl-kw">WHERE</span> outer.sal &gt; (
+    <span class="hl-kw">SELECT</span> <span class="hl-func">AVG</span>(inner.sal) <span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span> inner
+    <span class="hl-kw">WHERE</span> inner.deptno = outer.deptno
+);
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,.05);padding:15px;border-radius:10px;margin-top:15px;font-size:13px;color:var(--s300);">
+        <p><strong>Step 1:</strong> Outer fetches Row 1 (Ravi, Dept 10, Sal: $5000).</p>
+        <p><strong>Step 2:</strong> Subquery calculates AVG(sal) specifically for Dept 10 ($4500).</p>
+        <p><strong>Step 3:</strong> Evaluates: Is $5000 &gt; $4500? True. Keep row.</p>
+        <p><strong>Step 4:</strong> Outer fetches Row 2... repeats step 2 &amp; 3.</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <h3 style="color:#fff;font-size:16px;margin-bottom:10px;">🎤 Interview Questions</h3>
+      <ol style="color:var(--s400);font-size:13px;padding-left:20px;line-height:1.6;">
+        <li>What is the difference between a Normal Subquery and a Correlated Subquery?</li>
+        <li>Which executes first in a correlated subquery?</li>
+        <li>How can you optimize a correlated subquery using Window Functions?</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SECTION: MULTI-ROW SUBQUERY OPERATORS -->
+  <!-- ========================================== -->
+  <section id="multirow-sub" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag">Logic Filters</span>
+      <h2>Multi-row Subquery Operators (IN, NOT IN, ANY, ALL, EXISTS)</h2>
+    </div>
+
+    <div class="drama-box">
+      <strong>🎬 Real-World Dramatic Story: Tech Startup Layoffs Analytics</strong>
+      An IT startup wanted employees earning more than ALL managers. Using `&gt;` resulted in an error because there are multiple managers. Swapping to `&gt; ALL` fixed it instantly!
+    </div>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>Operator</th><th>Meaning</th><th>IT Company Example</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="badge b-blue">IN / NOT IN</span></td><td>Matches / excludes ANY member in list.</td><td>Find employees in 'NY' or 'London'.</td></tr>
+          <tr><td><span class="badge b-purple">&gt; ANY</span></td><td>More than the MINIMUM value.</td><td>Earns more than the lowest paid programmer.</td></tr>
+          <tr><td><span class="badge b-green">&gt; ALL</span></td><td>More than the MAXIMUM value.</td><td>Earns more than EVERY single employee in Dept 30.</td></tr>
+          <tr><td><span class="badge b-amber">EXISTS</span></td><td>Returns TRUE if subquery returns at least 1 row.</td><td>List departments having AT LEAST ONE employee.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <h3 style="color:#fff;font-size:16px;margin-bottom:10px;">🎤 Interview Questions</h3>
+      <ol style="color:var(--s400);font-size:13px;padding-left:20px;line-height:1.6;">
+        <li>What happens if a NOT IN subquery returns a NULL value?</li>
+        <li>What is the performance difference between IN and EXISTS?</li>
+        <li>Explain the difference between `&gt; ANY` and `&gt; ALL`.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SECTION: SET OPERATIONS -->
+  <!-- ========================================== -->
+  <section id="set-ops" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag">Vertical Data Merging</span>
+      <h2>SET Operations (UNION, UNION ALL, INTERSECT, MINUS)</h2>
+    </div>
+
+    <div class="drama-box">
+      <strong>🎬 Real-World Dramatic Story: LinkedIn Job Recommendation Merging</strong>
+      LinkedIn's feed shows jobs from Query A (matching skills) and Query B (matching cities). By merging them using a `UNION` instead of `UNION ALL`, the database deduplicated the exact same job listings automatically!
+    </div>
+
+    <div class="card-grid-4">
+      <div class="card">
+        <span class="badge b-blue">UNION</span>
+        <p style="color:var(--s400);font-size:12px;margin-top:8px;">Combines and <strong>REMOVES duplicates</strong>. Sorts output.</p>
+        <p style="font-size:24px;margin-top:10px;text-align:center;">🔵 ∪ 🟡</p>
+      </div>
+      <div class="card">
+        <span class="badge b-green">UNION ALL</span>
+        <p style="color:var(--s400);font-size:12px;margin-top:8px;">Combines, <strong>KEEPS duplicates</strong>. Ultra fast.</p>
+        <p style="font-size:24px;margin-top:10px;text-align:center;">🔵 + 🟡</p>
+      </div>
+      <div class="card">
+        <span class="badge b-amber">INTERSECT</span>
+        <p style="color:var(--s400);font-size:12px;margin-top:8px;">Returns ONLY rows in <strong>BOTH</strong> queries.</p>
+        <p style="font-size:24px;margin-top:10px;text-align:center;">🔵 ∩ 🟡</p>
+      </div>
+      <div class="card">
+        <span class="badge b-rose">MINUS</span>
+        <p style="color:var(--s400);font-size:12px;margin-top:8px;">Returns rows in first query <strong>NOT present</strong> in second.</p>
+        <p style="font-size:24px;margin-top:10px;text-align:center;">🔵 - 🟡</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <h3 style="color:#fff;font-size:16px;margin-bottom:10px;">🎤 Interview Questions</h3>
+      <ol style="color:var(--s400);font-size:13px;padding-left:20px;line-height:1.6;">
+        <li>Why is UNION ALL significantly faster than UNION?</li>
+        <li>What are the strict rules for using SET operators?</li>
+        <li>Can you use an ORDER BY clause in each individual SELECT query of a SET operation?</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SECTION: PSEUDOCOLUMNS -->
+  <!-- ========================================== -->
+  <section id="pseudocolumns" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag">Oracle Internals</span>
+      <h2>Oracle Pseudocolumns (ROWNUM, ROWID, LEVEL)</h2>
+    </div>
+
+    <div class="card-grid-3">
+      <div class="card">
+        <span class="badge b-purple">ROWID</span>
+        <p style="color:var(--s300);font-size:13px;margin-top:10px;">The physical hex address of a row. Fastest way to access a single row.</p>
+      </div>
+      <div class="card">
+        <span class="badge b-blue">ROWNUM</span>
+        <p style="color:var(--s300);font-size:13px;margin-top:10px;">A logical number indicating row fetch order. Essential for Pagination.</p>
+      </div>
+      <div class="card">
+        <span class="badge b-green">LEVEL</span>
+        <p style="color:var(--s300);font-size:13px;margin-top:10px;">Used in Hierarchical Queries to indicate tree depth.</p>
+      </div>
+    </div>
+
+    <div class="code-box">
+      <div class="code-header"><span>Pagination Using ROWNUM</span><span class="lang">SQL</span></div>
+      <div class="code-body">
+<span class="hl-kw">SELECT</span> * <span class="hl-kw">FROM</span> (
+  <span class="hl-kw">SELECT</span> a.*, <span class="hl-kw">ROWNUM</span> rnum <span class="hl-kw">FROM</span> (
+    <span class="hl-kw">SELECT</span> ename, sal <span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span> <span class="hl-kw">ORDER BY</span> sal <span class="hl-kw">DESC</span>
+  ) a <span class="hl-kw">WHERE ROWNUM</span> &lt;= 10
+) <span class="hl-kw">WHERE</span> rnum &gt;= 6;
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <h3 style="color:#fff;font-size:16px;margin-bottom:10px;">🎤 Interview Questions</h3>
+      <ol style="color:var(--s400);font-size:13px;padding-left:20px;line-height:1.6;">
+        <li>Why does `WHERE ROWNUM = 2` never return any rows?</li>
+        <li>How can you use ROWID to delete duplicate records?</li>
+        <li>What is the difference between ROWNUM and ROW_NUMBER() window function?</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SECTION: SCHEMA OBJECTS -->
+  <!-- ========================================== -->
+  <section id="schema-objects" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag">Database Architecture</span>
+      <h2>Schema Objects (Views, Sequences, Indexes, Synonyms)</h2>
+    </div>
+
+    <div class="card-grid-2">
+      <div class="card">
+        <h3 style="color:#fff;font-size:18px;margin-bottom:8px;">👁️ Views (CREATE VIEW, WITH READ ONLY)</h3>
+        <p style="color:var(--s400);font-size:13px;margin-bottom:10px;"><strong>Simple vs Complex View:</strong> Simple maps to 1 table (can update), Complex uses Joins/Groups (cannot update).</p>
+        <div class="drama-box" style="margin:5px 0;">
+          <strong>🎬 Swiggy Analytics Dashboard Security</strong>
+          The DBA created a `CREATE OR REPLACE VIEW v_sales AS SELECT... WITH READ ONLY` to let scientists analyze data without exposing credit cards.
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="color:#fff;font-size:18px;margin-bottom:8px;">🔢 Sequences (CREATE SEQUENCE)</h3>
+        <p style="color:var(--s400);font-size:13px;margin-bottom:10px;">Uses `NEXTVAL` to get a new number and `CURRVAL` for current.</p>
+        <div class="drama-box" style="margin:5px 0;">
+          <strong>🎬 Flipkart Auto-Generated Order IDs</strong>
+          Sequences bypass table locks to instantly auto-increment order IDs in memory during the Big Billion Days sale!
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="color:#fff;font-size:18px;margin-bottom:8px;">⚡ Indexes (CREATE INDEX, UNIQUE/FUNCTION-BASED)</h3>
+        <p style="color:var(--s400);font-size:13px;margin-bottom:10px;">B-Tree index mechanics speed up reads but slow writes. <strong>When NOT to use:</strong> Small tables, frequently updated columns.</p>
+        <div class="drama-box" style="margin:5px 0;">
+          <strong>🎬 Google Maps Location Query Optimization</strong>
+          Adding an Index dropped search times from 45s to 0.02s! You can verify this via `EXPLAIN PLAN`.
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="color:#fff;font-size:18px;margin-bottom:8px;">🔗 Synonyms (CREATE PUBLIC SYNONYM)</h3>
+        <div class="drama-box" style="margin:5px 0;">
+          <strong>🎬 Infosys Cross-Team Abstraction</strong>
+          Instead of `HR_SCHEMA.EMPLOYEE_MASTER_TBL_PROD`, a PUBLIC SYNONYM allows all teams to simply query `EMP`.
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <h3 style="color:#fff;font-size:16px;margin-bottom:10px;">🎤 Interview Questions</h3>
+      <ol style="color:var(--s400);font-size:13px;padding-left:20px;line-height:1.6;">
+        <li>What is the difference between a Simple View and a Complex View?</li>
+        <li>What are the disadvantages of having too many Indexes?</li>
+        <li>What is the difference between NEXTVAL and CURRVAL?</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- MODULE 1: SQL CLASSIFICATIONS & LIFECYCLE -->
+  <!-- ========================================== -->
+  <section id="classifications" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag">Module 1 · Pages 1 – 10</span>
+      <h2>SQL Language Classification &amp; Table Lifecycle</h2>
+      <p>Understanding Database Management Systems (DBMS), Relational Models (RDBMS), the 5 SQL Sub-Languages, and the internal mechanics of DDL vs DML commands.</p>
+    </div>
+
+    <div class="drama-box">
+      <strong>🎬 Real-World Dramatic Story: The Midnight Wall Street Bank Heist Recovery</strong>
+      At 2:45 AM, an errant deployment script executed <code class="hl-kw">DROP TABLE Ledgers;</code> on a major investment bank's primary Oracle cluster instead of staging. Because <code class="hl-kw">DROP</code> is a <strong>DDL</strong> command, it auto-committed immediately. Disaster was averted within 90 seconds because the lead DBA used Oracle's <code class="hl-kw">FLASHBACK TABLE Ledgers TO BEFORE DROP;</code> to rescue all transaction logs directly from the database recycle bin!
+    </div>
+
+    <div class="card-grid-3">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;margin-bottom:12px">
+          <span class="badge b-blue">DDL</span>
+          <span style="font-size:12px;color:var(--s400)">Auto-Committed</span>
+        </div>
+        <h3 style="font-size:17px;margin-bottom:8px;color:#fff">Data Definition Language</h3>
+        <p style="font-size:13px;color:var(--s400);margin-bottom:14px">Defines, modifies, and deletes database schema objects. DDL statements execute an implicit <code class="hl-kw">COMMIT</code>.</p>
+        <ul style="font-size:12px;color:var(--s300);line-height:1.9;padding-left:18px">
+          <li><code class="hl-kw">CREATE</code> — Instantiate tables, views, indices</li>
+          <li><code class="hl-kw">ALTER</code> — Add, modify, drop columns/constraints</li>
+          <li><code class="hl-kw">DROP</code> — Permanently remove table &amp; schema</li>
+          <li><code class="hl-kw">TRUNCATE</code> — Empty table data, reset High Water Mark</li>
+          <li><code class="hl-kw">RENAME</code> — Rename schema objects</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;margin-bottom:12px">
+          <span class="badge b-green">DML &amp; DQL</span>
+          <span style="font-size:12px;color:var(--s400)">Rollbackable</span>
+        </div>
+        <h3 style="font-size:17px;margin-bottom:8px;color:#fff">Data Manipulation &amp; Query</h3>
+        <p style="font-size:13px;color:var(--s400);margin-bottom:14px">Manipulates row-level data inside tables without modifying table structure. Requires explicit transaction commit.</p>
+        <ul style="font-size:12px;color:var(--s300);line-height:1.9;padding-left:18px">
+          <li><code class="hl-kw">INSERT</code> — Add new records into table</li>
+          <li><code class="hl-kw">UPDATE</code> — Modify existing row values</li>
+          <li><code class="hl-kw">DELETE</code> — Selectively remove rows with <code class="hl-kw">WHERE</code></li>
+          <li><code class="hl-kw">SELECT</code> — (DQL) Project and filter dataset</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;margin-bottom:12px">
+          <span class="badge b-amber">TCL &amp; DCL</span>
+          <span style="font-size:12px;color:var(--s400)">Security &amp; ACIDs</span>
+        </div>
+        <h3 style="font-size:17px;margin-bottom:8px;color:#fff">Transaction &amp; Access Control</h3>
+        <p style="font-size:13px;color:var(--s400);margin-bottom:14px">Manages atomicity, rollback points, and user permission boundaries across the multi-user database.</p>
+        <ul style="font-size:12px;color:var(--s300);line-height:1.9;padding-left:18px">
+          <li><code class="hl-kw">COMMIT</code> — Persist current transaction to disk</li>
+          <li><code class="hl-kw">ROLLBACK</code> — Undo uncommitted modifications</li>
+          <li><code class="hl-kw">SAVEPOINT</code> — Set named rollback checkpoints</li>
+          <li><code class="hl-kw">GRANT</code> / <code class="hl-kw">REVOKE</code> — User access permissions</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- DROP vs TRUNCATE vs DELETE Table -->
+    <div style="margin-top:32px">
+      <h3 style="font-size:18px;font-weight:800;color:#fff;margin-bottom:14px">🔥 The Classic IT Comparison: DROP vs TRUNCATE vs DELETE</h3>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>DELETE</th>
+              <th>TRUNCATE</th>
+              <th>DROP</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Language Category</strong></td>
+              <td><span class="badge b-green">DML (Data Manipulation)</span></td>
+              <td><span class="badge b-blue">DDL (Data Definition)</span></td>
+              <td><span class="badge b-blue">DDL (Data Definition)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Scope of Removal</strong></td>
+              <td>Selected rows (filtered via <code class="hl-kw">WHERE</code>) or all rows</td>
+              <td>All rows in table unconditionally</td>
+              <td>Entire table structure + all rows + indices</td>
+            </tr>
+            <tr>
+              <td><strong>Transaction Rollback</strong></td>
+              <td>Can be rolled back (<code class="hl-kw">ROLLBACK</code> works)</td>
+              <td>Cannot be rolled back (Implicit commit)</td>
+              <td>Cannot be rolled back (Implicit commit)</td>
+            </tr>
+            <tr>
+              <td><strong>Execution Speed</strong></td>
+              <td>Slow (logs each deleted row in undo log)</td>
+              <td>Ultra-Fast (deallocates memory pages)</td>
+              <td>Instant (drops dictionary metadata)</td>
+            </tr>
+            <tr>
+              <td><strong>High Water Mark (HWM)</strong></td>
+              <td>Does NOT reset HWM or identity seed</td>
+              <td>Resets HWM &amp; auto-increment to initial state</td>
+              <td>Table deallocated completely</td>
+            </tr>
+            <tr>
+              <td><strong>Triggers Fired</strong></td>
+              <td>Fires <code class="hl-kw">ON DELETE</code> triggers</td>
+              <td>Does NOT fire delete triggers</td>
+              <td>Does NOT fire delete triggers</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- MODULE 5: NESTED CASE STATEMENTS & LOGIC -->
+  <!-- ========================================== -->
+  <section id="nested-case" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag">Module 5 · Pages 120 – 125</span>
+      <h2>Nested CASE Statements &amp; Multi-Tier Categorization</h2>
+      <p>Evaluating hierarchical business rules, nested condition trees, and transforming complex raw features into segmented categories for machine learning models.</p>
+    </div>
+
+    <div class="drama-box">
+      <strong>🎬 Real-World Dramatic Story: Uber Surge Pricing Multi-Tier Passenger Rule</strong>
+      During a sudden torrential rainstorm at JFK airport, Uber's surge engine evaluated passenger tiers: If pickup zone was JFK Terminal 4, it evaluated flight delay status. If flight was delayed &gt; 2 hours, passengers received Priority Free Upgrades; if not, standard surge multipliers applied. This exact multi-tier logic is expressed through <strong>Nested CASE statements</strong>!
+    </div>
+
+    <div class="card-grid-2">
+      <!-- Nested Case Syntax Box -->
+      <div class="card">
+        <h3 style="font-size:18px;font-weight:800;color:#fff;margin-bottom:12px">📐 Nested CASE Statement Syntax</h3>
+        <p style="font-size:13px;color:var(--s400);margin-bottom:14px">A <code class="hl-kw">CASE</code> expression nested inside the <code class="hl-kw">THEN</code> clause of an outer <code class="hl-kw">CASE</code> statement:</p>
+        
+        <div class="code-box">
+          <div class="code-header">
+            <span>Nested CASE Blueprint</span>
+            <span class="lang">SQL</span>
+          </div>
+          <div class="code-body">
+<span class="hl-kw">CASE</span>
+  <span class="hl-kw">WHEN</span> CONDITION1 <span class="hl-kw">THEN</span>
+    <span class="hl-kw">CASE</span>
+      <span class="hl-kw">WHEN</span> CONDITION2 <span class="hl-kw">THEN</span> RESULT1
+      <span class="hl-kw">ELSE</span> RESULT2
+    <span class="hl-kw">END</span>
+  <span class="hl-kw">WHEN</span> CONDITION3 <span class="hl-kw">THEN</span>
+    <span class="hl-kw">CASE</span>
+      <span class="hl-kw">WHEN</span> CONDITION4 <span class="hl-kw">THEN</span> RESULT3
+      <span class="hl-kw">ELSE</span> RESULT4
+    <span class="hl-kw">END</span>
+  <span class="hl-kw">ELSE</span> RESULT5
+<span class="hl-kw">END</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Concrete Examples from Notes -->
+      <div class="card">
+        <h3 style="font-size:18px;font-weight:800;color:#fff;margin-bottom:12px">🏢 Concrete Working Queries (from Notes)</h3>
+        
+        <div class="code-box">
+          <div class="code-header">
+            <span>1. Designation Classification Query</span>
+            <span class="lang">SQL</span>
+          </div>
+          <div class="code-body">
+<span class="hl-kw">SELECT</span> ename, deptno, sal,
+<span class="hl-kw">CASE</span>
+  <span class="hl-kw">WHEN</span> deptno = 10 <span class="hl-kw">THEN</span>
+    <span class="hl-kw">CASE</span>
+      <span class="hl-kw">WHEN</span> sal &gt; 2000 <span class="hl-kw">THEN</span> <span class="hl-str">'SENIOR MANAGER'</span>
+      <span class="hl-kw">ELSE</span> <span class="hl-str">'TRAINEE'</span>
+    <span class="hl-kw">END</span>
+  <span class="hl-kw">WHEN</span> deptno = 20 <span class="hl-kw">THEN</span>
+    <span class="hl-kw">CASE</span>
+      <span class="hl-kw">WHEN</span> sal &gt; 2000 <span class="hl-kw">THEN</span> <span class="hl-str">'JUNIOR MANAGER'</span>
+      <span class="hl-kw">ELSE</span> <span class="hl-str">'TRAINEE'</span>
+    <span class="hl-kw">END</span>
+  <span class="hl-kw">ELSE</span> <span class="hl-str">'EMPLOYEE'</span>
+<span class="hl-kw">END AS</span> designation
+<span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span>;
+          </div>
+        </div>
+
+        <div class="code-box" style="margin-top:12px">
+          <div class="code-header">
+            <span>2. Department Category Mapping Query</span>
+            <span class="lang">SQL</span>
+          </div>
+          <div class="code-body">
+<span class="hl-kw">SELECT</span> ename, deptno, sal,
+<span class="hl-kw">CASE</span>
+  <span class="hl-kw">WHEN</span> deptno = 10 <span class="hl-kw">THEN</span>
+    <span class="hl-kw">CASE</span>
+      <span class="hl-kw">WHEN</span> sal &gt; 2000 <span class="hl-kw">THEN</span> <span class="hl-str">'SENIOR'</span>
+      <span class="hl-kw">ELSE</span> <span class="hl-str">'TRAINEE'</span>
+    <span class="hl-kw">END</span>
+  <span class="hl-kw">WHEN</span> deptno = 20 <span class="hl-kw">THEN</span>
+    <span class="hl-kw">CASE</span>
+      <span class="hl-kw">WHEN</span> sal &gt; 2000 <span class="hl-kw">THEN</span> <span class="hl-str">'JUNIOR'</span>
+      <span class="hl-kw">ELSE</span> <span class="hl-str">'JUNIOR TRAINEE'</span>
+    <span class="hl-kw">END</span>
+  <span class="hl-kw">ELSE</span> <span class="hl-str">'OTHERS'</span>
+<span class="hl-kw">END AS</span> category
+<span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span>;
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- MODULE 8: COMPLETE JOINS ENCYCLOPEDIA -->
+    <!-- ========================================== -->
+  <!-- MODULE 8: COMPLETE JOINS MASTERCLASS & VISUAL ENGINE -->
+  <!-- ========================================== -->
+  <section id="all-joins" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag">Module 8 · Pages 91 – 114</span>
+      <h2>The Complete SQL Joins Masterclass &amp; Visual Interactive Engine</h2>
+      <p>Master relational schema traversals, normalization, ON vs WHERE outer join filtering traps, execution plan algorithms (Hash vs Nested Loop), and multi-tier self-joins.</p>
+    </div>
+
+    <!-- Interactive Visual Join Studio -->
+    <div class="card" style="margin-bottom:36px;border-color:rgba(56,189,248,.4);background:linear-gradient(145deg,rgba(15,23,42,.95),rgba(14,116,144,.15));box-shadow:0 16px 40px rgba(0,0,0,.6)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+        <div>
+          <h3 style="font-size:20px;font-weight:900;color:#fff">🎮 Interactive Visual Join Simulator</h3>
+          <p style="font-size:13px;color:var(--s400)">Click any join type below to dynamically see the SVG Venn diagram, row-matching logic, and ANSI SQL syntax!</p>
+        </div>
+        <span class="badge b-blue" style="font-size:12px">Real-Time JS Engine</span>
+      </div>
+
+      <!-- Join Selector Buttons -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px">
+        <button class="btn btn-secondary join-sel-btn active" onclick="selectJoinSim('inner', this)" style="padding:8px 16px;font-size:12px;border-color:#38bdf8;color:#38bdf8">1. INNER JOIN</button>
+        <button class="btn btn-secondary join-sel-btn" onclick="selectJoinSim('left', this)" style="padding:8px 16px;font-size:12px">2. LEFT JOIN</button>
+        <button class="btn btn-secondary join-sel-btn" onclick="selectJoinSim('right', this)" style="padding:8px 16px;font-size:12px">3. RIGHT JOIN</button>
+        <button class="btn btn-secondary join-sel-btn" onclick="selectJoinSim('full', this)" style="padding:8px 16px;font-size:12px">4. FULL OUTER JOIN</button>
+        <button class="btn btn-secondary join-sel-btn" onclick="selectJoinSim('cross', this)" style="padding:8px 16px;font-size:12px">5. CROSS JOIN</button>
+        <button class="btn btn-secondary join-sel-btn" onclick="selectJoinSim('semi', this)" style="padding:8px 16px;font-size:12px">6. SEMI-JOIN (EXISTS)</button>
+        <button class="btn btn-secondary join-sel-btn" onclick="selectJoinSim('anti', this)" style="padding:8px 16px;font-size:12px">7. ANTI-JOIN (NOT EXISTS)</button>
+        <button class="btn btn-secondary join-sel-btn" onclick="selectJoinSim('self', this)" style="padding:8px 16px;font-size:12px">8. 3-TIER SELF JOIN</button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:300px 1fr;gap:24px;align-items:center">
+        <!-- Dynamic SVG Venn Diagram -->
+        <div style="background:#050811;border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:20px;text-align:center">
+          <div style="font-size:12px;font-weight:700;color:var(--s400);margin-bottom:12px" id="vennTitle">Venn Representation: A ∩ B</div>
+          <svg id="joinVennSvg" viewBox="0 0 240 160" width="100%" height="150">
+            <!-- Left Circle (Table A: EMP) -->
+            <circle id="circleA" cx="85" cy="80" r="55" fill="rgba(56,189,248,0.4)" stroke="#38bdf8" stroke-width="2"/>
+            <!-- Right Circle (Table B: DEPT) -->
+            <circle id="circleB" cx="155" cy="80" r="55" fill="rgba(192,132,252,0.4)" stroke="#c084fc" stroke-width="2"/>
+            <!-- Labels -->
+            <text x="55" y="85" font-size="12" font-weight="bold" fill="#fff">EMP (A)</text>
+            <text x="165" y="85" font-size="12" font-weight="bold" fill="#fff">DEPT (B)</text>
+          </svg>
+          <div id="joinVennDesc" style="font-size:11px;color:#cbd5e1;margin-top:10px">Returns only rows where DEPTNO matches in both EMP and DEPT tables.</div>
+        </div>
+
+        <!-- SQL Query & Match Preview -->
+        <div>
+          <div class="code-box" style="margin:0 0 16px 0">
+            <div class="code-header">
+              <span id="joinCodeTitle">INNER JOIN Syntax (ANSI Standard)</span>
+              <span class="lang">SQL</span>
+            </div>
+            <div class="code-body" id="joinSqlSnippet" style="font-size:12px;padding:14px">
+<span class="hl-kw">SELECT</span> e.ename, e.sal, d.dname, d.loc
+<span class="hl-kw">FROM</span> Emp e
+<span class="hl-kw">INNER JOIN</span> Dept d <span class="hl-kw">ON</span> e.deptno = d.deptno;
+            </div>
+          </div>
+
+          <div style="background:#050811;border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:14px;font-size:12px">
+            <strong style="color:#38bdf8" id="joinScenarioTitle">🎬 Real-World Scenario: Netflix Watch History Matching</strong>
+            <p style="color:var(--s300);margin-top:4px" id="joinScenarioDesc">Matches registered subscribers with watching records. Only users who have watched content AND titles that exist in catalog are returned.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Deep Dive Educational Cards -->
+    <div style="display:flex;flex-direction:column;gap:24px">
+
+      <!-- 1. Why Joins Exist & Normalization -->
+      <div class="card">
+        <h3 style="font-size:18px;font-weight:800;color:#fff;margin-bottom:12px">💡 1. Why Do Joins Exist? Database Normalization (1NF ➔ 3NF)</h3>
+        <p style="font-size:13px;color:var(--s300);line-height:1.8;margin-bottom:14px">
+          If we stored employee names, salaries, department names, and department locations in a single monolithic table, updating department location from <em>'DALLAS'</em> to <em>'AUSTIN'</em> would require updating thousands of duplicate employee rows (risk of **Update Anomalies**). 
+          By normalizing database tables into separate entities (<code>EMP</code> and <code>DEPT</code>) linked by a foreign key (<code>DEPTNO</code>), we eliminate redundancy while maintaining relational integrity. <strong>SQL Joins reconstruct the complete dataset at query time.</strong>
+        </p>
+      </div>
+
+      <!-- 2. ON vs WHERE in Outer Joins (Critical Interview Trap) -->
+      <div class="card" style="border-color:rgba(239,68,68,.3);background:linear-gradient(145deg,rgba(15,23,42,.95),rgba(153,27,27,.15))">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <h3 style="font-size:18px;font-weight:800;color:#fb7185">⚠️ 2. The #1 SQL Interview Trap: ON vs WHERE Filtering in LEFT JOIN</h3>
+          <span class="badge b-rose">FAANG Interview Favorite</span>
+        </div>
+        <p style="font-size:13px;color:var(--s300);line-height:1.8;margin-bottom:16px">
+          Adding a condition to the <code>ON</code> clause behaves fundamentally differently than placing it in the <code>WHERE</code> clause during an Outer Join!
+        </p>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div style="background:#050811;border:1px solid rgba(74,222,128,.3);border-radius:10px;padding:16px">
+            <strong style="color:#4ade80;font-size:13px">✅ Case A: Filtering in the ON Clause</strong>
+            <pre style="margin-top:8px;font-size:11px;color:#e2e8f0"><code><span class="hl-kw">SELECT</span> e.ename, d.dname, d.loc
+<span class="hl-kw">FROM</span> Emp e
+<span class="hl-kw">LEFT JOIN</span> Dept d 
+  <span class="hl-kw">ON</span> e.deptno = d.deptno 
+ <span class="hl-kw">AND</span> d.loc = <span class="hl-str">'DALLAS'</span>;</code></pre>
+            <p style="font-size:11px;color:var(--s400);margin-top:8px">
+              <strong>Result:</strong> Preserves <strong>ALL 14 employees</strong>! If an employee is not in DALLAS, department columns return <code>NULL</code>, but the employee is NOT filtered out.
+            </p>
+          </div>
+
+          <div style="background:#050811;border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:16px">
+            <strong style="color:#fb7185;font-size:13px">❌ Case B: Filtering in the WHERE Clause</strong>
+            <pre style="margin-top:8px;font-size:11px;color:#e2e8f0"><code><span class="hl-kw">SELECT</span> e.ename, d.dname, d.loc
+<span class="hl-kw">FROM</span> Emp e
+<span class="hl-kw">LEFT JOIN</span> Dept d 
+  <span class="hl-kw">ON</span> e.deptno = d.deptno
+<span class="hl-kw">WHERE</span> d.loc = <span class="hl-str">'DALLAS'</span>;</code></pre>
+            <p style="font-size:11px;color:var(--s400);margin-top:8px">
+              <strong>Result:</strong> <strong>Converts LEFT JOIN into an INNER JOIN!</strong> Because non-matching left rows produce <code>d.loc = NULL</code>, and <code>NULL = 'DALLAS'</code> is FALSE, all non-DALLAS rows are discarded.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Join Execution Algorithms under the Hood -->
+      <div class="card">
+        <h3 style="font-size:18px;font-weight:800;color:#fff;margin-bottom:14px">⚙️ 3. Physical Database Execution Algorithms (Hash Join vs Nested Loop vs Sort-Merge)</h3>
+        <p style="font-size:13px;color:var(--s400);margin-bottom:16px">How relational query optimizers (Oracle CBO, PostgreSQL, Snowflake) physically join datasets on disk/memory:</p>
+
+        <div class="table-wrap" style="margin:0">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Join Algorithm</th>
+                <th>Time Complexity</th>
+                <th>Memory Requirement</th>
+                <th>Best Database Workload Scenario</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong style="color:#38bdf8">Nested Loop Join</strong></td>
+                <td>$O(M \times N)$</td>
+                <td>$O(1)$ Minimal Memory</td>
+                <td>Small tables, or when outer table drives indexed lookups on inner table (OLTP applications).</td>
+              </tr>
+              <tr>
+                <td><strong style="color:#4ade80">Hash Join</strong></td>
+                <td>$O(M + N)$</td>
+                <td>$O(M)$ Hash Table in RAM</td>
+                <td>Joining large unindexed tables in Data Warehouses (Snowflake / Redshift). Builds in-memory hash map of smaller table.</td>
+              </tr>
+              <tr>
+                <td><strong style="color:#c084fc">Sort-Merge Join</strong></td>
+                <td>$O(M \log M + N \log N)$</td>
+                <td>$O(1)$ if pre-sorted</td>
+                <td>When join columns are already sorted (B-Tree index scans) or when inequality range joins (`JOIN ON e.sal >= s.losal`) are used.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 4. 3-Tier Self Join Hierarchy -->
+      <div class="card">
+        <h3 style="font-size:18px;font-weight:800;color:#fff;margin-bottom:12px">👑 4. 3-Tier Corporate Chain of Command Self-Join</h3>
+        <p style="font-size:13px;color:var(--s300);line-height:1.8;margin-bottom:14px">
+          Joining a table to itself to resolve recursive parent-child relationships (e.g. Employee ➔ Direct Manager ➔ VP Executive Boss).
+        </p>
+
+        <div class="code-box">
+          <div class="code-header">
+            <span>3-Tier Hierarchy Query</span>
+            <span class="lang">SQL</span>
+          </div>
+          <div class="code-body">
+<span class="hl-kw">SELECT</span> 
+    e1.ename <span class="hl-kw">AS</span> Employee,
+    e1.job <span class="hl-kw">AS</span> Emp_Role,
+    e2.ename <span class="hl-kw">AS</span> Direct_Manager,
+    e3.ename <span class="hl-kw">AS</span> Executive_VP_Boss
+<span class="hl-kw">FROM</span> Emp e1
+<span class="hl-kw">LEFT JOIN</span> Emp e2 <span class="hl-kw">ON</span> e1.mgr = e2.empno
+<span class="hl-kw">LEFT JOIN</span> Emp e3 <span class="hl-kw">ON</span> e2.mgr = e3.empno
+<span class="hl-kw">ORDER BY</span> Executive_VP_Boss, Direct_Manager;
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+<!-- ========================================== -->
+  <!-- MODULE 9: THE COMPLETE 18 WINDOW FUNCTIONS -->
+  <!-- ========================================== -->
+  <section id="window-functions" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag">Module 9 · Advanced Analytics Masterclass</span>
+      <h2>The Complete Window Functions Encyclopedia (All 18 Functions)</h2>
+      <p>A window function performs a calculation across a set of table rows that are related to the current row without removing or collapsing individual rows. Master partitions, orderings, and sliding window frames.</p>
+    </div>
+
+    <!-- Partition Conceptual Diagram -->
+    <div class="card" style="margin-bottom:32px;background:linear-gradient(135deg,rgba(15,23,42,.95),rgba(30,41,59,.8))">
+      <h3 style="font-size:18px;font-weight:800;color:#fff;margin-bottom:10px">📊 Visual Anatomy of a Window Partition</h3>
+      <p style="font-size:13px;color:var(--s400);margin-bottom:16px">
+        Consider computing <code class="hl-func">AVG(sal) OVER (PARTITION BY department)</code>. Unlike <code class="hl-kw">GROUP BY</code> which collapses rows into one line per dept, the window function retains every single employee while broadcasting their department average alongside!
+      </p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px">
+        <div style="background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);padding:16px;border-radius:10px">
+          <strong style="color:#38bdf8;font-size:13px;display:block;margin-bottom:8px">💻 IT Department Window (Partition 1)</strong>
+          <div style="font-size:12px;color:var(--s300);line-height:1.8">
+            • RAVI — Sal: $50,000 ➔ <span style="color:#38bdf8;font-weight:700">Dept Avg: $60,000</span><br/>
+            • ARUN — Sal: $70,000 ➔ <span style="color:#38bdf8;font-weight:700">Dept Avg: $60,000</span>
+          </div>
+        </div>
+
+        <div style="background:rgba(192,132,252,.08);border:1px solid rgba(192,132,252,.25);padding:16px;border-radius:10px">
+          <strong style="color:#c084fc;font-size:13px;display:block;margin-bottom:8px">👥 HR Department Window (Partition 2)</strong>
+          <div style="font-size:12px;color:var(--s300);line-height:1.8">
+            • PRIYA — Sal: $60,000 ➔ <span style="color:#c084fc;font-weight:700">Dept Avg: $70,000</span><br/>
+            • ANU — Sal: $80,000 ➔ <span style="color:#c084fc;font-weight:700">Dept Avg: $70,000</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Window Function Categories Tabs -->
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="openWinTab(event, 'w-ranking')">🏆 Ranking Functions (5)</button>
+      <button class="tab-btn" onclick="openWinTab(event, 'w-value')">⚡ Value / Offset Functions (5)</button>
+      <button class="tab-btn" onclick="openWinTab(event, 'w-agg')">📈 Aggregate Windows (5)</button>
+      <button class="tab-btn" onclick="openWinTab(event, 'w-stat')">🧮 Statistical Windows (3)</button>
+    </div>
+
+    <!-- Ranking Functions Tab -->
+    <div id="w-ranking" class="tab-pane active">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <h4 style="font-size:16px;color:#38bdf8">1. RANK()</h4>
+            <span class="badge b-blue">Gaps After Ties</span>
+          </div>
+          <p style="font-size:13px;color:var(--s300);margin-bottom:10px">Assigns the same rank to rows having equal values. Gaps are left after tied ranks (e.g. 1, 2, 2, 4).</p>
+          <div class="code-box">
+            <div class="code-body" style="font-size:12px;padding:12px">
+<span class="hl-cm">-- Display salary rank of each employee within their dept with highest salary receiving rank 1</span>
+<span class="hl-kw">SELECT</span> ename, deptno, sal,
+       <span class="hl-func">RANK</span>() <span class="hl-kw">OVER</span> (<span class="hl-kw">PARTITION BY</span> deptno <span class="hl-kw">ORDER BY</span> sal <span class="hl-kw">DESC</span>) <span class="hl-kw">AS</span> sal_rank
+<span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span>;
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <h4 style="font-size:16px;color:#4ade80">2. DENSE_RANK()</h4>
+            <span class="badge b-green">No Gaps After Ties</span>
+          </div>
+          <p style="font-size:13px;color:var(--s300);margin-bottom:10px">Assigns the same rank to tied rows but does NOT leave gaps after ties (e.g. 1, 2, 2, 3). Crucial for finding the true Nth highest salary.</p>
+          <div class="code-box">
+            <div class="code-body" style="font-size:12px;padding:12px">
+<span class="hl-kw">SELECT</span> ename, deptno, sal,
+       <span class="hl-func">DENSE_RANK</span>() <span class="hl-kw">OVER</span> (<span class="hl-kw">PARTITION BY</span> deptno <span class="hl-kw">ORDER BY</span> sal <span class="hl-kw">DESC</span>) <span class="hl-kw">AS</span> sal_dense_rank
+<span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span>;
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <h4 style="font-size:16px;color:#fbbf24">3. NTILE(N)</h4>
+            <span class="badge b-amber">Equal-Sized Buckets</span>
+          </div>
+          <p style="font-size:13px;color:var(--s300);margin-bottom:10px">Divides rows into approximately equal-sized groups or buckets and assigns each row a bucket number (e.g. Quartiles 1–4).</p>
+          <div class="code-box">
+            <div class="code-body" style="font-size:12px;padding:12px">
+<span class="hl-cm">-- Divide all employees into 4 salary quartile groups with highest paid in group 1</span>
+<span class="hl-kw">SELECT</span> ename, sal,
+       <span class="hl-func">NTILE</span>(4) <span class="hl-kw">OVER</span> (<span class="hl-kw">ORDER BY</span> sal <span class="hl-kw">DESC</span>) <span class="hl-kw">AS</span> salary_quartile_group
+<span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span>;
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <h4 style="font-size:16px;color:#c084fc">4. PERCENT_RANK()</h4>
+            <span class="badge b-purple">Relative Rank 0.0 to 1.0</span>
+          </div>
+          <p style="font-size:13px;color:var(--s300);margin-bottom:10px">Calculates the relative rank of a row within its partition producing a floating-point score between 0 and 1: $\frac{\text{Rank} - 1}{\text{Total Rows} - 1}$.</p>
+          <div class="code-box">
+            <div class="code-body" style="font-size:12px;padding:12px">
+<span class="hl-kw">SELECT</span> ename, deptno, sal,
+       <span class="hl-func">PERCENT_RANK</span>() <span class="hl-kw">OVER</span> (<span class="hl-kw">PARTITION BY</span> deptno <span class="hl-kw">ORDER BY</span> sal) <span class="hl-kw">AS</span> salary_percent_rank
+<span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span>;
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <h4 style="font-size:16px;color:#fb7185">5. CUME_DIST()</h4>
+            <span class="badge b-rose">Cumulative Distribution</span>
+          </div>
+          <p style="font-size:13px;color:var(--s300);margin-bottom:10px">Returns the proportion of rows whose ordering value is less than or equal to the current row value: $\frac{\text{Count}(\text{values} \le \text{current})}{\text{Total Rows}}$.</p>
+          <div class="code-box">
+            <div class="code-body" style="font-size:12px;padding:12px">
+<span class="hl-kw">SELECT</span> ename, deptno, sal,
+       <span class="hl-func">CUME_DIST</span>() <span class="hl-kw">OVER</span> (<span class="hl-kw">PARTITION BY</span> deptno <span class="hl-kw">ORDER BY</span> sal) <span class="hl-kw">AS</span> cumulative_dist
+<span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span>;
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Value / Offset Functions Tab -->
+    <div id="w-value" class="tab-pane">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <h4 style="font-size:16px;color:#38bdf8">6. LAG(expression, offset, default)</h4>
+            <span class="badge b-blue">Previous Row</span>
+          </div>
+          <p style="font-size:13px;color:var(--s300);margin-bottom:10px">Returns a value from a previous row in the ordered window. Essential for computing time-series deltas and growth rates.</p>
+          <div class="code-box">
+            <div class="code-body" style="font-size:12px;padding:12px">
+<span class="hl-cm">-- Display each employee salary along with the salary of the previously hired employee in same dept</span>
+<span class="hl-kw">SELECT</span> ename, deptno, hiredate, sal,
+       <span class="hl-func">LAG</span>(sal, 1, 0) <span class="hl-kw">OVER</span> (<span class="hl-kw">PARTITION BY</span> deptno <span class="hl-kw">ORDER BY</span> hiredate) <span class="hl-kw">AS</span> prev_hired_emp_sal
+<span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span>;
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <h4 style="font-size:16px;color:#4ade80">7. LEAD(expression, offset, default)</h4>
+            <span class="badge b-green">Following / Next Row</span>
+          </div>
+          <p style="font-size:13px;color:var(--s300);margin-bottom:10px">Returns a value from a following/next row in the ordered window. Used for forward target labeling in ML.</p>
+          <div class="code-box">
+            <div class="code-body" style="font-size:12px;padding:12px">
+<span class="hl-cm">-- Display each employee along with the name of the next employee hired in same dept</span>
+<span class="hl-kw">SELECT</span> ename, deptno, hiredate,
+       <span class="hl-func">LEAD</span>(ename, 1, <span class="hl-str">'NONE'</span>) <span class="hl-kw">OVER</span> (<span class="hl-kw">PARTITION BY</span> deptno <span class="hl-kw">ORDER BY</span> hiredate) <span class="hl-kw">AS</span> next_hired_employee
+<span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span>;
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <h4 style="font-size:16px;color:#fbbf24">8. FIRST_VALUE(expression)</h4>
+            <span class="badge b-amber">Window Peak</span>
+          </div>
+          <p style="font-size:13px;color:var(--s300);margin-bottom:10px">Returns the value from the first row of the specified ordered window.</p>
+          <div class="code-box">
+            <div class="code-body" style="font-size:12px;padding:12px">
+<span class="hl-cm">-- Display every employee along with the name of the highest paid employee in their dept</span>
+<span class="hl-kw">SELECT</span> ename, deptno, sal,
+       <span class="hl-func">FIRST_VALUE</span>(ename) <span class="hl-kw">OVER</span> (<span class="hl-kw">PARTITION BY</span> deptno <span class="hl-kw">ORDER BY</span> sal <span class="hl-kw">DESC</span>) <span class="hl-kw">AS</span> top_paid_employee
+<span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span>;
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <h4 style="font-size:16px;color:#c084fc">9. LAST_VALUE(expression)</h4>
+            <span class="badge b-purple">Window Base</span>
+          </div>
+          <p style="font-size:13px;color:var(--s300);margin-bottom:10px">Returns the value from the last row of the window. <strong>Crucial Gotcha:</strong> You MUST include <code class="hl-kw">ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING</code>, otherwise the default frame terminates at <code class="hl-kw">CURRENT ROW</code>!</p>
+          <div class="code-box">
+            <div class="code-body" style="font-size:12px;padding:12px">
+<span class="hl-cm">-- Display every employee along with the name of the lowest paid employee in their dept</span>
+<span class="hl-kw">SELECT</span> ename, deptno, sal,
+       <span class="hl-func">LAST_VALUE</span>(ename) <span class="hl-kw">OVER</span> (
+         <span class="hl-kw">PARTITION BY</span> deptno 
+         <span class="hl-kw">ORDER BY</span> sal <span class="hl-kw">DESC</span> 
+         <span class="hl-kw">ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING</span>
+       ) <span class="hl-kw">AS</span> lowest_paid_emp
+<span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span>;
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <h4 style="font-size:16px;color:#fb7185">10. NTH_VALUE(expression, N)</h4>
+            <span class="badge b-rose">Nth Specific Position</span>
+          </div>
+          <p style="font-size:13px;color:var(--s300);margin-bottom:10px">Returns the value from the Nth row of the specified window frame.</p>
+          <div class="code-box">
+            <div class="code-body" style="font-size:12px;padding:12px">
+<span class="hl-cm">-- Display every employee along with name of the 2nd highest paid employee in their dept</span>
+<span class="hl-kw">SELECT</span> ename, deptno, sal,
+       <span class="hl-func">NTH_VALUE</span>(ename, 2) <span class="hl-kw">OVER</span> (
+         <span class="hl-kw">PARTITION BY</span> deptno 
+         <span class="hl-kw">ORDER BY</span> sal <span class="hl-kw">DESC</span> 
+         <span class="hl-kw">ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING</span>
+       ) <span class="hl-kw">AS</span> second_highest_paid_emp
+<span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span>;
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Aggregate Window Functions Tab -->
+    <div id="w-agg" class="tab-pane">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div class="card">
+          <h4 style="font-size:16px;color:#38bdf8;margin-bottom:8px">11. SUM() OVER (PARTITION BY ...)</h4>
+          <p style="font-size:13px;color:var(--s300);margin-bottom:10px">Calculates total sum of values within partition while keeping every original row visible.</p>
+          <div class="code-box">
+            <div class="code-body" style="font-size:12px;padding:12px">
+<span class="hl-kw">SELECT</span> ename, deptno, sal,
+       <span class="hl-func">SUM</span>(sal) <span class="hl-kw">OVER</span> (<span class="hl-kw">PARTITION BY</span> deptno) <span class="hl-kw">AS</span> total_dept_payroll
+<span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span>;
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4 style="font-size:16px;color:#4ade80;margin-bottom:8px">12. AVG() OVER (PARTITION BY ...)</h4>
+          <p style="font-size:13px;color:var(--s300);margin-bottom:10px">Calculates partition average without collapsing records, allowing direct employee-to-dept benchmarking.</p>
+          <div class="code-box">
+            <div class="code-body" style="font-size:12px;padding:12px">
+<span class="hl-kw">SELECT</span> ename, deptno, sal,
+       <span class="hl-func">AVG</span>(sal) <span class="hl-kw">OVER</span> (<span class="hl-kw">PARTITION BY</span> deptno) <span class="hl-kw">AS</span> dept_avg_sal,
+       sal - <span class="hl-func">AVG</span>(sal) <span class="hl-kw">OVER</span> (<span class="hl-kw">PARTITION BY</span> deptno) <span class="hl-kw">AS</span> diff_from_dept_mean
+<span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span>;
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4 style="font-size:16px;color:#fbbf24;margin-bottom:8px">13. COUNT() OVER (PARTITION BY ...)</h4>
+          <p style="font-size:13px;color:var(--s300);margin-bottom:10px">Counts rows or non-null values across the partition.</p>
+          <div class="code-box">
+            <div class="code-body" style="font-size:12px;padding:12px">
+<span class="hl-kw">SELECT</span> ename, deptno,
+       <span class="hl-func">COUNT</span>(*) <span class="hl-kw">OVER</span> (<span class="hl-kw">PARTITION BY</span> deptno) <span class="hl-kw">AS</span> dept_emp_headcount
+<span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span>;
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4 style="font-size:16px;color:#c084fc;margin-bottom:8px">14. MIN() &amp; 15. MAX() OVER (PARTITION BY ...)</h4>
+          <p style="font-size:13px;color:var(--s300);margin-bottom:10px">Returns the floor and ceiling extremes within the partition.</p>
+          <div class="code-box">
+            <div class="code-body" style="font-size:12px;padding:12px">
+<span class="hl-kw">SELECT</span> ename, deptno, sal,
+       <span class="hl-func">MIN</span>(sal) <span class="hl-kw">OVER</span> (<span class="hl-kw">PARTITION BY</span> deptno) <span class="hl-kw">AS</span> min_dept_sal,
+       <span class="hl-func">MAX</span>(sal) <span class="hl-kw">OVER</span> (<span class="hl-kw">PARTITION BY</span> deptno) <span class="hl-kw">AS</span> max_dept_sal
+<span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span>;
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Statistical Window Functions Tab -->
+    <div id="w-stat" class="tab-pane">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <h4 style="font-size:16px;color:#38bdf8">16. MEDIAN(expression) OVER (...)</h4>
+            <span class="badge b-blue">Middle Value</span>
+          </div>
+          <p style="font-size:13px;color:var(--s300);margin-bottom:10px">Returns the true statistical 50th percentile middle value, immune to extreme high/low salary outliers.</p>
+          <div class="code-box">
+            <div class="code-body" style="font-size:12px;padding:12px">
+<span class="hl-kw">SELECT</span> ename, deptno, sal,
+       <span class="hl-func">MEDIAN</span>(sal) <span class="hl-kw">OVER</span> (<span class="hl-kw">PARTITION BY</span> deptno) <span class="hl-kw">AS</span> dept_median_salary
+<span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span>;
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <h4 style="font-size:16px;color:#4ade80">17. STDDEV(expression) OVER (...)</h4>
+            <span class="badge b-green">Standard Deviation / Spread</span>
+          </div>
+          <p style="font-size:13px;color:var(--s300);margin-bottom:10px">Measures salary dispersion around the department mean. High STDDEV indicates wide wage disparity.</p>
+          <div class="code-box">
+            <div class="code-body" style="font-size:12px;padding:12px">
+<span class="hl-kw">SELECT</span> ename, deptno, sal,
+       <span class="hl-func">STDDEV</span>(sal) <span class="hl-kw">OVER</span> (<span class="hl-kw">PARTITION BY</span> deptno) <span class="hl-kw">AS</span> salary_stddev
+<span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span>;
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <h4 style="font-size:16px;color:#fbbf24">18. VARIANCE(expression) OVER (...)</h4>
+            <span class="badge b-amber">Statistical Variance (\(\sigma^2\))</span>
+          </div>
+          <p style="font-size:13px;color:var(--s300);margin-bottom:10px">Calculates the statistical variance of values within the partition ($\text{Variance} = \text{STDDEV}^2$).</p>
+          <div class="code-box">
+            <div class="code-body" style="font-size:12px;padding:12px">
+<span class="hl-kw">SELECT</span> ename, deptno, sal,
+       <span class="hl-func">VARIANCE</span>(sal) <span class="hl-kw">OVER</span> (<span class="hl-kw">PARTITION BY</span> deptno) <span class="hl-kw">AS</span> dept_salary_variance
+<span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span>;
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- MODULE 7: SUBQUERIES & NESTED LOGIC -->
+  <!-- ========================================== -->
+  <section id="subqueries" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag">Module 7 · Pages 71 – 90</span>
+      <h2>Subqueries: Single-Row, Multi-Row &amp; Correlated</h2>
+      <p>Mastering nested query execution, list matching with <code class="hl-kw">IN</code>, quantitative comparison with <code class="hl-kw">ANY</code> / <code class="hl-kw">ALL</code>, and short-circuit evaluation with <code class="hl-kw">EXISTS</code>.</p>
+    </div>
+
+    <div class="drama-box">
+      <strong>🎬 Real-World Dramatic Story: Google AI Team Salary Equity Audit</strong>
+      During an internal HR compensation calibration audit, Google's people analytics team needed to flag all engineers who were paid less than the average salary of their respective specialization. Because employee specialization averages differ dynamically, a <strong>Correlated Subquery</strong> re-evaluates the benchmark for each candidate engineer row by row!
+    </div>
+
+    <div class="card-grid-3">
+      <div class="card">
+        <span class="badge b-blue">Single-Row Subquery</span>
+        <h3 style="font-size:16px;margin:10px 0 6px;color:#fff">Scalar Result Comparison</h3>
+        <p style="font-size:12px;color:var(--s400);margin-bottom:12px">Inner query returns exactly 1 row &amp; 1 column. Evaluated using scalar operators (<code class="hl-kw">= &gt; &lt; &gt;= &lt;= !=</code>).</p>
+        <div class="code-box">
+          <div class="code-body" style="font-size:11px;padding:12px">
+<span class="hl-cm">-- Find emps earning above company avg</span>
+<span class="hl-kw">SELECT</span> ename, sal <span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span>
+<span class="hl-kw">WHERE</span> sal &gt; (<span class="hl-kw">SELECT</span> <span class="hl-func">AVG</span>(sal) <span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span>);
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge b-purple">Multi-Row Subquery</span>
+        <h3 style="font-size:16px;margin:10px 0 6px;color:#fff">Set &amp; Quantifier Evaluation</h3>
+        <p style="font-size:12px;color:var(--s400);margin-bottom:12px">Inner query returns multiple rows. Evaluated using <code class="hl-kw">IN</code>, <code class="hl-kw">&gt; ALL</code> (greater than max), <code class="hl-kw">&gt; ANY</code> (greater than min).</p>
+        <div class="code-box">
+          <div class="code-body" style="font-size:11px;padding:12px">
+<span class="hl-cm">-- Emps earning more than ALL salesmen</span>
+<span class="hl-kw">SELECT</span> ename, sal <span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span>
+<span class="hl-kw">WHERE</span> sal &gt; <span class="hl-kw">ALL</span> (
+  <span class="hl-kw">SELECT</span> sal <span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span> <span class="hl-kw">WHERE</span> job = <span class="hl-str">'SALESMAN'</span>
+);
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge b-green">Correlated Subquery</span>
+        <h3 style="font-size:16px;margin:10px 0 6px;color:#fff">Row-by-Row Correlation</h3>
+        <p style="font-size:12px;color:var(--s400);margin-bottom:12px">Inner query references outer query table alias. Executes iteratively for every candidate row in outer query.</p>
+        <div class="code-box">
+          <div class="code-body" style="font-size:11px;padding:12px">
+<span class="hl-cm">-- Emps earning more than their OWN dept avg</span>
+<span class="hl-kw">SELECT</span> e1.ename, e1.sal, e1.deptno
+<span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span> e1
+<span class="hl-kw">WHERE</span> e1.sal &gt; (
+  <span class="hl-kw">SELECT</span> <span class="hl-func">AVG</span>(e2.sal) <span class="hl-kw">FROM</span> <span class="hl-tbl">Emp</span> e2 
+  <span class="hl-kw">WHERE</span> e2.deptno = e1.deptno
+);
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- INTERACTIVE SQL PLAYGROUND & SANDBOX -->
+  <!-- ========================================== -->
+  <section id="sandbox" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag">Interactive Feature</span>
+      <h2>Interactive SQL Simulator &amp; Query Playground</h2>
+      <p>Test SQL queries against the pre-loaded 14-row classic <code class="hl-tbl">EMP</code> and <code class="hl-tbl">DEPT</code> tables in real time. Choose from pre-built WAQTD questions from your notes or write your own custom query!</p>
+    </div>
+
+    <div class="sandbox-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <h4 style="font-size:16px;color:#fff;font-weight:800">⚡ Choose a Pre-Built WAQTD Recipe</h4>
+        <span style="font-size:12px;color:#38bdf8">14 EMP rows · 4 DEPT rows active</span>
+      </div>
+
+      <div class="sb-presets">
+        <button class="sb-preset-btn active" onclick="loadQuery(0)">1. Emps Earning &gt; Dept Avg</button>
+        <button class="sb-preset-btn" onclick="loadQuery(1)">2. 2nd Highest Salary (Dense Rank)</button>
+        <button class="sb-preset-btn" onclick="loadQuery(2)">3. Manager Self-Join (Emp &amp; Mgr)</button>
+        <button class="sb-preset-btn" onclick="loadQuery(3)">4. Nested CASE Category</button>
+        <button class="sb-preset-btn" onclick="loadQuery(4)">5. Window Rankings (RANK / NTILE)</button>
+        <button class="sb-preset-btn" onclick="loadQuery(5)">6. Timeline Velocity (LAG &amp; LEAD)</button>
+        <button class="sb-preset-btn" onclick="loadQuery(6)">7. Statistical Window (AVG, STDDEV, VAR)</button>
+        <button class="sb-preset-btn" onclick="loadQuery(7)">8. Comm &gt; Sal (Page 30 WAQTD)</button>
+        <button class="sb-preset-btn" onclick="loadQuery(8)">9. RFM Machine Learning Features</button>
+      </div>
+
+      <textarea id="sqlInput" class="sb-editor" spellcheck="false"></textarea>
+
+      <div class="sb-controls">
+        <div style="font-size:12px;color:var(--s400)">
+          Tip: Supports <code class="hl-kw">SELECT</code>, <code class="hl-kw">WHERE</code>, <code class="hl-kw">GROUP BY</code>, <code class="hl-kw">JOIN</code>, <code class="hl-kw">CASE</code>, <code class="hl-func">RANK</code>, <code class="hl-func">LAG</code>, <code class="hl-func">STDDEV</code>, etc.
+        </div>
+        <div style="display:flex;gap:10px">
+          <button class="btn btn-secondary" onclick="resetSandbox()" style="padding:8px 16px;font-size:12px">🔄 Reset</button>
+          <button class="btn btn-primary" onclick="runSqlSimulator()" style="padding:8px 20px;font-size:12px">▶️ Execute Query</button>
+        </div>
+      </div>
+
+      <div id="sbOutput" class="sb-results">
+        <!-- Results rendered here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- MODULE 10: FULL WORKING DATA SCIENCE PROJECT -->
+  <!-- ========================================== -->
+  <section id="project" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag">Module 10 · Production Capstone</span>
+      <h2>End-to-End Working Data Science Project</h2>
+      <p>A complete, production-grade Customer Lifetime Value (LTV) &amp; Churn Risk System: From SQL Feature Store to XGBoost Training, FastAPI Service, Docker Container, and Streamlit Dashboard.</p>
+    </div>
+
+    <!-- Architecture Visual -->
+    <div class="card" style="margin-bottom:32px;background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(14,165,233,.15) 0%,transparent 70%),rgba(255,255,255,.02)">
+      <h3 style="font-size:18px;font-weight:800;color:#fff;margin-bottom:14px">🏗️ Production Pipeline Architecture</h3>
+      
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;text-align:center">
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:16px;border-radius:12px">
+          <div style="font-size:24px;margin-bottom:6px">🗄️</div>
+          <strong style="color:#38bdf8;font-size:13px;display:block">1. SQL Feature Store</strong>
+          <span style="font-size:11px;color:var(--s400)">Postgres/DuckDB CTEs &amp; Window Functions</span>
+        </div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:16px;border-radius:12px">
+          <div style="font-size:24px;margin-bottom:6px">🐼</div>
+          <strong style="color:#4ade80;font-size:13px;display:block">2. Feature Pipeline</strong>
+          <span style="font-size:11px;color:var(--s400)">Polars/Pandas + ColumnTransformer</span>
+        </div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:16px;border-radius:12px">
+          <div style="font-size:24px;margin-bottom:6px">🤖</div>
+          <strong style="color:#fbbf24;font-size:13px;display:block">3. ML Model</strong>
+          <span style="font-size:11px;color:var(--s400)">XGBoost Classifier + SHAP Explainability</span>
+        </div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:16px;border-radius:12px">
+          <div style="font-size:24px;margin-bottom:6px">⚡</div>
+          <strong style="color:#c084fc;font-size:13px;display:block">4. FastAPI Backend</strong>
+          <span style="font-size:11px;color:var(--s400)">Async REST API with Pydantic v2</span>
+        </div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:16px;border-radius:12px">
+          <div style="font-size:24px;margin-bottom:6px">🐳</div>
+          <strong style="color:#fb7185;font-size:13px;display:block">5. Docker &amp; UI</strong>
+          <span style="font-size:11px;color:var(--s400)">Multi-stage Dockerfile + Streamlit UI</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Code Tabs for the Project -->
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="openProjectTab(event, 'p-sql')">1. feature_store.sql</button>
+      <button class="tab-btn" onclick="openProjectTab(event, 'p-train')">2. pipeline_and_train.py</button>
+      <button class="tab-btn" onclick="openProjectTab(event, 'p-api')">3. api_service.py</button>
+      <button class="tab-btn" onclick="openProjectTab(event, 'p-docker')">4. Dockerfile &amp; Compose</button>
+      <button class="tab-btn" onclick="openProjectTab(event, 'p-ui')">5. streamlit_dashboard.py</button>
+    </div>
+
+    <!-- Project Tab 1: SQL Feature Store -->
+    <div id="p-sql" class="tab-pane active">
+      <div class="code-box">
+        <div class="code-header">
+          <span>1_feature_store.sql — Recency, Frequency, Monetary (RFM) &amp; Velocity Feature Store Query</span>
+          <span class="lang">SQL</span>
+        </div>
+        <div class="code-body">
+<span class="hl-cm">-- =========================================================================</span>
+<span class="hl-cm">-- 1. SQL FEATURE STORE: CUSTOMER 360 RFM &amp; CHURN RISK FEATURE EXTRACTION</span>
+<span class="hl-cm">-- Uses CTEs, Window Aggregations, LAG(), and Conditional CASE Statements</span>
+<span class="hl-cm">-- =========================================================================</span>
+
+<span class="hl-kw">WITH</span> CustomerOrders <span class="hl-kw">AS</span> (
+    <span class="hl-kw">SELECT</span> 
+        customer_id,
+        order_id,
+        order_date,
+        order_amount,
+        payment_method,
+        <span class="hl-func">LAG</span>(order_date, 1) <span class="hl-kw">OVER</span> (
+            <span class="hl-kw">PARTITION BY</span> customer_id <span class="hl-kw">ORDER BY</span> order_date
+        ) <span class="hl-kw">AS</span> prev_order_date
+    <span class="hl-kw">FROM</span> <span class="hl-tbl">orders</span>
+    <span class="hl-kw">WHERE</span> order_status = <span class="hl-str">'COMPLETED'</span>
+),
+CustomerMetrics <span class="hl-kw">AS</span> (
+    <span class="hl-kw">SELECT</span> 
+        customer_id,
+        <span class="hl-func">COUNT</span>(order_id) <span class="hl-kw">AS</span> total_orders,
+        <span class="hl-func">SUM</span>(order_amount) <span class="hl-kw">AS</span> total_spend,
+        <span class="hl-func">AVG</span>(order_amount) <span class="hl-kw">AS</span> avg_order_value,
+        <span class="hl-func">MAX</span>(order_date) <span class="hl-kw">AS</span> last_order_date,
+        <span class="hl-func">MIN</span>(order_date) <span class="hl-kw">AS</span> first_order_date,
+        <span class="hl-func">AVG</span>(order_date - prev_order_date) <span class="hl-kw">AS</span> avg_days_between_orders
+    <span class="hl-kw">FROM</span> CustomerOrders
+    <span class="hl-kw">GROUP BY</span> customer_id
+),
+SupportTicketsSummary <span class="hl-kw">AS</span> (
+    <span class="hl-kw">SELECT</span> 
+        customer_id,
+        <span class="hl-func">COUNT</span>(ticket_id) <span class="hl-kw">AS</span> total_support_tickets,
+        <span class="hl-func">SUM</span>(<span class="hl-kw">CASE WHEN</span> priority = <span class="hl-str">'URGENT'</span> <span class="hl-kw">THEN</span> 1 <span class="hl-kw">ELSE</span> 0 <span class="hl-kw">END</span>) <span class="hl-kw">AS</span> urgent_tickets
+    <span class="hl-kw">FROM</span> <span class="hl-tbl">support_tickets</span>
+    <span class="hl-kw">GROUP BY</span> customer_id
+)
+<span class="hl-kw">SELECT</span> 
+    c.customer_id,
+    c.signup_date,
+    c.country,
+    c.subscription_tier,
+    <span class="hl-func">COALESCE</span>(m.total_orders, 0) <span class="hl-kw">AS</span> frequency_orders,
+    <span class="hl-func">COALESCE</span>(m.total_spend, 0.0) <span class="hl-kw">AS</span> monetary_total_spend,
+    <span class="hl-func">COALESCE</span>(m.avg_order_value, 0.0) <span class="hl-kw">AS</span> avg_order_value,
+    <span class="hl-func">COALESCE</span>(CURRENT_DATE - m.last_order_date, 999) <span class="hl-kw">AS</span> recency_days_since_last_order,
+    <span class="hl-func">COALESCE</span>(m.avg_days_between_orders, 0) <span class="hl-kw">AS</span> purchase_cycle_velocity,
+    <span class="hl-func">COALESCE</span>(s.total_support_tickets, 0) <span class="hl-kw">AS</span> support_tickets_count,
+    <span class="hl-func">COALESCE</span>(s.urgent_tickets, 0) <span class="hl-kw">AS</span> urgent_tickets_count,
+    <span class="hl-cm">-- Target Label: 1 if churned (no order in 90 days), 0 if active</span>
+    <span class="hl-kw">CASE WHEN</span> (CURRENT_DATE - m.last_order_date) &gt; 90 <span class="hl-kw">THEN</span> 1 <span class="hl-kw">ELSE</span> 0 <span class="hl-kw">END AS</span> is_churned
+<span class="hl-kw">FROM</span> <span class="hl-tbl">customers</span> c
+<span class="hl-kw">LEFT JOIN</span> CustomerMetrics m <span class="hl-kw">ON</span> c.customer_id = m.customer_id
+<span class="hl-kw">LEFT JOIN</span> SupportTicketsSummary s <span class="hl-kw">ON</span> c.customer_id = s.customer_id;
+        </div>
+      </div>
+    </div>
+
+    <!-- Project Tab 2: Python Pipeline & Model Training -->
+    <div id="p-train" class="tab-pane">
+      <div class="code-box">
+        <div class="code-header">
+          <span>2_pipeline_and_train.py — DB Ingestion, Sklearn Pipeline &amp; XGBoost Training</span>
+          <span class="lang">Python</span>
+        </div>
+        <div class="code-body">
+<span class="hl-kw">import</span> os
+<span class="hl-kw">import</span> pandas <span class="hl-kw">as</span> pd
+<span class="hl-kw">import</span> joblib
+<span class="hl-kw">from</span> sqlalchemy <span class="hl-kw">import</span> create_engine
+<span class="hl-kw">from</span> sklearn.model_selection <span class="hl-kw">import</span> train_test_split, StratifiedKFold, cross_val_score
+<span class="hl-kw">from</span> sklearn.compose <span class="hl-kw">import</span> ColumnTransformer
+<span class="hl-kw">from</span> sklearn.pipeline <span class="hl-kw">import</span> Pipeline
+<span class="hl-kw">from</span> sklearn.preprocessing <span class="hl-kw">import</span> StandardScaler, OneHotEncoder
+<span class="hl-kw">from</span> sklearn.impute <span class="hl-kw">import</span> SimpleImputer
+<span class="hl-kw">from</span> sklearn.metrics <span class="hl-kw">import</span> classification_report, roc_auc_score
+<span class="hl-kw">from</span> xgboost <span class="hl-kw">import</span> XGBClassifier
+
+<span class="hl-cm"># 1. Connect to PostgreSQL Feature Store and Ingest Features</span>
+DB_URI = os.getenv(<span class="hl-str">"DATABASE_URL"</span>, <span class="hl-str">"postgresql://postgres:postgres@localhost:5432/analytics_db"</span>)
+engine = create_engine(DB_URI)
+
+<span class="hl-kw">with</span> open(<span class="hl-str">"1_feature_store.sql"</span>, <span class="hl-str">"r"</span>) <span class="hl-kw">as</span> f:
+    query = f.read()
+
+print(<span class="hl-str">"🚀 Ingesting Customer Feature Store from SQL Database..."</span>)
+df = pd.read_sql(query, engine)
+
+<span class="hl-cm"># 2. Separate Features and Churn Target Label</span>
+X = df.drop(columns=[<span class="hl-str">"customer_id"</span>, <span class="hl-str">"signup_date"</span>, <span class="hl-str">"is_churned"</span>])
+y = df[<span class="hl-str">"is_churned"</span>]
+
+numeric_features = [
+    <span class="hl-str">"frequency_orders"</span>, <span class="hl-str">"monetary_total_spend"</span>, <span class="hl-str">"avg_order_value"</span>,
+    <span class="hl-str">"recency_days_since_last_order"</span>, <span class="hl-str">"purchase_cycle_velocity"</span>,
+    <span class="hl-str">"support_tickets_count"</span>, <span class="hl-str">"urgent_tickets_count"</span>
+]
+categorical_features = [<span class="hl-str">"country"</span>, <span class="hl-str">"subscription_tier"</span>]
+
+<span class="hl-cm"># 3. Leakage-Free Preprocessing Pipeline</span>
+num_pipeline = Pipeline([
+    (<span class="hl-str">"imputer"</span>, SimpleImputer(strategy=<span class="hl-str">"median"</span>)),
+    (<span class="hl-str">"scaler"</span>, StandardScaler())
+])
+
+cat_pipeline = Pipeline([
+    (<span class="hl-str">"imputer"</span>, SimpleImputer(strategy=<span class="hl-str">"most_frequent"</span>)),
+    (<span class="hl-str">"ohe"</span>, OneHotEncoder(handle_unknown=<span class="hl-str">"ignore"</span>, sparse_output=False))
+])
+
+preprocessor = ColumnTransformer(transformers=[
+    (<span class="hl-str">"num"</span>, num_pipeline, numeric_features),
+    (<span class="hl-str">"cat"</span>, cat_pipeline, categorical_features)
+])
+
+<span class="hl-cm"># 4. Assemble Full Production XGBoost Pipeline</span>
+model_pipeline = Pipeline(steps=[
+    (<span class="hl-str">"preprocessor"</span>, preprocessor),
+    (<span class="hl-str">"classifier"</span>, XGBClassifier(
+        n_estimators=150,
+        max_depth=5,
+        learning_rate=0.05,
+        subsample=0.8,
+        colsample_bytree=0.8,
+        scale_pos_weight=3.0, <span class="hl-cm"># Handles imbalanced churn classes</span>
+        random_state=42
+    ))
+])
+
+<span class="hl-cm"># 5. Train-Test Split &amp; Model Validation</span>
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
+
+print(<span class="hl-str">"⚙️ Training XGBoost Model on Stratified Split..."</span>)
+model_pipeline.fit(X_train, y_train)
+
+y_pred_proba = model_pipeline.predict_proba(X_test)[:, 1]
+y_pred = (y_pred_proba &gt;= 0.5).astype(int)
+
+print(f<span class="hl-str">"🎯 Test ROC-AUC Score: {roc_auc_score(y_test, y_pred_proba):.4f}"</span>)
+print(classification_report(y_test, y_pred))
+
+<span class="hl-cm"># 6. Export Production Model Artifact</span>
+os.makedirs(<span class="hl-str">"artifacts"</span>, exist_ok=True)
+joblib.dump(model_pipeline, <span class="hl-str">"artifacts/churn_model_pipeline.joblib"</span>)
+print(<span class="hl-str">"✅ Model Pipeline saved to artifacts/churn_model_pipeline.joblib"</span>)
+        </div>
+      </div>
+    </div>
+
+    <!-- Project Tab 3: FastAPI Backend -->
+    <div id="p-api" class="tab-pane">
+      <div class="code-box">
+        <div class="code-header">
+          <span>3_api_service.py — Asynchronous FastAPI Production Inference Server</span>
+          <span class="lang">Python</span>
+        </div>
+        <div class="code-body">
+<span class="hl-kw">from</span> fastapi <span class="hl-kw">import</span> FastAPI, HTTPException, status
+<span class="hl-kw">from</span> pydantic <span class="hl-kw">import</span> BaseModel, Field
+<span class="hl-kw">import</span> joblib
+<span class="hl-kw">import</span> pandas <span class="hl-kw">as</span> pd
+<span class="hl-kw">import</span> uvicorn
+
+app = FastAPI(
+    title=<span class="hl-str">"Customer Churn &amp; LTV Inference API"</span>,
+    description=<span class="hl-str">"Production ML inference service powered by SQL Feature Store &amp; XGBoost"</span>,
+    version=<span class="hl-str">"1.0.0"</span>
+)
+
+<span class="hl-cm"># Load Model Artifact at Startup</span>
+MODEL_PATH = <span class="hl-str">"artifacts/churn_model_pipeline.joblib"</span>
+model = joblib.load(MODEL_PATH)
+
+<span class="hl-kw">class</span> CustomerFeaturePayload(BaseModel):
+    country: str = Field(..., example=<span class="hl-str">"USA"</span>)
+    subscription_tier: str = Field(..., example=<span class="hl-str">"ENTERPRISE"</span>)
+    frequency_orders: int = Field(..., ge=0, example=12)
+    monetary_total_spend: float = Field(..., ge=0.0, example=2450.50)
+    avg_order_value: float = Field(..., ge=0.0, example=204.20)
+    recency_days_since_last_order: int = Field(..., ge=0, example=14)
+    purchase_cycle_velocity: float = Field(..., ge=0.0, example=28.5)
+    support_tickets_count: int = Field(..., ge=0, example=1)
+    urgent_tickets_count: int = Field(..., ge=0, example=0)
+
+<span class="hl-kw">class</span> PredictionResponse(BaseModel):
+    churn_probability: float
+    churn_risk_level: str
+    action_recommendation: str
+
+@app.get(<span class="hl-str">"/health"</span>, status_code=status.HTTP_200_OK)
+<span class="hl-kw">def</span> health_check():
+    <span class="hl-kw">return</span> {<span class="hl-str">"status"</span>: <span class="hl-str">"healthy"</span>, <span class="hl-str">"model_loaded"</span>: True}
+
+@app.post(<span class="hl-str">"/predict"</span>, response_model=PredictionResponse)
+<span class="hl-kw">def</span> predict_churn(payload: CustomerFeaturePayload):
+    <span class="hl-kw">try</span>:
+        input_df = pd.DataFrame([payload.model_dump()])
+        proba = float(model.predict_proba(input_df)[0][1])
+        
+        <span class="hl-kw">if</span> proba &gt;= 0.75:
+            risk = <span class="hl-str">"CRITICAL"</span>
+            action = <span class="hl-str">"Trigger immediate Customer Success intervention + 20% retention incentive."</span>
+        <span class="hl-kw">elif</span> proba &gt;= 0.40:
+            risk = <span class="hl-str">"MODERATE"</span>
+            action = <span class="hl-str">"Enroll in re-engagement email sequence &amp; feature training."</span>
+        <span class="hl-kw">else</span>:
+            risk = <span class="hl-str">"LOW"</span>
+            action = <span class="hl-str">"Customer is healthy. Trigger cross-sell / upsell campaign."</span>
+            
+        <span class="hl-kw">return</span> PredictionResponse(
+            churn_probability=round(proba, 4),
+            churn_risk_level=risk,
+            action_recommendation=action
+        )
+    <span class="hl-kw">except</span> Exception <span class="hl-kw">as</span> e:
+        <span class="hl-kw">raise</span> HTTPException(status_code=500, detail=str(e))
+
+<span class="hl-kw">if</span> __name__ == <span class="hl-str">"__main__"</span>:
+    uvicorn.run(app, host=<span class="hl-str">"0.0.0.0"</span>, port=8000)
+        </div>
+      </div>
+    </div>
+
+    <!-- Project Tab 4: Dockerfile & Compose -->
+    <div id="p-docker" class="tab-pane">
+      <div class="code-box">
+        <div class="code-header">
+          <span>4_Dockerfile &amp; docker-compose.yml — Multi-Container Production Orchestration</span>
+          <span class="lang">Docker</span>
+        </div>
+        <div class="code-body">
+<span class="hl-cm"># =========================================================================</span>
+<span class="hl-cm"># Dockerfile: Multi-Stage Production Container</span>
+<span class="hl-cm"># =========================================================================</span>
+<span class="hl-kw">FROM</span> python:3.11-slim <span class="hl-kw">AS</span> builder
+<span class="hl-kw">WORKDIR</span> /app
+<span class="hl-kw">COPY</span> requirements.txt .
+<span class="hl-kw">RUN</span> pip install --no-cache-dir --user -r requirements.txt
+
+<span class="hl-kw">FROM</span> python:3.11-slim
+<span class="hl-kw">WORKDIR</span> /app
+<span class="hl-kw">COPY</span> --from=builder /root/.local /root/.local
+<span class="hl-kw">ENV</span> PATH=/root/.local/bin:$PATH
+
+<span class="hl-kw">COPY</span> artifacts/ /app/artifacts/
+<span class="hl-kw">COPY</span> 3_api_service.py /app/main.py
+
+<span class="hl-kw">EXPOSE</span> 8000
+<span class="hl-kw">CMD</span> [<span class="hl-str">"uvicorn"</span>, <span class="hl-str">"main:app"</span>, <span class="hl-str">"--host"</span>, <span class="hl-str">"0.0.0.0"</span>, <span class="hl-str">"--port"</span>, <span class="hl-str">"8000"</span>, <span class="hl-str">"--workers"</span>, <span class="hl-str">"4"</span>]
+
+<span class="hl-cm"># =========================================================================</span>
+<span class="hl-cm"># docker-compose.yml: Postgres + FastAPI + Streamlit Cluster</span>
+<span class="hl-cm"># =========================================================================</span>
+<span class="hl-kw">version</span>: <span class="hl-str">'3.8'</span>
+<span class="hl-kw">services</span>:
+  <span class="hl-kw">postgres_db</span>:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: analytics_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - <span class="hl-str">"5432:5432"</span>
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  <span class="hl-kw">ml_api</span>:
+    build: .
+    ports:
+      - <span class="hl-str">"8000:8000"</span>
+    depends_on:
+      - postgres_db
+
+  <span class="hl-kw">streamlit_dashboard</span>:
+    build:
+      context: .
+      dockerfile: Dockerfile.streamlit
+    ports:
+      - <span class="hl-str">"8501:8501"</span>
+    depends_on:
+      - ml_api
+
+<span class="hl-kw">volumes</span>:
+  pgdata:
+        </div>
+      </div>
+    </div>
+
+    <!-- Project Tab 5: Streamlit Live Dashboard -->
+    <div id="p-ui" class="tab-pane">
+      <div class="code-box">
+        <div class="code-header">
+          <span>5_streamlit_live_dashboard.py — Real-Time Inference &amp; Database Telemetry UI</span>
+          <span class="lang">Python</span>
+        </div>
+        <div class="code-body">
+<span class="hl-kw">import</span> streamlit <span class="hl-kw">as</span> st
+<span class="hl-kw">import</span> requests
+<span class="hl-kw">import</span> pandas <span class="hl-kw">as</span> pd
+
+st.set_page_config(page_title=<span class="hl-str">"Customer Churn Intelligence"</span>, page_icon=<span class="hl-str">"🎯"</span>, layout=<span class="hl-str">"wide"</span>)
+st.title(<span class="hl-str">"🎯 Enterprise Customer Churn &amp; LTV Intelligence Hub"</span>)
+st.markdown(<span class="hl-str">"Connected to **PostgreSQL Feature Store** and **FastAPI XGBoost Inference Microservice**"</span>)
+
+col1, col2 = st.columns([1, 2])
+
+<span class="hl-kw">with</span> col1:
+    st.subheader(<span class="hl-str">"Customer Feature Inputs"</span>)
+    country = st.selectbox(<span class="hl-str">"Country"</span>, [<span class="hl-str">"USA"</span>, <span class="hl-str">"UK"</span>, <span class="hl-str">"Germany"</span>, <span class="hl-str">"India"</span>, <span class="hl-str">"Canada"</span>])
+    tier = st.selectbox(<span class="hl-str">"Subscription Tier"</span>, [<span class="hl-str">"FREE"</span>, <span class="hl-str">"PRO"</span>, <span class="hl-str">"ENTERPRISE"</span>])
+    orders = st.slider(<span class="hl-str">"Total Completed Orders"</span>, 0, 100, 15)
+    spend = st.number_input(<span class="hl-str">"Total Monetary Spend ($)"</span>, min_value=0.0, value=1250.00)
+    aov = spend / max(orders, 1)
+    recency = st.slider(<span class="hl-str">"Days Since Last Order"</span>, 1, 180, 25)
+    velocity = st.slider(<span class="hl-str">"Avg Days Between Orders"</span>, 1.0, 60.0, 14.0)
+    tickets = st.slider(<span class="hl-str">"Total Support Tickets"</span>, 0, 20, 2)
+    urgent = st.slider(<span class="hl-str">"Urgent Priority Tickets"</span>, 0, 5, 0)
+    
+    predict_btn = st.button(<span class="hl-str">"⚡ Run Real-Time Churn Scoring"</span>, use_container_width=True)
+
+<span class="hl-kw">with</span> col2:
+    st.subheader(<span class="hl-str">"Model Inference &amp; Decision Telemetry"</span>)
+    <span class="hl-kw">if</span> predict_btn:
+        payload = {
+            <span class="hl-str">"country"</span>: country,
+            <span class="hl-str">"subscription_tier"</span>: tier,
+            <span class="hl-str">"frequency_orders"</span>: orders,
+            <span class="hl-str">"monetary_total_spend"</span>: spend,
+            <span class="hl-str">"avg_order_value"</span>: aov,
+            <span class="hl-str">"recency_days_since_last_order"</span>: recency,
+            <span class="hl-str">"purchase_cycle_velocity"</span>: velocity,
+            <span class="hl-str">"support_tickets_count"</span>: tickets,
+            <span class="hl-str">"urgent_tickets_count"</span>: urgent
+        }
+        <span class="hl-kw">try</span>:
+            res = requests.post(<span class="hl-str">"http://localhost:8000/predict"</span>, json=payload, timeout=5)
+            <span class="hl-kw">if</span> res.status_code == 200:
+                data = res.json()
+                proba = data[<span class="hl-str">"churn_probability"</span>]
+                risk = data[<span class="hl-str">"churn_risk_level"</span>]
+                action = data[<span class="hl-str">"action_recommendation"</span>]
+                
+                st.metric(label=<span class="hl-str">"Predicted Churn Probability"</span>, value=f<span class="hl-str">"{proba * 100:.1f}%"</span>)
+                st.progress(proba)
+                
+                <span class="hl-kw">if</span> risk == <span class="hl-str">"CRITICAL"</span>:
+                    st.error(f<span class="hl-str">"🚨 Risk Level: {risk}"</span>)
+                <span class="hl-kw">elif</span> risk == <span class="hl-str">"MODERATE"</span>:
+                    st.warning(f<span class="hl-str">"⚠️ Risk Level: {risk}"</span>)
+                <span class="hl-kw">else</span>:
+                    st.success(f<span class="hl-str">"✅ Risk Level: {risk}"</span>)
+                    
+                st.info(f<span class="hl-str">"📋 Recommended Action: {action}"</span>)
+            <span class="hl-kw">else</span>:
+                st.error(f<span class="hl-str">"API Error: {res.text}"</span>)
+        <span class="hl-kw">except</span> Exception <span class="hl-kw">as</span> e:
+            st.error(f<span class="hl-str">"Could not connect to FastAPI server: {e}"</span>)
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- MODULE 11: 10 RIGOROUS SQL INTERVIEW QUESTIONS -->
+  <!-- ========================================== -->
+  <section id="interview" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag">Module 11 · Technical Cross-Exam</span>
+      <h2>10 Tough SQL Technical Interview Questions</h2>
+      <p>Directly extracted from the 125-page notes and senior Data Science interview loops at Google, Amazon, and Meta.</p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div class="card">
+        <h4 style="font-size:15px;color:#38bdf8;margin-bottom:8px">Q1. How do you find the Nth highest salary in a table with duplicate salaries?</h4>
+        <p style="font-size:13px;color:var(--s300);line-height:1.7">
+          <strong>Answer:</strong> Use <code class="hl-func">DENSE_RANK()</code> in a Common Table Expression or Subquery. Unlike <code class="hl-func">RANK()</code> which skips ranks on ties (1, 2, 2, 4), <code class="hl-func">DENSE_RANK()</code> assigns contiguous integer ranks (1, 2, 2, 3), guaranteeing that filtering by rank = N accurately retrieves the true Nth highest distinct salary.
+        </p>
+      </div>
+
+      <div class="card">
+        <h4 style="font-size:15px;color:#38bdf8;margin-bottom:8px">Q2. What is the critical pitfall when using NOT IN with a subquery containing NULL values?</h4>
+        <p style="font-size:13px;color:var(--s300);line-height:1.7">
+          <strong>Answer:</strong> In SQL three-valued logic, <code class="hl-kw">WHERE col NOT IN (SELECT mgr FROM Emp)</code> translates internally to <code class="hl-kw">col != val1 AND col != NULL</code>. Because <code class="hl-kw">col != NULL</code> evaluates to <code class="hl-kw">UNKNOWN</code>, the entire compound <code class="hl-kw">AND</code> condition evaluates to <code class="hl-kw">UNKNOWN</code>/False, causing the query to return <strong>0 rows</strong>! Fix: Always filter <code class="hl-kw">WHERE mgr IS NOT NULL</code> or use <code class="hl-kw">NOT EXISTS</code>.
+        </p>
+      </div>
+
+      <div class="card">
+        <h4 style="font-size:15px;color:#38bdf8;margin-bottom:8px">Q3. Explain the exact difference between RANK(), DENSE_RANK(), and ROW_NUMBER().</h4>
+        <p style="font-size:13px;color:var(--s300);line-height:1.7">
+          <strong>Answer:</strong> For tie values [3000, 3000, 2000]:<br/>
+          • <code class="hl-func">ROW_NUMBER()</code> assigns unique sequential numbers [1, 2, 3].<br/>
+          • <code class="hl-func">RANK()</code> assigns identical ranks to ties and skips subsequent numbers [1, 1, 3].<br/>
+          • <code class="hl-func">DENSE_RANK()</code> assigns identical ranks to ties without skipping numbers [1, 1, 2].
+        </p>
+      </div>
+
+      <div class="card">
+        <h4 style="font-size:15px;color:#38bdf8;margin-bottom:8px">Q4. How do you find employees whose salary is greater than the average salary of their respective department?</h4>
+        <p style="font-size:13px;color:var(--s300);line-height:1.7">
+          <strong>Answer:</strong> Using a Correlated Subquery or Window function:
+          <code class="hl-kw">SELECT * FROM Emp e1 WHERE sal &gt; (SELECT AVG(sal) FROM Emp e2 WHERE e2.deptno = e1.deptno);</code> or with Window function:
+          <code class="hl-kw">WITH DeptAvg AS (SELECT *, AVG(sal) OVER (PARTITION BY deptno) AS avg_sal FROM Emp) SELECT * FROM DeptAvg WHERE sal &gt; avg_sal;</code>
+        </p>
+      </div>
+
+      <div class="card">
+        <h4 style="font-size:15px;color:#38bdf8;margin-bottom:8px">Q5. Why can't you use a column alias defined in SELECT inside the WHERE or HAVING clauses?</h4>
+        <p style="font-size:13px;color:var(--s300);line-height:1.7">
+          <strong>Answer:</strong> Due to SQL's Logical Order of Execution: <code class="hl-kw">FROM (1) -&gt; WHERE (2) -&gt; GROUP BY (3) -&gt; HAVING (4) -&gt; SELECT (5) -&gt; ORDER BY (7)</code>. The <code class="hl-kw">WHERE</code> and <code class="hl-kw">HAVING</code> clauses are compiled and evaluated before the <code class="hl-kw">SELECT</code> clause executes, meaning the column alias does not yet exist in memory when filtering occurs.
+        </p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="wrap">
+    <div style="font-size:20px;font-weight:900;color:#fff;margin-bottom:12px"><em>ML</em>Mastery Platform</div>
+    <p style="font-size:13px;color:var(--s400)">Complete Master Educational Platform for Machine Learning, Python, Deep Learning &amp; SQL Engineering</p>
+    <div class="f-links">
+      <a href="index.html">Portal Index</a>
+      <a href="math_foundations.html">Page 0: Math Foundations</a>
+      <a href="full_platform.html">Page 1: ML Foundations</a>
+      <a href="advanced_modules.html">Page 2: Advanced Algorithms</a>
+      <a href="deep_modules.html">Page 3: Deep Dive</a>
+      <a href="python_ml.html">Page 4: Python for ML</a>
+      <a href="real_world_ml.html">Page 5: Real-World MLOps</a>
+      <a href="career_and_quiz.html">Page 6: Career &amp; Quiz</a>
+      <a href="interactive_3d_lab.html">Page 7: 3D WebGL Lab</a>
+      <a href="system_design_and_incidents.html">Page 8: System Design</a>
+      <a href="algorithm_arena.html">Page 9: Battle Arena</a>
+      <a href="industrial_systems.html">Page 10: Industrial Systems</a>
+      <a href="python_teaching_mastery.html">Page 11: Python Teaching Codex</a>
+      <a href="sql_for_data_science.html" style="color:#38bdf8;font-weight:700">Page 12: SQL Master Codex</a>
+    </div>
+    <div style="font-size:11px;color:var(--s500);margin-top:20px">Built for IT Job Seekers, Data Engineers &amp; AI Architects</div>
+  </div>
+</footer>
+
+<!-- Interactive Scripts -->
+<script>
+// Tab Switching for Window Functions
+function openWinTab(evt, tabId) {
+  const parent = evt.target.parentElement;
+  parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#window-functions .tab-pane').forEach(p => p.classList.remove('active'));
+  evt.target.classList.add('active');
+  document.getElementById(tabId).classList.add('active');
+}
+
+function openProjectTab(evt, tabId) {
+  const parent = evt.target.parentElement;
+  parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#project .tab-pane').forEach(p => p.classList.remove('active'));
+  evt.target.classList.add('active');
+  document.getElementById(tabId).classList.add('active');
+}
+
+// EMP and DEPT In-Memory Dataset
+const DEPT_TABLE = [
+  { deptno: 10, dname: 'ACCOUNTING', loc: 'NEW YORK' },
+  { deptno: 20, dname: 'RESEARCH',   loc: 'DALLAS' },
+  { deptno: 30, dname: 'SALES',      loc: 'CHICAGO' },
+  { deptno: 40, dname: 'OPERATIONS', loc: 'BOSTON' }
+];
+
+const EMP_TABLE = [
+  { empno: 7369, ename: 'SMITH',  job: 'CLERK',     mgr: 7902, hiredate: '1980-12-17', sal: 800,  comm: null, deptno: 20 },
+  { empno: 7499, ename: 'ALLEN',  job: 'SALESMAN',  mgr: 7698, hiredate: '1981-02-20', sal: 1600, comm: 300,  deptno: 30 },
+  { empno: 7521, ename: 'WARD',   job: 'SALESMAN',  mgr: 7698, hiredate: '1981-02-22', sal: 1250, comm: 500,  deptno: 30 },
+  { empno: 7566, ename: 'JONES',  job: 'MANAGER',   mgr: 7839, hiredate: '1981-04-02', sal: 2975, comm: null, deptno: 20 },
+  { empno: 7654, ename: 'MARTIN', job: 'SALESMAN',  mgr: 7698, hiredate: '1981-09-28', sal: 1250, comm: 1400, deptno: 30 },
+  { empno: 7698, ename: 'BLAKE',  job: 'MANAGER',   mgr: 7839, hiredate: '1981-05-01', sal: 2850, comm: null, deptno: 30 },
+  { empno: 7782, ename: 'CLARK',  job: 'MANAGER',   mgr: 7839, hiredate: '1981-06-09', sal: 2450, comm: null, deptno: 10 },
+  { empno: 7788, ename: 'SCOTT',  job: 'ANALYST',   mgr: 7566, hiredate: '1982-12-09', sal: 3000, comm: null, deptno: 20 },
+  { empno: 7839, ename: 'KING',   job: 'PRESIDENT', mgr: null, hiredate: '1981-11-17', sal: 5000, comm: null, deptno: 10 },
+  { empno: 7844, ename: 'TURNER', job: 'SALESMAN',  mgr: 7698, hiredate: '1981-09-08', sal: 1500, comm: 0,    deptno: 30 },
+  { empno: 7876, ename: 'ADAMS',  job: 'CLERK',     mgr: 7788, hiredate: '1983-01-12', sal: 1100, comm: null, deptno: 20 },
+  { empno: 7900, ename: 'JAMES',  job: 'CLERK',     mgr: 7698, hiredate: '1981-12-03', sal: 950,  comm: null, deptno: 30 },
+  { empno: 7902, ename: 'FORD',   job: 'ANALYST',   mgr: 7566, hiredate: '1981-12-03', sal: 3000, comm: null, deptno: 20 },
+  { empno: 7934, ename: 'MILLER', job: 'CLERK',     mgr: 7782, hiredate: '1982-01-23', sal: 1300, comm: null, deptno: 10 }
+];
+
+// Presets
+const PRESET_QUERIES = [
+`-- 1. Employees earning more than their department average
+SELECT e.ename, e.job, e.sal, e.deptno, d.dname
+FROM Emp e
+JOIN Dept d ON e.deptno = d.deptno
+WHERE e.sal > (
+    SELECT AVG(e2.sal) 
+    FROM Emp e2 
+    WHERE e2.deptno = e.deptno
+)
+ORDER BY e.sal DESC;`,
+
+`-- 2. 2nd & 3rd Highest Salaries using Dense Rank logic
+SELECT ename, job, sal, deptno
+FROM Emp
+WHERE sal = (
+    SELECT DISTINCT sal 
+    FROM Emp 
+    ORDER BY sal DESC 
+    LIMIT 1 OFFSET 1
+);`,
+
+`-- 3. Self-Join: Employee, Direct Manager, and Manager's Department
+SELECT 
+    e.ename AS employee_name,
+    e.job AS employee_job,
+    m.ename AS manager_name,
+    m.job AS manager_job,
+    d.dname AS manager_dept
+FROM Emp e
+LEFT JOIN Emp m ON e.mgr = m.empno
+LEFT JOIN Dept d ON m.deptno = d.deptno;`,
+
+`-- 4. Nested CASE Statement: Department Category Classification (from Notes)
+SELECT ename, deptno, sal,
+CASE
+  WHEN deptno = 10 THEN
+    CASE
+      WHEN sal > 2000 THEN 'SENIOR'
+      ELSE 'TRAINEE'
+    END
+  WHEN deptno = 20 THEN
+    CASE
+      WHEN sal > 2000 THEN 'JUNIOR'
+      ELSE 'JUNIOR TRAINEE'
+    END
+  ELSE 'OTHERS'
+END AS category
+FROM Emp;`,
+
+`-- 5. Window Rankings: RANK(), DENSE_RANK() and NTILE(4)
+SELECT 
+    ename, deptno, sal,
+    RANK() OVER (PARTITION BY deptno ORDER BY sal DESC) AS sal_rank,
+    DENSE_RANK() OVER (PARTITION BY deptno ORDER BY sal DESC) AS sal_dense_rank,
+    NTILE(4) OVER (ORDER BY sal DESC) AS salary_quartile
+FROM Emp;`,
+
+`-- 6. Timeline Time-Series Velocity: LAG() & LEAD()
+SELECT 
+    ename, deptno, hiredate, sal,
+    LAG(sal, 1, 0) OVER (PARTITION BY deptno ORDER BY hiredate) AS prev_hired_emp_sal,
+    LEAD(ename, 1, 'NONE') OVER (PARTITION BY deptno ORDER BY hiredate) AS next_hired_emp
+FROM Emp;`,
+
+`-- 7. Window Statistical Dispersion: AVG, STDDEV & VARIANCE
+SELECT 
+    ename, deptno, sal,
+    ROUND(AVG(sal) OVER (PARTITION BY deptno), 2) AS dept_avg_sal,
+    ROUND(STDDEV(sal) OVER (PARTITION BY deptno), 2) AS dept_salary_stddev,
+    ROUND(VARIANCE(sal) OVER (PARTITION BY deptno), 2) AS dept_salary_variance
+FROM Emp;`,
+
+`-- 8. WAQTD: Employees whose commission is greater than their salary (Page 30)
+SELECT ename, job, sal, comm, (comm - sal) AS net_bonus
+FROM Emp
+WHERE comm IS NOT NULL AND comm > sal;`,
+
+`-- 9. RFM Data Science Feature Engineering Matrix
+SELECT 
+    deptno,
+    COUNT(empno) AS frequency_employees,
+    SUM(sal) AS monetary_payroll,
+    AVG(sal) AS avg_salary,
+    MAX(sal) AS max_salary,
+    MIN(sal) AS min_salary
+FROM Emp
+GROUP BY deptno
+ORDER BY monetary_payroll DESC;`
+];
+
+function loadQuery(idx) {
+  document.querySelectorAll('.sb-preset-btn').forEach((b, i) => {
+    b.classList.toggle('active', i === idx);
+  });
+  document.getElementById('sqlInput').value = PRESET_QUERIES[idx];
+  runSqlSimulator();
+}
+
+function resetSandbox() {
+  loadQuery(0);
+}
+
+function runSqlSimulator() {
+  const query = document.getElementById('sqlInput').value.trim();
+  const out = document.getElementById('sbOutput');
+  
+  let headers = [];
+  let rows = [];
+
+  // Match Query Patterns to execute simulation
+  if (query.includes('category') || query.includes('SENIOR') || (query.includes('CASE') && query.includes('deptno = 10'))) {
+    // Query 4: Nested CASE
+    headers = ['ENAME', 'DEPTNO', 'SAL', 'CATEGORY', 'CLASSIFICATION_TIER'];
+    rows = [
+      ['CLARK', 10, 2450, 'SENIOR', '🟢 Dept 10 High Earner'],
+      ['KING', 10, 5000, 'SENIOR', '🟢 Dept 10 Executive'],
+      ['MILLER', 10, 1300, 'TRAINEE', '🟡 Dept 10 Entry Level'],
+      ['JONES', 20, 2975, 'JUNIOR', '🔵 Dept 20 Mid Earner'],
+      ['FORD', 20, 3000, 'JUNIOR', '🔵 Dept 20 Mid Earner'],
+      ['SCOTT', 20, 3000, 'JUNIOR', '🔵 Dept 20 Mid Earner'],
+      ['SMITH', 20, 800, 'JUNIOR TRAINEE', '🟣 Dept 20 Base Trainee'],
+      ['ADAMS', 20, 1100, 'JUNIOR TRAINEE', '🟣 Dept 20 Base Trainee'],
+      ['BLAKE', 30, 2850, 'OTHERS', '⚪ Other Department'],
+      ['ALLEN', 30, 1600, 'OTHERS', '⚪ Other Department'],
+      ['WARD', 30, 1250, 'OTHERS', '⚪ Other Department'],
+      ['MARTIN', 30, 1250, 'OTHERS', '⚪ Other Department'],
+      ['TURNER', 30, 1500, 'OTHERS', '⚪ Other Department'],
+      ['JAMES', 30, 950, 'OTHERS', '⚪ Other Department']
+    ];
+  } else if (query.includes('sal_rank') || query.includes('sal_dense_rank') || query.includes('salary_quartile')) {
+    // Query 5: Window Rankings
+    headers = ['ENAME', 'DEPTNO', 'SAL', 'SAL_RANK (RANK)', 'SAL_DENSE_RANK (DENSE)', 'QUARTILE (NTILE(4))'];
+    rows = [
+      ['KING', 10, 5000, 1, 1, 'Q1 (Top 25%)'],
+      ['CLARK', 10, 2450, 2, 2, 'Q2 (50-75%)'],
+      ['MILLER', 10, 1300, 3, 3, 'Q3 (25-50%)'],
+      ['FORD', 20, 3000, 1, 1, 'Q1 (Top 25%)'],
+      ['SCOTT', 20, 3000, 1, 1, 'Q1 (Top 25%)'],
+      ['JONES', 20, 2975, 3, 2, 'Q2 (50-75%)'],
+      ['ADAMS', 20, 1100, 4, 3, 'Q4 (Bottom 25%)'],
+      ['SMITH', 20, 800, 5, 4, 'Q4 (Bottom 25%)'],
+      ['BLAKE', 30, 2850, 1, 1, 'Q2 (50-75%)'],
+      ['ALLEN', 30, 1600, 2, 2, 'Q2 (50-75%)'],
+      ['TURNER', 30, 1500, 3, 3, 'Q3 (25-50%)'],
+      ['WARD', 30, 1250, 4, 4, 'Q3 (25-50%)'],
+      ['MARTIN', 30, 1250, 4, 4, 'Q3 (25-50%)'],
+      ['JAMES', 30, 950, 6, 5, 'Q4 (Bottom 25%)']
+    ];
+  } else if (query.includes('prev_hired_emp_sal') || query.includes('next_hired_emp') || query.includes('LAG') || query.includes('LEAD')) {
+    // Query 6: LAG / LEAD
+    headers = ['ENAME', 'DEPTNO', 'HIREDATE', 'SAL', 'PREV_HIRED_EMP_SAL (LAG)', 'NEXT_HIRED_EMP (LEAD)'];
+    rows = [
+      ['CLARK', 10, '1981-06-09', 2450, '$0 (First in Dept)', 'KING'],
+      ['KING', 10, '1981-11-17', 5000, '$2,450', 'MILLER'],
+      ['MILLER', 10, '1982-01-23', 1300, '$5,000', 'NONE (Latest)'],
+      ['SMITH', 20, '1980-12-17', 800, '$0 (First in Dept)', 'JONES'],
+      ['JONES', 20, '1981-04-02', 2975, '$800', 'FORD'],
+      ['FORD', 20, '1981-12-03', 3000, '$2,975', 'SCOTT'],
+      ['SCOTT', 20, '1982-12-09', 3000, '$3,000', 'ADAMS'],
+      ['ADAMS', 20, '1983-01-12', 1100, '$3,000', 'NONE (Latest)'],
+      ['ALLEN', 30, '1981-02-20', 1600, '$0 (First in Dept)', 'WARD'],
+      ['WARD', 30, '1981-02-22', 1250, '$1,600', 'BLAKE'],
+      ['BLAKE', 30, '1981-05-01', 2850, '$1,250', 'TURNER'],
+      ['TURNER', 30, '1981-09-08', 1500, '$2,850', 'MARTIN'],
+      ['MARTIN', 30, '1981-09-28', 1250, '$1,500', 'JAMES'],
+      ['JAMES', 30, '1981-12-03', 950, '$1,250', 'NONE (Latest)']
+    ];
+  } else if (query.includes('dept_salary_stddev') || query.includes('VARIANCE') || query.includes('STDDEV')) {
+    // Query 7: STDDEV / Variance
+    headers = ['ENAME', 'DEPTNO', 'SAL', 'DEPT_AVG_SAL', 'DEPT_SALARY_STDDEV (σ)', 'DEPT_SALARY_VARIANCE (σ²)'];
+    rows = [
+      ['KING', 10, 5000, '$2,916.67', '$1,893.63', '3,585,833.33'],
+      ['CLARK', 10, 2450, '$2,916.67', '$1,893.63', '3,585,833.33'],
+      ['MILLER', 10, 1300, '$2,916.67', '$1,893.63', '3,585,833.33'],
+      ['SCOTT', 20, 3000, '$2,175.00', '$1,123.33', '1,261,875.00'],
+      ['FORD', 20, 3000, '$2,175.00', '$1,123.33', '1,261,875.00'],
+      ['JONES', 20, 2975, '$2,175.00', '$1,123.33', '1,261,875.00'],
+      ['ADAMS', 20, 1100, '$2,175.00', '$1,123.33', '1,261,875.00'],
+      ['SMITH', 20, 800, '$2,175.00', '$1,123.33', '1,261,875.00'],
+      ['BLAKE', 30, 2850, '$1,566.67', '$668.33', '446,666.67'],
+      ['ALLEN', 30, 1600, '$1,566.67', '$668.33', '446,666.67'],
+      ['TURNER', 30, 1500, '$1,566.67', '$668.33', '446,666.67'],
+      ['WARD', 30, 1250, '$1,566.67', '$668.33', '446,666.67'],
+      ['MARTIN', 30, 1250, '$1,566.67', '$668.33', '446,666.67'],
+      ['JAMES', 30, 950, '$1,566.67', '$668.33', '446,666.67']
+    ];
+  } else if (query.includes('e2.deptno = e.deptno') || query.includes('AVG(e2.sal)')) {
+    // Query 1: Earning > Dept Avg
+    headers = ['ENAME', 'JOB', 'SAL', 'DEPTNO', 'DNAME', 'STATUS'];
+    rows = [
+      ['KING', 'PRESIDENT', 5000, 10, 'ACCOUNTING', '🟢 Above Dept Avg (2916.67)'],
+      ['FORD', 'ANALYST', 3000, 20, 'RESEARCH', '🟢 Above Dept Avg (2175.00)'],
+      ['SCOTT', 'ANALYST', 3000, 20, 'RESEARCH', '🟢 Above Dept Avg (2175.00)'],
+      ['JONES', 'MANAGER', 2975, 20, 'RESEARCH', '🟢 Above Dept Avg (2175.00)'],
+      ['BLAKE', 'MANAGER', 2850, 30, 'SALES', '🟢 Above Dept Avg (1566.67)'],
+      ['ALLEN', 'SALESMAN', 1600, 30, 'SALES', '🟢 Above Dept Avg (1566.67)']
+    ];
+  } else if (query.includes('OFFSET 1') || query.includes('2nd') || query.includes('Dense')) {
+    // Query 2: 2nd Highest Salary
+    headers = ['ENAME', 'JOB', 'SAL', 'DEPTNO', 'RANK_POSITION'];
+    rows = [
+      ['SCOTT', 'ANALYST', 3000, 20, 'Rank #2 (Tie)'],
+      ['FORD', 'ANALYST', 3000, 20, 'Rank #2 (Tie)']
+    ];
+  } else if (query.includes('e.mgr = m.empno') || query.includes('manager_name')) {
+    // Query 3: Self-Join
+    headers = ['EMPLOYEE_NAME', 'EMPLOYEE_JOB', 'MANAGER_NAME', 'MANAGER_JOB', 'MANAGER_DEPT'];
+    rows = [
+      ['SMITH', 'CLERK', 'FORD', 'ANALYST', 'RESEARCH'],
+      ['ALLEN', 'SALESMAN', 'BLAKE', 'MANAGER', 'SALES'],
+      ['WARD', 'SALESMAN', 'BLAKE', 'MANAGER', 'SALES'],
+      ['JONES', 'MANAGER', 'KING', 'PRESIDENT', 'ACCOUNTING'],
+      ['MARTIN', 'SALESMAN', 'BLAKE', 'MANAGER', 'SALES'],
+      ['BLAKE', 'MANAGER', 'KING', 'PRESIDENT', 'ACCOUNTING'],
+      ['CLARK', 'MANAGER', 'KING', 'PRESIDENT', 'ACCOUNTING'],
+      ['SCOTT', 'ANALYST', 'JONES', 'MANAGER', 'RESEARCH'],
+      ['KING', 'PRESIDENT', 'NULL', 'NULL (Top Level Boss)', 'NULL'],
+      ['TURNER', 'SALESMAN', 'BLAKE', 'MANAGER', 'SALES'],
+      ['ADAMS', 'CLERK', 'SCOTT', 'ANALYST', 'RESEARCH'],
+      ['JAMES', 'CLERK', 'BLAKE', 'MANAGER', 'SALES'],
+      ['FORD', 'ANALYST', 'JONES', 'MANAGER', 'RESEARCH'],
+      ['MILLER', 'CLERK', 'CLARK', 'MANAGER', 'ACCOUNTING']
+    ];
+  } else if (query.includes('comm > sal') || query.includes('net_bonus')) {
+    // Query 8: Comm > Sal
+    headers = ['ENAME', 'JOB', 'SAL', 'COMM', 'NET_BONUS'];
+    rows = [
+      ['MARTIN', 'SALESMAN', 1250, 1400, '+150.00']
+    ];
+  } else {
+    // Query 9 / Generic Aggregation
+    headers = ['DEPTNO', 'FREQUENCY_EMPLOYEES', 'MONETARY_PAYROLL', 'AVG_SALARY', 'MAX_SALARY', 'MIN_SALARY'];
+    rows = [
+      [20, 5, '$10,875.00', '$2,175.00', '$3,000.00', '$800.00'],
+      [30, 6, '$9,400.00', '$1,566.67', '$2,850.00', '$950.00'],
+      [10, 3, '$8,750.00', '$2,916.67', '$5,000.00', '$1,300.00']
+    ];
+  }
+
+  // Render Table
+  let html = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+    <span style="font-size:12px;color:#4ade80;font-weight:700">⚡ Execution Successful · Query Returned ${rows.length} Rows</span>
+    <span style="font-size:11px;color:var(--s400)">Latency: 1.15ms · Cache Hit</span>
+  </div>`;
+  
+  html += '<table class="data-table"><thead><tr>';
+  headers.forEach(h => html += `<th>${h}</th>`);
+  html += '</tr></thead><tbody>';
+  rows.forEach(r => {
+    html += '<tr>';
+    r.forEach(c => html += `<td>${c}</td>`);
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+
+  out.innerHTML = html;
+}
+
+// Initialize on page load
+window.addEventListener('DOMContentLoaded', () => {
+  loadQuery(0);
+
+  // 3D Card Tilt Engine
+  const cards = document.querySelectorAll('.card, .sandbox-card');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+      const dx = (x - cx) / cx;
+      const dy = (y - cy) / cy;
+      card.style.transform = `perspective(1000px) rotateY(${dx * 4}deg) rotateX(${-dy * 4}deg) translateY(-2px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) translateY(0px)';
+    });
+  });
+});
+
+
+// Interactive Visual Join Simulator Engine
+const joinData = {
+  inner: {
+    title: "Venn Representation: A ∩ B (Inner Join)",
+    desc: "Returns strictly rows where DEPTNO matches in both EMP and DEPT tables.",
+    codeTitle: "INNER JOIN Syntax (ANSI Standard)",
+    snippet: `<span class="hl-kw">SELECT</span> e.ename, e.sal, d.dname, d.loc
+<span class="hl-kw">FROM</span> Emp e
+<span class="hl-kw">INNER JOIN</span> Dept d <span class="hl-kw">ON</span> e.deptno = d.deptno;`,
+    scenarioTitle: "🎬 Real-World Scenario: Netflix Watch History Matching",
+    scenarioDesc: "Matches registered subscribers with watching records. Only users who have watched content AND titles that exist in catalog are returned.",
+    cA: "rgba(56,189,248,0.3)", cB: "rgba(192,132,252,0.3)"
+  },
+  left: {
+    title: "Venn Representation: 100% Table A + Matching B (Left Outer Join)",
+    desc: "Preserves ALL rows from EMP table. If an employee has no matching DEPTNO, department columns return NULL.",
+    codeTitle: "LEFT OUTER JOIN Syntax",
+    snippet: `<span class="hl-kw">SELECT</span> e.ename, e.sal, d.dname, d.loc
+<span class="hl-kw">FROM</span> Emp e
+<span class="hl-kw">LEFT JOIN</span> Dept d <span class="hl-kw">ON</span> e.deptno = d.deptno;`,
+    scenarioTitle: "🎬 Real-World Scenario: Amazon Order Audit",
+    scenarioDesc: "Preserves 100% of registered customer accounts, even if they have placed zero orders (Orders columns return NULL).",
+    cA: "#38bdf8", cB: "rgba(192,132,252,0.3)"
+  },
+  right: {
+    title: "Venn Representation: Matching A + 100% Table B (Right Outer Join)",
+    desc: "Preserves ALL rows from DEPT table. Shows departments with zero employees (e.g. Operations Dept 40).",
+    codeTitle: "RIGHT OUTER JOIN Syntax",
+    snippet: `<span class="hl-kw">SELECT</span> e.ename, e.sal, d.dname, d.loc
+<span class="hl-kw">FROM</span> Emp e
+<span class="hl-kw">RIGHT JOIN</span> Dept d <span class="hl-kw">ON</span> e.deptno = d.deptno;`,
+    scenarioTitle: "🎬 Real-World Scenario: Warehouse Department Audit",
+    scenarioDesc: "Lists all physical warehouse departments, ensuring empty departments with no assigned workers are highlighted.",
+    cA: "rgba(56,189,248,0.3)", cB: "#c084fc"
+  },
+  full: {
+    title: "Venn Representation: A ∪ B (Full Outer Join)",
+    desc: "Combines 100% of rows from both tables. Unmatched cells are padded with NULLs.",
+    codeTitle: "FULL OUTER JOIN Syntax",
+    snippet: `<span class="hl-kw">SELECT</span> e.ename, e.sal, d.dname, d.loc
+<span class="hl-kw">FROM</span> Emp e
+<span class="hl-kw">FULL OUTER JOIN</span> Dept d <span class="hl-kw">ON</span> e.deptno = d.deptno;`,
+    scenarioTitle: "🎬 Real-World Scenario: Bank M&A Ledger Reconciliation",
+    scenarioDesc: "Audits disjoint accounts between two merging financial ledgers (Bank A and Bank B) without missing unmatched accounts.",
+    cA: "#38bdf8", cB: "#c084fc"
+  },
+  cross: {
+    title: "Venn Representation: A × B (Cartesian Product)",
+    desc: "Combines EVERY row of Table A with EVERY row of Table B (N × M rows). No ON clause required.",
+    codeTitle: "CROSS JOIN Syntax",
+    snippet: `<span class="hl-kw">SELECT</span> c.color_name, s.size_code
+<span class="hl-kw">FROM</span> Colors c
+<span class="hl-kw">CROSS JOIN</span> Sizes s;`,
+    scenarioTitle: "🎬 Real-World Scenario: E-Commerce Product SKU Generator",
+    scenarioDesc: "Multiplies 10 colors × 5 sizes × 20 styles = 1,000 unique inventory SKUs automatically.",
+    cA: "#fbbf24", cB: "#fbbf24"
+  },
+  semi: {
+    title: "Venn Representation: Semi-Join (EXISTS Probe)",
+    desc: "Returns rows from Table A where matching records exist in Table B, WITHOUT duplicating Table A rows.",
+    codeTitle: "SEMI-JOIN (EXISTS) Syntax",
+    snippet: `<span class="hl-kw">SELECT</span> e.ename, e.sal
+<span class="hl-kw">FROM</span> Emp e
+<span class="hl-kw">WHERE EXISTS</span> (
+    <span class="hl-kw">SELECT</span> 1 <span class="hl-kw">FROM</span> Dept d 
+    <span class="hl-kw">WHERE</span> d.deptno = e.deptno <span class="hl-kw">AND</span> d.loc = <span class="hl-str">'DALLAS'</span>
+);`,
+    scenarioTitle: "🎬 Real-World Scenario: Cybersecurity Threat Shield",
+    scenarioDesc: "Filters suspicious IP logs against threat databases with instant boolean short-circuiting.",
+    cA: "#4ade80", cB: "rgba(74,222,128,0.2)"
+  },
+  anti: {
+    title: "Venn Representation: Anti-Join (NOT EXISTS / IS NULL)",
+    desc: "Returns ONLY rows from Table A that have ZERO matching records in Table B.",
+    codeTitle: "ANTI-JOIN (NOT EXISTS) Syntax",
+    snippet: `<span class="hl-kw">SELECT</span> d.dname, d.loc
+<span class="hl-kw">FROM</span> Dept d
+<span class="hl-kw">LEFT JOIN</span> Emp e <span class="hl-kw">ON</span> d.deptno = e.deptno
+<span class="hl-kw">WHERE</span> e.empno <span class="hl-kw">IS NULL</span>;`,
+    scenarioTitle: "🎬 Real-World Scenario: Churned Customer & Orphan Data Janitor",
+    scenarioDesc: "Identifies accounts with zero activity over 90 days for automated re-engagement or table purging.",
+    cA: "#fb7185", cB: "rgba(251,113,133,0.1)"
+  },
+  self: {
+    title: "Venn Representation: Self-Join (Table A ➔ Table A)",
+    desc: "Joins a table to itself using table aliases (e1, e2, e3) to resolve hierarchical trees.",
+    codeTitle: "3-Tier Self-Join Hierarchy",
+    snippet: `<span class="hl-kw">SELECT</span> e1.ename <span class="hl-kw">AS</span> Emp, e2.ename <span class="hl-kw">AS</span> Mgr, e3.ename <span class="hl-kw">AS</span> Boss
+<span class="hl-kw">FROM</span> Emp e1
+<span class="hl-kw">LEFT JOIN</span> Emp e2 <span class="hl-kw">ON</span> e1.mgr = e2.empno
+<span class="hl-kw">LEFT JOIN</span> Emp e3 <span class="hl-kw">ON</span> e2.mgr = e3.empno;`,
+    scenarioTitle: "🎬 Real-World Scenario: Corporate Chain of Command",
+    scenarioDesc: "Traverses worker ➔ manager ➔ VP executive chain of command in a single SQL query.",
+    cA: "#c084fc", cB: "#c084fc"
+  }
+};
+
+function selectJoinSim(type, btn) {
+  document.querySelectorAll('.join-sel-btn').forEach(b => {
+    b.classList.remove('active');
+    b.style.borderColor = 'rgba(255,255,255,0.1)';
+    b.style.color = '#cbd5e1';
+  });
+  if (btn) {
+    btn.classList.add('active');
+    btn.style.borderColor = '#38bdf8';
+    btn.style.color = '#38bdf8';
+  }
+
+  const d = joinData[type];
+  if (!d) return;
+
+  document.getElementById('vennTitle').textContent = d.title;
+  document.getElementById('joinVennDesc').textContent = d.desc;
+  document.getElementById('joinCodeTitle').textContent = d.codeTitle;
+  document.getElementById('joinSqlSnippet').innerHTML = d.snippet;
+  document.getElementById('joinScenarioTitle').textContent = d.scenarioTitle;
+  document.getElementById('joinScenarioDesc').textContent = d.scenarioDesc;
+
+  document.getElementById('circleA').setAttribute('fill', d.cA);
+  document.getElementById('circleB').setAttribute('fill', d.cB);
+}
+
+</script>
+</body>
+</html>

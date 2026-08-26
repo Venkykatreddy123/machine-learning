@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ML Mastery — Page 6 | Career Hub & Interactive Technical Interview Simulator</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#2563eb;--blue-d:#1d4ed8;--blue-l:#eff6ff;--blue-xl:#dbeafe;
+  --green:#16a34a;--green-l:#f0fdf4;--green-xl:#dcfce7;
+  --amber:#d97706;--amber-l:#fffbeb;
+  --purple:#7c3aed;--purple-l:#f5f3ff;
+  --red:#dc2626;--red-l:#fef2f2;
+  --cyan:#0891b2;--cyan-l:#ecfeff;
+  --pink:#db2777;--pink-l:#fdf2f8;
+  --s50:#f8fafc;--s100:#f1f5f9;--s200:#e2e8f0;--s300:#cbd5e1;
+  --s400:#94a3b8;--s500:#64748b;--s600:#475569;--s700:#334155;
+  --s800:#1e293b;--s900:#0f172a;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--s900);color:#f8fafc;line-height:1.6}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:rgba(15,23,42,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.08);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;gap:12px}
+.brand{font-size:17px;font-weight:900;color:#fff;text-decoration:none;display:flex;align-items:center;gap:6px}
+.brand em{color:#fbbf24;font-style:normal}
+.nav-links{display:flex;gap:16px;align-items:center}
+.nav-links a{color:var(--s400);text-decoration:none;font-size:13px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:#fff}
+.back-hub{background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.3);color:#fbbf24;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:700;text-decoration:none;transition:all .2s}
+.back-hub:hover{background:rgba(251,191,36,0.25);color:#fff}
+
+/* BANNER */
+.hero{background:radial-gradient(ellipse at 50% 0%,rgba(245,158,11,0.2) 0%,rgba(15,23,42,0) 70%),#0f172a;padding:56px 24px 44px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.06)}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);color:#fbbf24;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:4px 14px;border-radius:999px;margin-bottom:16px}
+.hero h1{font-size:38px;font-weight:900;letter-spacing:-1px;color:#fff;margin-bottom:12px}
+.hero p{font-size:15px;color:var(--s300);max-width:720px;margin:0 auto 24px}
+
+/* WRAP & SECTION */
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+.sec{padding:60px 0}
+.sec-head{margin-bottom:32px}
+.sec-tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:999px;margin-bottom:8px}
+.tag-amber{background:rgba(245,158,11,0.2);color:#fbbf24;border:1px solid rgba(245,158,11,0.3)}
+.tag-blue{background:rgba(37,99,235,0.2);color:#60a5fa;border:1px solid rgba(37,99,235,0.3)}
+.tag-purple{background:rgba(124,58,237,0.2);color:#a78bfa;border:1px solid rgba(124,58,237,0.3)}
+.tag-pink{background:rgba(219,39,119,0.2);color:#f472b6;border:1px solid rgba(219,39,119,0.3)}
+.tag-green{background:rgba(22,163,74,0.2);color:#4ade80;border:1px solid rgba(22,163,74,0.3)}
+.sec-head h2{font-size:26px;font-weight:800;color:#fff;margin-bottom:6px}
+.sec-head p{font-size:14px;color:var(--s400)}
+
+/* QUIZ ENGINE */
+.quiz-box{background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;box-shadow:0 10px 30px rgba(0,0,0,0.3)}
+.quiz-top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.quiz-score-pill{background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.4);color:#fbbf24;font-size:13px;font-weight:800;padding:6px 14px;border-radius:999px}
+.q-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.q-pill{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:var(--s300);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.q-pill:hover{background:rgba(255,255,255,0.15);color:#fff}
+.q-pill.active{border-color:#fbbf24;color:#fbbf24;box-shadow:0 0 10px rgba(251,191,36,0.3)}
+.q-pill.correct{background:#16a34a;border-color:#22c55e;color:#fff}
+.q-pill.wrong{background:#dc2626;border-color:#ef4444;color:#fff}
+
+.q-card{display:none}
+.q-card.active{display:block}
+.q-meta{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+.q-cat{font-size:10px;font-weight:800;text-transform:uppercase;padding:2px 8px;border-radius:4px;background:rgba(59,130,246,0.2);color:#93c5fd;border:1px solid rgba(59,130,246,0.4)}
+.q-num{font-size:12px;color:var(--s400);font-weight:600}
+.q-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:20px;line-height:1.5}
+
+.opt-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.opt-btn{background:#0f172a;border:1px solid rgba(255,255,255,0.12);color:#cbd5e1;padding:14px 18px;border-radius:10px;text-align:left;font-size:14px;font-family:inherit;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px}
+.opt-btn:hover:not(:disabled){background:rgba(255,255,255,0.06);border-color:#60a5fa;color:#fff;transform:translateX(4px)}
+.opt-btn.correct{background:rgba(22,163,74,0.25)!important;border-color:#22c55e!important;color:#4ade80!important;font-weight:700}
+.opt-btn.wrong{background:rgba(220,38,38,0.25)!important;border-color:#ef4444!important;color:#f87171!important}
+.opt-btn:disabled{cursor:default}
+
+.q-expl{display:none;background:rgba(15,23,42,0.9);border-left:4px solid #38bdf8;padding:16px;border-radius:8px;margin-top:16px;font-size:13px;color:#cbd5e1;line-height:1.6}
+.q-expl strong{color:#38bdf8;display:block;margin-bottom:4px;font-size:14px}
+
+.quiz-footer{display:flex;justify-content:space-between;align-items:center;margin-top:24px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08)}
+.btn-nav{background:#2563eb;color:#fff;border:none;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-nav:hover{background:#1d4ed8}
+.btn-restart{background:#334155;color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-restart:hover{background:#475569}
+
+/* CAPSTONES */
+.cap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px}
+.cap-card{background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:24px;display:flex;flex-direction:column;box-shadow:0 6px 20px rgba(0,0,0,0.2)}
+.cap-badge{align-self:flex-start;font-size:10px;font-weight:800;text-transform:uppercase;padding:3px 10px;border-radius:999px;margin-bottom:12px}
+.cap-title{font-size:18px;font-weight:800;color:#fff;margin-bottom:10px}
+.cap-desc{font-size:13px;color:var(--s300);margin-bottom:16px;line-height:1.5}
+.cap-flow{background:#0f172a;border:1px solid rgba(255,255,255,0.08);padding:12px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#38bdf8;margin-bottom:16px;text-align:center;word-break:break-word}
+.resume-box{background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.25);border-radius:8px;padding:14px;margin-top:auto}
+.resume-box h5{color:#fbbf24;font-size:12px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.resume-box ul{padding-left:16px;font-size:12px;color:#e2e8f0;line-height:1.5}
+.resume-box li{margin-bottom:6px}
+
+/* PYTORCH VS TF */
+.vs-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:768px){.vs-grid{grid-template-columns:1fr}}
+.vs-card{background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:22px}
+.vs-card h3{display:flex;align-items:center;gap:8px;font-size:18px;font-weight:800;margin-bottom:14px}
+.code-box{background:#0f172a;border:1px solid rgba(255,255,255,0.08);padding:14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#cbd5e1;line-height:1.5;overflow-x:auto}
+.code-box .kw{color:#c084fc;font-weight:700}
+.code-box .fn{color:#60a5fa}
+.code-box .str{color:#4ade80}
+.code-box .cm{color:#64748b;font-style:italic}
+
+/* CHEAT SHEET */
+.formula-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.formula-card{background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:18px;display:flex;flex-direction:column;justify-content:space-between;transition:all .2s}
+.formula-card:hover{border-color:rgba(251,191,36,0.4);transform:translateY(-2px)}
+.formula-name{font-size:13px;font-weight:700;color:#fff;margin-bottom:8px}
+.formula-math{background:#0f172a;border:1px solid rgba(255,255,255,0.08);padding:10px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#38bdf8;text-align:center;margin-bottom:12px;word-break:break-all}
+.formula-desc{font-size:11px;color:var(--s400);margin-bottom:12px;line-height:1.4}
+.copy-btn{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);color:#cbd5e1;padding:6px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;align-self:flex-start;transition:all .2s;display:flex;align-items:center;gap:6px}
+.copy-btn:hover{background:#fbbf24;color:#0f172a;border-color:#fbbf24}
+
+/* FOOTER */
+footer{background:#0b1120;border-top:1px solid rgba(255,255,255,0.08);padding:36px 24px;text-align:center;color:var(--s400);font-size:13px}
+.footer-links{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin:12px 0}
+.footer-links a{color:var(--s400);text-decoration:none;font-size:12px;transition:color .2s}
+.footer-links a:hover{color:#fff}
+
+section[id]{scroll-margin-top:84px}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand"><em>ML</em>Mastery <span style="font-size:12px;color:#fbbf24;font-weight:700;border:1px solid rgba(251,191,36,0.3);padding:2px 6px;border-radius:4px">Page 6</span></a>
+  <div class="nav-links">
+    <a href="#quiz">Interview Simulator</a>
+    <a href="#capstones">Capstone Portfolios</a>
+    <a href="#pytorch-tf">PyTorch vs TF</a>
+    <a href="#cheatsheet">Formula Sheet</a>
+    <a href="index.html" class="back-hub">⌂ Portal Hub</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-tag">🎯 Final Mile · Career Ready</div>
+  <h1>Technical Interview Simulator &amp; Career Hub</h1>
+  <p>Conquer technical ML interviews with scenario-based judgment tests, build ATS-optimized Capstone projects, and master PyTorch vs TensorFlow architectures.</p>
+</header>
+
+<main class="wrap">
+
+  <!-- SECTION 1: INTERACTIVE QUIZ -->
+  <section id="quiz" class="sec">
+    <div class="sec-head">
+      <div class="sec-tag tag-amber">Assessment Engine</div>
+      <h2>Interactive Technical Mock Interview</h2>
+      <p>10 real scenario questions asked by senior ML hiring managers. Click an option to see instant grading and interview rationale.</p>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-top-bar">
+        <div class="q-pills" id="qPills">
+          <!-- Injected via JS -->
+        </div>
+        <div class="quiz-score-pill" id="scorePill">Score: 0 / 10</div>
+      </div>
+
+      <div id="quizContainer">
+        <!-- Question cards injected via JS -->
+      </div>
+
+      <div class="quiz-footer">
+        <button class="btn-restart" onclick="restartQuiz()">🔄 Reset Quiz</button>
+        <div style="display:flex;gap:10px">
+          <button id="prevBtn" class="btn-restart" onclick="prevQuestion()" style="display:none">← Previous</button>
+          <button id="nextBtn" class="btn-nav" onclick="nextQuestion()">Next Question →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: CAPSTONES -->
+  <section id="capstones" class="sec">
+    <div class="sec-head">
+      <div class="sec-tag tag-purple">Portfolio Blueprints</div>
+      <h2>3 Enterprise Capstone Projects (ATS-Ready)</h2>
+      <p>Recruiters reject toy Titanic/Iris projects. Use these end-to-end architectures and verified resume bullet points on your CV.</p>
+    </div>
+
+    <div class="cap-grid">
+      
+      <!-- Project 1 -->
+      <div class="cap-card" style="border-top:3px solid #3b82f6">
+        <div class="cap-badge" style="background:rgba(59,130,246,0.2);color:#60a5fa">Real-Time Tabular MLOps</div>
+        <div class="cap-title">E-Commerce Customer Churn Prediction Engine</div>
+        <div class="cap-desc">Predicts high-value user churn in real-time by streaming browsing telemetry events and triggering discount webhooks.</div>
+        <div class="cap-flow">Kafka ➔ Feature Eng ➔ XGBoost ➔ FastAPI ➔ Redis Cache</div>
+        <div class="resume-box">
+          <h5>📄 ATS Resume Bullet Points:</h5>
+          <ul>
+            <li>Engineered a real-time churn prediction pipeline streaming 10k+ events/sec using Kafka, Redis, and FastAPI.</li>
+            <li>Trained and hyperparameter-tuned an XGBoost classifier with custom Focal Loss, achieving <strong>0.89 ROC-AUC</strong> on 2M user records.</li>
+            <li>Deployed Dockerized inference service on AWS EKS, reducing customer churn by <strong>14%</strong> within Q3.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="cap-card" style="border-top:3px solid #ec4899">
+        <div class="cap-badge" style="background:rgba(236,72,153,0.2);color:#f472b6">GenAI &amp; Vector Databases</div>
+        <div class="cap-title">Enterprise Document Intelligence RAG Assistant</div>
+        <div class="cap-desc">Internal enterprise knowledge bot that ingests technical PDFs, indexes semantic chunks into a Vector DB, and provides hallucination-free answers.</div>
+        <div class="cap-flow">PDF Parser ➔ Chunking ➔ ChromaDB ➔ Cosine Search ➔ LLM</div>
+        <div class="resume-box">
+          <h5>📄 ATS Resume Bullet Points:</h5>
+          <ul>
+            <li>Built an enterprise RAG assistant indexing 5,000+ internal engineering SOPs and architectural whitepapers into ChromaDB.</li>
+            <li>Implemented hierarchical chunking and hybrid dense-sparse retrieval (BM25 + text-embedding-004) with sub-150ms cosine latency.</li>
+            <li>Cut internal IT support ticket volume by <strong>32%</strong> through grounded LLM responses with source citations.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="cap-card" style="border-top:3px solid #10b981">
+        <div class="cap-badge" style="background:rgba(16,185,129,0.2);color:#4ade80">Unsupervised IoT &amp; Anomaly</div>
+        <div class="cap-title">High-Frequency Telemetry Anomaly Detector</div>
+        <div class="cap-desc">Monitors distributed server fleet logs to isolate memory leaks, CPU spikes, and DDoS attacks before outages occur.</div>
+        <div class="cap-flow">InfluxDB ➔ Isolation Forest + DBSCAN ➔ Grafana Alerts</div>
+        <div class="resume-box">
+          <h5>📄 ATS Resume Bullet Points:</h5>
+          <ul>
+            <li>Designed an unsupervised anomaly detection engine on 100+ microservices using Isolation Forests and Rolling Z-Score windows.</li>
+            <li>Reduced false alarm rates by <strong>45%</strong> compared to static threshold monitoring by combining DBSCAN density filters.</li>
+            <li>Automated webhook alerting to PagerDuty and Slack, preventing two major production outages.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 3: PYTORCH VS TENSORFLOW -->
+  <section id="pytorch-tf" class="sec">
+    <div class="sec-head">
+      <div class="sec-tag tag-pink">Deep Learning Toolkits</div>
+      <h2>PyTorch vs. TensorFlow / Keras</h2>
+      <p>The two industry titans. Understand their execution graphs, model definitions, and standard training loops for interviews.</p>
+    </div>
+
+    <div class="vs-grid">
+      <!-- PyTorch -->
+      <div class="vs-card" style="border-top:3px solid #ee4c2c">
+        <h3 style="color:#f87171">🔥 PyTorch (Dynamic Graph / Eager)</h3>
+        <p style="font-size:12px;color:#94a3b8;margin-bottom:12px">Dominates Research, HuggingFace, and Modern LLMs. Pythonic and transparent.</p>
+        <div class="code-box">
+<span class="kw">import</span> torch
+<span class="kw">import</span> torch.nn <span class="kw">as</span> nn
+
+<span class="cm"># 1. Define Model</span>
+<span class="kw">class</span> <span class="fn">Net</span>(nn.Module):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        super().<span class="fn">__init__</span>()
+        self.fc = nn.<span class="fn">Linear</span>(<span class="str">10</span>, <span class="str">2</span>)
+    <span class="kw">def</span> <span class="fn">forward</span>(self, x):
+        <span class="kw">return</span> self.<span class="fn">fc</span>(x)
+
+model = <span class="fn">Net</span>()
+optimizer = torch.optim.<span class="fn">Adam</span>(model.parameters(), lr=<span class="str">0.001</span>)
+criterion = nn.<span class="fn">CrossEntropyLoss</span>()
+
+<span class="cm"># 2. Standard 5-Step Loop</span>
+<span class="kw">for</span> x, y <span class="kw">in</span> dataloader:
+    optimizer.<span class="fn">zero_grad</span>()        <span class="cm"># Step 1: Clear old grads</span>
+    pred = model(x)              <span class="cm"># Step 2: Forward pass</span>
+    loss = criterion(pred, y)    <span class="cm"># Step 3: Compute loss</span>
+    loss.<span class="fn">backward</span>()              <span class="cm"># Step 4: Backprop gradients</span>
+    optimizer.<span class="fn">step</span>()             <span class="cm"># Step 5: Update weights</span>
+        </div>
+      </div>
+
+      <!-- TensorFlow -->
+      <div class="vs-card" style="border-top:3px solid #ff6f00">
+        <h3 style="color:#fbbf24">⚡ TensorFlow / Keras (High-Level / TF Serving)</h3>
+        <p style="font-size:12px;color:#94a3b8;margin-bottom:12px">Dominates Enterprise Edge (TF Lite), Android deployments, and Google Cloud.</p>
+        <div class="code-box">
+<span class="kw">import</span> tensorflow <span class="kw">as</span> tf
+<span class="kw">from</span> tensorflow <span class="kw">import</span> keras
+
+<span class="cm"># 1. Define Model</span>
+model = keras.Sequential([
+    keras.layers.<span class="fn">Dense</span>(<span class="str">64</span>, activation=<span class="str">'relu'</span>, input_shape=(<span class="str">10</span>,)),
+    keras.layers.<span class="fn">Dense</span>(<span class="str">2</span>, activation=<span class="str">'softmax'</span>)
+])
+
+<span class="cm"># 2. Compile with Optimizer & Loss</span>
+model.<span class="fn">compile</span>(
+    optimizer=keras.optimizers.<span class="fn">Adam</span>(learning_rate=<span class="str">0.001</span>),
+    loss=<span class="str">'sparse_categorical_crossentropy'</span>,
+    metrics=[<span class="str">'accuracy'</span>]
+)
+
+<span class="cm"># 3. High-Level Training Call</span>
+model.<span class="fn">fit</span>(
+    train_dataset,
+    epochs=<span class="str">10</span>,
+    validation_data=val_dataset
+)
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: FORMULA CHEAT SHEET -->
+  <section id="cheatsheet" class="sec">
+    <div class="sec-head">
+      <div class="sec-tag tag-green">Instant Revision</div>
+      <h2>ML Formula &amp; Loss Cheat Sheet</h2>
+      <p>Click any card to copy the exact mathematical formula directly to your clipboard for quick interview revision.</p>
+    </div>
+
+    <div class="formula-grid" id="formulaGrid">
+      <!-- Injected via JS -->
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <strong>ML Mastery — Page 6: Career, Projects &amp; Quiz Suite</strong>
+  <div class="footer-links">
+    <a href="index.html">⌂ Portal Hub</a>
+    <a href="math_foundations.html">📐 Page 0: Math</a>
+    <a href="full_platform.html">📘 Page 1: Foundation</a>
+    <a href="advanced_modules.html">⚡ Page 2: Advanced</a>
+    <a href="deep_modules.html">🔬 Page 3: Deep Dive</a>
+    <a href="python_ml.html">🐍 Page 4: Python</a>
+    <a href="real_world_ml.html">🚀 Page 5: Real-World MLOps</a>
+    <a href="career_and_quiz.html" style="color:#fbbf24;font-weight:700">🏆 Page 6: Career &amp; Quiz</a>
+    <a href="interactive_3d_lab.html">🌐 Page 7: 3D WebGL</a>
+    <a href="system_design_and_incidents.html">🚨 Page 8: Staff War Room</a>
+    <a href="algorithm_arena.html">⚔️ Page 9: Algorithm Arena</a>
+    <a href="industrial_systems.html">💡 Page 10: Industrial AI</a>
+    <a href="python_teaching_mastery.html" style="color:var(--emerald);font-weight:700">🎓 Page 11: Python Master Codex</a>
+  </div>
+  <p style="margin-top:10px">&copy; 2026 ML Mastery Educational Platform · Built for Data Science IT Job Seekers</p>
+</footer>
+
+<script>
+// ==========================================
+// QUIZ DATA & ENGINE
+// ==========================================
+const quizData = [
+  {
+    q: "How should you handle a categorical feature with very high cardinality (e.g., 5,000 unique Zip Codes) in a Gradient Boosting model?",
+    cat: "Feature Engineering",
+    options: [
+      "Apply One-Hot Encoding across all 5,000 categories",
+      "Use Target / Out-of-Fold Mean Encoding or learned Entity Embeddings",
+      "Drop the column completely because it has too many levels",
+      "Assign random integers via LabelEncoder directly without grouping"
+    ],
+    correct: 1,
+    expl: "One-hot encoding 5,000 levels causes explosive matrix sparsity and memory exhaustion, resulting in terrible tree splits. Target encoding replaces levels with the expected target value (smoothed with priors), and embeddings learn dense vector representations."
+  },
+  {
+    q: "In an enterprise fraud detection model where missing a fraudulent transaction costs $50,000 while false alarms cost $2, which metric MUST you optimize?",
+    cat: "Evaluation Metrics",
+    options: [
+      "Accuracy",
+      "Precision",
+      "Recall (Sensitivity)",
+      "Specificity"
+    ],
+    correct: 2,
+    expl: "Recall = TP / (TP + FN). A False Negative (missing fraud) has catastrophic cost ($50k), so we must capture every possible fraud case by maximizing Recall (often tuning decision threshold down from 0.5 to 0.15)."
+  },
+  {
+    q: "During deep neural network training, your loss suddenly explodes and displays 'NaN' at epoch 4. What is the root cause?",
+    cat: "Deep Learning",
+    options: [
+      "The dataset is underfitting",
+      "Exploding Gradients due to excessively high learning rate or unscaled inputs",
+      "Batch size is too small",
+      "Using ReLU instead of Sigmoid"
+    ],
+    correct: 1,
+    expl: "NaN loss indicates numerical overflow. Huge gradients or unnormalized inputs multiply weights beyond IEEE-754 floating point boundaries. Fixes: Gradient clipping (torch.nn.utils.clip_grad_norm_), lower learning rate, or Layer Normalization."
+  },
+  {
+    q: "Your model shows 98% accuracy on training data, but drops to 64% on the validation set. What is the diagnosis and fix?",
+    cat: "Model Tuning",
+    options: [
+      "High Bias (Underfitting) ➔ Increase model depth and add features",
+      "High Variance (Overfitting) ➔ Add L2 regularization, dropout, or prune trees",
+      "Data Leakage ➔ Scale features before train_test_split",
+      "Covariate Shift ➔ Switch from Python to C++"
+    ],
+    correct: 1,
+    expl: "A huge gap between train and validation score is the classic signature of Overfitting (High Variance). The model memorized noise. Fix with Dropout (0.3), L2 weight decay, smaller max_depth, or collecting more training data."
+  },
+  {
+    q: "Why is applying SMOTE (Synthetic Minority Over-sampling) on the ENTIRE dataset before train_test_split a critical production flaw?",
+    cat: "MLOps Hygiene",
+    options: [
+      "SMOTE takes too long to compute on large arrays",
+      "It causes severe Data Leakage: synthetic test points will be interpolated from training neighbors",
+      "SMOTE only works for regression tasks",
+      "It alters the feature names in Pandas"
+    ],
+    correct: 1,
+    expl: "Applying any sampling, scaling, or imputation before splitting leaks future distribution into the training fold. The test set must remain 100% untouched and reflect real raw production distributions."
+  },
+  {
+    q: "Why is Isolation Forest preferred over K-Means clustering for detecting anomalies in high-dimensional server telemetry?",
+    cat: "Anomaly Detection",
+    options: [
+      "K-Means only works on categorical variables",
+      "Isolation Forest isolates outliers directly via tree depth without calculating Euclidean distance matrices",
+      "Isolation Forest requires labeled training data",
+      "K-Means does not support floating point numbers"
+    ],
+    correct: 1,
+    expl: "In high dimensions, Euclidean distance breaks down (Curse of Dimensionality: all points become equidistant). Isolation Forest randomly partitions features; outliers require far fewer splits to isolate (short average path length)."
+  },
+  {
+    q: "What is the key mathematical difference between L1 (Lasso) and L2 (Ridge) Regularization?",
+    cat: "Optimization",
+    options: [
+      "L1 is used for neural nets; L2 is only for linear regression",
+      "L1 penalizes absolute weights (|w|) driving redundant coefficients to exactly zero (feature selection)",
+      "L2 penalizes absolute weights; L1 penalizes squared weights",
+      "L1 increases model complexity while L2 reduces it"
+    ],
+    correct: 1,
+    expl: "L1 penalty (+λΣ|w|) has sharp diamond corners in parameter space, causing gradient descent to hit axes where coefficients become exactly 0. L2 (+λΣw²) shrinks weights asymptotically toward 0 but keeps all features."
+  },
+  {
+    q: "What catastrophic bug occurs if you forget `optimizer.zero_grad()` in a PyTorch training loop?",
+    cat: "PyTorch",
+    options: [
+      "The model throws an immediate syntax error",
+      "Gradients from the current batch accumulate onto previous batches, causing updates in the wrong direction",
+      "The learning rate defaults to 1.0",
+      "The loss becomes negative"
+    ],
+    correct: 1,
+    expl: "PyTorch by design accumulates gradients into `.grad` buffers on every `loss.backward()` call (useful for gradient accumulation across mini-batches). Without `zero_grad()`, gradients multiply indefinitely across epochs."
+  },
+  {
+    q: "In an LLM Generation pipeline, how does lowering the Temperature parameter from 1.0 down to 0.1 affect token probabilities?",
+    cat: "GenAI & LLMs",
+    options: [
+      "Increases randomness and hallucination rates",
+      "Sharpens the softmax probability distribution, making output deterministic and focused on top tokens",
+      "Increases the context window limit",
+      "Forces the model to skip the tokenizer"
+    ],
+    correct: 1,
+    expl: "Temperature divides logits (z/T) before softmax. When T → 0, differences between logits are amplified to infinity, effectively transforming softmax into an argmax (greedy decoding) ideal for code, SQL, and factual lookup."
+  },
+  {
+    q: "How do you solve the 'Cold-Start Problem' when a new user signs up with zero interaction history in a Recommendation System?",
+    cat: "System Design",
+    options: [
+      "Run Collaborative Filtering immediately",
+      "Use Content-Based heuristics, demographic onboarding surveys, or popular trending fallbacks",
+      "Wait 30 days before showing any recommendations",
+      "Use matrix factorization with randomized user vectors"
+    ],
+    correct: 1,
+    expl: "Collaborative filtering requires user history matrix overlap. For brand new users, enterprise systems fall back to Content-Based filtering (categories selected during onboarding), geo-popularity trending, or multi-armed bandits."
+  }
+];
+
+let currentIdx = 0;
+let userAnswers = new Array(quizData.length).fill(null);
+
+function initQuiz() {
+  const pillsContainer = document.getElementById('qPills');
+  const quizContainer = document.getElementById('quizContainer');
+  pillsContainer.innerHTML = '';
+  quizContainer.innerHTML = '';
+
+  quizData.forEach((item, i) => {
+    // 1. Navigation Pill
+    const pill = document.createElement('div');
+    pill.className = `q-pill ${i === 0 ? 'active' : ''}`;
+    pill.id = `pill-${i}`;
+    pill.textContent = i + 1;
+    pill.onclick = () => goToQuestion(i);
+    pillsContainer.appendChild(pill);
+
+    // 2. Question Card
+    const card = document.createElement('div');
+    card.className = `q-card ${i === 0 ? 'active' : ''}`;
+    card.id = `qCard-${i}`;
+
+    let optsHtml = '';
+    item.options.forEach((opt, optIdx) => {
+      optsHtml += `
+        <button class="opt-btn" id="opt-${i}-${optIdx}" onclick="answerQuestion(${i}, ${optIdx})">
+          <span style="font-weight:700;color:#60a5fa">${String.fromCharCode(65 + optIdx)}.</span> ${opt}
+        </button>
+      `;
+    });
+
+    card.innerHTML = `
+      <div class="q-meta">
+        <span class="q-cat">${item.cat}</span>
+        <span class="q-num">Question ${i + 1} of ${quizData.length}</span>
+      </div>
+      <div class="q-title">${item.q}</div>
+      <div class="opt-list">${optsHtml}</div>
+      <div class="q-expl" id="expl-${i}">
+        <strong>💡 Interviewer Rationale:</strong>
+        ${item.expl}
+      </div>
+    `;
+    quizContainer.appendChild(card);
+  });
+
+  updateQuizStatus();
+}
+
+function answerQuestion(qIdx, selectedOpt) {
+  if (userAnswers[qIdx] !== null) return; // already answered
+
+  userAnswers[qIdx] = selectedOpt;
+  const item = quizData[qIdx];
+  const pill = document.getElementById(`pill-${qIdx}`);
+  const expl = document.getElementById(`expl-${qIdx}`);
+
+  // Disable all options for this question
+  item.options.forEach((_, optIdx) => {
+    const btn = document.getElementById(`opt-${qIdx}-${optIdx}`);
+    btn.disabled = true;
+    if (optIdx === item.correct) {
+      btn.classList.add('correct');
+    } else if (optIdx === selectedOpt) {
+      btn.classList.add('wrong');
+    }
+  });
+
+  if (selectedOpt === item.correct) {
+    pill.className = 'q-pill correct active';
+  } else {
+    pill.className = 'q-pill wrong active';
+  }
+
+  expl.style.display = 'block';
+  updateQuizStatus();
+}
+
+function goToQuestion(idx) {
+  document.getElementById(`qCard-${currentIdx}`).classList.remove('active');
+  document.getElementById(`pill-${currentIdx}`).classList.remove('active');
+
+  currentIdx = idx;
+
+  document.getElementById(`qCard-${currentIdx}`).classList.add('active');
+  document.getElementById(`pill-${currentIdx}`).classList.add('active');
+
+  document.getElementById('prevBtn').style.display = currentIdx > 0 ? 'inline-block' : 'none';
+  document.getElementById('nextBtn').textContent = currentIdx === quizData.length - 1 ? 'Finish Assessment' : 'Next Question →';
+}
+
+function nextQuestion() {
+  if (currentIdx < quizData.length - 1) {
+    goToQuestion(currentIdx + 1);
+  } else {
+    // Show summary score
+    const correctCount = userAnswers.filter((ans, idx) => ans === quizData[idx].correct).length;
+    alert(`🎉 Quiz Complete!\nYour Score: ${correctCount} / ${quizData.length} (${(correctCount/quizData.length)*100}%)\n\n${correctCount >= 8 ? "🏆 Status: Job Ready!" : "💪 Status: Review the explanations and retake!"}`);
+  }
+}
+
+function prevQuestion() {
+  if (currentIdx > 0) goToQuestion(currentIdx - 1);
+}
+
+function restartQuiz() {
+  userAnswers = new Array(quizData.length).fill(null);
+  currentIdx = 0;
+  initQuiz();
+}
+
+function updateQuizStatus() {
+  const answeredCount = userAnswers.filter(a => a !== null).length;
+  const correctCount = userAnswers.filter((ans, idx) => ans === quizData[idx].correct).length;
+  const scorePill = document.getElementById('scorePill');
+  scorePill.textContent = `Score: ${correctCount} / ${quizData.length} (${answeredCount}/${quizData.length} Answered)`;
+}
+
+// ==========================================
+// FORMULA CHEAT SHEET
+// ==========================================
+const formulaList = [
+  { name: "Mean Squared Error (MSE)", math: "MSE = (1/n) * Σ(y - ŷ)²", desc: "Standard regression loss penalizing large outlier errors quadratically." },
+  { name: "Binary Cross-Entropy", math: "Loss = -Σ [y*log(ŷ) + (1-y)*log(1-ŷ)]", desc: "Log-loss for probability classification outputs in Logistic Regression and Neural Nets." },
+  { name: "Precision", math: "Precision = TP / (TP + FP)", desc: "Out of all predicted positives, what fraction was actually correct? (Minimizes False Alarms)." },
+  { name: "Recall (Sensitivity)", math: "Recall = TP / (TP + FN)", desc: "Out of all actual positives, what fraction did we catch? (Critical for Fraud/Cancer)." },
+  { name: "F1-Score", math: "F1 = 2 * (Precision * Recall) / (P + R)", desc: "Harmonic mean balancing Precision and Recall on imbalanced datasets." },
+  { name: "Cosine Similarity", math: "cos(θ) = (A · B) / (||A|| * ||B||)", desc: "Measures angular orientation between word or document embedding vectors." },
+  { name: "L1 Regularization (Lasso)", math: "Total Loss = Loss + λ * Σ|w|", desc: "Drives redundant feature weights to exactly 0 (automatic feature selector)." },
+  { name: "L2 Regularization (Ridge)", math: "Total Loss = Loss + λ * Σ(w²)", desc: "Shrinks weights smoothly toward 0 to prevent co-linearity and overfitting." },
+  { name: "Softmax Activation", math: "P(y_i) = exp(z_i) / Σ exp(z_j)", desc: "Converts raw logit scores into a valid multi-class probability distribution summing to 1.0." },
+  { name: "Transformer Attention", math: "Attn(Q,K,V) = softmax(Q*K^T / √d_k) * V", desc: "Scales queries and keys to calculate parallel dynamic token attention weights." }
+];
+
+function initFormulas() {
+  const grid = document.getElementById('formulaGrid');
+  grid.innerHTML = '';
+  formulaList.forEach(f => {
+    const card = document.createElement('div');
+    card.className = 'formula-card';
+    card.innerHTML = `
+      <div>
+        <div class="formula-name">${f.name}</div>
+        <div class="formula-math">${f.math}</div>
+        <div class="formula-desc">${f.desc}</div>
+      </div>
+      <button class="copy-btn" onclick="copyMath('${f.math}', this)">📋 Copy Formula</button>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function copyMath(txt, btn) {
+  navigator.clipboard.writeText(txt).then(() => {
+    const original = btn.innerHTML;
+    btn.innerHTML = '✅ Copied!';
+    btn.style.background = '#16a34a';
+    btn.style.color = '#fff';
+    setTimeout(() => {
+      btn.innerHTML = original;
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 1500);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initQuiz();
+  initFormulas();
+  init3DCardTilt();
+});
+
+// =========================================================
+// UNIVERSAL 3D CARD TILT & PARALLAX ENGINE
+// =========================================================
+function init3DCardTilt() {
+  const cards = document.querySelectorAll('.card, .formula-card, .quiz-box');
+  cards.forEach(card => {
+    card.style.transition = 'transform 0.15s ease-out, box-shadow 0.15s ease-out';
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      const rotX = -(y / (rect.height / 2)) * 5;
+      const rotY = (x / (rect.width / 2)) * 5;
+      card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.01, 1.01, 1.01)`;
+      card.style.boxShadow = `0 15px 35px rgba(0,0,0,0.3), ${rotY * 2}px ${-rotX * 2}px 25px rgba(245,158,11,0.15)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      card.style.boxShadow = 'none';
+    });
+  });
+}
+</script>
+</body>
+</html>

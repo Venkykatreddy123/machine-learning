@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ML Mastery — Page 10: GraphRAG, Instagram Algorithm &amp; Industrial Systems</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070b14;--card-bg:#11192d;--card-border:rgba(255,255,255,0.08);
+  --cyan:#06b6d4;--blue:#3b82f6;--purple:#a855f7;--pink:#ec4899;
+  --amber:#f59e0b;--emerald:#10b981;--red:#ef4444;
+  --text:#f8fafc;--text-dim:#94a3b8;--text-muted:#64748b;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:rgba(7,11,20,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--card-border);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.brand{font-size:17px;font-weight:900;color:#fff;text-decoration:none;display:flex;align-items:center;gap:6px}
+.brand em{color:var(--pink);font-style:normal}
+.nav-links{display:flex;gap:16px;align-items:center}
+.nav-links a{color:var(--text-dim);text-decoration:none;font-size:13px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:#fff}
+.nav-badge{background:rgba(236,72,153,0.15);border:1px solid rgba(236,72,153,0.3);color:var(--pink);padding:4px 12px;border-radius:999px;font-size:12px;font-weight:700;text-decoration:none}
+.search-btn{background:rgba(255,255,255,0.06);border:1px solid var(--card-border);color:var(--text-dim);padding:4px 12px;border-radius:8px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.search-btn:hover{background:rgba(255,255,255,0.12);color:#fff}
+
+/* HERO */
+.hero{background:radial-gradient(ellipse at 50% 0%,rgba(236,72,153,0.2) 0%,rgba(7,11,20,0) 70%),#070b14;padding:48px 24px 32px;text-align:center;border-bottom:1px solid var(--card-border)}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(236,72,153,0.15);border:1px solid rgba(236,72,153,0.3);color:#f472b6;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:4px 14px;border-radius:999px;margin-bottom:14px}
+.hero h1{font-size:34px;font-weight:900;letter-spacing:-1px;color:#fff;margin-bottom:12px}
+.hero p{font-size:14px;color:var(--text-dim);max-width:760px;margin:0 auto}
+
+/* WRAP & SECTION */
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.sec{padding:54px 0;border-bottom:1px solid var(--card-border)}
+.sec-head{margin-bottom:24px}
+.sec-tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:999px;margin-bottom:8px}
+.tag-pink{background:rgba(236,72,153,0.2);color:#f472b6;border:1px solid rgba(236,72,153,0.3)}
+.tag-cyan{background:rgba(6,182,212,0.2);color:#22d3ee;border:1px solid rgba(6,182,212,0.3)}
+.tag-amber{background:rgba(245,158,11,0.2);color:#fbbf24;border:1px solid rgba(245,158,11,0.3)}
+.sec-head h2{font-size:26px;font-weight:800;color:#fff;margin-bottom:6px}
+.sec-head p{font-size:14px;color:var(--text-dim)}
+
+/* GRID */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;padding:22px;box-shadow:0 8px 24px rgba(0,0,0,0.3)}
+
+/* INTERACTIVE LAMP LOGIN CONTAINER */
+.lamp-stage{background:radial-gradient(circle at 50% 120px,#1e293b 0%,#030712 70%);border:1px solid var(--card-border);border-radius:18px;padding:40px 20px;margin:24px 0;position:relative;overflow:hidden;min-height:560px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start}
+.lamp-assembly{position:relative;width:140px;height:180px;display:flex;flex-direction:column;align-items:center;cursor:pointer;z-index:20}
+.lamp-shade{width:110px;height:65px;background:linear-gradient(180deg,#cbd5e1 0%,#94a3b8 100%);border-radius:60px 60px 10px 10px;box-shadow:0 4px 12px rgba(0,0,0,0.5);position:relative}
+.lamp-shade::after{content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:120px;height:16px;background:#64748b;border-radius:50%}
+.lamp-cord-top{width:4px;height:40px;background:#475569;margin-top:-20px}
+
+/* Pull chain string */
+.pull-chain-wrap{position:absolute;right:24px;top:60px;display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:transform 0.15s ease}
+.pull-chain-wrap:active{transform:translateY(16px)}
+.chain-line{width:2px;height:70px;background:linear-gradient(180deg,#94a3b8,#e2e8f0);background-size:2px 6px}
+.chain-bead{width:12px;height:12px;background:linear-gradient(135deg,#f59e0b,#d97706);border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.5);margin-top:-2px}
+
+/* Light cone beam */
+.light-cone{position:absolute;top:105px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:260px solid transparent;border-right:260px solid transparent;border-bottom:480px solid rgba(254,240,138,0.15);opacity:0;transition:opacity 0.4s ease,filter 0.4s ease;pointer-events:none;z-index:5;filter:blur(8px)}
+.light-cone.on{opacity:1;filter:blur(4px);border-bottom:480px solid rgba(253,224,71,0.22)}
+
+/* Login Card inside Light */
+.login-card{position:relative;z-index:15;width:100%;max-width:360px;background:rgba(15,23,42,0.75);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:24px;backdrop-filter:blur(12px);margin-top:20px;transition:all 0.4s ease;box-shadow:0 12px 32px rgba(0,0,0,0.6);opacity:0.35;filter:grayscale(80%)}
+.login-card.illuminated{opacity:1;filter:grayscale(0%);background:rgba(15,23,42,0.92);border-color:rgba(250,204,21,0.4);box-shadow:0 0 35px rgba(250,204,21,0.25)}
+
+/* FORM INPUTS */
+.input-group{margin-bottom:14px;text-align:left}
+.input-group label{font-size:11px;font-weight:700;color:var(--text-dim);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px}
+.form-input{width:100%;background:#030712;border:1px solid var(--card-border);border-radius:8px;padding:10px 12px;font-size:13px;color:#fff;font-family:'Inter',sans-serif;outline:none}
+.form-input:focus{border-color:var(--amber)}
+.btn-login{width:100%;background:linear-gradient(135deg,#f59e0b,#d97706);color:#000;font-weight:800;border:none;border-radius:8px;padding:11px;font-size:13px;cursor:pointer;transition:all .2s;margin-top:6px}
+.btn-login:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(245,158,11,0.3)}
+
+/* INTERACTIVE GRAPH CANVAS */
+.graph-canvas-wrap{background:#030712;border:1px solid var(--card-border);border-radius:12px;padding:12px;position:relative;height:380px;overflow:hidden}
+#graphCanvas{width:100%;height:100%;display:block;border-radius:8px}
+
+/* CODE BLOCKS */
+pre{background:#030712;border:1px solid var(--card-border);border-radius:8px;padding:14px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#e2e8f0;overflow-x:auto;line-height:1.5}
+.keyword{color:#c678dd}.function{color:#61afef}.string{color:#98c379}.comment{color:#5c6370;font-style:italic}
+
+/* FOOTER */
+footer{background:#030712;border-top:1px solid var(--card-border);padding:36px 24px;text-align:center;color:var(--text-dim);font-size:13px}
+.footer-links{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin:12px 0}
+.footer-links a{color:var(--text-dim);text-decoration:none;font-size:12px;transition:color .2s}
+.footer-links a:hover{color:#fff}
+
+section[id]{scroll-margin-top:84px}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand"><em>ML</em>Mastery <span style="font-size:11px;background:rgba(236,72,153,0.2);color:#f472b6;border:1px solid rgba(236,72,153,0.4);padding:2px 8px;border-radius:999px">Page 10</span></a>
+  <div class="nav-links">
+    <a href="#lamp-login">💡 Animated Lamp Login</a>
+    <a href="#graphrag">🧠 RAG vs GraphRAG</a>
+    <a href="#instagram">📸 Instagram Recommender</a>
+    <a href="index.html" class="nav-badge">⌂ Portal Hub</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-tag">🚀 Next-Gen AI &amp; Industrial Systems</div>
+  <h1>GraphRAG, Instagram Recommendation Engine &amp; Animated Lamp Login</h1>
+  <p>Compare Traditional Vector RAG vs Knowledge Graph RAG, master the Two-Tower Instagram Reels algorithm, and experience the interactive pull-cord Lamp authentication studio.</p>
+</header>
+
+<main class="wrap">
+
+  <!-- =========================================================
+       SECTION 1: ANIMATED LAMP LOGIN & AUTHENTICATION STUDIO
+  ========================================================== -->
+  <section id="lamp-login" class="sec">
+    <div class="sec-head">
+      <div class="sec-tag tag-amber">Interactive UI Experience</div>
+      <h2>💡 The Animated Lamp Login Studio</h2>
+      <p>Click the <strong>Lamp Chain</strong> or pull the cord to turn on the warm spotlight and illuminate the Student Portal authentication terminal.</p>
+    </div>
+
+    <div class="lamp-stage">
+      <!-- Lamp & Cord -->
+      <div class="lamp-cord-top"></div>
+      <div class="lamp-assembly" onclick="toggleLamp()">
+        <div class="lamp-shade"></div>
+        <div class="pull-chain-wrap" id="pullChain">
+          <div class="chain-line"></div>
+          <div class="chain-bead"></div>
+        </div>
+      </div>
+
+      <!-- Light Cone Beam -->
+      <div class="light-cone" id="lightBeam"></div>
+
+      <!-- Illuminated Login Card -->
+      <div class="login-card" id="loginCard">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <h3 style="font-size:16px;color:#fff;font-weight:800">Student Portal Access</h3>
+          <span id="lightStatusBadge" style="font-size:10px;background:rgba(255,255,255,0.1);color:#94a3b8;padding:2px 8px;border-radius:999px">LIGHT: OFF</span>
+        </div>
+
+        <div class="input-group">
+          <label>Username / Email</label>
+          <input type="text" class="form-input" id="loginUser" placeholder="engineer@mlmastery.ai" value="student_ai@mlmastery.ai">
+        </div>
+
+        <div class="input-group">
+          <label>Access Key / Password</label>
+          <input type="password" class="form-input" id="loginPass" value="••••••••••••">
+        </div>
+
+        <button class="btn-login" onclick="simulateLogin()">
+          ⚡ Enter Candidate Dashboard
+        </button>
+
+        <div id="loginFeedback" style="margin-top:10px;font-size:11px;text-align:center;color:#94a3b8">
+          💡 Pull the golden chain above to turn on the light!
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       SECTION 2: RAG VS GRAPHRAG (NORMAL WAY VS GRAPH WAY)
+  ========================================================== -->
+  <section id="graphrag" class="sec">
+    <div class="sec-head">
+      <div class="sec-tag tag-cyan">Next-Gen Architecture</div>
+      <h2>🧠 RAG vs GraphRAG: Standard Vector Search vs Knowledge Graphs</h2>
+      <p>Why Standard Vector RAG fails on complex multi-hop queries, and how GraphRAG extracts entities, relationships, and graph communities to answer complex corporate questions.</p>
+    </div>
+
+    <!-- Architectural SVG Comparison Diagram -->
+    <div class="card" style="margin-bottom:24px;padding:24px">
+      <h3 style="font-size:16px;color:#fff;margin-bottom:14px">📊 Side-by-Side Pipeline Architecture</h3>
+      
+      <div class="grid-2">
+        <!-- 1. Standard Vector RAG -->
+        <div style="background:#090e1a;border:1px solid #1e293b;border-radius:12px;padding:18px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <h4 style="color:#38bdf8;font-size:15px">1. Standard Vector RAG (The "Chunk" Way)</h4>
+            <span style="font-size:10px;background:rgba(56,189,248,0.2);color:#38bdf8;padding:2px 8px;border-radius:4px">Semantic Similarity</span>
+          </div>
+          <p style="font-size:12px;color:#cbd5e1;margin-bottom:12px">
+            Documents are split into raw 500-token chunks \(\to\) embedded into dense vectors \(\to\) queried with Cosine Distance \(\to\) fed to LLM.
+          </p>
+          
+          <div style="background:#030712;padding:12px;border-radius:8px;font-size:11px;color:#94a3b8;line-height:1.5">
+            <strong>❌ The Fatal Blindspot:</strong><br>
+            If asked: <em>"Which semiconductor suppliers funded by Founders Fund supply SpaceX?"</em><br>
+            Vector RAG searches chunks containing "Founders Fund" OR "SpaceX", but misses the multi-hop bridge connecting them across 4 different PDF reports.
+          </div>
+        </div>
+
+        <!-- 2. GraphRAG -->
+        <div style="background:#090e1a;border:1px solid #1e293b;border-radius:12px;padding:18px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <h4 style="color:#ec4899;font-size:15px">2. GraphRAG (The "Knowledge Graph" Way)</h4>
+            <span style="font-size:10px;background:rgba(236,72,153,0.2);color:#f472b6;padding:2px 8px;border-radius:4px">Entity + Relationship Traversal</span>
+          </div>
+          <p style="font-size:12px;color:#cbd5e1;margin-bottom:12px">
+            LLM extracts <strong>Entities &amp; Relations</strong> \(\to\) builds Knowledge Graph (Triplets) \(\to\) clusters communities \(\to\) performs multi-hop graph traversals.
+          </p>
+
+          <div style="background:#030712;padding:12px;border-radius:8px;font-size:11px;color:#4ade80;line-height:1.5">
+            <strong>✅ How GraphRAG Solves It:</strong><br>
+            Follows the path: <code>(Founders Fund) -[INVESTED_IN]-&gt; (SemiCo) -[SUPPLIES]-&gt; (Falcon 9) -[BUILT_BY]-&gt; (SpaceX)</code>. 100% accurate grounded answer with zero hallucinations!
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Knowledge Graph Explorer -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h3 style="font-size:16px;color:#fff">🕸️ Interactive Multi-Hop Knowledge Graph Visualizer</h3>
+        <div style="display:flex;gap:8px">
+          <button class="search-btn" onclick="testQuery('vector')" style="color:#38bdf8">🔍 Test Vector RAG (Fails)</button>
+          <button class="search-btn" onclick="testQuery('graph')" style="background:rgba(236,72,153,0.2);color:#f472b6;border-color:rgba(236,72,153,0.4)">⚡ Test GraphRAG (Traverses)</button>
+        </div>
+      </div>
+
+      <div class="graph-canvas-wrap">
+        <canvas id="graphCanvas"></canvas>
+      </div>
+      <div id="graphVerdict" style="margin-top:12px;font-size:12px;color:#94a3b8;text-align:center">
+        Click "Test GraphRAG" to watch the multi-hop beam traverse through connected corporate entities!
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       SECTION 3: THE INSTAGRAM RECOMMENDATION ENGINE
+  ========================================================== -->
+  <section id="instagram" class="sec">
+    <div class="sec-head">
+      <div class="sec-tag tag-pink">Industrial Scale ML</div>
+      <h2>📸 The Instagram Reels &amp; Feed Recommendation Engine</h2>
+      <p>How Meta serves personalized video feeds to 2+ billion users in under 50ms using Two-Tower Deep Neural Networks, Multi-Task Ranking, and Graph signals.</p>
+    </div>
+
+    <!-- 4-Stage Funnel -->
+    <div class="grid-2" style="margin-bottom:24px">
+      <div class="card">
+        <h3 style="font-size:16px;color:#fff;margin-bottom:12px">🏗️ The 4-Stage Production Funnel</h3>
+        <ol style="font-size:13px;color:#cbd5e1;padding-left:18px;line-height:1.8">
+          <li><strong>1. Billion-Scale Catalog (500M+ Reels):</strong> Massive corpus of global user videos.</li>
+          <li><strong>2. Candidate Generation (Two-Tower Retrieval):</strong> ScaNN / HNSW vector indexing filters 500M items down to <strong>Top 500 Candidates</strong> in 15ms.</li>
+          <li><strong>3. Heavy Multi-Task Ranking Model (DLRM):</strong> Deep neural network scores each video on $P(\text{Like}), P(\text{Comment}), P(\text{Share}), P(\text{Watch}\ge 5s)$.</li>
+          <li><strong>4. Diversity &amp; Deduplication (Re-ranking):</strong> Removes creator duplicates, enforces topic diversity, and applies freshness boosts.</li>
+        </ol>
+      </div>
+
+      <!-- Multi-Task Scoring Formula -->
+      <div class="card">
+        <h3 style="font-size:16px;color:#fff;margin-bottom:12px">🧮 The Multi-Task Value Equation</h3>
+        <p style="font-size:12px;color:#cbd5e1;margin-bottom:10px">The final ranking score for every candidate Reel is computed as a weighted expected value:</p>
+        
+        <pre><code><span class="comment"># Instagram Multi-Task Ranking Equation</span>
+Score = (
+    w_watch * P(Watch_Time >= 5s) +
+    w_like  * P(Like) +
+    w_share * P(DM_or_Share) * <span class="number">3.5</span> + <span class="comment"># High virality signal</span>
+    w_cmnt  * P(Comment) -
+    w_skip  * P(Skip_Under_1s) * <span class="number">2.0</span>  <span class="comment"># Penalty for clickbait</span>
+)</code></pre>
+      </div>
+    </div>
+
+    <!-- Interactive Instagram Simulator -->
+    <div class="card">
+      <h3 style="font-size:16px;color:#fff;margin-bottom:14px">🎛️ Live Instagram Feed Ranking Simulator</h3>
+      <p style="font-size:12px;color:#94a3b8;margin-bottom:16px">Adjust the algorithm weights to see how the Reels feed dynamically re-ranks between viral shareable clips vs deep educational content:</p>
+
+      <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center;margin-bottom:16px">
+        <div>
+          <label style="font-size:11px;font-weight:700;color:#fff;display:block">Share / DM Weight (\(w_{\text{share}}\)):</label>
+          <input type="range" id="wShare" min="1" max="10" value="7" oninput="recalcReels()" style="accent-color:var(--pink)">
+          <span id="valShare" style="font-size:11px;color:#f472b6;font-weight:700">7.0</span>
+        </div>
+
+        <div>
+          <label style="font-size:11px;font-weight:700;color:#fff;display:block">Watch Duration Weight (\(w_{\text{watch}}\)):</label>
+          <input type="range" id="wWatch" min="1" max="10" value="4" oninput="recalcReels()" style="accent-color:var(--blue)">
+          <span id="valWatch" style="font-size:11px;color:#60a5fa;font-weight:700">4.0</span>
+        </div>
+
+        <div>
+          <label style="font-size:11px;font-weight:700;color:#fff;display:block">Like Weight (\(w_{\text{like}}\)):</label>
+          <input type="range" id="wLike" min="1" max="10" value="3" oninput="recalcReels()" style="accent-color:var(--emerald)">
+          <span id="valLike" style="font-size:11px;color:#34d399;font-weight:700">3.0</span>
+        </div>
+      </div>
+
+      <div id="reelsRankContainer" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">
+        <!-- Re-ranked Reel Cards injected by JS -->
+      </div>
+    </div>
+
+    <!-- THE 4 INSTAGRAM ALGORITHMS SIDE-BY-SIDE -->
+    <div class="card" style="margin-top:24px">
+      <h3 style="font-size:16px;color:#fff;margin-bottom:14px">🔄 The 4 Distinct Instagram Recommendation Surfaces</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
+        <div style="background:#090e1a;padding:16px;border-radius:10px;border:1px solid #1e293b">
+          <div style="font-size:13px;font-weight:800;color:#60a5fa;margin-bottom:6px">1. Feed (Connected Graph)</div>
+          <p style="font-size:11px;color:#94a3b8;line-height:1.6">
+            <strong>Source:</strong> Accounts you follow.<br>
+            <strong>Core Metric:</strong> Relationship Affinity \(A(u, v)\) (how often you DM, tag, or comment on each other's posts).<br>
+            <strong>Objective:</strong> Keep users connected with family, friends, and top creators.
+          </p>
+        </div>
+
+        <div style="background:#090e1a;padding:16px;border-radius:10px;border:1px solid #1e293b">
+          <div style="font-size:13px;font-weight:800;color:#34d399;margin-bottom:6px">2. Stories (Ephemeral Freshness)</div>
+          <p style="font-size:11px;color:#94a3b8;line-height:1.6">
+            <strong>Source:</strong> Followed accounts + Close Friends.<br>
+            <strong>Core Metric:</strong> Recency decay + DM reply likelihood.<br>
+            <strong>Objective:</strong> Immediate real-time micro-engagement and private messaging triggers.
+          </p>
+        </div>
+
+        <div style="background:#090e1a;padding:16px;border-radius:10px;border:1px solid #1e293b">
+          <div style="font-size:13px;font-weight:800;color:#fbbf24;margin-bottom:6px">3. Explore Grid (Interest Clustering)</div>
+          <p style="font-size:11px;color:#94a3b8;line-height:1.6">
+            <strong>Source:</strong> 100% Unconnected accounts.<br>
+            <strong>Core Metric:</strong> High-dimensional cosine similarity between your user embedding vector and post topic clusters.<br>
+            <strong>Objective:</strong> Broad interest exploration and niche discovery.
+          </p>
+        </div>
+
+        <div style="background:#090e1a;padding:16px;border-radius:10px;border:1px solid #1e293b">
+          <div style="font-size:13px;font-weight:800;color:#f472b6;margin-bottom:6px">4. Reels (Virality &amp; Entertainment)</div>
+          <p style="font-size:11px;color:#94a3b8;line-height:1.6">
+            <strong>Source:</strong> Unconnected short-form video.<br>
+            <strong>Core Metric:</strong> Video Completion Rate \(\ge 85\%\) + Direct Message Shares (\(3.5\times\) weight).<br>
+            <strong>Objective:</strong> Addictive entertainment and multi-user viral loops.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       SECTION 4: THE 10 CANONICAL REAL-WORLD DATASETS IN ML
+  ========================================================== -->
+  <section id="datasets" class="sec">
+    <div class="sec-head">
+      <div class="sec-tag tag-cyan">Industry Benchmark Suite</div>
+      <h2>📚 The 10 Canonical Production Datasets in Machine Learning</h2>
+      <p>The standard benchmark datasets used by FAANG / Tier-1 AI companies to validate algorithms, benchmark latency, and solve production edge-cases.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px">
+      
+      <!-- Dataset 1: Credit Card Fraud -->
+      <div class="card" style="border-left:3px solid #ef4444">
+        <span style="font-size:10px;background:rgba(239,68,68,0.2);color:#f87171;padding:2px 8px;border-radius:4px;font-weight:700">Extreme Class Imbalance</span>
+        <h3 style="margin-top:8px;font-size:15px;color:#fff">1. Credit Card Fraud (European Cardholders)</h3>
+        <p style="font-size:12px;color:#94a3b8;line-height:1.6">
+          <strong>Size:</strong> 284,807 transactions · <strong>Fraud Rate:</strong> \(0.172\%\) (492 frauds).<br>
+          <strong>Features:</strong> 28 PCA-transformed components (V1-V28) to protect user anonymity + Time and Amount.<br>
+          <strong>Industrial Value:</strong> The gold standard for testing SMOTE, Focal Loss, Class Weights, and PR-AUC. Accuracy is useless here (99.82% baseline).
+        </p>
+      </div>
+
+      <!-- Dataset 2: Criteo CTR -->
+      <div class="card" style="border-left:3px solid #3b82f6">
+        <span style="font-size:10px;background:rgba(59,130,246,0.2);color:#60a5fa;padding:2px 8px;border-radius:4px;font-weight:700">Click-Through Rate (CTR)</span>
+        <h3 style="margin-top:8px;font-size:15px;color:#fff">2. Criteo &amp; Avazu 1TB Ad Click Benchmark</h3>
+        <p style="font-size:12px;color:#94a3b8;line-height:1.6">
+          <strong>Size:</strong> 45 Million ad impressions · <strong>Format:</strong> 13 continuous features + 26 high-cardinality categorical features.<br>
+          <strong>Industrial Value:</strong> Powers Meta &amp; Google Ad ranking models. Tests DLRM (Deep Learning Recommendation Models) and Factorization Machines.
+        </p>
+      </div>
+
+      <!-- Dataset 3: MovieLens -->
+      <div class="card" style="border-left:3px solid #10b981">
+        <span style="font-size:10px;background:rgba(16,185,129,0.2);color:#34d399;padding:2px 8px;border-radius:4px;font-weight:700">Collaborative Filtering</span>
+        <h3 style="margin-top:8px;font-size:15px;color:#fff">3. MovieLens 20M / 100K (GroupLens)</h3>
+        <p style="font-size:12px;color:#94a3b8;line-height:1.6">
+          <strong>Size:</strong> 20 Million user ratings across 27,000 movies by 138,000 users.<br>
+          <strong>Industrial Value:</strong> Foundation of Netflix &amp; Amazon recommender systems. Teaches Matrix Factorization (SVD, Alternating Least Squares) and Two-Tower Embeddings.
+        </p>
+      </div>
+
+      <!-- Dataset 4: Amazon Reviews -->
+      <div class="card" style="border-left:3px solid #f59e0b">
+        <span style="font-size:10px;background:rgba(245,158,11,0.2);color:#fbbf24;padding:2px 8px;border-radius:4px;font-weight:700">NLP &amp; Sentiment Analysis</span>
+        <h3 style="margin-top:8px;font-size:15px;color:#fff">4. Amazon Customer Reviews (130M+ Records)</h3>
+        <p style="font-size:12px;color:#94a3b8;line-height:1.6">
+          <strong>Size:</strong> 130 Million multi-lingual product reviews across 20+ years.<br>
+          <strong>Industrial Value:</strong> Used for training BERT embeddings, TF-IDF vectorizers, Aspect-Based Sentiment Analysis, and spam review detection.
+        </p>
+      </div>
+
+      <!-- Dataset 5: MIMIC-IV Clinical -->
+      <div class="card" style="border-left:3px solid #ec4899">
+        <span style="font-size:10px;background:rgba(236,72,153,0.2);color:#f472b6;padding:2px 8px;border-radius:4px;font-weight:700">High-Stakes Healthcare EHR</span>
+        <h3 style="margin-top:8px;font-size:15px;color:#fff">5. MIMIC-IV Intensive Care Database</h3>
+        <p style="font-size:12px;color:#94a3b8;line-height:1.6">
+          <strong>Size:</strong> De-identified health records of 40,000+ ICU patients.<br>
+          <strong>Industrial Value:</strong> Teaches threshold calibration where False Negatives cause mortality. Prioritizes Recall over Precision with strict HIPAA compliance.
+        </p>
+      </div>
+
+      <!-- Dataset 6: NYC Taxi Trips -->
+      <div class="card" style="border-left:3px solid #a855f7">
+        <span style="font-size:10px;background:rgba(168,85,247,0.2);color:#c084fc;padding:2px 8px;border-radius:4px;font-weight:700">Spatio-Temporal &amp; Geospatial</span>
+        <h3 style="margin-top:8px;font-size:15px;color:#fff">6. NYC Taxi &amp; Limousine Commission (TLC)</h3>
+        <p style="font-size:12px;color:#94a3b8;line-height:1.6">
+          <strong>Size:</strong> 1+ Billion ride records with GPS pickup/dropoff coordinates and timestamps.<br>
+          <strong>Industrial Value:</strong> Powers Uber / Lyft dynamic surge pricing, geospatial H3 hexagonal indexing, and real-time demand time-series forecasting.
+        </p>
+      </div>
+
+      <!-- Dataset 7: ImageNet -->
+      <div class="card" style="border-left:3px solid #06b6d4">
+        <span style="font-size:10px;background:rgba(6,182,212,0.2);color:#22d3ee;padding:2px 8px;border-radius:4px;font-weight:700">Computer Vision Benchmark</span>
+        <h3 style="margin-top:8px;font-size:15px;color:#fff">7. ImageNet &amp; CIFAR-100</h3>
+        <p style="font-size:12px;color:#94a3b8;line-height:1.6">
+          <strong>Size:</strong> 14 Million hand-annotated images across 1,000 object categories.<br>
+          <strong>Industrial Value:</strong> The catalyst for modern Deep Learning (AlexNet 2012, ResNet, Vision Transformers). Foundation for all transfer learning weights.
+        </p>
+      </div>
+
+      <!-- Dataset 8: SQuAD & HotpotQA -->
+      <div class="card" style="border-left:3px solid #8b5cf6">
+        <span style="font-size:10px;background:rgba(139,92,246,0.2);color:#a78bfa;padding:2px 8px;border-radius:4px;font-weight:700">RAG &amp; Multi-Hop QA</span>
+        <h3 style="margin-top:8px;font-size:15px;color:#fff">8. SQuAD 2.0 &amp; HotpotQA</h3>
+        <p style="font-size:12px;color:#94a3b8;line-height:1.6">
+          <strong>Size:</strong> 100,000+ question-answer pairs over Wikipedia articles.<br>
+          <strong>Industrial Value:</strong> The industry benchmark for evaluating Retrieval-Augmented Generation (RAG), GraphRAG multi-hop reasoning, and LLM hallucination rate.
+        </p>
+      </div>
+
+      <!-- Dataset 9: Spotify Million Playlist -->
+      <div class="card" style="border-left:3px solid #10b981">
+        <span style="font-size:10px;background:rgba(16,185,129,0.2);color:#34d399;padding:2px 8px;border-radius:4px;font-weight:700">Sequential Recommendation</span>
+        <h3 style="margin-top:8px;font-size:15px;color:#fff">9. Spotify Million Playlist Dataset (MPD)</h3>
+        <p style="font-size:12px;color:#94a3b8;line-height:1.6">
+          <strong>Size:</strong> 1 Million user-created music playlists containing 2 Million unique tracks.<br>
+          <strong>Industrial Value:</strong> Teaches sequential Word2Vec representations for songs (Song2Vec), Graph Neural Networks (GNNs), and session-based playlist continuation.
+        </p>
+      </div>
+
+      <!-- Dataset 10: Ames Housing -->
+      <div class="card" style="border-left:3px solid #f59e0b">
+        <span style="font-size:10px;background:rgba(245,158,11,0.2);color:#fbbf24;padding:2px 8px;border-radius:4px;font-weight:700">Tabular Regression Baseline</span>
+        <h3 style="margin-top:8px;font-size:15px;color:#fff">10. Ames &amp; California Housing Datasets</h3>
+        <p style="font-size:12px;color:#94a3b8;line-height:1.6">
+          <strong>Size:</strong> 2,930 residential properties with 79 explanatory features.<br>
+          <strong>Industrial Value:</strong> The standard curriculum dataset for multicollinearity diagnosis (VIF), feature scaling, gradient descent convergence, and XGBoost baseline validation.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <strong>ML Mastery — Page 10: GraphRAG, Instagram Recommender &amp; Industrial Systems</strong>
+  <div class="footer-links">
+    <a href="index.html">⌂ Portal Hub</a>
+    <a href="math_foundations.html">📐 Page 0: Math</a>
+    <a href="full_platform.html">📘 Page 1: Foundation</a>
+    <a href="advanced_modules.html">⚡ Page 2: Advanced</a>
+    <a href="deep_modules.html">🔬 Page 3: Deep Dive</a>
+    <a href="python_ml.html">🐍 Page 4: Python</a>
+    <a href="real_world_ml.html">🚀 Page 5: Enterprise MLOps</a>
+    <a href="career_and_quiz.html">🏆 Page 6: Career &amp; Quiz</a>
+    <a href="interactive_3d_lab.html">🌐 Page 7: 3D WebGL</a>
+    <a href="system_design_and_incidents.html">🚨 Page 8: Staff War Room</a>
+    <a href="algorithm_arena.html">⚔️ Page 9: Algorithm Arena</a>
+    <a href="industrial_systems.html" style="color:var(--pink);font-weight:700">💡 Page 10: Industrial AI</a>
+    <a href="python_teaching_mastery.html" style="color:var(--emerald);font-weight:700">🎓 Page 11: Python Master Codex</a>
+  </div>
+  <p style="margin-top:10px">&copy; 2026 ML Mastery Educational Platform · Built for Data Science IT Job Seekers</p>
+</footer>
+
+<script>
+// 1. ANIMATED LAMP LIGHT SWITCH LOGIC
+let isLampOn = false;
+
+function toggleLamp() {
+  isLampOn = !isLampOn;
+  const beam = document.getElementById('lightBeam');
+  const card = document.getElementById('loginCard');
+  const badge = document.getElementById('lightStatusBadge');
+  const feedback = document.getElementById('loginFeedback');
+  const chain = document.getElementById('pullChain');
+
+  // Trigger bounce animation
+  chain.style.transform = 'translateY(18px)';
+  setTimeout(() => { chain.style.transform = 'translateY(0)'; }, 200);
+
+  if (isLampOn) {
+    beam.classList.add('on');
+    card.classList.add('illuminated');
+    badge.textContent = 'LIGHT: ON 💡';
+    badge.style.background = 'rgba(250,204,21,0.25)';
+    badge.style.color = '#fde047';
+    feedback.innerHTML = '✨ Terminal fully illuminated! Click <strong>Enter Candidate Dashboard</strong> below.';
+    feedback.style.color = '#fde047';
+  } else {
+    beam.classList.remove('on');
+    card.classList.remove('illuminated');
+    badge.textContent = 'LIGHT: OFF';
+    badge.style.background = 'rgba(255,255,255,0.1)';
+    badge.style.color = '#94a3b8';
+    feedback.innerHTML = '💡 Pull the golden chain above to turn on the light!';
+    feedback.style.color = '#94a3b8';
+  }
+}
+
+function simulateLogin() {
+  if (!isLampOn) {
+    alert("⚠️ Please pull the lamp chain to turn on the light before logging in!");
+    return;
+  }
+  const user = document.getElementById('loginUser').value;
+  alert("🎉 Welcome, " + user + "! Candidate access granted. All 10 platform modules unlocked with full telemetry.");
+}
+
+
+// 2. KNOWLEDGE GRAPH ANIMATION
+const nodes = [
+  { id: 1, name: "Founders Fund", x: 120, y: 190, color: "#38bdf8" },
+  { id: 2, name: "SemiCo (Chips)", x: 300, y: 110, color: "#a855f7" },
+  { id: 3, name: "Falcon 9 Rocket", x: 520, y: 110, color: "#ec4899" },
+  { id: 4, name: "SpaceX", x: 700, y: 190, color: "#10b981" },
+  { id: 5, name: "Tesla Energy", x: 500, y: 280, color: "#f59e0b" }
+];
+
+const edges = [
+  { from: 1, to: 2, label: "INVESTED_IN" },
+  { from: 2, to: 3, label: "SUPPLIES_AVIONICS" },
+  { from: 3, to: 4, label: "BUILT_BY" },
+  { from: 1, to: 5, label: "SEED_FUNDED" },
+  { from: 5, to: 4, label: "BATTERY_PARTNER" }
+];
+
+let activePath = [];
+
+function drawKnowledgeGraph() {
+  const canvas = document.getElementById('graphCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.clientWidth;
+  canvas.height = canvas.clientHeight;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw Edges
+  edges.forEach(e => {
+    const n1 = nodes.find(n => n.id === e.from);
+    const n2 = nodes.find(n => n.id === e.to);
+    const isActive = activePath.some(p => (p[0] === e.from && p[1] === e.to));
+
+    ctx.beginPath();
+    ctx.moveTo(n1.x, n1.y);
+    ctx.lineTo(n2.x, n2.y);
+    ctx.strokeStyle = isActive ? '#f43f5e' : '#334155';
+    ctx.lineWidth = isActive ? 3.5 : 1.5;
+    ctx.stroke();
+
+    // Edge Label
+    const mx = (n1.x + n2.x) / 2;
+    const my = (n1.y + n2.y) / 2 - 8;
+    ctx.fillStyle = isActive ? '#fb7185' : '#64748b';
+    ctx.font = '10px JetBrains Mono';
+    ctx.textAlign = 'center';
+    ctx.fillText(e.label, mx, my);
+  });
+
+  // Draw Nodes
+  nodes.forEach(n => {
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, 22, 0, Math.PI * 2);
+    ctx.fillStyle = '#0f172a';
+    ctx.fill();
+    ctx.strokeStyle = n.color;
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+
+    ctx.fillStyle = '#fff';
+    ctx.font = '11px Inter';
+    ctx.textAlign = 'center';
+    ctx.fillText(n.name, n.x, n.y + 36);
+  });
+}
+
+function testQuery(mode) {
+  const verdict = document.getElementById('graphVerdict');
+  if (mode === 'vector') {
+    activePath = [];
+    drawKnowledgeGraph();
+    verdict.innerHTML = '<span style="color:#f87171">❌ Vector RAG: Searches isolated chunk text for "Founders Fund" and "SpaceX". Fails to bridge multi-hop relation through SemiCo! (Hallucination Risk)</span>';
+  } else {
+    activePath = [[1, 2], [2, 3], [3, 4]];
+    drawKnowledgeGraph();
+    verdict.innerHTML = '<span style="color:#4ade80">✅ GraphRAG Traversal: Successfully followed (Founders Fund) &rarr; INVESTED_IN &rarr; (SemiCo) &rarr; SUPPLIES &rarr; (Falcon 9) &rarr; BUILT_BY &rarr; (SpaceX)! Grounded multi-hop answer!</span>';
+  }
+}
+
+
+// 3. INSTAGRAM REELS SIMULATOR
+const candidateReels = [
+  { id: 1, title: "10x PyTorch CUDA Memory Trick", creator: "@ai_engineer", pWatch: 0.88, pLike: 0.72, pShare: 0.94, pSkip: 0.05 },
+  { id: 2, title: "Funny Cat Jumping into Box", creator: "@cat_fails", pWatch: 0.65, pLike: 0.91, pShare: 0.40, pSkip: 0.12 },
+  { id: 3, title: "System Design for 10M QPS", creator: "@staff_eng", pWatch: 0.92, pLike: 0.60, pShare: 0.89, pSkip: 0.08 },
+  { id: 4, title: "Top 5 VS Code Extensions", creator: "@coder_daily", pWatch: 0.45, pLike: 0.55, pShare: 0.35, pSkip: 0.30 }
+];
+
+function recalcReels() {
+  const wShare = parseFloat(document.getElementById('wShare').value);
+  const wWatch = parseFloat(document.getElementById('wWatch').value);
+  const wLike = parseFloat(document.getElementById('wLike').value);
+
+  document.getElementById('valShare').textContent = wShare.toFixed(1);
+  document.getElementById('valWatch').textContent = wWatch.toFixed(1);
+  document.getElementById('valLike').textContent = wLike.toFixed(1);
+
+  const scored = candidateReels.map(r => {
+    const score = (wShare * r.pShare * 3.5) + (wWatch * r.pWatch * 2.0) + (wLike * r.pLike) - (r.pSkip * 4.0);
+    return { ...r, score };
+  }).sort((a, b) => b.score - a.score);
+
+  const container = document.getElementById('reelsRankContainer');
+  container.innerHTML = scored.map((r, i) => `
+    <div style="background:#090e1a;border:1px solid ${i === 0 ? 'var(--pink)' : '#1e293b'};border-radius:10px;padding:14px;box-shadow:${i === 0 ? '0 0 16px rgba(236,72,153,0.3)' : 'none'}">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <span style="font-size:12px;font-weight:800;color:${i === 0 ? '#f472b6' : '#94a3b8'}">Rank #${i + 1}</span>
+        <span style="font-size:11px;background:rgba(255,255,255,0.08);padding:2px 6px;border-radius:4px;color:#fff">Score: ${r.score.toFixed(2)}</span>
+      </div>
+      <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px">${r.title}</div>
+      <div style="font-size:11px;color:#64748b;margin-bottom:10px">${r.creator}</div>
+      <div style="font-size:10px;color:#cbd5e1;display:flex;justify-content:space-between">
+        <span>Share: <strong>${(r.pShare * 100).toFixed(0)}%</strong></span>
+        <span>Watch: <strong>${(r.pWatch * 100).toFixed(0)}%</strong></span>
+        <span>Like: <strong>${(r.pLike * 100).toFixed(0)}%</strong></span>
+      </div>
+    </div>
+  `).join('');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  drawKnowledgeGraph();
+  recalcReels();
+  init3DCardTilt();
+});
+
+// =========================================================
+// UNIVERSAL 3D CARD TILT & PARALLAX ENGINE
+// =========================================================
+function init3DCardTilt() {
+  const cards = document.querySelectorAll('.card, .auth-card');
+  cards.forEach(card => {
+    card.style.transition = 'transform 0.15s ease-out, box-shadow 0.15s ease-out';
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      const rotX = -(y / (rect.height / 2)) * 5;
+      const rotY = (x / (rect.width / 2)) * 5;
+      card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.01, 1.01, 1.01)`;
+      card.style.boxShadow = `0 15px 35px rgba(0,0,0,0.3), ${rotY * 2}px ${-rotX * 2}px 25px rgba(236,72,153,0.15)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      card.style.boxShadow = 'none';
+    });
+  });
+}
+</script>
+</body>
+</html>

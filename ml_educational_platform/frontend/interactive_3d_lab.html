@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ML Mastery — 3D Interactive Machine Learning Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+<!-- Three.js and OrbitControls -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#2563eb;--blue-d:#1d4ed8;--blue-l:#eff6ff;--blue-xl:#dbeafe;
+  --green:#16a34a;--green-l:#f0fdf4;
+  --amber:#d97706;--amber-l:#fffbeb;
+  --purple:#7c3aed;--purple-l:#f5f3ff;
+  --red:#dc2626;--red-l:#fef2f2;
+  --cyan:#0891b2;
+  --pink:#db2777;
+  --s50:#f8fafc;--s100:#f1f5f9;--s200:#e2e8f0;--s300:#cbd5e1;
+  --s400:#94a3b8;--s500:#64748b;--s600:#475569;--s700:#334155;
+  --s800:#1e293b;--s900:#0f172a;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--s900);color:#f8fafc;line-height:1.6}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:rgba(15,23,42,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.08);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;gap:12px}
+.brand{font-size:17px;font-weight:900;color:#fff;text-decoration:none;display:flex;align-items:center;gap:6px}
+.brand em{color:#38bdf8;font-style:normal}
+.nav-links{display:flex;gap:16px;align-items:center}
+.nav-links a{color:var(--s400);text-decoration:none;font-size:13px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:#fff}
+.back-hub{background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.3);color:#38bdf8;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:700;text-decoration:none;transition:all .2s}
+.back-hub:hover{background:rgba(56,189,248,0.25);color:#fff}
+
+/* HERO */
+.hero{background:radial-gradient(ellipse at 50% 0%,rgba(56,189,248,0.2) 0%,rgba(15,23,42,0) 70%),#0f172a;padding:50px 24px 36px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.06)}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.3);color:#38bdf8;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:4px 14px;border-radius:999px;margin-bottom:16px}
+.hero h1{font-size:36px;font-weight:900;letter-spacing:-1px;color:#fff;margin-bottom:12px}
+.hero p{font-size:15px;color:var(--s300);max-width:750px;margin:0 auto}
+
+/* WRAP & SECTION */
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.sec{padding:54px 0;border-bottom:1px solid rgba(255,255,255,0.06)}
+.sec-head{margin-bottom:24px}
+.sec-tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:999px;margin-bottom:8px}
+.tag-cyan{background:rgba(8,145,178,0.2);color:#22d3ee;border:1px solid rgba(8,145,178,0.3)}
+.tag-purple{background:rgba(124,58,237,0.2);color:#a78bfa;border:1px solid rgba(124,58,237,0.3)}
+.tag-amber{background:rgba(245,158,11,0.2);color:#fbbf24;border:1px solid rgba(245,158,11,0.3)}
+.sec-head h2{font-size:26px;font-weight:800;color:#fff;margin-bottom:6px}
+.sec-head p{font-size:14px;color:var(--s400)}
+
+/* 3D LAB LAYOUT */
+.lab-grid{display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start}
+@media (max-width:960px){.lab-grid{grid-template-columns:1fr}}
+
+.canvas-container{position:relative;width:100%;height:460px;background:#090d16;border-radius:14px;border:1px solid rgba(255,255,255,0.1);overflow:hidden;box-shadow:0 12px 36px rgba(0,0,0,0.5)}
+.canvas-container canvas{width:100%!important;height:100%!important;display:block}
+.canvas-hint{position:absolute;bottom:12px;left:12px;background:rgba(15,23,42,0.85);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.15);padding:6px 12px;border-radius:6px;font-size:11px;color:#94a3b8;pointer-events:none;display:flex;align-items:center;gap:6px}
+
+/* CONTROLS PANEL */
+.controls-panel{background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:22px;box-shadow:0 8px 24px rgba(0,0,0,0.3)}
+.control-group{margin-bottom:18px}
+.control-label{display:flex;justify-content:space-between;font-size:12px;color:var(--s300);font-weight:600;margin-bottom:6px}
+.control-label strong{color:#38bdf8}
+.range-slider{width:100%;accent-color:#38bdf8;cursor:pointer}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn-action{background:#2563eb;color:#fff;border:none;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+.btn-action:hover{background:#1d4ed8}
+.btn-secondary{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);color:#cbd5e1;padding:8px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-secondary:hover{background:rgba(255,255,255,0.15);color:#fff}
+
+.info-badge-box{background:rgba(15,23,42,0.8);border-left:3px solid #38bdf8;padding:12px;border-radius:6px;font-size:12px;color:#cbd5e1;margin-top:16px;line-height:1.5}
+
+/* FOOTER */
+footer{background:#0b1120;border-top:1px solid rgba(255,255,255,0.08);padding:36px 24px;text-align:center;color:var(--s400);font-size:13px}
+.footer-links{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin:12px 0}
+.footer-links a{color:var(--s400);text-decoration:none;font-size:12px;transition:color .2s}
+.footer-links a:hover{color:#fff}
+
+section[id]{scroll-margin-top:84px}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand"><em>ML</em>Mastery <span style="font-size:12px;color:#38bdf8;font-weight:700;border:1px solid rgba(56,189,248,0.3);padding:2px 6px;border-radius:4px">3D Lab</span></a>
+  <div class="nav-links">
+    <a href="#loss-surface">3D Loss Mountain</a>
+    <a href="#svm-hyperplane">3D SVM Slicer</a>
+    <a href="#latent-space">3D Latent Space</a>
+    <a href="index.html" class="back-hub">⌂ Portal Hub</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-tag">🌐 Real-Time WebGL Visualizer</div>
+  <h1>Interactive 3D Machine Learning Studio</h1>
+  <p>Rotate in 3D, change continuous parameters with sliders, and watch algorithms navigate 3D mathematical topologies in real time.</p>
+</header>
+
+<main class="wrap">
+
+  <!-- =========================================================
+       MODULE 1: 3D LOSS MOUNTAIN & GRADIENT DESCENT
+  ========================================================== -->
+  <section id="loss-surface" class="sec">
+    <div class="sec-head">
+      <div class="sec-tag tag-cyan">Module 1 · Optimization</div>
+      <h2>3D Loss Surface Mountain &amp; Gradient Descent Trajectory</h2>
+      <p>Click and drag inside the 3D viewport to rotate the terrain 360°. Adjust learning rate and momentum to see if the ball converges or flies into infinity.</p>
+    </div>
+
+    <div class="lab-grid">
+      <!-- 3D Canvas -->
+      <div class="canvas-container" id="loss3DContainer">
+        <div class="canvas-hint">🖱️ Left Drag: Rotate 3D · Right Drag: Pan · Scroll: Zoom</div>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls-panel">
+        <div class="control-group">
+          <div class="control-label">Terrain Type: <strong id="lbl-terrain">Multi-Valley Bowl</strong></div>
+          <div style="display:flex;gap:6px;margin-top:6px">
+            <button class="btn-secondary" onclick="setTerrain(1)" style="flex:1;font-size:11px">Bowl</button>
+            <button class="btn-secondary" onclick="setTerrain(2)" style="flex:1;font-size:11px">Saddle</button>
+            <button class="btn-secondary" onclick="setTerrain(3)" style="flex:1;font-size:11px">Valleys</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">Learning Rate (&alpha;): <strong id="lbl-lr">0.08</strong></div>
+          <input type="range" class="range-slider" id="slider-lr" min="0.01" max="0.5" step="0.01" value="0.08" oninput="updateLossParams()">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">Momentum (&beta;): <strong id="lbl-momentum">0.80</strong></div>
+          <input type="range" class="range-slider" id="slider-mom" min="0.0" max="0.95" step="0.05" value="0.80" oninput="updateLossParams()">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">Starting Position X: <strong id="lbl-start-x">2.20</strong></div>
+          <input type="range" class="range-slider" id="slider-sx" min="-2.8" max="2.8" step="0.1" value="2.2" oninput="resetBallPos()">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">Starting Position Y: <strong id="lbl-start-y">2.20</strong></div>
+          <input type="range" class="range-slider" id="slider-sy" min="-2.8" max="2.8" step="0.1" value="2.2" oninput="resetBallPos()">
+        </div>
+
+        <div class="btn-row">
+          <button class="btn-action" onclick="togglePlayDescent()"><span id="playIcon">▶</span> <span id="playTxt">Run 3D Descent</span></button>
+          <button class="btn-secondary" onclick="stepDescent()">Step ➔</button>
+          <button class="btn-secondary" onclick="resetBallPos()">🔄 Reset</button>
+        </div>
+
+        <div class="info-badge-box" id="lossInfoBox">
+          <strong>Current State:</strong> Loss = <span id="currLoss">12.45</span> | Steps = <span id="currStep">0</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       MODULE 2: 3D KERNEL SVM HYPERPLANE SLICER
+  ========================================================== -->
+  <section id="svm-hyperplane" class="sec">
+    <div class="sec-head">
+      <div class="sec-tag tag-purple">Module 2 · Classification</div>
+      <h2>3D Kernel SVM &amp; Hyperplane Slicer</h2>
+      <p>In 2D, circular concentric rings are impossible to separate with a straight line. Watch the RBF Kernel lift the points into 3D so a glowing 3D glass hyperplane slices them perfectly!</p>
+    </div>
+
+    <div class="lab-grid">
+      <!-- 3D Canvas -->
+      <div class="canvas-container" id="svm3DContainer">
+        <div class="canvas-hint">🖱️ Left Drag: Rotate 3D · Right Drag: Pan · Scroll: Zoom</div>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls-panel">
+        <div class="control-group">
+          <div class="control-label">Kernel Lift (&gamma; &times; (x&sup2;+y&sup2;)): <strong id="lbl-gamma">1.00</strong></div>
+          <input type="range" class="range-slider" id="slider-gamma" min="0.0" max="2.0" step="0.05" value="1.0" oninput="updateSvmPoints()">
+          <span style="font-size:10px;color:#94a3b8">0.0 = Flat 2D (Impossible) ➔ 1.0+ = Lifted 3D Bowl (Separable)</span>
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">Hyperplane Height (b): <strong id="lbl-plane-z">1.80</strong></div>
+          <input type="range" class="range-slider" id="slider-plane-z" min="-1.0" max="5.0" step="0.1" value="1.8" oninput="updateSvmPlane()">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">Hyperplane Tilt Angle: <strong id="lbl-plane-tilt">0.0&deg;</strong></div>
+          <input type="range" class="range-slider" id="slider-plane-tilt" min="-45" max="45" step="1" value="0" oninput="updateSvmPlane()">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">Support Vector Margin Width: <strong id="lbl-svm-margin">0.60</strong></div>
+          <input type="range" class="range-slider" id="slider-margin" min="0.1" max="1.5" step="0.05" value="0.6" oninput="updateSvmPlane()">
+        </div>
+
+        <div class="info-badge-box" id="svmInfoBox" style="border-left-color:#a855f7">
+          <strong>Classification Score:</strong> <span id="svmAccuracy" style="color:#4ade80;font-weight:700">100% Clean Cut</span>
+          <div style="font-size:11px;color:#94a3b8;margin-top:4px">Red points lifted above the plane; Blue points remain below.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       MODULE 3: 3D LATENT SPACE & PCA PROJECTION GALAXY
+  ========================================================== -->
+  <section id="latent-space" class="sec">
+    <div class="sec-head">
+      <div class="sec-tag tag-amber">Module 3 · Dimensionality &amp; Embeddings</div>
+      <h2>3D Latent Space &amp; PCA Projection Galaxy</h2>
+      <p>Visualize how high-dimensional vectors (customer personas, text embeddings) form 3D cluster galaxies and project down onto Principal Components.</p>
+    </div>
+
+    <div class="lab-grid">
+      <!-- 3D Canvas -->
+      <div class="canvas-container" id="latent3DContainer">
+        <div class="canvas-hint">🖱️ Left Drag: Rotate 3D · Right Drag: Pan · Scroll: Zoom</div>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls-panel">
+        <div class="control-group">
+          <div class="control-label">Cluster Separation Distance: <strong id="lbl-cluster-sep">2.50</strong></div>
+          <input type="range" class="range-slider" id="slider-cluster-sep" min="0.5" max="5.0" step="0.1" value="2.5" oninput="updateLatentClusters()">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">Cluster Variance / Spread (&sigma;): <strong id="lbl-cluster-var">0.60</strong></div>
+          <input type="range" class="range-slider" id="slider-cluster-var" min="0.2" max="1.5" step="0.05" value="0.6" oninput="updateLatentClusters()">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">PCA Dimension Collapse (3D ➔ 2D): <strong id="lbl-pca-dim">3D Space</strong></div>
+          <input type="range" class="range-slider" id="slider-pca-dim" min="0.0" max="1.0" step="0.05" value="0.0" oninput="updatePcaCollapse()">
+          <span style="font-size:10px;color:#94a3b8">0.0 = Full 3D Space ➔ 1.0 = Flattened onto Principal Plane</span>
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">K-Nearest Neighbor Connection Rays: <strong id="lbl-knn-rays">k = 4</strong></div>
+          <input type="range" class="range-slider" id="slider-knn-rays" min="1" max="8" step="1" value="4" oninput="updateKnnRays()">
+        </div>
+
+        <div class="info-badge-box" style="border-left-color:#fbbf24">
+          <strong>Galaxy Legend:</strong>
+          <div style="display:flex;gap:8px;margin-top:6px;font-size:11px">
+            <span style="color:#60a5fa">● Enterprise Users</span>
+            <span style="color:#f472b6">● Churn Risks</span>
+            <span style="color:#4ade80">● Trial Users</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       MODULE 4: 3D NEURAL NETWORK SIGNAL PROPAGATION
+  ========================================================== -->
+  <section id="neural-net-3d" class="sec">
+    <div class="sec-head">
+      <div class="sec-tag" style="background:rgba(236,72,153,0.2);color:#f472b6;border:1px solid rgba(236,72,153,0.3)">Module 4</div>
+      <h2>🧠 3D Deep Neural Network Architecture &amp; Photon Pulse Propagation</h2>
+      <p>Observe forward activations and weight matrices in full 3D space. Rotate the network, inject test vectors, and watch activation pulses travel across hidden layers.</p>
+    </div>
+
+    <div class="lab-grid">
+      <div class="canvas-container" id="nn3d-container">
+        <div class="canvas-hint">🖱️ Drag to orbit 360° · Scroll to Zoom into Hidden Layers</div>
+      </div>
+
+      <div class="controls-panel">
+        <h3 style="font-size:15px;color:#fff;margin-bottom:14px">3D Network Hyperparameters</h3>
+
+        <div class="control-group">
+          <div class="control-label">
+            <span>Hidden Layer Depth:</span>
+            <strong id="val-nn-layers" style="color:#f472b6">4 Layers</strong>
+          </div>
+          <input type="range" class="range-slider" id="slider-nn-layers" min="3" max="6" step="1" value="4" oninput="updateNN3D()" style="accent-color:#ec4899">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <span>Signal Propagation Speed:</span>
+            <strong id="val-nn-speed" style="color:#38bdf8">1.0x</strong>
+          </div>
+          <input type="range" class="range-slider" id="slider-nn-speed" min="0.5" max="2.5" step="0.5" value="1.0" oninput="updateNNSpeed()">
+        </div>
+
+        <div class="btn-row">
+          <button class="btn-action" onclick="fireNNPulse()" style="background:linear-gradient(135deg,#ec4899,#db2777);width:100%;justify-content:center">
+            ⚡ Fire Forward Activation Pulse
+          </button>
+        </div>
+
+        <div class="info-badge-box" style="border-left-color:#ec4899">
+          <strong>Architecture Flow:</strong>
+          <p style="margin-top:4px;font-size:11px">Input (4D) &rarr; Dense FC1 (6D) &rarr; Dense FC2 (6D) &rarr; Output Logits (2D Softmax).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <strong>ML Mastery — 3D Interactive Machine Learning Studio</strong>
+  <div class="footer-links">
+    <a href="index.html">⌂ Portal Hub</a>
+    <a href="math_foundations.html">📐 Page 0: Math</a>
+    <a href="full_platform.html">📘 Page 1: Foundation</a>
+    <a href="advanced_modules.html">⚡ Page 2: Advanced</a>
+    <a href="deep_modules.html">🔬 Page 3: Deep Dive</a>
+    <a href="python_ml.html">🐍 Page 4: Python</a>
+    <a href="real_world_ml.html">🚀 Page 5: Real-World MLOps</a>
+    <a href="career_and_quiz.html">🏆 Page 6: Career &amp; Quiz</a>
+    <a href="interactive_3d_lab.html" style="color:#38bdf8;font-weight:700">🌐 Page 7: 3D WebGL</a>
+    <a href="system_design_and_incidents.html">🚨 Page 8: Staff War Room</a>
+    <a href="algorithm_arena.html">⚔️ Page 9: Algorithm Arena</a>
+    <a href="industrial_systems.html">💡 Page 10: Industrial AI</a>
+    <a href="python_teaching_mastery.html" style="color:var(--emerald);font-weight:700">🎓 Page 11: Python Master Codex</a>
+  </div>
+  <p style="margin-top:10px">&copy; 2026 ML Mastery Educational Platform · Built for Data Science IT Job Seekers</p>
+</footer>
+
+<!-- =========================================================
+     JAVASCRIPT: THREE.JS 3D WEBGL ENGINES
+========================================================== -->
+<script>
+// =========================================================
+// 1. MODULE 1: 3D LOSS MOUNTAIN & GRADIENT DESCENT
+// =========================================================
+let lossScene, lossCamera, lossRenderer, lossControls;
+let lossMesh, ballMesh, pathLine, pathGeometry;
+let terrainMode = 1;
+let ballX = 2.2, ballY = 2.2, ballZ = 0;
+let velX = 0, velY = 0;
+let pathPoints = [];
+let isPlayingDescent = false;
+let descentTimer = null;
+let lossStepCount = 0;
+
+function lossFunc(x, y) {
+  if (terrainMode === 1) {
+    // Quadratic Bowl
+    return 0.5 * (x * x + y * y);
+  } else if (terrainMode === 2) {
+    // Saddle Point
+    return 0.5 * (x * x - y * y) + 2.0;
+  } else {
+    // Multi-Valley (Himmelblau style peaks)
+    return Math.sin(1.5 * x) * Math.cos(1.5 * y) + 0.3 * (x * x + y * y);
+  }
+}
+
+function lossGrad(x, y) {
+  const eps = 0.001;
+  const gx = (lossFunc(x + eps, y) - lossFunc(x - eps, y)) / (2 * eps);
+  const gy = (lossFunc(x, y + eps) - lossFunc(x, y - eps)) / (2 * eps);
+  return { gx, gy };
+}
+
+function initLoss3D() {
+  const container = document.getElementById('loss3DContainer');
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+
+  lossScene = new THREE.Scene();
+  lossScene.background = new THREE.Color(0x090d16);
+
+  lossCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+  lossCamera.position.set(6, 6, 8);
+
+  lossRenderer = new THREE.WebGLRenderer({ antialias: true });
+  lossRenderer.setSize(width, height);
+  lossRenderer.setPixelRatio(window.devicePixelRatio);
+  container.appendChild(lossRenderer.domElement);
+
+  lossControls = new THREE.OrbitControls(lossCamera, lossRenderer.domElement);
+  lossControls.enableDamping = true;
+  lossControls.dampingFactor = 0.05;
+
+  // Lights
+  const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+  lossScene.add(ambient);
+  const dirLight = new THREE.DirectionalLight(0x38bdf8, 1.2);
+  dirLight.position.set(5, 10, 7);
+  lossScene.add(dirLight);
+
+  // Build Terrain Mesh
+  buildTerrainMesh();
+
+  // Ball
+  const ballGeo = new THREE.SphereGeometry(0.18, 24, 24);
+  const ballMat = new THREE.MeshStandardMaterial({
+    color: 0xfbbf24,
+    emissive: 0xd97706,
+    emissiveIntensity: 0.6,
+    roughness: 0.2
+  });
+  ballMesh = new THREE.Mesh(ballGeo, ballMat);
+  lossScene.add(ballMesh);
+
+  // Path Line
+  pathGeometry = new THREE.BufferGeometry();
+  const pathMat = new THREE.LineBasicMaterial({ color: 0x38bdf8, linewidth: 3 });
+  pathLine = new THREE.Line(pathGeometry, pathMat);
+  lossScene.add(pathLine);
+
+  resetBallPos();
+
+  // Animation Loop
+  function animate() {
+    requestAnimationFrame(animate);
+    lossControls.update();
+    lossRenderer.render(lossScene, lossCamera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+    lossCamera.aspect = w / h;
+    lossCamera.updateProjectionMatrix();
+    lossRenderer.setSize(w, h);
+  });
+}
+
+function buildTerrainMesh() {
+  if (lossMesh) lossScene.remove(lossMesh);
+
+  const size = 6.0;
+  const segments = 60;
+  const geo = new THREE.PlaneGeometry(size, size, segments, segments);
+  geo.rotateX(-Math.PI / 2);
+
+  const pos = geo.attributes.position;
+  for (let i = 0; i < pos.count; i++) {
+    const x = pos.getX(i);
+    const z = pos.getZ(i); // in plane geo, Z becomes 3D depth
+    const y = lossFunc(x, z);
+    pos.setY(i, y);
+  }
+  geo.computeVertexNormals();
+
+  const mat = new THREE.MeshStandardMaterial({
+    color: 0x1e293b,
+    roughness: 0.6,
+    metalness: 0.1,
+    wireframe: false,
+    side: THREE.DoubleSide
+  });
+
+  const wireframeMat = new THREE.MeshBasicMaterial({
+    color: 0x334155,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.35
+  });
+
+  lossMesh = new THREE.Mesh(geo, mat);
+  const wireMesh = new THREE.Mesh(geo, wireframeMat);
+  lossMesh.add(wireMesh);
+  lossScene.add(lossMesh);
+}
+
+function setTerrain(t) {
+  terrainMode = t;
+  const lbl = document.getElementById('lbl-terrain');
+  if (t === 1) lbl.textContent = "Quadratic Bowl (Convex)";
+  else if (t === 2) lbl.textContent = "Saddle Point";
+  else lbl.textContent = "Multi-Valley Complex";
+  buildTerrainMesh();
+  resetBallPos();
+}
+
+function updateLossParams() {
+  document.getElementById('lbl-lr').textContent = parseFloat(document.getElementById('slider-lr').value).toFixed(2);
+  document.getElementById('lbl-momentum').textContent = parseFloat(document.getElementById('slider-mom').value).toFixed(2);
+}
+
+function resetBallPos() {
+  pauseDescent();
+  ballX = parseFloat(document.getElementById('slider-sx').value);
+  ballY = parseFloat(document.getElementById('slider-sy').value);
+  document.getElementById('lbl-start-x').textContent = ballX.toFixed(2);
+  document.getElementById('lbl-start-y').textContent = ballY.toFixed(2);
+  velX = 0;
+  velY = 0;
+  lossStepCount = 0;
+
+  ballZ = lossFunc(ballX, ballY);
+  ballMesh.position.set(ballX, ballZ + 0.18, ballY);
+
+  pathPoints = [new THREE.Vector3(ballX, ballZ + 0.18, ballY)];
+  pathGeometry.setFromPoints(pathPoints);
+
+  document.getElementById('currLoss').textContent = ballZ.toFixed(3);
+  document.getElementById('currStep').textContent = lossStepCount;
+}
+
+function stepDescent() {
+  const lr = parseFloat(document.getElementById('slider-lr').value);
+  const mom = parseFloat(document.getElementById('slider-mom').value);
+
+  const { gx, gy } = lossGrad(ballX, ballY);
+
+  velX = mom * velX - lr * gx;
+  velY = mom * velY - lr * gy;
+
+  ballX += velX;
+  ballY += velY;
+
+  // Boundary clamp
+  ballX = Math.max(-2.9, Math.min(2.9, ballX));
+  ballY = Math.max(-2.9, Math.min(2.9, ballY));
+
+  ballZ = lossFunc(ballX, ballY);
+  lossStepCount++;
+
+  ballMesh.position.set(ballX, ballZ + 0.18, ballY);
+  pathPoints.push(new THREE.Vector3(ballX, ballZ + 0.18, ballY));
+  pathGeometry.setFromPoints(pathPoints);
+
+  document.getElementById('currLoss').textContent = ballZ.toFixed(3);
+  document.getElementById('currStep').textContent = lossStepCount;
+}
+
+function togglePlayDescent() {
+  if (isPlayingDescent) {
+    pauseDescent();
+  } else {
+    isPlayingDescent = true;
+    document.getElementById('playIcon').textContent = "⏸";
+    document.getElementById('playTxt').textContent = "Pause";
+    descentTimer = setInterval(() => {
+      stepDescent();
+      if (lossStepCount > 120 || (Math.abs(velX) < 0.0005 && Math.abs(velY) < 0.0005 && lossStepCount > 10)) {
+        pauseDescent();
+      }
+    }, 50);
+  }
+}
+
+function pauseDescent() {
+  isPlayingDescent = false;
+  if (descentTimer) clearInterval(descentTimer);
+  document.getElementById('playIcon').textContent = "▶";
+  document.getElementById('playTxt').textContent = "Run 3D Descent";
+}
+
+
+// =========================================================
+// 2. MODULE 2: 3D KERNEL SVM & HYPERPLANE SLICER
+// =========================================================
+let svmScene, svmCamera, svmRenderer, svmControls;
+let svmPointsGroup, hyperplaneMesh, marginUpperMesh, marginLowerMesh;
+const svmRawData = [];
+
+function initSvm3D() {
+  const container = document.getElementById('svm3DContainer');
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+
+  svmScene = new THREE.Scene();
+  svmScene.background = new THREE.Color(0x090d16);
+
+  svmCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+  svmCamera.position.set(7, 5, 7);
+
+  svmRenderer = new THREE.WebGLRenderer({ antialias: true });
+  svmRenderer.setSize(width, height);
+  svmRenderer.setPixelRatio(window.devicePixelRatio);
+  container.appendChild(svmRenderer.domElement);
+
+  svmControls = new THREE.OrbitControls(svmCamera, svmRenderer.domElement);
+  svmControls.enableDamping = true;
+
+  const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+  svmScene.add(ambient);
+  const dirLight = new THREE.DirectionalLight(0xa855f7, 1.2);
+  dirLight.position.set(5, 10, 5);
+  svmScene.add(dirLight);
+
+  // Generate 2D concentric dataset
+  // Inner cluster (Class 1: Red), Outer ring (Class 0: Blue)
+  for (let i = 0; i < 60; i++) {
+    // Inner
+    const r = Math.random() * 0.9;
+    const th = Math.random() * Math.PI * 2;
+    svmRawData.push({ x: r * Math.cos(th), y: r * Math.sin(th), cls: 1 });
+  }
+  for (let i = 0; i < 90; i++) {
+    // Outer
+    const r = 1.6 + Math.random() * 0.9;
+    const th = Math.random() * Math.PI * 2;
+    svmRawData.push({ x: r * Math.cos(th), y: r * Math.sin(th), cls: 0 });
+  }
+
+  svmPointsGroup = new THREE.Group();
+  svmScene.add(svmPointsGroup);
+
+  // Hyperplane Plane Mesh (Glowing glass)
+  const planeGeo = new THREE.PlaneGeometry(6, 6);
+  planeGeo.rotateX(-Math.PI / 2);
+  const planeMat = new THREE.MeshStandardMaterial({
+    color: 0x38bdf8,
+    transparent: true,
+    opacity: 0.45,
+    side: THREE.DoubleSide,
+    roughness: 0.1
+  });
+  hyperplaneMesh = new THREE.Mesh(planeGeo, planeMat);
+  svmScene.add(hyperplaneMesh);
+
+  // Margin boundaries
+  const marginMat = new THREE.MeshBasicMaterial({
+    color: 0xc084fc,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.25,
+    side: THREE.DoubleSide
+  });
+  marginUpperMesh = new THREE.Mesh(planeGeo, marginMat);
+  marginLowerMesh = new THREE.Mesh(planeGeo, marginMat);
+  svmScene.add(marginUpperMesh);
+  svmScene.add(marginLowerMesh);
+
+  updateSvmPoints();
+  updateSvmPlane();
+
+  function animate() {
+    requestAnimationFrame(animate);
+    svmControls.update();
+    svmRenderer.render(svmScene, svmCamera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+    svmCamera.aspect = w / h;
+    svmCamera.updateProjectionMatrix();
+    svmRenderer.setSize(w, h);
+  });
+}
+
+function updateSvmPoints() {
+  const gamma = parseFloat(document.getElementById('slider-gamma').value);
+  document.getElementById('lbl-gamma').textContent = gamma.toFixed(2);
+
+  // Clear existing points
+  while (svmPointsGroup.children.length > 0) {
+    svmPointsGroup.remove(svmPointsGroup.children[0]);
+  }
+
+  const redGeo = new THREE.SphereGeometry(0.12, 16, 16);
+  const redMat = new THREE.MeshStandardMaterial({ color: 0xef4444, emissive: 0xdc2626, emissiveIntensity: 0.5 });
+  const blueGeo = new THREE.SphereGeometry(0.12, 16, 16);
+  const blueMat = new THREE.MeshStandardMaterial({ color: 0x3b82f6, emissive: 0x2563eb, emissiveIntensity: 0.5 });
+
+  svmRawData.forEach(p => {
+    const z = gamma * (p.x * p.x + p.y * p.y);
+    const mesh = new THREE.Mesh(p.cls === 1 ? redGeo : blueGeo, p.cls === 1 ? redMat : blueMat);
+    mesh.position.set(p.x, z, p.y);
+    svmPointsGroup.add(mesh);
+  });
+}
+
+function updateSvmPlane() {
+  const height = parseFloat(document.getElementById('slider-plane-z').value);
+  const tilt = parseFloat(document.getElementById('slider-plane-tilt').value) * (Math.PI / 180);
+  const margin = parseFloat(document.getElementById('slider-margin').value);
+
+  document.getElementById('lbl-plane-z').textContent = height.toFixed(2);
+  document.getElementById('lbl-plane-tilt').textContent = (tilt * (180 / Math.PI)).toFixed(1) + "°";
+  document.getElementById('lbl-svm-margin').textContent = margin.toFixed(2);
+
+  hyperplaneMesh.position.set(0, height, 0);
+  hyperplaneMesh.rotation.z = tilt;
+
+  marginUpperMesh.position.set(0, height + margin, 0);
+  marginUpperMesh.rotation.z = tilt;
+
+  marginLowerMesh.position.set(0, height - margin, 0);
+  marginLowerMesh.rotation.z = tilt;
+
+  // Evaluate simple separation accuracy
+  const gamma = parseFloat(document.getElementById('slider-gamma').value);
+  const acc = document.getElementById('svmAccuracy');
+  if (gamma > 0.6 && height > 0.8 && height < 2.8) {
+    acc.textContent = "100% Clean Separation (Linearly Separable in 3D!)";
+    acc.style.color = "#4ade80";
+  } else if (gamma <= 0.2) {
+    acc.textContent = "52% Accuracy (Failed - 2D is non-linear)";
+    acc.style.color = "#f87171";
+  } else {
+    acc.textContent = "78% Accuracy (Adjust height/tilt to slice cleanly)";
+    acc.style.color = "#fbbf24";
+  }
+}
+
+
+// =========================================================
+// 3. MODULE 3: 3D LATENT SPACE & PCA PROJECTION GALAXY
+// =========================================================
+let latentScene, latentCamera, latentRenderer, latentControls;
+let latentPointsGroup, knnLinesGroup;
+const latentRawData = [];
+
+function initLatent3D() {
+  const container = document.getElementById('latent3DContainer');
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+
+  latentScene = new THREE.Scene();
+  latentScene.background = new THREE.Color(0x090d16);
+
+  latentCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+  latentCamera.position.set(9, 8, 9);
+
+  latentRenderer = new THREE.WebGLRenderer({ antialias: true });
+  latentRenderer.setSize(width, height);
+  latentRenderer.setPixelRatio(window.devicePixelRatio);
+  container.appendChild(latentRenderer.domElement);
+
+  latentControls = new THREE.OrbitControls(latentCamera, latentRenderer.domElement);
+  latentControls.enableDamping = true;
+
+  const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+  latentScene.add(ambient);
+  const dirLight = new THREE.DirectionalLight(0xfbbf24, 1.2);
+  dirLight.position.set(6, 12, 6);
+  latentScene.add(dirLight);
+
+  // Axes Arrows
+  const axesHelper = new THREE.AxesHelper(4);
+  latentScene.add(axesHelper);
+
+  // Generate 3 Clusters in 3D
+  // Cluster 0: Blue (Center: 1, 1, 1)
+  for (let i = 0; i < 40; i++) {
+    latentRawData.push({ u: randNorm(), v: randNorm(), w: randNorm(), cId: 0, cVec: [1, 1, 1] });
+  }
+  // Cluster 1: Pink (Center: -1, 1, -1)
+  for (let i = 0; i < 40; i++) {
+    latentRawData.push({ u: randNorm(), v: randNorm(), w: randNorm(), cId: 1, cVec: [-1, 1, -1] });
+  }
+  // Cluster 2: Green (Center: 0, -1.2, 1)
+  for (let i = 0; i < 40; i++) {
+    latentRawData.push({ u: randNorm(), v: randNorm(), w: randNorm(), cId: 2, cVec: [0, -1.2, 1] });
+  }
+
+  latentPointsGroup = new THREE.Group();
+  latentScene.add(latentPointsGroup);
+
+  knnLinesGroup = new THREE.Group();
+  latentScene.add(knnLinesGroup);
+
+  updateLatentClusters();
+
+  function animate() {
+    requestAnimationFrame(animate);
+    latentControls.update();
+    latentRenderer.render(latentScene, latentCamera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+    latentCamera.aspect = w / h;
+    latentCamera.updateProjectionMatrix();
+    latentRenderer.setSize(w, h);
+  });
+}
+
+function randNorm() {
+  return (Math.random() + Math.random() + Math.random() - 1.5) * 1.2;
+}
+
+function updateLatentClusters() {
+  const sep = parseFloat(document.getElementById('slider-cluster-sep').value);
+  const spread = parseFloat(document.getElementById('slider-cluster-var').value);
+  const pcaCollapse = parseFloat(document.getElementById('slider-pca-dim').value);
+
+  document.getElementById('lbl-cluster-sep').textContent = sep.toFixed(2);
+  document.getElementById('lbl-cluster-var').textContent = spread.toFixed(2);
+
+  while (latentPointsGroup.children.length > 0) {
+    latentPointsGroup.remove(latentPointsGroup.children[0]);
+  }
+
+  const pGeo = new THREE.SphereGeometry(0.12, 16, 16);
+  const colors = [0x60a5fa, 0xf472b6, 0x4ade80];
+
+  latentRawData.forEach(p => {
+    let x = p.cVec[0] * sep + p.u * spread;
+    let y = p.cVec[1] * sep + p.v * spread;
+    let z = p.cVec[2] * sep + p.w * spread;
+
+    // Apply PCA 3D -> 2D collapse (squashing Y to 0)
+    y = y * (1 - pcaCollapse);
+
+    const pMat = new THREE.MeshStandardMaterial({
+      color: colors[p.cId],
+      emissive: colors[p.cId],
+      emissiveIntensity: 0.4
+    });
+    const m = new THREE.Mesh(pGeo, pMat);
+    m.position.set(x, y, z);
+    latentPointsGroup.add(m);
+  });
+
+  updateKnnRays();
+}
+
+function updatePcaCollapse() {
+  const v = parseFloat(document.getElementById('slider-pca-dim').value);
+  const lbl = document.getElementById('lbl-pca-dim');
+  if (v < 0.2) lbl.textContent = "Full 3D Space";
+  else if (v > 0.8) lbl.textContent = "Flattened 2D Principal Plane";
+  else lbl.textContent = `Compressing (${(v * 100).toFixed(0)}%)`;
+
+  updateLatentClusters();
+}
+
+function updateKnnRays() {
+  const k = parseInt(document.getElementById('slider-knn-rays').value);
+  document.getElementById('lbl-knn-rays').textContent = `k = ${k}`;
+
+  while (knnLinesGroup.children.length > 0) {
+    knnLinesGroup.remove(knnLinesGroup.children[0]);
+  }
+
+  if (latentPointsGroup.children.length === 0) return;
+
+  // Pick anchor node (e.g. Node 0)
+  const anchor = latentPointsGroup.children[0].position;
+
+  // Compute distances to all other points
+  const dists = [];
+  for (let i = 1; i < latentPointsGroup.children.length; i++) {
+    const pos = latentPointsGroup.children[i].position;
+    const d = anchor.distanceTo(pos);
+    dists.push({ pos, d });
+  }
+
+  dists.sort((a, b) => a.d - b.d);
+
+  // Draw rays to top-k nearest neighbors
+  const lineMat = new THREE.LineBasicMaterial({ color: 0xfbbf24, transparent: true, opacity: 0.8 });
+  for (let i = 0; i < k && i < dists.length; i++) {
+    const geo = new THREE.BufferGeometry().setFromPoints([anchor, dists[i].pos]);
+    const line = new THREE.Line(geo, lineMat);
+    knnLinesGroup.add(line);
+  }
+}
+
+// =========================================================
+// 4. MODULE 4: 3D DEEP NEURAL NETWORK SIGNAL PROPAGATION
+// =========================================================
+let nnScene, nnCamera, nnRenderer, nnControls;
+let nnNodesGroup, nnEdgesGroup, nnPulsesGroup;
+let nnPulseProgress = 0;
+let isNnPulseActive = false;
+let nnSpeed = 1.0;
+
+function initNN3D() {
+  const container = document.getElementById('nn3d-container');
+  if (!container) return;
+
+  nnScene = new THREE.Scene();
+  nnScene.background = new THREE.Color(0x070b14);
+
+  nnCamera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+  nnCamera.position.set(0, 2, 8);
+
+  nnRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  nnRenderer.setSize(container.clientWidth, container.clientHeight);
+  nnRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  container.appendChild(nnRenderer.domElement);
+
+  nnControls = new THREE.OrbitControls(nnCamera, nnRenderer.domElement);
+  nnControls.enableDamping = true;
+  nnControls.dampingFactor = 0.05;
+
+  const ambient = new THREE.AmbientLight(0xffffff, 0.7);
+  nnScene.add(ambient);
+
+  const dirLight = new THREE.DirectionalLight(0xec4899, 1.2);
+  dirLight.position.set(5, 10, 7);
+  nnScene.add(dirLight);
+
+  nnNodesGroup = new THREE.Group();
+  nnEdgesGroup = new THREE.Group();
+  nnPulsesGroup = new THREE.Group();
+  nnScene.add(nnNodesGroup);
+  nnScene.add(nnEdgesGroup);
+  nnScene.add(nnPulsesGroup);
+
+  buildNN3DArchitecture();
+
+  function animateNN() {
+    requestAnimationFrame(animateNN);
+    nnControls.update();
+
+    if (isNnPulseActive) {
+      nnPulseProgress += 0.015 * nnSpeed;
+      if (nnPulseProgress > 1.0) {
+        nnPulseProgress = 0;
+        isNnPulseActive = false;
+        while (nnPulsesGroup.children.length > 0) nnPulsesGroup.remove(nnPulsesGroup.children[0]);
+      } else {
+        updatePulsePositions();
+      }
+    }
+
+    nnRenderer.render(nnScene, nnCamera);
+  }
+  animateNN();
+}
+
+function buildNN3DArchitecture() {
+  while (nnNodesGroup.children.length > 0) nnNodesGroup.remove(nnNodesGroup.children[0]);
+  while (nnEdgesGroup.children.length > 0) nnEdgesGroup.remove(nnEdgesGroup.children[0]);
+
+  const numLayers = parseInt(document.getElementById('slider-nn-layers').value);
+  document.getElementById('val-nn-layers').textContent = `${numLayers} Layers`;
+
+  const layerConfigs = [];
+  layerConfigs.push(4); // Input layer
+  for (let i = 0; i < numLayers - 2; i++) layerConfigs.push(6); // Hidden layers
+  layerConfigs.push(2); // Output layer
+
+  const layerSpacing = 1.6;
+  const startX = -((layerConfigs.length - 1) * layerSpacing) / 2;
+
+  const nodePositions = [];
+
+  const nodeGeo = new THREE.SphereGeometry(0.14, 16, 16);
+  const colors = [0x38bdf8, 0xa855f7, 0xec4899, 0x10b981];
+
+  layerConfigs.forEach((count, lIdx) => {
+    const x = startX + lIdx * layerSpacing;
+    const lPositions = [];
+    const color = colors[lIdx % colors.length];
+    const nodeMat = new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.5 });
+
+    const ySpacing = 0.65;
+    const startY = -((count - 1) * ySpacing) / 2;
+
+    for (let n = 0; n < count; n++) {
+      const y = startY + n * ySpacing;
+      const z = (Math.random() - 0.5) * 0.4;
+      const mesh = new THREE.Mesh(nodeGeo, nodeMat);
+      mesh.position.set(x, y, z);
+      nnNodesGroup.add(mesh);
+      lPositions.push(new THREE.Vector3(x, y, z));
+    }
+    nodePositions.push(lPositions);
+  });
+
+  // Connect edges
+  const edgeMat = new THREE.LineBasicMaterial({ color: 0x334155, transparent: true, opacity: 0.35 });
+  for (let l = 0; l < nodePositions.length - 1; l++) {
+    const fromL = nodePositions[l];
+    const toL = nodePositions[l + 1];
+    fromL.forEach(p1 => {
+      toL.forEach(p2 => {
+        const geo = new THREE.BufferGeometry().setFromPoints([p1, p2]);
+        const line = new THREE.Line(geo, edgeMat);
+        nnEdgesGroup.add(line);
+      });
+    });
+  }
+}
+
+function updateNN3D() {
+  buildNN3DArchitecture();
+}
+
+function updateNNSpeed() {
+  nnSpeed = parseFloat(document.getElementById('slider-nn-speed').value);
+  document.getElementById('val-nn-speed').textContent = `${nnSpeed.toFixed(1)}x`;
+}
+
+function fireNNPulse() {
+  isNnPulseActive = true;
+  nnPulseProgress = 0;
+
+  while (nnPulsesGroup.children.length > 0) nnPulsesGroup.remove(nnPulsesGroup.children[0]);
+
+  // Create glowing photon spheres
+  const photonGeo = new THREE.SphereGeometry(0.08, 12, 12);
+  const photonMat = new THREE.MeshBasicMaterial({ color: 0xfef08a });
+
+  for (let i = 0; i < 12; i++) {
+    const photon = new THREE.Mesh(photonGeo, photonMat);
+    nnPulsesGroup.add(photon);
+  }
+}
+
+function updatePulsePositions() {
+  const numLayers = parseInt(document.getElementById('slider-nn-layers').value);
+  const layerSpacing = 1.6;
+  const startX = -((numLayers - 1) * layerSpacing) / 2;
+  const totalWidth = (numLayers - 1) * layerSpacing;
+
+  const curX = startX + nnPulseProgress * totalWidth;
+
+  nnPulsesGroup.children.forEach((p, idx) => {
+    p.position.set(curX, (idx % 4 - 1.5) * 0.5, (Math.sin(nnPulseProgress * Math.PI * 4 + idx) * 0.2));
+  });
+}
+
+// =========================================================
+// INITIALIZE ALL 3D STUDIOS ON LOAD
+// =========================================================
+document.addEventListener('DOMContentLoaded', () => {
+  initLoss3D();
+  initSvm3D();
+  initLatent3D();
+  initNN3D();
+});
+</script>
+</body>
+</html>

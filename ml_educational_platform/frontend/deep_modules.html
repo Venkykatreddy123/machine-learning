@@ -1,0 +1,2372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ML Mastery — Page 3 | Naive Bayes · PCA · Gradient Descent · Neural Networks · NLP</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#2563eb;--blue-d:#1d4ed8;--blue-l:#eff6ff;--blue-xl:#dbeafe;
+  --green:#16a34a;--green-l:#f0fdf4;--green-xl:#dcfce7;
+  --amber:#d97706;--amber-l:#fffbeb;
+  --purple:#7c3aed;--purple-l:#f5f3ff;
+  --red:#dc2626;--red-l:#fef2f2;
+  --cyan:#0891b2;--cyan-l:#ecfeff;
+  --pink:#db2777;--pink-l:#fdf2f8;
+  --s50:#f8fafc;--s100:#f1f5f9;--s200:#e2e8f0;--s300:#cbd5e1;
+  --s400:#94a3b8;--s500:#64748b;--s600:#475569;--s700:#334155;
+  --s800:#1e293b;--s900:#0f172a;--r:12px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--s50);color:var(--s800);line-height:1.6}
+nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--s200);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;gap:12px}
+.brand{font-size:17px;font-weight:900;color:var(--blue);letter-spacing:-.5px;white-space:nowrap}
+.brand span{color:var(--s800)}
+.nav-links{display:flex;gap:4px;flex-wrap:wrap}
+.nav-links a{font-size:11px;font-weight:600;color:var(--s500);text-decoration:none;padding:4px 8px;border-radius:6px;transition:.15s;white-space:nowrap}
+.nav-links a:hover{background:var(--s100);color:var(--blue)}
+.back-btn{background:var(--blue-l);color:var(--blue);font-size:11px;font-weight:700;padding:5px 12px;border-radius:6px;text-decoration:none;white-space:nowrap}
+.banner{background:linear-gradient(135deg,#0a0f1e,#1a2f5f,#16a34a);color:#fff;padding:52px 24px 60px;text-align:center;position:relative;overflow:hidden}
+.banner::after{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.04) 1px,transparent 1px);background-size:28px 28px}
+.banner-content{position:relative;z-index:1}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#86efac;font-size:10px;font-weight:800;padding:4px 14px;border-radius:999px;margin-bottom:16px;text-transform:uppercase;letter-spacing:1.5px}
+.banner h1{font-size:clamp(24px,4vw,44px);font-weight:900;line-height:1.1;letter-spacing:-1px;margin-bottom:14px}
+.banner h1 em{font-style:normal;color:#86efac}
+.banner p{font-size:15px;color:#94a3b8;max-width:540px;margin:0 auto}
+.module-pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+.pill{padding:6px 16px;border-radius:999px;font-size:12px;font-weight:700;text-decoration:none}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+.sec{padding:64px 0}
+.sec-head{text-align:center;margin-bottom:48px}
+.sec-tag{display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:2px;padding:4px 12px;border-radius:999px;margin-bottom:10px}
+.tag-blue{background:var(--blue-l);color:var(--blue)}.tag-green{background:var(--green-l);color:var(--green)}
+.tag-purple{background:var(--purple-l);color:var(--purple)}.tag-amber{background:var(--amber-l);color:var(--amber)}
+.tag-cyan{background:var(--cyan-l);color:var(--cyan)}.tag-pink{background:var(--pink-l);color:var(--pink)}
+.sec-head h2{font-size:clamp(22px,3vw,34px);font-weight:900;color:var(--s900);letter-spacing:-.5px}
+.sec-head p{color:var(--s500);font-size:15px;margin-top:10px;max-width:520px;margin-left:auto;margin-right:auto}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+@media(max-width:700px){.two-col{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid var(--s200);border-radius:var(--r);padding:24px}
+.card h3{font-size:14px;font-weight:700;color:var(--s800);margin-bottom:10px}
+.card p,.card li{font-size:13.5px;color:var(--s600);line-height:1.7}
+.card ul{padding-left:18px;margin-top:6px}.card li{margin-bottom:4px}
+.dcard{background:#fff;border:1px solid var(--s200);border-radius:var(--r);padding:22px}
+.dcard h3{font-size:14px;font-weight:700;color:var(--s800);margin-bottom:12px}
+svg text{font-family:'Inter',sans-serif}
+.analogy{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #bbf7d0;border-radius:10px;padding:12px 14px;margin-top:12px;font-size:13px;color:#166534;line-height:1.6}
+.analogy strong{display:block;font-weight:700;margin-bottom:2px}
+.formula{background:var(--s900);border-radius:8px;padding:12px 16px;margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#4ade80;line-height:1.8}
+.steps{display:flex;flex-direction:column;gap:9px;margin-top:10px}
+.step{display:flex;gap:10px;align-items:flex-start}
+.sn{width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step p{font-size:13px;color:var(--s600);line-height:1.6}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+.chip{font-size:10px;font-weight:700;padding:3px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:.5px}
+.wide-card{background:#fff;border:1px solid var(--s200);border-radius:var(--r);padding:24px;margin-bottom:24px}
+.wide-card h3{font-size:16px;font-weight:800;color:var(--s900);margin-bottom:16px}
+.algo-hdr{display:flex;align-items:center;gap:14px;margin-bottom:22px;padding-bottom:16px;border-bottom:2px solid var(--s100)}
+.algo-num{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;flex-shrink:0}
+.algo-title{font-size:20px;font-weight:900;color:var(--s900)}
+.algo-sub{font-size:12px;color:var(--s500);margin-top:2px}
+.pipeline{display:flex;align-items:center;background:#fff;border:1px solid var(--s200);border-radius:var(--r);overflow:hidden;margin-bottom:24px}
+.pipe-step{flex:1;padding:16px 10px;text-align:center;border-right:1px solid var(--s200);position:relative}
+.pipe-step:last-child{border-right:none}
+.pipe-icon{font-size:20px;margin-bottom:5px}
+.pipe-name{font-size:10px;font-weight:700;color:var(--s800)}
+.pipe-tech{font-size:9px;color:var(--s500);margin-top:2px}
+.pipe-arrow{position:absolute;right:-10px;top:50%;transform:translateY(-50%);background:var(--green);color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;z-index:1}
+.pipe-step:last-child .pipe-arrow{display:none}
+@media(max-width:600px){.pipeline{flex-direction:column}.pipe-step{border-right:none;border-bottom:1px solid var(--s200)}.pipe-arrow{display:none!important}}
+.divider{height:1px;background:var(--s200);margin:0}
+.code-box{background:#fff;border:1px solid var(--s200);border-radius:var(--r);overflow:hidden}
+.tab-bar{display:flex;background:var(--s100);border-bottom:1px solid var(--s200);overflow-x:auto}
+.tb{padding:9px 16px;font-size:12px;font-weight:600;color:var(--s400);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;font-family:inherit;transition:.15s}
+.tb.on{color:var(--blue);border-bottom-color:var(--blue);background:#fff}
+.tc{display:none}.tc.on{display:block}
+pre{background:#0f172a;color:#e2e8f0;font-family:'JetBrains Mono',monospace;font-size:12.5px;padding:22px;overflow-x:auto;line-height:1.75;margin:0;tab-size:4}
+.kw{color:#c084fc}.fn{color:#60a5fa}.str{color:#4ade80}.cm{color:#475569}.nm{color:#fb923c}.tp{color:#fde68a}
+.qa+.qa{margin-top:8px}
+.qa{background:#fff;border:1px solid var(--s200);border-radius:10px;overflow:hidden}
+.qa-q{padding:14px 18px;font-size:13.5px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:.15s;user-select:none}
+.qa-q:hover{background:var(--s50)}.qa-q::after{content:'+';color:var(--blue);font-size:20px;font-weight:300;flex-shrink:0}
+.qa.open .qa-q::after{content:'−'}
+.qa-a{display:none;padding:14px 18px;font-size:13px;color:var(--s600);border-top:1px solid var(--s200);line-height:1.75}
+.qa.open .qa-a{display:block}
+code{background:var(--s100);color:var(--blue);padding:1px 5px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px}
+/* animated gradient descent */
+@keyframes gd-ball{0%{transform:translate(0px,0px)}100%{transform:translate(160px,80px)}}
+@keyframes gd-path{stroke-dashoffset:400;animation-fill-mode:forwards}
+footer{background:var(--s900);color:var(--s500);text-align:center;padding:32px 24px;font-size:12px;line-height:1.8}
+footer strong{color:#fff}
+/* neural net animation */
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+section[id]{scroll-margin-top:84px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">ML<span>Mastery</span></div>
+  <div class="nav-links">
+    <a href="#naivebayes">Naive Bayes</a>
+    <a href="#pca">PCA</a>
+    <a href="#gradient">Gradient</a>
+    <a href="#neural">Neural Nets</a>
+    <a href="#nlp">NLP</a>
+    <a href="#regularize">Ridge/Lasso</a>
+    <a href="#interview">Interview</a>
+  </div>
+  <a href="index.html" class="back-btn">⌂ Portal</a>
+</nav>
+
+<div class="banner">
+  <div class="banner-content">
+    <div class="badge">🔬 Page 3 · Deep Dive · GFG-Inspired</div>
+    <h1>Internals, Deep Learning<br><em>&amp; Natural Language Processing</em></h1>
+    <p>The topics that separate junior from senior candidates — with full visual diagrams, code, and expert interview answers.</p>
+    <div class="module-pills">
+      <a href="#naivebayes" class="pill" style="background:#fffbeb;color:#d97706">🎲 Naive Bayes</a>
+      <a href="#pca" class="pill" style="background:#f5f3ff;color:#7c3aed">📐 PCA</a>
+      <a href="#gradient" class="pill" style="background:#fef2f2;color:#dc2626">⛰️ Gradient Descent</a>
+      <a href="#neural" class="pill" style="background:#f0fdf4;color:#16a34a">🧠 Neural Nets</a>
+      <a href="#nlp" class="pill" style="background:#ecfeff;color:#0891b2">💬 NLP</a>
+      <a href="#regularize" class="pill" style="background:#eff6ff;color:#2563eb">🎯 Ridge/Lasso</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     NAIVE BAYES
+════════════════════════════════════════════ -->
+<section id="naivebayes" class="sec" style="background:#fff">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-amber">Section 1</div>
+    <h2>Naive Bayes — Probability-Based Classification</h2>
+    <p>Extremely fast, works with tiny datasets, and dominates text classification despite its "naive" assumption.</p>
+  </div>
+  <div class="algo-hdr">
+    <div class="algo-num" style="background:#fffbeb;color:#d97706">NB</div>
+    <div><div class="algo-title">Bayes Theorem — The Core Formula</div><div class="algo-sub">Updates our belief based on new evidence</div></div>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <h3>📖 How Naive Bayes Works</h3>
+      <p>Naive Bayes calculates the <strong>probability</strong> that a data point belongs to each class, then picks the class with the highest probability. It's called "naive" because it assumes all features are <strong>independent</strong> of each other — which is rarely true, but surprisingly works well in practice!</p>
+      <div class="formula">
+        P(Class | Features) = P(Features | Class) × P(Class)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;────────────────<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P(Features)<br>
+        <span style="color:#94a3b8;font-size:11px"><br>
+        P(Class|Features) → Posterior (what we want)<br>
+        P(Features|Class) → Likelihood (from training data)<br>
+        P(Class)          → Prior (how common is each class?)
+        </span>
+      </div>
+      <div class="analogy">
+        <strong>📬 The Spam Filter Analogy</strong>
+        You've seen 1000 emails. 200 were spam. Of those, 180 contained the word "FREE". So if a new email contains "FREE", what's the probability it's spam? That's Naive Bayes — using past frequencies to predict the present.
+      </div>
+      <p style="margin-top:12px;font-size:13px"><strong>🏢 Real IT Use Cases:</strong></p>
+      <ul style="font-size:13px;margin-top:6px">
+        <li><strong>Email spam detection</strong> — Gmail's first spam filter was Naive Bayes</li>
+        <li><strong>IT helpdesk ticket routing</strong> — classify tickets as "Network", "Software", "Hardware"</li>
+        <li><strong>Sentiment analysis</strong> — positive/negative reviews</li>
+      </ul>
+      <div class="chips">
+        <span class="chip" style="background:var(--amber-l);color:var(--amber)">Text Classification</span>
+        <span class="chip" style="background:var(--green-l);color:var(--green)">Very Fast</span>
+        <span class="chip" style="background:var(--blue-l);color:var(--blue)">Small Data OK</span>
+      </div>
+    </div>
+    <div class="dcard">
+      <h3>📊 Spam Classification — Step by Step</h3>
+      <svg viewBox="0 0 340 290" width="100%" style="background:#fffbeb;border-radius:8px;border:1px solid #fde68a">
+        <!-- Title -->
+        <text x="170" y="18" text-anchor="middle" font-size="11" font-weight="700" fill="#92400e">Naive Bayes: Is "FREE MONEY" Spam?</text>
+        <!-- Training data summary -->
+        <rect x="10" y="26" width="320" height="40" rx="6" fill="white" stroke="#fde68a" stroke-width="1"/>
+        <text x="20" y="42" font-size="10" font-weight="700" fill="#92400e">Training Data:</text>
+        <text x="20" y="57" font-size="9" fill="#78350f">1000 emails → 300 Spam (30%) + 700 Not Spam (70%)</text>
+        <text x="220" y="42" font-size="9" fill="#d97706">"FREE" in spam: 250/300</text>
+        <text x="220" y="57" font-size="9" fill="#d97706">"MONEY" in spam: 200/300</text>
+        <!-- Step 1 -->
+        <rect x="10" y="76" width="320" height="50" rx="6" fill="white" stroke="#fde68a" stroke-width="1"/>
+        <text x="20" y="92" font-size="10" font-weight="700" fill="#d97706">Step 1: Calculate P(Spam | "FREE", "MONEY")</text>
+        <text x="20" y="107" font-size="9" fill="#78350f">P(Spam) = 0.30 (prior — 30% of all emails are spam)</text>
+        <text x="20" y="119" font-size="9" fill="#78350f">P("FREE"|Spam) = 250/300 = 0.833</text>
+        <text x="200" y="119" font-size="9" fill="#78350f">P("MONEY"|Spam) = 200/300 = 0.667</text>
+        <!-- Step 2 -->
+        <rect x="10" y="136" width="320" height="50" rx="6" fill="white" stroke="#fde68a" stroke-width="1"/>
+        <text x="20" y="152" font-size="10" font-weight="700" fill="#d97706">Step 2: Calculate P(NotSpam | "FREE", "MONEY")</text>
+        <text x="20" y="167" font-size="9" fill="#78350f">P(NotSpam) = 0.70 (prior)</text>
+        <text x="20" y="179" font-size="9" fill="#78350f">P("FREE"|NotSpam) = 50/700 = 0.071</text>
+        <text x="200" y="179" font-size="9" fill="#78350f">P("MONEY"|NotSpam) = 30/700 = 0.043</text>
+        <!-- Score computation -->
+        <rect x="10" y="196" width="155" height="56" rx="6" fill="#fecaca" stroke="#fca5a5" stroke-width="1"/>
+        <text x="87" y="212" text-anchor="middle" font-size="10" font-weight="700" fill="#dc2626">Spam Score</text>
+        <text x="87" y="226" text-anchor="middle" font-size="9" fill="#991b1b">0.30 × 0.833 × 0.667</text>
+        <text x="87" y="240" text-anchor="middle" font-size="11" font-weight="900" fill="#dc2626">= 0.167</text>
+        <text x="87" y="245" text-anchor="middle" font-size="8" fill="#dc2626">(unnormalised)</text>
+        <rect x="175" y="196" width="155" height="56" rx="6" fill="#dcfce7" stroke="#86efac" stroke-width="1"/>
+        <text x="252" y="212" text-anchor="middle" font-size="10" font-weight="700" fill="#16a34a">Not Spam Score</text>
+        <text x="252" y="226" text-anchor="middle" font-size="9" fill="#166534">0.70 × 0.071 × 0.043</text>
+        <text x="252" y="240" text-anchor="middle" font-size="11" font-weight="900" fill="#16a34a">= 0.0021</text>
+        <text x="252" y="245" text-anchor="middle" font-size="8" fill="#16a34a">(unnormalised)</text>
+        <!-- Result -->
+        <rect x="10" y="262" width="320" height="22" rx="5" fill="#7c3aed"/>
+        <text x="170" y="277" text-anchor="middle" font-size="11" font-weight="800" fill="white">✅ 0.167 >> 0.0021 → SPAM (99.99% confidence)</text>
+      </svg>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════
+     PCA
+════════════════════════════════════════════ -->
+<section id="pca" class="sec">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-purple">Section 2</div>
+    <h2>PCA — Principal Component Analysis</h2>
+    <p>Reduce 100 features to 5 while keeping 95% of the information. Essential for visualisation and speeding up ML.</p>
+  </div>
+  <div class="two-col">
+    <div class="dcard">
+      <h3>📊 Visual: PCA Projects 2D → 1D</h3>
+      <svg viewBox="0 0 340 270" width="100%" style="background:#f5f3ff;border-radius:8px;border:1px solid #ddd6fe">
+        <!-- Original 2D data points -->
+        <text x="170" y="17" text-anchor="middle" font-size="10" font-weight="700" fill="#4c1d95">Step 1: Data has 2 Features (X1, X2)</text>
+        <!-- axes -->
+        <line x1="30" y1="130" x2="180" y2="130" stroke="#c4b5fd" stroke-width="1.5"/>
+        <line x1="30" y1="130" x2="30" y2="22" stroke="#c4b5fd" stroke-width="1.5"/>
+        <text x="185" y="133" font-size="8" fill="#7c3aed">X1</text>
+        <text x="26" y="18" text-anchor="end" font-size="8" fill="#7c3aed">X2</text>
+        <!-- Data cloud (diagonal) -->
+        <circle cx="55" cy="112" r="5" fill="#a78bfa" opacity=".8"/>
+        <circle cx="70" cy="105" r="5" fill="#a78bfa" opacity=".8"/>
+        <circle cx="85" cy="95" r="5" fill="#a78bfa" opacity=".8"/>
+        <circle cx="95" cy="88" r="5" fill="#a78bfa" opacity=".8"/>
+        <circle cx="110" cy="80" r="5" fill="#a78bfa" opacity=".8"/>
+        <circle cx="120" cy="72" r="5" fill="#a78bfa" opacity=".8"/>
+        <circle cx="60" cy="100" r="5" fill="#a78bfa" opacity=".8"/>
+        <circle cx="80" cy="88" r="5" fill="#a78bfa" opacity=".8"/>
+        <circle cx="100" cy="75" r="5" fill="#a78bfa" opacity=".8"/>
+        <circle cx="130" cy="65" r="5" fill="#a78bfa" opacity=".8"/>
+        <circle cx="140" cy="58" r="5" fill="#a78bfa" opacity=".8"/>
+        <!-- PC1 line (direction of max variance) -->
+        <line x1="35" y1="128" x2="170" y2="42" stroke="#7c3aed" stroke-width="3" stroke-linecap="round"/>
+        <text x="155" y="38" font-size="10" font-weight="700" fill="#7c3aed">PC1</text>
+        <text x="90" y="145" text-anchor="middle" font-size="9" fill="#7c3aed">(max variance direction)</text>
+        <!-- PC2 line (perpendicular) -->
+        <line x1="100" y1="128" x2="30" y2="85" stroke="#c4b5fd" stroke-width="2" stroke-dasharray="4,3"/>
+        <text x="14" y="84" font-size="10" font-weight="700" fill="#a78bfa">PC2</text>
+        <text x="55" y="162" text-anchor="middle" font-size="9" fill="#a78bfa">(min variance → drop!)</text>
+
+        <!-- Arrow -->
+        <text x="195" y="100" font-size="18" fill="#7c3aed">→</text>
+        <text x="188" y="90" font-size="8" fill="#6d28d9">Project</text>
+        <text x="188" y="100" font-size="8" fill="#6d28d9">onto PC1</text>
+
+        <!-- After PCA — 1D projection -->
+        <text x="272" y="17" text-anchor="middle" font-size="10" font-weight="700" fill="#4c1d95">Step 2: Now 1 Feature!</text>
+        <line x1="215" y1="130" x2="335" y2="130" stroke="#7c3aed" stroke-width="3"/>
+        <text x="340" y="133" font-size="8" fill="#7c3aed">PC1</text>
+        <!-- 1D projected points -->
+        <circle cx="228" cy="130" r="5" fill="#7c3aed" opacity=".9"/>
+        <circle cx="240" cy="130" r="5" fill="#7c3aed" opacity=".9"/>
+        <circle cx="252" cy="130" r="5" fill="#7c3aed" opacity=".9"/>
+        <circle cx="262" cy="130" r="5" fill="#7c3aed" opacity=".9"/>
+        <circle cx="275" cy="130" r="5" fill="#7c3aed" opacity=".9"/>
+        <circle cx="286" cy="130" r="5" fill="#7c3aed" opacity=".9"/>
+        <circle cx="295" cy="130" r="5" fill="#7c3aed" opacity=".9"/>
+        <circle cx="308" cy="130" r="5" fill="#7c3aed" opacity=".9"/>
+        <circle cx="320" cy="130" r="5" fill="#7c3aed" opacity=".9"/>
+        <circle cx="330" cy="130" r="5" fill="#7c3aed" opacity=".9"/>
+        <!-- Labels -->
+        <text x="272" y="150" text-anchor="middle" font-size="9" fill="#6d28d9">2D → 1D</text>
+        <text x="272" y="163" text-anchor="middle" font-size="9" fill="#6d28d9">50% fewer features!</text>
+
+        <!-- Variance Explained Bar -->
+        <rect x="10" y="195" width="320" height="65" rx="8" fill="white" stroke="#ddd6fe" stroke-width="1.5"/>
+        <text x="170" y="213" text-anchor="middle" font-size="10" font-weight="700" fill="#4c1d95">Explained Variance (Scree Plot)</text>
+        <!-- bar 1 -->
+        <rect x="30" y="220" width="80" height="28" rx="4" fill="#7c3aed"/>
+        <text x="70" y="238" text-anchor="middle" font-size="10" font-weight="800" fill="white">PC1: 85%</text>
+        <!-- bar 2 -->
+        <rect x="118" y="232" width="50" height="16" rx="4" fill="#a78bfa"/>
+        <text x="143" y="244" text-anchor="middle" font-size="9" font-weight="700" fill="white">PC2: 10%</text>
+        <!-- bar 3 -->
+        <rect x="176" y="239" width="22" height="9" rx="2" fill="#c4b5fd"/>
+        <text x="187" y="252" text-anchor="middle" font-size="8" fill="#7c3aed">3%</text>
+        <!-- bar 4 -->
+        <rect x="206" y="242" width="10" height="6" rx="2" fill="#ede9fe"/>
+        <text x="211" y="252" text-anchor="middle" font-size="8" fill="#7c3aed">1%</text>
+        <!-- dashed line at 95% -->
+        <line x1="110" y1="218" x2="110" y2="250" stroke="#dc2626" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="112" y="215" font-size="8" fill="#dc2626">Keep 95% → use PC1+PC2</text>
+      </svg>
+    </div>
+    <div class="card">
+      <h3>📖 Why PCA is Essential</h3>
+      <p>Real datasets often have <strong>50–500 features</strong>. Many of those features are correlated — they carry the same information. PCA compresses all features into a smaller set of <strong>Principal Components</strong> that capture the most variance.</p>
+      <div class="steps">
+        <div class="step"><div class="sn">1</div><p><strong>Standardise</strong> the data (PCA is sensitive to scale — always use StandardScaler first!)</p></div>
+        <div class="step"><div class="sn">2</div><p>Compute the <strong>Covariance Matrix</strong> — which features vary together?</p></div>
+        <div class="step"><div class="sn">3</div><p>Find <strong>Eigenvectors</strong> (directions of variance) and <strong>Eigenvalues</strong> (how much variance each direction explains)</p></div>
+        <div class="step"><div class="sn">4</div><p>Sort by eigenvalue — the top k eigenvectors become your <strong>Principal Components</strong></p></div>
+        <div class="step"><div class="sn">5</div><p>Project your data onto those k components → your new compressed dataset</p></div>
+      </div>
+      <div class="analogy">
+        <strong>📸 The Shadow Analogy</strong>
+        Imagine a 3D object casting a shadow on a wall. The shadow is 2D but still captures the shape. PCA finds the "best angle" to cast the shadow so that the most information (shape) is preserved in the lower dimension.
+      </div>
+      <p style="margin-top:12px;font-size:13px"><strong>🏢 Real IT Use Cases:</strong></p>
+      <ul style="font-size:13px;margin-top:6px">
+        <li><strong>Face recognition:</strong> Reduce 10,000 pixel features to 100 principal components</li>
+        <li><strong>Visualisation:</strong> Reduce 50 features to 2 components to plot and see clusters</li>
+        <li><strong>Speed up ML:</strong> Fewer features = faster training, less overfitting</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════
+     GRADIENT DESCENT
+════════════════════════════════════════════ -->
+<section id="gradient" class="sec" style="background:#fff">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-pink">Section 3</div>
+    <h2>Gradient Descent — How ML Models Actually Learn</h2>
+    <p>Every model you've learned — Linear Regression, Logistic Regression, Neural Networks — learns using Gradient Descent. Understand this and you understand ML at its core.</p>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <h3>📖 The Core Idea — Roll Down the Hill</h3>
+      <p>A model starts with <strong>random weights</strong> (bad predictions). It measures its error with a <strong>Loss Function</strong>. Gradient Descent then nudges the weights in the direction that <strong>reduces the loss</strong>, step by step, until the model can't get any better.</p>
+      <div class="formula">
+        Weight Update Rule:<br>
+        w = w - α × ∂L/∂w<br>
+        <span style="color:#94a3b8;font-size:11px"><br>
+        w    → current weight (the thing being learned)<br>
+        α    → learning rate (step size — critical!)<br>
+        ∂L/∂w→ gradient (slope of loss, which way is downhill?)
+        </span>
+      </div>
+      <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px">
+          <div style="font-size:11px;font-weight:800;color:#dc2626;margin-bottom:4px">α too HIGH</div>
+          <div style="font-size:11px;color:#991b1b">Overshoots the minimum. Bounces around and may never converge. Like running blindly down a hill.</div>
+        </div>
+        <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px">
+          <div style="font-size:11px;font-weight:800;color:#dc2626;margin-bottom:4px">α too LOW</div>
+          <div style="font-size:11px;color:#991b1b">Takes millions of tiny steps. Extremely slow training. Like taking baby steps down a mountain.</div>
+        </div>
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px;grid-column:span 2">
+          <div style="font-size:11px;font-weight:800;color:#16a34a;margin-bottom:4px">✅ α just right</div>
+          <div style="font-size:11px;color:#14532d">Smooth convergence to minimum. Common starting values: 0.001, 0.01, 0.1. Use learning rate schedulers in deep learning.</div>
+        </div>
+      </div>
+      <div class="analogy" style="margin-top:12px">
+        <strong>⛰️ The Mountain Blindfolded Analogy</strong>
+        Imagine you're blindfolded on a mountain and want to reach the valley (minimum loss). You can't see, but you can feel the slope under your feet. Gradient Descent says: "take a step in the direction the ground is sloping downward." Repeat until flat ground (minimum).
+      </div>
+    </div>
+    <div class="dcard">
+      <h3>📊 Visual: Loss Curve — Gradient Descent in Action</h3>
+      <svg viewBox="0 0 340 280" width="100%" style="background:#fff0f6;border-radius:8px;border:1px solid #fecdd3">
+        <!-- Loss bowl (parabola) -->
+        <text x="170" y="18" text-anchor="middle" font-size="10" font-weight="700" fill="#9d174d">Loss Surface (1D view)</text>
+        <!-- axes -->
+        <line x1="30" y1="195" x2="310" y2="195" stroke="#fda4af" stroke-width="1.5"/>
+        <line x1="30" y1="195" x2="30" y2="25" stroke="#fda4af" stroke-width="1.5"/>
+        <text x="316" y="198" font-size="9" fill="#db2777">Weight (w)</text>
+        <text x="10" y="30" font-size="9" fill="#db2777" text-anchor="middle">Loss</text>
+        <!-- parabola curve -->
+        <path d="M35,185 Q80,30 170,22 Q260,30 305,185" fill="none" stroke="#db2777" stroke-width="2.5"/>
+        <!-- Steps down the bowl -->
+        <!-- step 1 - top left -->
+        <circle cx="58" cy="148" r="7" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+        <text x="58" y="140" text-anchor="middle" font-size="9" font-weight="700" fill="#92400e">w₀</text>
+        <line x1="58" y1="148" x2="88" y2="98" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <!-- step 2 -->
+        <circle cx="88" cy="98" r="7" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+        <text x="88" y="90" text-anchor="middle" font-size="9" font-weight="700" fill="#92400e">w₁</text>
+        <line x1="88" y1="98" x2="118" y2="62" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <!-- step 3 -->
+        <circle cx="118" cy="62" r="7" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+        <text x="118" y="54" text-anchor="middle" font-size="9" font-weight="700" fill="#92400e">w₂</text>
+        <line x1="118" y1="62" x2="148" y2="38" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <!-- step 4 -->
+        <circle cx="148" cy="38" r="7" fill="#fb923c" stroke="#ea580c" stroke-width="2"/>
+        <text x="148" y="30" text-anchor="middle" font-size="9" font-weight="700" fill="#c2410c">w₃</text>
+        <line x1="148" y1="38" x2="165" y2="28" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <!-- minimum point -->
+        <circle cx="170" cy="22" r="8" fill="#4ade80" stroke="#16a34a" stroke-width="2.5"/>
+        <text x="193" y="24" font-size="10" font-weight="700" fill="#16a34a">MINIMUM! ✓</text>
+        <text x="193" y="36" font-size="9" fill="#16a34a">Optimal weights</text>
+        <!-- gradient arrows -->
+        <text x="50" y="175" font-size="8" fill="#dc2626">Steep gradient</text>
+        <text x="50" y="185" font-size="8" fill="#dc2626">= big step</text>
+        <text x="130" y="175" font-size="8" fill="#dc2626">Small gradient</text>
+        <text x="130" y="185" font-size="8" fill="#dc2626">= tiny step</text>
+        <!-- Training loss curve (below) -->
+        <text x="170" y="210" text-anchor="middle" font-size="10" font-weight="700" fill="#9d174d">Training Loss per Epoch</text>
+        <line x1="35" y1="270" x2="305" y2="270" stroke="#fda4af" stroke-width="1"/>
+        <line x1="35" y1="270" x2="35" y2="215" stroke="#fda4af" stroke-width="1"/>
+        <path d="M38,215 C60,215 70,228 100,240 C130,250 160,262 200,267 C240,270 270,270 300,270" fill="none" stroke="#db2777" stroke-width="2"/>
+        <text x="38" y="212" font-size="8" fill="#db2777">High</text>
+        <text x="280" y="268" font-size="8" fill="#16a34a">Converged</text>
+        <text x="170" y="282" text-anchor="middle" font-size="9" fill="#9d174d">Epochs (training iterations) →</text>
+      </svg>
+    </div>
+  </div>
+  <!-- Types of gradient descent -->
+  <div class="wide-card" style="margin-top:24px">
+    <h3>🔀 Three Types of Gradient Descent</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+      <div style="background:var(--blue-l);border:1px solid #bfdbfe;border-radius:10px;padding:16px">
+        <div style="font-size:13px;font-weight:800;color:var(--blue);margin-bottom:6px">Batch GD</div>
+        <div style="font-size:12px;color:#1e3a8a;line-height:1.6">Uses <strong>all training data</strong> to compute each gradient update. Accurate but very slow for large datasets.</div>
+        <div style="font-size:11px;font-weight:700;color:#60a5fa;margin-top:8px">✅ Stable updates ❌ Slow</div>
+      </div>
+      <div style="background:var(--green-l);border:1px solid #bbf7d0;border-radius:10px;padding:16px">
+        <div style="font-size:13px;font-weight:800;color:var(--green);margin-bottom:6px">Stochastic GD (SGD)</div>
+        <div style="font-size:12px;color:#14532d;line-height:1.6">Uses <strong>one random sample</strong> per update. Very fast but noisy — jumps around a lot.</div>
+        <div style="font-size:11px;font-weight:700;color:#4ade80;margin-top:8px">✅ Fast ❌ Noisy</div>
+      </div>
+      <div style="background:var(--amber-l);border:1px solid #fde68a;border-radius:10px;padding:16px">
+        <div style="font-size:13px;font-weight:800;color:var(--amber);margin-bottom:6px">Mini-Batch GD ⭐</div>
+        <div style="font-size:12px;color:#78350f;line-height:1.6">Uses a <strong>small batch</strong> (32–256 samples) per update. Best of both worlds — used in every neural network.</div>
+        <div style="font-size:11px;font-weight:700;color:#fbbf24;margin-top:8px">✅ Fast ✅ Stable</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════
+     THE ML -> DEEP LEARNING ROSETTA STONE BRIDGE
+════════════════════════════════════════════ -->
+<section id="bridge" class="sec" style="background:linear-gradient(180deg,#0f172a 0%,#1e1b4b 100%);color:#f8fafc;padding:60px 0">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag" style="background:rgba(168,85,247,0.2);color:#c084fc;border:1px solid rgba(168,85,247,0.4)">The Master Rosetta Stone</div>
+    <h2 style="color:#fff;font-size:32px">How Machine Learning Truly Becomes Deep Learning</h2>
+    <p style="color:#cbd5e1;max-width:800px">Eliminating all confusion. Deep Learning is NOT a separate mystery—it is literally stacked Machine Learning models where manual human feature engineering is replaced by automatic hierarchical representation learning.</p>
+  </div>
+
+  <!-- The 8-Step Flow Diagram -->
+  <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:24px;margin-bottom:32px">
+    <h3 style="color:#38bdf8;font-size:18px;margin-bottom:16px">🔗 The 8 Unbroken Steps from Classical ML to GenAI</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px">
+      <div style="background:rgba(15,23,42,0.8);border:1px solid rgba(56,189,248,0.2);padding:14px;border-radius:10px">
+        <div style="font-size:11px;font-weight:800;color:#38bdf8">1. LINEAR REGRESSION</div>
+        <div style="font-size:13px;font-weight:700;color:#fff;margin:4px 0">\(y = w \cdot x + b\)</div>
+        <div style="font-size:11px;color:#94a3b8">Draws 1 straight continuous prediction line across points.</div>
+      </div>
+      <div style="background:rgba(15,23,42,0.8);border:1px solid rgba(96,165,250,0.2);padding:14px;border-radius:10px">
+        <div style="font-size:11px;font-weight:800;color:#60a5fa">2. LOGISTIC REGRESSION</div>
+        <div style="font-size:13px;font-weight:700;color:#fff;margin:4px 0">\(\hat{y} = \sigma(w \cdot x + b)\)</div>
+        <div style="font-size:11px;color:#94a3b8">S-curve squashing. <strong>Literally a 1-Neuron Neural Network!</strong></div>
+      </div>
+      <div style="background:rgba(15,23,42,0.8);border:1px solid rgba(248,113,113,0.2);padding:14px;border-radius:10px">
+        <div style="font-size:11px;font-weight:800;color:#f87171">3. THE XOR FAILURE</div>
+        <div style="font-size:13px;font-weight:700;color:#fff;margin:4px 0">Linear Bottleneck</div>
+        <div style="font-size:11px;color:#94a3b8">1 neuron can only draw 1 straight line. Fails on non-linear XOR data.</div>
+      </div>
+      <div style="background:rgba(15,23,42,0.8);border:1px solid rgba(192,132,252,0.2);padding:14px;border-radius:10px">
+        <div style="font-size:11px;font-weight:800;color:#c084fc">4. STACKED MLP LAYERS</div>
+        <div style="font-size:13px;font-weight:700;color:#fff;margin:4px 0">Coordinate Warping</div>
+        <div style="font-size:11px;color:#94a3b8">Hidden layers bend coordinate space so lines can separate classes.</div>
+      </div>
+      <div style="background:rgba(15,23,42,0.8);border:1px solid rgba(74,222,128,0.2);padding:14px;border-radius:10px">
+        <div style="font-size:11px;font-weight:800;color:#4ade80">5. THE CHAIN RULE</div>
+        <div style="font-size:13px;font-weight:700;color:#fff;margin:4px 0">Backpropagation</div>
+        <div style="font-size:11px;color:#94a3b8">\(\frac{\partial L}{\partial w} = \frac{\partial L}{\partial y}\frac{\partial y}{\partial h}\frac{\partial h}{\partial w}\) pushes error backward.</div>
+      </div>
+      <div style="background:rgba(15,23,42,0.8);border:1px solid rgba(251,191,36,0.2);padding:14px;border-radius:10px">
+        <div style="font-size:11px;font-weight:800;color:#fbbf24">6. RELU ACTIVATION</div>
+        <div style="font-size:13px;font-weight:700;color:#fff;margin:4px 0">\(\max(0, x)\) Saved AI</div>
+        <div style="font-size:11px;color:#94a3b8">Sigmoids decay to 0. ReLU derivative is 1.0, enabling 100+ deep layers.</div>
+      </div>
+      <div style="background:rgba(15,23,42,0.8);border:1px solid rgba(244,114,182,0.2);padding:14px;border-radius:10px">
+        <div style="font-size:11px;font-weight:800;color:#f472b6">7. INDUCTIVE PRIORS</div>
+        <div style="font-size:13px;font-weight:700;color:#fff;margin:4px 0">CNNs &amp; Transformers</div>
+        <div style="font-size:11px;color:#94a3b8">Vision needs Spatial Invariance (CNNs). Language needs Attention (\(Q,K,V\)).</div>
+      </div>
+      <div style="background:rgba(15,23,42,0.8);border:1px solid rgba(45,212,191,0.2);padding:14px;border-radius:10px">
+        <div style="font-size:11px;font-weight:800;color:#2dd4bf">8. LATENT VECTOR SPACE</div>
+        <div style="font-size:13px;font-weight:700;color:#fff;margin:4px 0">Embeddings &amp; GenAI</div>
+        <div style="font-size:11px;color:#94a3b8">Raw data is compressed into semantic vectors for Vector DBs &amp; LLMs.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TWO INTERACTIVE SANDBOXES -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px;margin-bottom:32px">
+    
+    <!-- Sandbox 1: XOR Coordinate Warping -->
+    <div style="background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h4 style="color:#38bdf8;font-size:15px">🕹️ Interactive: The XOR Coordinate Warper</h4>
+        <span id="xor-status-tag" style="background:rgba(239,68,68,0.2);color:#f87171;font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px">0 Hidden Layers (Fails)</span>
+      </div>
+      <p style="font-size:12px;color:#94a3b8;margin-bottom:12px">A single Logistic Regression neuron tries to draw 1 line. Toggle hidden neurons to watch coordinate space warp so classes become linearly separable!</p>
+      
+      <canvas id="xorCanvas" width="300" height="200" style="background:#0f172a;border-radius:8px;border:1px solid rgba(255,255,255,0.1);display:block;margin:0 auto 14px"></canvas>
+      
+      <div style="display:flex;gap:10px;justify-content:center">
+        <button id="btn-xor-0" class="btn" style="background:#334155;color:#fff;font-size:11px;padding:6px 12px" onclick="setXorLayers(0)">0 Hidden (1 Neuron)</button>
+        <button id="btn-xor-1" class="btn" style="background:#2563eb;color:#fff;font-size:11px;padding:6px 12px" onclick="setXorLayers(1)">+1 Hidden Layer (2 Neurons)</button>
+      </div>
+      <div id="xor-expl" style="margin-top:12px;font-size:11px;color:#cbd5e1;background:rgba(0,0,0,0.3);padding:10px;border-radius:6px;line-height:1.5">
+        <strong>Status:</strong> 1 line cannot separate (0,0) and (1,1) [Blue] from (0,1) and (1,0) [Red]. Single neuron accuracy = 50% (Random guess).
+      </div>
+    </div>
+
+    <!-- Sandbox 2: Vanishing Gradient Decay Simulator -->
+    <div style="background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h4 style="color:#a855f7;font-size:15px">📉 Interactive: Vanishing Gradient Simulator</h4>
+        <span id="grad-badge" style="background:rgba(74,222,128,0.2);color:#4ade80;font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px">Active Learning</span>
+      </div>
+      <p style="font-size:12px;color:#94a3b8;margin-bottom:12px">Why Sigmoid killed deep networks: \(\sigma'(z) \le 0.25\). Slide network depth to watch gradients vanish to 0 vs ReLU remaining strong!</p>
+      
+      <div style="margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:#cbd5e1;margin-bottom:4px">
+          <span>Network Depth: <strong id="depth-val" style="color:#38bdf8">5 Layers</strong></span>
+          <span>Activation: <strong id="act-val" style="color:#f472b6">Sigmoid</strong></span>
+        </div>
+        <input type="range" id="depthSlider" min="1" max="15" value="5" style="width:100%" oninput="updateGradSim()">
+      </div>
+
+      <div style="display:flex;gap:10px;margin-bottom:14px">
+        <button id="btn-act-sig" class="btn" style="background:#db2777;color:#fff;font-size:11px;flex:1;padding:6px" onclick="setAct('sigmoid')">Sigmoid (Decays \(\times 0.25\))</button>
+        <button id="btn-act-relu" class="btn" style="background:#334155;color:#fff;font-size:11px;flex:1;padding:6px" onclick="setAct('relu')">ReLU (Keeps \(\times 1.0\))</button>
+      </div>
+
+      <div style="background:#0f172a;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.1)">
+        <div style="font-size:11px;color:#94a3b8;margin-bottom:6px">Gradient Signal Reaching Input Layer:</div>
+        <div style="font-size:18px;font-weight:800;font-family:'JetBrains Mono',monospace" id="grad-output-val" style="color:#f87171">0.000976</div>
+        <div style="height:8px;background:#334155;border-radius:4px;overflow:hidden;margin-top:8px">
+          <div id="grad-bar" style="height:100%;width:1%;background:#f87171;transition:all 0.3s"></div>
+        </div>
+      </div>
+      <div id="grad-expl" style="margin-top:10px;font-size:11px;color:#94a3b8;line-height:1.4">
+        At 5 layers with Sigmoid, gradient is reduced to 0.09% of its original strength. Weights in Layer 1 learn almost nothing!
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Deep Representation Learning Card -->
+  <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:24px">
+    <h3 style="color:#4ade80;font-size:18px;margin-bottom:12px">🧠 Why Deep Learning Replaced Manual Feature Engineering</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;font-size:13px;color:#cbd5e1;line-height:1.6">
+      <div style="background:rgba(15,23,42,0.6);border-left:4px solid #ef4444;padding:14px;border-radius:6px">
+        <strong style="color:#f87171;display:block;margin-bottom:6px">👴 Classical Machine Learning (Manual)</strong>
+        You have raw pixels of a car. Linear or Logistic Regression fails because raw pixels have no linear relationship to "Car". A human engineer had to manually calculate SIFT features, edge histograms, and wheel circularity before training an SVM.
+      </div>
+      <div style="background:rgba(15,23,42,0.6);border-left:4px solid #4ade80;padding:14px;border-radius:6px">
+        <strong style="color:#4ade80;display:block;margin-bottom:6px">🚀 Deep Learning (Automatic Representation)</strong>
+        <strong>Layer 1:</strong> Automatically learns edge filters (horizontal, vertical).<br>
+        <strong>Layer 2:</strong> Automatically combines edges into shapes (circles, corners).<br>
+        <strong>Layer 3:</strong> Combines shapes into parts (wheels, headlights).<br>
+        <strong>Final Layer:</strong> Performs standard Logistic Regression on top of the learned parts!
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<script>
+// -------------------------------------------------------------
+// ROSSETTA STONE SANDBOX 1: XOR WARPING
+// -------------------------------------------------------------
+let xorMode = 0;
+function drawXor() {
+  const c = document.getElementById('xorCanvas');
+  if(!c) return;
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+
+  // Draw grid
+  ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+  ctx.lineWidth = 1;
+  for(let x=30; x<c.width; x+=30) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,c.height); ctx.stroke(); }
+  for(let y=30; y<c.height; y+=30) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(c.width,y); ctx.stroke(); }
+
+  if(xorMode === 0) {
+    // 0 Hidden layers: Single line attempting to cut
+    ctx.strokeStyle = 'rgba(239,68,68,0.8)';
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(30, 170); ctx.lineTo(270, 30); ctx.stroke();
+
+    // Data points: (0,0)=Blue, (1,1)=Blue, (0,1)=Red, (1,0)=Red
+    drawDot(ctx, 70, 150, '#38bdf8', '(0,0) Blue');
+    drawDot(ctx, 230, 50, '#38bdf8', '(1,1) Blue');
+    drawDot(ctx, 70, 50, '#f87171', '(0,1) Red');
+    drawDot(ctx, 230, 150, '#f87171', '(1,0) Red');
+  } else {
+    // 1 Hidden layer: Warped space where two lines / bent curve separates them
+    ctx.strokeStyle = '#4ade80';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(30, 110);
+    ctx.quadraticCurveTo(150, 170, 270, 110);
+    ctx.stroke();
+
+    // Warped positions
+    drawDot(ctx, 80, 155, '#38bdf8', '(0,0) Blue');
+    drawDot(ctx, 220, 155, '#38bdf8', '(1,1) Blue');
+    drawDot(ctx, 90, 55, '#f87171', '(0,1) Red');
+    drawDot(ctx, 210, 55, '#f87171', '(1,0) Red');
+  }
+}
+
+function drawDot(ctx, x, y, col, txt) {
+  ctx.fillStyle = col;
+  ctx.beginPath(); ctx.arc(x, y, 7, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.font = '9px Inter';
+  ctx.fillText(txt, x+10, y+3);
+}
+
+function setXorLayers(l) {
+  xorMode = l;
+  const tag = document.getElementById('xor-status-tag');
+  const expl = document.getElementById('xor-expl');
+  const b0 = document.getElementById('btn-xor-0');
+  const b1 = document.getElementById('btn-xor-1');
+
+  if(l === 0) {
+    b0.style.background = '#2563eb'; b1.style.background = '#334155';
+    tag.style.background = 'rgba(239,68,68,0.2)'; tag.style.color = '#f87171';
+    tag.textContent = '0 Hidden Layers (Fails)';
+    expl.innerHTML = '<strong>Status:</strong> 1 straight line cannot separate Blue from Red. Accuracy = 50% (Total failure).';
+  } else {
+    b1.style.background = '#2563eb'; b0.style.background = '#334155';
+    tag.style.background = 'rgba(74,222,128,0.2)'; tag.style.color = '#4ade80';
+    tag.textContent = '1 Hidden Layer (100% Solved!)';
+    expl.innerHTML = '<strong>Status:</strong> Hidden layer applies \(h_1 = \text{ReLU}(w_1 x_1 + w_2 x_2)\), bending the coordinate space so a straight line separates Blue from Red cleanly. Accuracy = 100%!';
+  }
+  drawXor();
+}
+
+// -------------------------------------------------------------
+// ROSSETTA STONE SANDBOX 2: VANISHING GRADIENT
+// -------------------------------------------------------------
+let currentAct = 'sigmoid';
+function setAct(act) {
+  currentAct = act;
+  const bs = document.getElementById('btn-act-sig');
+  const br = document.getElementById('btn-act-relu');
+  if(act === 'sigmoid') {
+    bs.style.background = '#db2777'; br.style.background = '#334155';
+    document.getElementById('act-val').textContent = 'Sigmoid (Max deriv = 0.25)';
+    document.getElementById('act-val').style.color = '#f472b6';
+  } else {
+    br.style.background = '#16a34a'; bs.style.background = '#334155';
+    document.getElementById('act-val').textContent = 'ReLU (Deriv = 1.0)';
+    document.getElementById('act-val').style.color = '#4ade80';
+  }
+  updateGradSim();
+}
+
+function updateGradSim() {
+  const depth = parseInt(document.getElementById('depthSlider').value);
+  document.getElementById('depth-val').textContent = depth + ' Layers';
+
+  let grad = 1.0;
+  if(currentAct === 'sigmoid') {
+    grad = Math.pow(0.25, depth);
+  } else {
+    grad = 1.0; // ReLU derivative is 1
+  }
+
+  const out = document.getElementById('grad-output-val');
+  const bar = document.getElementById('grad-bar');
+  const badge = document.getElementById('grad-badge');
+  const expl = document.getElementById('grad-expl');
+
+  let pct = (grad * 100);
+  if(pct > 100) pct = 100;
+  if(pct < 0.1 && grad > 0) pct = 0.5;
+
+  out.textContent = grad < 0.000001 ? grad.toExponential(4) : grad.toFixed(6);
+  bar.style.width = Math.max(1, pct) + '%';
+
+  if(currentAct === 'sigmoid' && depth >= 4) {
+    out.style.color = '#ef4444';
+    bar.style.background = '#ef4444';
+    badge.style.background = 'rgba(239,68,68,0.2)'; badge.style.color = '#f87171';
+    badge.textContent = '❌ Vanished Gradient (Dead Learning)';
+    expl.innerHTML = `<span style="color:#f87171"><strong>Severe Decay:</strong> Multiplied \(0.25^{${depth}} = ${grad.toExponential(2)}\).</span> Weights in the first layer receive zero update signal and never learn!`;
+  } else if(currentAct === 'relu') {
+    out.style.color = '#4ade80';
+    bar.style.background = '#4ade80';
+    badge.style.background = 'rgba(74,222,128,0.2)'; badge.style.color = '#4ade80';
+    badge.textContent = '✅ Full Gradient Flow (Fast Learning)';
+    expl.innerHTML = `<span style="color:#4ade80"><strong>Stable Flow:</strong> Multiplied \(1.0^{${depth}} = 1.0\).</span> Gradients flow straight back to Layer 1 with 100% signal strength. Networks can be 100+ layers deep!`;
+  } else {
+    out.style.color = '#fbbf24';
+    bar.style.background = '#fbbf24';
+    badge.style.background = 'rgba(251,191,36,0.2)'; badge.style.color = '#fbbf24';
+    badge.textContent = '⚠️ Weakening Gradient';
+    expl.innerHTML = `At shallow depth (${depth} layers), Sigmoid barely works, but will fail as soon as depth increases.`;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  drawXor();
+  updateGradSim();
+});
+</script>
+
+<!-- ═══════════════════════════════════════════
+     NEURAL NETWORKS
+════════════════════════════════════════════ -->
+<section id="neural" class="sec">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-green">Section 4</div>
+    <h2>Neural Networks — Stacked Layers of Transformation</h2>
+    <p>The engine behind every modern AI system. Each neuron is a mathematical operation. Stacked together, they learn to see, read, and speak.</p>
+  </div>
+  <div class="two-col">
+    <div class="dcard" style="overflow:hidden">
+      <h3>📊 Neural Network Architecture — Full Diagram</h3>
+      <svg viewBox="0 0 340 310" width="100%" style="background:#f0fdf4;border-radius:8px;border:1px solid #bbf7d0">
+        <!-- Layer labels -->
+        <text x="50" y="18" text-anchor="middle" font-size="10" font-weight="700" fill="#166534">Input Layer</text>
+        <text x="170" y="18" text-anchor="middle" font-size="10" font-weight="700" fill="#166534">Hidden Layer</text>
+        <text x="290" y="18" text-anchor="middle" font-size="10" font-weight="700" fill="#166534">Output Layer</text>
+        <!-- Connections (draw first so nodes appear on top) -->
+        <!-- Input to Hidden -->
+        <line x1="50" y1="70" x2="170" y2="65" stroke="#86efac" stroke-width=".8" opacity=".7"/>
+        <line x1="50" y1="70" x2="170" y2="110" stroke="#86efac" stroke-width=".8" opacity=".7"/>
+        <line x1="50" y1="70" x2="170" y2="155" stroke="#86efac" stroke-width=".8" opacity=".7"/>
+        <line x1="50" y1="70" x2="170" y2="200" stroke="#86efac" stroke-width=".8" opacity=".7"/>
+        <line x1="50" y1="115" x2="170" y2="65" stroke="#86efac" stroke-width=".8" opacity=".7"/>
+        <line x1="50" y1="115" x2="170" y2="110" stroke="#86efac" stroke-width=".8" opacity=".7"/>
+        <line x1="50" y1="115" x2="170" y2="155" stroke="#86efac" stroke-width=".8" opacity=".7"/>
+        <line x1="50" y1="115" x2="170" y2="200" stroke="#86efac" stroke-width=".8" opacity=".7"/>
+        <line x1="50" y1="160" x2="170" y2="65" stroke="#86efac" stroke-width=".8" opacity=".7"/>
+        <line x1="50" y1="160" x2="170" y2="110" stroke="#86efac" stroke-width=".8" opacity=".7"/>
+        <line x1="50" y1="160" x2="170" y2="155" stroke="#86efac" stroke-width=".8" opacity=".7"/>
+        <line x1="50" y1="160" x2="170" y2="200" stroke="#86efac" stroke-width=".8" opacity=".7"/>
+        <!-- Hidden to output -->
+        <line x1="170" y1="65" x2="290" y2="110" stroke="#4ade80" stroke-width="1" opacity=".7"/>
+        <line x1="170" y1="110" x2="290" y2="110" stroke="#4ade80" stroke-width="1" opacity=".7"/>
+        <line x1="170" y1="155" x2="290" y2="110" stroke="#4ade80" stroke-width="1" opacity=".7"/>
+        <line x1="170" y1="200" x2="290" y2="110" stroke="#4ade80" stroke-width="1" opacity=".7"/>
+        <line x1="170" y1="65" x2="290" y2="170" stroke="#4ade80" stroke-width="1" opacity=".7"/>
+        <line x1="170" y1="110" x2="290" y2="170" stroke="#4ade80" stroke-width="1" opacity=".7"/>
+        <line x1="170" y1="155" x2="290" y2="170" stroke="#4ade80" stroke-width="1" opacity=".7"/>
+        <line x1="170" y1="200" x2="290" y2="170" stroke="#4ade80" stroke-width="1" opacity=".7"/>
+        <!-- Input nodes -->
+        <circle cx="50" cy="70" r="18" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+        <text x="50" y="74" text-anchor="middle" font-size="10" font-weight="700" fill="#166534">X₁</text>
+        <circle cx="50" cy="115" r="18" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+        <text x="50" y="119" text-anchor="middle" font-size="10" font-weight="700" fill="#166534">X₂</text>
+        <circle cx="50" cy="160" r="18" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+        <text x="50" y="164" text-anchor="middle" font-size="10" font-weight="700" fill="#166534">X₃</text>
+        <!-- Input labels -->
+        <text x="50" y="97" text-anchor="middle" font-size="8" fill="#166534">Age</text>
+        <text x="50" y="142" text-anchor="middle" font-size="8" fill="#166534">Salary</text>
+        <text x="50" y="186" text-anchor="middle" font-size="8" fill="#166534">—</text>
+        <!-- Hidden nodes (4) -->
+        <circle cx="170" cy="65" r="20" fill="#bbf7d0" stroke="#16a34a" stroke-width="2"/>
+        <text x="170" y="62" text-anchor="middle" font-size="8" font-weight="700" fill="#14532d">ReLU</text>
+        <text x="170" y="73" text-anchor="middle" font-size="8" fill="#14532d">h₁</text>
+        <circle cx="170" cy="110" r="20" fill="#bbf7d0" stroke="#16a34a" stroke-width="2"/>
+        <text x="170" y="107" text-anchor="middle" font-size="8" font-weight="700" fill="#14532d">ReLU</text>
+        <text x="170" y="118" text-anchor="middle" font-size="8" fill="#14532d">h₂</text>
+        <circle cx="170" cy="155" r="20" fill="#bbf7d0" stroke="#16a34a" stroke-width="2"/>
+        <text x="170" y="152" text-anchor="middle" font-size="8" font-weight="700" fill="#14532d">ReLU</text>
+        <text x="170" y="163" text-anchor="middle" font-size="8" fill="#14532d">h₃</text>
+        <circle cx="170" cy="200" r="20" fill="#bbf7d0" stroke="#16a34a" stroke-width="2"/>
+        <text x="170" y="197" text-anchor="middle" font-size="8" font-weight="700" fill="#14532d">ReLU</text>
+        <text x="170" y="208" text-anchor="middle" font-size="8" fill="#14532d">h₄</text>
+        <!-- Output nodes (2) -->
+        <circle cx="290" cy="110" r="20" fill="#4ade80" stroke="#16a34a" stroke-width="2.5"/>
+        <text x="290" y="107" text-anchor="middle" font-size="8" font-weight="700" fill="#14532d">Sigmoid</text>
+        <text x="290" y="118" text-anchor="middle" font-size="9" fill="#14532d">ŷ₁</text>
+        <circle cx="290" cy="170" r="20" fill="#4ade80" stroke="#16a34a" stroke-width="2.5"/>
+        <text x="290" y="167" text-anchor="middle" font-size="8" font-weight="700" fill="#14532d">Sigmoid</text>
+        <text x="290" y="178" text-anchor="middle" font-size="9" fill="#14532d">ŷ₂</text>
+        <!-- Output labels -->
+        <text x="315" y="113" font-size="9" font-weight="700" fill="#16a34a">Churn</text>
+        <text x="315" y="173" font-size="9" font-weight="700" fill="#16a34a">No Churn</text>
+        <!-- Legend box -->
+        <rect x="10" y="238" width="320" height="60" rx="8" fill="white" stroke="#bbf7d0" stroke-width="1.5"/>
+        <text x="170" y="254" text-anchor="middle" font-size="10" font-weight="700" fill="#166534">Each Neuron = Weighted Sum + Activation Function</text>
+        <text x="170" y="268" text-anchor="middle" font-size="9" fill="#374151" font-family="monospace">output = activation(w₁x₁ + w₂x₂ + w₃x₃ + bias)</text>
+        <text x="170" y="283" text-anchor="middle" font-size="9" fill="#374151">ReLU: max(0,x)  |  Sigmoid: 1/(1+e⁻ˣ)  |  Tanh: (eˣ-e⁻ˣ)/(eˣ+e⁻ˣ)</text>
+      </svg>
+    </div>
+    <div class="card">
+      <h3>📖 How a Neural Network Learns</h3>
+      <div class="steps">
+        <div class="step"><div class="sn">1</div><p><strong>Forward Pass:</strong> Data flows from Input → Hidden → Output. Each layer applies weights + activation function. Output is a prediction.</p></div>
+        <div class="step"><div class="sn">2</div><p><strong>Loss Calculation:</strong> Compare the prediction to the real answer using a loss function (e.g., Cross-Entropy for classification).</p></div>
+        <div class="step"><div class="sn">3</div><p><strong>Backward Pass (Backpropagation):</strong> Using Gradient Descent, the error is propagated backwards through the network, adjusting each weight to reduce the error.</p></div>
+        <div class="step"><div class="sn">4</div><p><strong>Repeat:</strong> Do this for thousands of epochs until loss converges to a minimum.</p></div>
+      </div>
+      <div style="margin-top:14px;background:var(--s50);border:1px solid var(--s200);border-radius:10px;padding:14px">
+        <p style="font-size:13px;font-weight:700;color:var(--s800);margin-bottom:10px">🔧 Key Hyperparameters to Know:</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div style="font-size:12px"><strong>Learning Rate (α):</strong> How big each update step is</div>
+          <div style="font-size:12px"><strong>Epochs:</strong> How many full passes through the data</div>
+          <div style="font-size:12px"><strong>Batch Size:</strong> Samples per gradient update</div>
+          <div style="font-size:12px"><strong>Hidden Layers:</strong> Depth = complexity of patterns</div>
+          <div style="font-size:12px"><strong>Neurons/Layer:</strong> Width = breadth of representation</div>
+          <div style="font-size:12px"><strong>Dropout:</strong> Randomly disable neurons to prevent overfitting</div>
+        </div>
+      </div>
+      <div class="analogy" style="margin-top:12px">
+        <strong>🏋️ The Workout Analogy</strong>
+        The network is like a student. Forward pass = taking a test. Loss = checking the score. Backprop = learning from mistakes. Epochs = how many times you study. Learning rate = how aggressively you correct mistakes.
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════
+     NLP
+════════════════════════════════════════════ -->
+<section id="nlp" class="sec" style="background:#fff">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-cyan">Section 5</div>
+    <h2>Natural Language Processing (NLP) — Teaching Machines to Read</h2>
+    <p>Spam detection, chatbots, sentiment analysis — everything that involves text starts here.</p>
+  </div>
+
+  <!-- NLP PIPELINE -->
+  <h3 style="font-size:16px;font-weight:800;color:var(--s900);margin-bottom:14px">📝 The NLP Preprocessing Pipeline</h3>
+  <div class="pipeline">
+    <div class="pipe-step"><div class="pipe-arrow">→</div><div class="pipe-icon">📝</div><div class="pipe-name">Raw Text</div><div class="pipe-tech">"I love this app!"</div></div>
+    <div class="pipe-step"><div class="pipe-arrow">→</div><div class="pipe-icon">✂️</div><div class="pipe-name">Tokenize</div><div class="pipe-tech">["I","love","this","app"]</div></div>
+    <div class="pipe-step"><div class="pipe-arrow">→</div><div class="pipe-icon">🚫</div><div class="pipe-name">Stop Words</div><div class="pipe-tech">Remove "I","this"</div></div>
+    <div class="pipe-step"><div class="pipe-arrow">→</div><div class="pipe-icon">🌿</div><div class="pipe-name">Stemming/Lemma</div><div class="pipe-tech">loving→love</div></div>
+    <div class="pipe-step"><div class="pipe-icon">🔢</div><div class="pipe-name">Vectorize</div><div class="pipe-tech">TF-IDF / Word2Vec</div></div>
+  </div>
+
+  <div class="two-col">
+    <div class="dcard">
+      <h3>📊 TF-IDF — The Gold Standard for Text Features</h3>
+      <svg viewBox="0 0 340 260" width="100%" style="background:#ecfeff;border-radius:8px;border:1px solid #a5f3fc">
+        <text x="170" y="17" text-anchor="middle" font-size="10" font-weight="700" fill="#164e63">TF-IDF: What words are IMPORTANT in THIS document?</text>
+        <!-- Corpus overview -->
+        <rect x="10" y="25" width="148" height="90" rx="6" fill="white" stroke="#a5f3fc" stroke-width="1.5"/>
+        <text x="84" y="41" text-anchor="middle" font-size="9" font-weight="700" fill="#0891b2">Document 1 (IT Ticket)</text>
+        <text x="84" y="56" text-anchor="middle" font-size="9" fill="#334155">"server down network error"</text>
+        <text x="84" y="70" text-anchor="middle" font-size="9" fill="#334155">TF("server") = 1/4 = 0.25</text>
+        <text x="84" y="84" text-anchor="middle" font-size="9" fill="#334155">IDF("server") = log(3/2)</text>
+        <text x="84" y="98" text-anchor="middle" font-size="10" font-weight="700" fill="#0891b2">TF-IDF = 0.25 × 0.405 = 0.10</text>
+
+        <rect x="182" y="25" width="148" height="90" rx="6" fill="white" stroke="#a5f3fc" stroke-width="1.5"/>
+        <text x="256" y="41" text-anchor="middle" font-size="9" font-weight="700" fill="#0891b2">Document 2 (IT Ticket)</text>
+        <text x="256" y="56" text-anchor="middle" font-size="9" fill="#334155">"password reset email"</text>
+        <text x="256" y="70" text-anchor="middle" font-size="9" fill="#334155">TF("password") = 1/3 = 0.33</text>
+        <text x="256" y="84" text-anchor="middle" font-size="9" fill="#334155">IDF("password") = log(3/1)</text>
+        <text x="256" y="98" text-anchor="middle" font-size="10" font-weight="700" fill="#0891b2">TF-IDF = 0.33 × 1.1 = 0.36</text>
+
+        <!-- Formulas -->
+        <rect x="10" y="125" width="148" height="55" rx="6" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1"/>
+        <text x="84" y="141" text-anchor="middle" font-size="10" font-weight="700" fill="#1d4ed8">TF (Term Frequency)</text>
+        <text x="84" y="155" text-anchor="middle" font-size="9" fill="#1e40af">Count of word in document</text>
+        <text x="84" y="168" text-anchor="middle" font-size="9" fill="#1e40af">──────────────────────</text>
+        <text x="84" y="178" text-anchor="middle" font-size="9" fill="#1e40af">Total words in document</text>
+
+        <rect x="182" y="125" width="148" height="55" rx="6" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="1"/>
+        <text x="256" y="141" text-anchor="middle" font-size="10" font-weight="700" fill="#166534">IDF (Inverse Doc Freq)</text>
+        <text x="256" y="155" text-anchor="middle" font-size="9" fill="#14532d">log(Total Documents</text>
+        <text x="256" y="165" text-anchor="middle" font-size="9" fill="#14532d">─────────────────</text>
+        <text x="256" y="178" text-anchor="middle" font-size="9" fill="#14532d">Docs containing word)</text>
+
+        <!-- Key insight -->
+        <rect x="10" y="190" width="320" height="60" rx="8" fill="white" stroke="#a5f3fc" stroke-width="1.5"/>
+        <text x="170" y="207" text-anchor="middle" font-size="10" font-weight="700" fill="#0891b2">💡 Key Insight</text>
+        <text x="170" y="222" text-anchor="middle" font-size="9" fill="#334155">Common words like "the", "is" appear in all documents</text>
+        <text x="170" y="234" text-anchor="middle" font-size="9" fill="#334155">→ IDF punishes them (low score). Rare, specific words</text>
+        <text x="170" y="246" text-anchor="middle" font-size="9" fill="#0891b2">→ IDF rewards them (high score = more informative!)</text>
+      </svg>
+    </div>
+    <div class="card">
+      <h3>💡 Word2Vec — Words as Vectors</h3>
+      <p>TF-IDF treats every word independently. <strong>Word2Vec</strong> goes further — it represents every word as a vector (a list of numbers) where <strong>similar words have similar vectors</strong>.</p>
+      <div style="background:var(--s900);border-radius:8px;padding:14px;margin:12px 0">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;line-height:1.8;color:#4ade80">
+          King - Man + Woman = Queen ✨<br>
+          <span style="color:#94a3b8"># Semantic arithmetic with word vectors!</span><br><br>
+          "Cat"  → [0.2, 0.8, -0.1, 0.5, ...]<br>
+          "Dog"  → [0.3, 0.7, -0.2, 0.6, ...]<br>
+          <span style="color:#94a3b8"># Similar meaning → similar vectors</span>
+        </div>
+      </div>
+      <p style="font-size:13px">The model learns these vectors by predicting words from their context ("what word fits in this sentence?").</p>
+      <div style="margin-top:14px;background:var(--s50);border:1px solid var(--s200);border-radius:10px;padding:14px">
+        <p style="font-size:12px;font-weight:700;color:var(--s800);margin-bottom:8px">🏢 IT NLP Use Cases:</p>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;gap:8px;align-items:start"><span style="color:var(--cyan)">💬</span><span style="font-size:12px"><strong>IT Helpdesk Bot:</strong> Classify user queries → route to correct team automatically</span></div>
+          <div style="display:flex;gap:8px;align-items:start"><span style="color:var(--cyan)">✉️</span><span style="font-size:12px"><strong>Email Spam Filter:</strong> TF-IDF + Naive Bayes → 99%+ accuracy</span></div>
+          <div style="display:flex;gap:8px;align-items:start"><span style="color:var(--cyan)">⭐</span><span style="font-size:12px"><strong>Product Review Sentiment:</strong> Positive / Negative / Neutral classification</span></div>
+          <div style="display:flex;gap:8px;align-items:start"><span style="color:var(--cyan)">🔍</span><span style="font-size:12px"><strong>Log Analysis:</strong> Classify server logs as Error / Warning / Info automatically</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════
+     RIDGE & LASSO REGULARIZATION
+════════════════════════════════════════════ -->
+<section id="regularize" class="sec">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-blue">Section 6</div>
+    <h2>Ridge &amp; Lasso — Preventing Overfitting in Regression</h2>
+    <p>When your model is too complex and memorises training data, regularisation penalises complexity and forces the model to generalise.</p>
+  </div>
+  <div class="two-col">
+    <div class="dcard">
+      <h3>📊 Visual: Linear vs Polynomial vs Ridge</h3>
+      <svg viewBox="0 0 340 220" width="100%" style="background:#eff6ff;border-radius:8px;border:1px solid #bfdbfe">
+        <!-- axes -->
+        <line x1="30" y1="180" x2="310" y2="180" stroke="#bfdbfe" stroke-width="1.5"/>
+        <line x1="30" y1="180" x2="30" y2="20" stroke="#bfdbfe" stroke-width="1.5"/>
+        <!-- Data points -->
+        <circle cx="55" cy="150" r="4" fill="#2563eb"/><circle cx="80" cy="130" r="4" fill="#2563eb"/>
+        <circle cx="110" cy="100" r="4" fill="#2563eb"/><circle cx="140" cy="85" r="4" fill="#2563eb"/>
+        <circle cx="160" cy="90" r="4" fill="#2563eb"/><circle cx="190" cy="70" r="4" fill="#2563eb"/>
+        <circle cx="220" cy="80" r="4" fill="#2563eb"/><circle cx="250" cy="65" r="4" fill="#2563eb"/>
+        <circle cx="280" cy="55" r="4" fill="#2563eb"/>
+        <!-- Underfitting (straight) -->
+        <line x1="40" y1="160" x2="300" y2="50" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="295" y="45" text-anchor="end" font-size="9" fill="#64748b">Underfitting (Linear)</text>
+        <!-- Overfitting (wiggly polynomial) -->
+        <path d="M40,155 C55,140 70,170 90,90 C110,30 135,150 150,90 C165,35 185,100 205,65 C220,40 240,85 260,55 C275,38 290,60 300,55" fill="none" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <text x="230" y="30" font-size="9" fill="#dc2626">Overfitting (High Degree)</text>
+        <!-- Just right (Ridge) -->
+        <path d="M40,158 C80,135 120,110 160,90 C200,72 240,63 300,55" fill="none" stroke="#16a34a" stroke-width="2.5"/>
+        <text x="240" y="55" font-size="9" font-weight="700" fill="#16a34a">Ridge/Lasso ✓</text>
+        <!-- Legend -->
+        <line x1="35" y1="198" x2="65" y2="198" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="70" y="201" font-size="9" fill="#64748b">Underfit</text>
+        <line x1="120" y1="198" x2="150" y2="198" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <text x="155" y="201" font-size="9" fill="#dc2626">Overfit</text>
+        <line x1="210" y1="198" x2="240" y2="198" stroke="#16a34a" stroke-width="2.5"/>
+        <text x="245" y="201" font-size="9" fill="#16a34a">Regularised ✓</text>
+      </svg>
+    </div>
+    <div class="card">
+      <h3>🎯 Ridge (L2) vs Lasso (L1)</h3>
+      <p>Both add a <strong>penalty</strong> to the loss function for having large weights. This prevents the model from fitting noise in training data.</p>
+      <div style="margin-top:12px">
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:14px;margin-bottom:10px">
+          <div style="font-size:12px;font-weight:800;color:#1d4ed8;margin-bottom:6px">Ridge (L2 Regularisation)</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#3b82f6">Loss = MSE + λ × Σ(wᵢ²)</div>
+          <div style="font-size:12px;color:#1e3a8a;margin-top:6px">Shrinks all weights towards zero but keeps them all non-zero. Good when all features matter a little.</div>
+        </div>
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px">
+          <div style="font-size:12px;font-weight:800;color:#166534;margin-bottom:6px">Lasso (L1 Regularisation)</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#16a34a">Loss = MSE + λ × Σ|wᵢ|</div>
+          <div style="font-size:12px;color:#14532d;margin-top:6px">Can shrink weights all the way to <strong>zero</strong> — this performs automatic feature selection! Good when many features are irrelevant.</div>
+        </div>
+      </div>
+      <div class="analogy" style="margin-top:12px">
+        <strong>💰 The Budget Analogy</strong>
+        Ridge says "everyone gets a salary cut" (shrink all). Lasso says "fire the least productive people" (set some weights to exactly zero = feature selection). Use Lasso when you suspect only a few features truly matter.
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CODE SECTION -->
+<section class="sec" style="background:#fff">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-green">Complete Code</div>
+    <h2>Production-Ready Code for All Topics</h2>
+  </div>
+  <div class="code-box">
+    <div class="tab-bar">
+      <button class="tb on" onclick="tab('nb')">🎲 Naive Bayes</button>
+      <button class="tb" onclick="tab('pca_code')">📐 PCA</button>
+      <button class="tb" onclick="tab('gd')">⛰️ Gradient Desc.</button>
+      <button class="tb" onclick="tab('nn')">🧠 Neural Net</button>
+      <button class="tb" onclick="tab('nlp_code')">💬 NLP Pipeline</button>
+      <button class="tb" onclick="tab('ridge')">🎯 Ridge/Lasso</button>
+    </div>
+    <div class="tc on" id="tc-nb">
+<pre><span class="cm"># ═══════════════════════════════════════════════
+# Naive Bayes — IT Helpdesk Ticket Classifier
+# Classifies: 'Network', 'Software', 'Hardware'
+# ═══════════════════════════════════════════════</span>
+
+<span class="kw">from</span> sklearn.naive_bayes <span class="kw">import</span> MultinomialNB
+<span class="kw">from</span> sklearn.feature_extraction.text <span class="kw">import</span> TfidfVectorizer
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> accuracy_score, classification_report
+
+<span class="cm"># === Sample IT Helpdesk data ===</span>
+tickets = [
+    <span class="str">"server is down network connection lost"</span>,
+    <span class="str">"cannot ping router internet not working"</span>,
+    <span class="str">"wifi keeps dropping connection timeout"</span>,
+    <span class="str">"application crashes on startup error"</span>,
+    <span class="str">"software license expired cannot open Excel"</span>,
+    <span class="str">"blue screen of death Windows crash"</span>,
+    <span class="str">"laptop keyboard broken keys not working"</span>,
+    <span class="str">"monitor flickering display hardware issue"</span>,
+    <span class="str">"printer paper jam hardware malfunction"</span>,
+]
+labels = [<span class="str">'Network'</span>,<span class="str">'Network'</span>,<span class="str">'Network'</span>,
+          <span class="str">'Software'</span>,<span class="str">'Software'</span>,<span class="str">'Software'</span>,
+          <span class="str">'Hardware'</span>,<span class="str">'Hardware'</span>,<span class="str">'Hardware'</span>]
+
+<span class="cm"># Step 1: Convert text to TF-IDF features</span>
+vectorizer = <span class="fn">TfidfVectorizer</span>(stop_words=<span class="str">'english'</span>, ngram_range=(<span class="nm">1</span>,<span class="nm">2</span>))
+X = vectorizer.<span class="fn">fit_transform</span>(tickets)  <span class="cm"># sparse matrix of TF-IDF scores</span>
+
+<span class="cm"># Step 2: Split data</span>
+X_train, X_test, y_train, y_test = <span class="fn">train_test_split</span>(X, labels, test_size=<span class="nm">0.2</span>)
+
+<span class="cm"># Step 3: Train Naive Bayes</span>
+model = <span class="fn">MultinomialNB</span>(alpha=<span class="nm">1.0</span>)  <span class="cm"># alpha = Laplace smoothing</span>
+model.<span class="fn">fit</span>(X_train, y_train)
+
+<span class="cm"># Step 4: Predict and evaluate</span>
+y_pred = model.<span class="fn">predict</span>(X_test)
+<span class="fn">print</span>(<span class="str">f"Accuracy: {accuracy_score(y_test, y_pred):.2%}"</span>)
+<span class="fn">print</span>(<span class="fn">classification_report</span>(y_test, y_pred))
+
+<span class="cm"># Step 5: Classify a new ticket</span>
+new_ticket = [<span class="str">"VPN connection keeps dropping remote access"</span>]
+X_new = vectorizer.<span class="fn">transform</span>(new_ticket)
+prediction = model.<span class="fn">predict</span>(X_new)
+probabilities = model.<span class="fn">predict_proba</span>(X_new)
+<span class="fn">print</span>(<span class="str">f"Category: {prediction[0]}"</span>)           <span class="cm"># 'Network'</span>
+<span class="fn">print</span>(<span class="str">f"Confidence: {probabilities.max():.1%}"</span>) <span class="cm"># 94.7%</span>
+</pre></div>
+    <div class="tc" id="tc-pca_code">
+<pre><span class="cm"># ═══════════════════════════════════════════════
+# PCA — Reduce 30 features to 2 for visualisation
+# Example: Visualise customer segments
+# ═══════════════════════════════════════════════</span>
+
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler
+<span class="kw">from</span> sklearn.decomposition <span class="kw">import</span> PCA
+<span class="kw">from</span> sklearn.datasets <span class="kw">import</span> load_breast_cancer
+
+<span class="cm"># Load a 30-feature dataset</span>
+data = <span class="fn">load_breast_cancer</span>()
+X, y = data.data, data.target
+<span class="fn">print</span>(<span class="str">f"Original shape: {X.shape}"</span>)  <span class="cm"># (569, 30) — 30 features!</span>
+
+<span class="cm"># CRITICAL: Always scale before PCA</span>
+<span class="cm"># PCA is sensitive to variance — larger scale = more influence</span>
+scaler = <span class="fn">StandardScaler</span>()
+X_scaled = scaler.<span class="fn">fit_transform</span>(X)
+
+<span class="cm"># Apply PCA — keep components explaining 95% of variance</span>
+pca = <span class="fn">PCA</span>(n_components=<span class="nm">0.95</span>)  <span class="cm"># automatically choose k</span>
+X_pca = pca.<span class="fn">fit_transform</span>(X_scaled)
+<span class="fn">print</span>(<span class="str">f"Reduced shape: {X_pca.shape}"</span>)  <span class="cm"># (569, 7) — only 7 needed!</span>
+<span class="fn">print</span>(<span class="str">f"Variance explained: {pca.explained_variance_ratio_.sum():.1%}"</span>)
+
+<span class="cm"># Visualise in 2D (for a plot)</span>
+pca_2d = <span class="fn">PCA</span>(n_components=<span class="nm">2</span>)
+X_2d = pca_2d.<span class="fn">fit_transform</span>(X_scaled)
+
+plt.<span class="fn">figure</span>(figsize=(<span class="nm">8</span>, <span class="nm">6</span>))
+plt.<span class="fn">scatter</span>(X_2d[y==<span class="nm">0</span>, <span class="nm">0</span>], X_2d[y==<span class="nm">0</span>, <span class="nm">1</span>], c=<span class="str">'red'</span>, label=<span class="str">'Malignant'</span>, alpha=<span class="nm">0.6</span>)
+plt.<span class="fn">scatter</span>(X_2d[y==<span class="nm">1</span>, <span class="nm">0</span>], X_2d[y==<span class="nm">1</span>, <span class="nm">1</span>], c=<span class="str">'blue'</span>, label=<span class="str">'Benign'</span>, alpha=<span class="nm">0.6</span>)
+plt.<span class="fn">xlabel</span>(<span class="str">f'PC1 ({pca_2d.explained_variance_ratio_[0]:.1%} variance)'</span>)
+plt.<span class="fn">ylabel</span>(<span class="str">f'PC2 ({pca_2d.explained_variance_ratio_[1]:.1%} variance)'</span>)
+plt.<span class="fn">title</span>(<span class="str">'Breast Cancer Dataset — PCA 2D Projection'</span>)
+plt.<span class="fn">legend</span>()
+plt.<span class="fn">show</span>()
+</pre></div>
+    <div class="tc" id="tc-gd">
+<pre><span class="cm"># ═══════════════════════════════════════════════
+# Gradient Descent — Implemented From Scratch
+# Shows exactly how a model "learns"
+# ═══════════════════════════════════════════════</span>
+
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="kw">class</span> <span class="tp">LinearRegressionGD</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, learning_rate=<span class="nm">0.01</span>, epochs=<span class="nm">1000</span>):
+        <span class="kw">self</span>.lr = learning_rate
+        <span class="kw">self</span>.epochs = epochs
+        <span class="kw">self</span>.loss_history = []
+
+    <span class="kw">def</span> <span class="fn">fit</span>(<span class="kw">self</span>, X, y):
+        n_samples = len(X)
+        <span class="kw">self</span>.w = <span class="nm">0.0</span>  <span class="cm"># weight (start random)</span>
+        <span class="kw">self</span>.b = <span class="nm">0.0</span>  <span class="cm"># bias</span>
+
+        <span class="kw">for</span> epoch <span class="kw">in</span> <span class="fn">range</span>(<span class="kw">self</span>.epochs):
+            <span class="cm"># === FORWARD PASS: make predictions ===</span>
+            y_pred = <span class="kw">self</span>.w * X + <span class="kw">self</span>.b
+
+            <span class="cm"># === CALCULATE LOSS (MSE) ===</span>
+            loss = np.<span class="fn">mean</span>((y - y_pred) ** <span class="nm">2</span>)
+            <span class="kw">self</span>.loss_history.<span class="fn">append</span>(loss)
+
+            <span class="cm"># === BACKWARD PASS: compute gradients ===</span>
+            dL_dw = (-<span class="nm">2</span>/n_samples) * np.<span class="fn">sum</span>(X * (y - y_pred))
+            dL_db = (-<span class="nm">2</span>/n_samples) * np.<span class="fn">sum</span>(y - y_pred)
+
+            <span class="cm"># === UPDATE WEIGHTS (Gradient Descent step) ===</span>
+            <span class="kw">self</span>.w -= <span class="kw">self</span>.lr * dL_dw
+            <span class="kw">self</span>.b -= <span class="kw">self</span>.lr * dL_db
+
+            <span class="kw">if</span> epoch % <span class="nm">100</span> == <span class="nm">0</span>:
+                <span class="fn">print</span>(<span class="str">f"Epoch {epoch:4d} | Loss: {loss:.4f} | w={self.w:.3f} b={self.b:.3f}"</span>)
+
+    <span class="kw">def</span> <span class="fn">predict</span>(<span class="kw">self</span>, X):
+        <span class="kw">return</span> <span class="kw">self</span>.w * X + <span class="kw">self</span>.b
+
+<span class="cm"># Train it!</span>
+X = np.<span class="fn">array</span>([<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">3</span>,<span class="nm">4</span>,<span class="nm">5</span>,<span class="nm">6</span>,<span class="nm">7</span>,<span class="nm">8</span>,<span class="nm">9</span>,<span class="nm">10</span>], dtype=<span class="tp">float</span>)
+y = X * <span class="nm">2.5</span> + <span class="nm">1.5</span>  <span class="cm"># true relationship: y = 2.5x + 1.5</span>
+
+model = <span class="fn">LinearRegressionGD</span>(learning_rate=<span class="nm">0.01</span>, epochs=<span class="nm">500</span>)
+model.<span class="fn">fit</span>(X, y)
+<span class="fn">print</span>(<span class="str">f"\nLearned: w={model.w:.3f} (true: 2.5), b={model.b:.3f} (true: 1.5)"</span>)
+</pre></div>
+    <div class="tc" id="tc-nn">
+<pre><span class="cm"># ═══════════════════════════════════════════════
+# Neural Network — Using Keras/TensorFlow
+# Binary Classification: Customer Churn Prediction
+# ═══════════════════════════════════════════════</span>
+
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">from</span> tensorflow <span class="kw">import</span> keras
+<span class="kw">from</span> tensorflow.keras <span class="kw">import</span> layers
+<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
+
+<span class="cm"># Load data (Customer: age, salary, tenure, num_products → Churn?)</span>
+<span class="cm"># X shape: (10000, 4), y shape: (10000,)</span>
+
+X_train, X_test, y_train, y_test = <span class="fn">train_test_split</span>(X, y, test_size=<span class="nm">0.2</span>)
+
+<span class="cm"># Scale features (Neural networks REQUIRE scaling!)</span>
+scaler = <span class="fn">StandardScaler</span>()
+X_train = scaler.<span class="fn">fit_transform</span>(X_train)
+X_test  = scaler.<span class="fn">transform</span>(X_test)
+
+<span class="cm"># BUILD THE NEURAL NETWORK</span>
+model = keras.<span class="fn">Sequential</span>([
+    <span class="cm"># Input layer → Hidden layer 1</span>
+    layers.<span class="fn">Dense</span>(<span class="nm">64</span>, activation=<span class="str">'relu'</span>, input_shape=(<span class="nm">4</span>,)),
+    layers.<span class="fn">Dropout</span>(<span class="nm">0.3</span>),     <span class="cm"># Prevent overfitting</span>
+    <span class="cm"># Hidden layer 2</span>
+    layers.<span class="fn">Dense</span>(<span class="nm">32</span>, activation=<span class="str">'relu'</span>),
+    layers.<span class="fn">Dropout</span>(<span class="nm">0.2</span>),
+    <span class="cm"># Output layer (sigmoid = probability)</span>
+    layers.<span class="fn">Dense</span>(<span class="nm">1</span>, activation=<span class="str">'sigmoid'</span>)
+])
+
+<span class="cm"># Compile: define loss function and optimizer</span>
+model.<span class="fn">compile</span>(
+    optimizer=<span class="str">'adam'</span>,             <span class="cm"># Adam = smart gradient descent</span>
+    loss=<span class="str">'binary_crossentropy'</span>,   <span class="cm"># Loss for binary classification</span>
+    metrics=[<span class="str">'accuracy'</span>]
+)
+
+model.<span class="fn">summary</span>()  <span class="cm"># print architecture</span>
+
+<span class="cm"># TRAIN the model</span>
+history = model.<span class="fn">fit</span>(
+    X_train, y_train,
+    epochs=<span class="nm">50</span>,
+    batch_size=<span class="nm">32</span>,              <span class="cm"># Mini-batch gradient descent</span>
+    validation_split=<span class="nm">0.2</span>,       <span class="cm"># Track validation loss</span>
+    verbose=<span class="nm">1</span>
+)
+
+<span class="cm"># EVALUATE</span>
+loss, acc = model.<span class="fn">evaluate</span>(X_test, y_test)
+<span class="fn">print</span>(<span class="str">f"Test Accuracy: {acc:.2%}"</span>)
+
+<span class="cm"># PREDICT probability of churn for new customer</span>
+new_customer = scaler.<span class="fn">transform</span>([[<span class="nm">35</span>, <span class="nm">75000</span>, <span class="nm">3</span>, <span class="nm">2</span>]])
+churn_prob = model.<span class="fn">predict</span>(new_customer)[<span class="nm">0</span>][<span class="nm">0</span>]
+<span class="fn">print</span>(<span class="str">f"Churn probability: {churn_prob:.1%}"</span>)
+</pre></div>
+    <div class="tc" id="tc-nlp_code">
+<pre><span class="cm"># ═══════════════════════════════════════════════
+# NLP Pipeline — Sentiment Analysis
+# Full pipeline: raw text → prediction
+# ═══════════════════════════════════════════════</span>
+
+<span class="kw">import</span> re
+<span class="kw">import</span> nltk
+<span class="kw">from</span> nltk.corpus <span class="kw">import</span> stopwords
+<span class="kw">from</span> nltk.stem <span class="kw">import</span> WordNetLemmatizer
+<span class="kw">from</span> sklearn.feature_extraction.text <span class="kw">import</span> TfidfVectorizer
+<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LogisticRegression
+<span class="kw">from</span> sklearn.pipeline <span class="kw">import</span> Pipeline
+
+<span class="cm"># Download NLTK resources (first run only)</span>
+nltk.<span class="fn">download</span>([<span class="str">'stopwords'</span>, <span class="str">'wordnet'</span>], quiet=<span class="nm">True</span>)
+
+lemmatizer = <span class="fn">WordNetLemmatizer</span>()
+stop_words = <span class="fn">set</span>(stopwords.<span class="fn">words</span>(<span class="str">'english'</span>))
+
+<span class="kw">def</span> <span class="fn">preprocess</span>(text: <span class="tp">str</span>) -> <span class="tp">str</span>:
+    <span class="str">"""Full NLP preprocessing pipeline"""</span>
+    <span class="cm"># 1. Lowercase</span>
+    text = text.<span class="fn">lower</span>()
+    <span class="cm"># 2. Remove URLs, numbers, special chars</span>
+    text = re.<span class="fn">sub</span>(<span class="str">r'http\S+|[^a-z\s]'</span>, <span class="str">''</span>, text)
+    <span class="cm"># 3. Tokenize</span>
+    tokens = text.<span class="fn">split</span>()
+    <span class="cm"># 4. Remove stop words + lemmatize</span>
+    tokens = [lemmatizer.<span class="fn">lemmatize</span>(t) <span class="kw">for</span> t <span class="kw">in</span> tokens
+              <span class="kw">if</span> t <span class="kw">not in</span> stop_words <span class="kw">and</span> <span class="fn">len</span>(t) > <span class="nm">2</span>]
+    <span class="kw">return</span> <span class="str">' '</span>.<span class="fn">join</span>(tokens)
+
+<span class="cm"># Example: "I loved this product!" → "love product"</span>
+
+<span class="cm"># Build a sklearn Pipeline (preprocessing + model in one)</span>
+sentiment_pipeline = <span class="fn">Pipeline</span>([
+    (<span class="str">'tfidf'</span>, <span class="fn">TfidfVectorizer</span>(
+        preprocessor=preprocess,  <span class="cm"># our custom function</span>
+        ngram_range=(<span class="nm">1</span>, <span class="nm">2</span>),       <span class="cm"># include bigrams ("not good")</span>
+        max_features=<span class="nm">10000</span>,
+        min_df=<span class="nm">2</span>                  <span class="cm"># ignore very rare words</span>
+    )),
+    (<span class="str">'clf'</span>, <span class="fn">LogisticRegression</span>(C=<span class="nm">1.0</span>, max_iter=<span class="nm">500</span>))
+])
+
+<span class="cm"># Train and predict (with your reviews data)</span>
+<span class="cm"># sentiment_pipeline.fit(X_train, y_train)</span>
+<span class="cm"># sentiment_pipeline.predict(["This app is absolutely terrible"])</span>
+<span class="cm"># → ['Negative']</span>
+</pre></div>
+    <div class="tc" id="tc-ridge">
+<pre><span class="cm"># ═══════════════════════════════════════════════
+# Ridge (L2) vs Lasso (L1) Regularisation
+# Comparing their effect on feature weights
+# ═══════════════════════════════════════════════</span>
+
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> Ridge, Lasso, LinearRegression
+<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler, PolynomialFeatures
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> r2_score, mean_squared_error
+
+<span class="cm"># Assume X = house features, y = price</span>
+
+<span class="cm"># Create polynomial features (adds complexity)</span>
+poly = <span class="fn">PolynomialFeatures</span>(degree=<span class="nm">3</span>, include_bias=<span class="nm">False</span>)
+X_poly = poly.<span class="fn">fit_transform</span>(X)
+<span class="fn">print</span>(<span class="str">f"Polynomial features: {X_poly.shape[1]}"</span>)  <span class="cm"># e.g., 84 features!</span>
+
+<span class="cm"># Scale (mandatory before regularised regression)</span>
+scaler = <span class="fn">StandardScaler</span>()
+X_scaled = scaler.<span class="fn">fit_transform</span>(X_poly)
+X_train, X_test, y_train, y_test = <span class="fn">train_test_split</span>(X_scaled, y, test_size=<span class="nm">0.2</span>)
+
+<span class="cm"># Compare all three models</span>
+models = {
+    <span class="str">'Linear (No Reg)'</span>: <span class="fn">LinearRegression</span>(),
+    <span class="str">'Ridge (L2, α=1)'</span>: <span class="fn">Ridge</span>(alpha=<span class="nm">1.0</span>),
+    <span class="str">'Lasso (L1, α=0.1)'</span>: <span class="fn">Lasso</span>(alpha=<span class="nm">0.1</span>, max_iter=<span class="nm">5000</span>)
+}
+
+results = []
+<span class="kw">for</span> name, model <span class="kw">in</span> models.<span class="fn">items</span>():
+    model.<span class="fn">fit</span>(X_train, y_train)
+    y_pred = model.<span class="fn">predict</span>(X_test)
+    n_zero_weights = <span class="fn">sum</span>(abs(model.coef_) < <span class="nm">0.001</span>)  <span class="cm"># features set to 0</span>
+    results.<span class="fn">append</span>({
+        <span class="str">'Model'</span>: name,
+        <span class="str">'R²'</span>: <span class="fn">round</span>(<span class="fn">r2_score</span>(y_test, y_pred), <span class="nm">3</span>),
+        <span class="str">'RMSE'</span>: <span class="fn">round</span>(mean_squared_error(y_test, y_pred)**<span class="nm">0.5</span>, <span class="nm">0</span>),
+        <span class="str">'Zero Weights'</span>: n_zero_weights
+    })
+
+<span class="fn">print</span>(pd.<span class="fn">DataFrame</span>(results).<span class="fn">to_string</span>(index=<span class="nm">False</span>))
+<span class="cm"># Linear:  R²=0.91  Zero weights=0   (overfit!)
+# Ridge:   R²=0.93  Zero weights=0   (shrinks all)
+# Lasso:   R²=0.92  Zero weights=47  (feature selection!)</span>
+</pre></div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- INTERVIEW -->
+<section id="interview" class="sec" style="background:#fff">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-green">Senior-Level Interview</div>
+    <h2>Hard Interview Questions — Page 3 Topics</h2>
+  </div>
+  <div>
+    <div class="qa"><div class="qa-q" onclick="this.parentElement.classList.toggle('open')">Explain the "Naive" assumption in Naive Bayes. Why does it still work?</div><div class="qa-a">The "naive" assumption is that all features are <strong>conditionally independent</strong> given the class. For example, in spam detection, Naive Bayes assumes the word "FREE" and the word "WIN" occur independently. In reality, they're correlated — emails that have "FREE" are more likely to also have "WIN".<br><br>Despite this clearly wrong assumption, Naive Bayes works surprisingly well in practice because:<br>1. <strong>We only need rankings</strong>, not exact probabilities. Even if probabilities are wrong, we just need Class A's probability to be higher than Class B's.<br>2. <strong>With small data</strong>, simpler models generalise better — the independence assumption acts as a form of regularisation.<br>3. <strong>For NLP tasks</strong> like spam detection, word co-occurrence structure is often weak enough that the assumption isn't too damaging.</div></div>
+    <div class="qa"><div class="qa-q" onclick="this.parentElement.classList.toggle('open')">What is the difference between Gradient Descent, SGD, and Adam optimiser?</div><div class="qa-a"><strong>Gradient Descent:</strong> Uses the full training set to compute each gradient update. Perfectly accurate but extremely slow for large datasets.<br><br><strong>SGD (Stochastic GD):</strong> Uses one random sample per update. Very fast but noisy — loss jumps around because each sample gives a noisy estimate of the true gradient. Can escape local minima.<br><br><strong>Mini-Batch GD:</strong> Middle ground — uses 32–256 samples. This is what "SGD" usually means in frameworks like PyTorch/Keras.<br><br><strong>Adam (Adaptive Moment Estimation):</strong> The industry standard for neural networks. Combines two ideas:<br>• <code>Momentum</code>: Accumulates past gradients to smooth updates (like a ball rolling downhill)<br>• <code>RMSprop</code>: Adapts learning rate per-parameter (rarely-updated weights get larger updates)<br><br>Adam almost always converges faster than plain SGD for neural networks. Default: lr=0.001.</div></div>
+    <div class="qa"><div class="qa-q" onclick="this.parentElement.classList.toggle('open')">Why must you scale features before applying PCA?</div><div class="qa-a">PCA finds directions of maximum <strong>variance</strong>. If a feature like "salary" has a range of 0–200,000 and a feature like "age" has a range of 0–100, PCA will consider salary as 2000× more important purely because of its scale — not because it's actually more informative.<br><br>By standardising (mean=0, std=1) all features before PCA, you give each feature an equal opportunity to influence the principal components. The components then reflect true patterns in the data rather than just scale differences.<br><br><strong>Rule:</strong> Always use <code>StandardScaler</code> before PCA. This is one of the most common mistakes in data science interviews.</div></div>
+    <div class="qa"><div class="qa-q" onclick="this.parentElement.classList.toggle('open')">What is Backpropagation and how does it work?</div><div class="qa-a">Backpropagation is the algorithm used to compute gradients in a neural network efficiently. It uses the <strong>chain rule of calculus</strong> to propagate the error backwards through the network layer by layer.<br><br><strong>Steps:</strong><br>1. <strong>Forward pass:</strong> Input flows through all layers, producing a prediction ŷ<br>2. <strong>Compute loss:</strong> L = loss(y, ŷ) — e.g., Cross-Entropy<br>3. <strong>Output layer gradients:</strong> Compute ∂L/∂w for the last layer's weights<br>4. <strong>Backpropagate:</strong> Using chain rule, compute ∂L/∂w for every previous layer:<br>&nbsp;&nbsp;∂L/∂w₂ = (∂L/∂output) × (∂output/∂hidden) × (∂hidden/∂w₂)<br>5. <strong>Update all weights</strong> using Gradient Descent<br><br>The key insight is the <strong>chain rule</strong>: the gradient of the loss with respect to early layer weights can be computed by multiplying gradients along the path. Modern frameworks (PyTorch, TensorFlow) implement this automatically via <strong>automatic differentiation</strong>.</div></div>
+    <div class="qa"><div class="qa-q" onclick="this.parentElement.classList.toggle('open')">When would you use Lasso over Ridge regularisation?</div><div class="qa-a">Use <strong>Lasso (L1)</strong> when:<br>• You believe only a <strong>few features</strong> are truly important and most are irrelevant<br>• You want <strong>automatic feature selection</strong> — Lasso sets irrelevant feature weights exactly to zero<br>• You have many features (high dimensionality) and want a sparse model<br>• Interpretability is important — fewer non-zero weights = simpler model<br><br>Use <strong>Ridge (L2)</strong> when:<br>• You believe <strong>all features contribute</strong> some small amount<br>• Features are <strong>highly correlated</strong> — Ridge handles multicollinearity better<br>• You want to keep all features (Ridge never sets weights to exactly zero, just shrinks them)<br><br><strong>Rule of thumb:</strong> Start with Ridge. If you need feature selection, switch to Lasso. In practice, <strong>ElasticNet</strong> (mix of L1+L2) often outperforms both — sklearn: <code>ElasticNet(l1_ratio=0.5)</code></div></div>
+  </div>
+</div>
+</section>
+<!-- ═══════════════════════════════════════════
+     DBSCAN
+════════════════════════════════════════════ -->
+<div class="divider"></div>
+
+<section id="dbscan" class="sec">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-blue">Section 6</div>
+    <h2>DBSCAN Clustering — Density-Based Spatial Clustering</h2>
+    <p>Finds core samples of high density and expands clusters from them. Excellent for data with non-linear shapes and outliers.</p>
+  </div>
+  <div class="two-col">
+    <div class="dcard">
+      <h3>📊 Core, Border, and Noise Points</h3>
+      <svg viewBox="0 0 340 250" width="100%" style="background:#eff6ff;border-radius:8px;border:1px solid #bfdbfe">
+        <text x="170" y="20" text-anchor="middle" font-size="10" font-weight="700" fill="#1e3a8a">Epsilon (ε) and MinPts = 4</text>
+        
+        <!-- Core Point -->
+        <circle cx="90" cy="120" r="35" fill="none" stroke="#93c5fd" stroke-width="1" stroke-dasharray="4,2"/>
+        <circle cx="90" cy="120" r="6" fill="#2563eb" stroke="#1d4ed8" stroke-width="2"/>
+        <text x="90" y="140" text-anchor="middle" font-size="9" font-weight="700" fill="#1e3a8a">Core Point</text>
+        
+        <!-- Neighbors of Core (Makes it core) -->
+        <circle cx="70" cy="100" r="4" fill="#60a5fa"/>
+        <circle cx="110" cy="105" r="4" fill="#60a5fa"/>
+        <circle cx="85" cy="140" r="4" fill="#60a5fa"/>
+        <circle cx="105" cy="135" r="4" fill="#60a5fa"/>
+        
+        <!-- Border Point -->
+        <circle cx="150" cy="105" r="35" fill="none" stroke="#93c5fd" stroke-width="1" stroke-dasharray="4,2"/>
+        <circle cx="150" cy="105" r="5" fill="#f59e0b" stroke="#d97706" stroke-width="2"/>
+        <text x="150" y="90" text-anchor="middle" font-size="9" font-weight="700" fill="#d97706">Border Point</text>
+        <circle cx="175" cy="115" r="4" fill="#60a5fa"/>
+        
+        <!-- Noise Point -->
+        <circle cx="260" cy="150" r="35" fill="none" stroke="#fca5a5" stroke-width="1" stroke-dasharray="4,2"/>
+        <circle cx="260" cy="150" r="5" fill="#ef4444" stroke="#dc2626" stroke-width="2"/>
+        <text x="260" y="135" text-anchor="middle" font-size="9" font-weight="700" fill="#991b1b">Noise (Outlier)</text>
+
+        <!-- Legend box -->
+        <rect x="10" y="195" width="320" height="45" rx="6" fill="white" stroke="#bfdbfe" stroke-width="1.5"/>
+        <text x="25" y="212" font-size="9" fill="#1e3a8a"><tspan font-weight="bold">Core:</tspan> ≥ MinPts within ε radius</text>
+        <text x="25" y="228" font-size="9" fill="#1e3a8a"><tspan font-weight="bold">Border:</tspan> &lt; MinPts within ε, but reachable from a core point</text>
+        <text x="200" y="212" font-size="9" fill="#1e3a8a"><tspan font-weight="bold">Noise:</tspan> Not reachable</text>
+      </svg>
+    </div>
+    <div class="card">
+      <h3>📖 Why DBSCAN beats K-Means</h3>
+      <p>Unlike K-Means, which assumes clusters are spherical and forces every point into a cluster, <strong>DBSCAN</strong> can find clusters of <strong>any shape</strong> and naturally identifies <strong>outliers</strong> as noise.</p>
+      <div class="steps">
+        <div class="step"><div class="sn">1</div><p><strong>ε (Epsilon):</strong> The maximum distance between two samples to be considered neighbors.</p></div>
+        <div class="step"><div class="sn">2</div><p><strong>MinPts:</strong> The number of samples in a neighborhood for a point to be a core point.</p></div>
+        <div class="step"><div class="sn">3</div><p><strong>Expansion:</strong> Find a core point, add all reachable points to its cluster, repeat.</p></div>
+      </div>
+      <div class="analogy">
+        <strong>🧑‍🤝‍🧑 The Party Analogy</strong>
+        Imagine a crowded room. A "core" person is someone talking to at least 4 people (MinPts) within arm's reach (Epsilon). A "border" person is listening to a core person but doesn't have 4 friends nearby. A "noise" person is standing alone in the corner.
+      </div>
+      <p style="margin-top:12px;font-size:13px"><strong>🏢 Real IT Use Cases:</strong></p>
+      <ul style="font-size:13px;margin-top:6px">
+        <li><strong>Fraud detection:</strong> Isolating unusual transactions (noise points).</li>
+        <li><strong>Geospatial analysis:</strong> Grouping nearby delivery locations.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     TIME SERIES
+════════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="timeseries" class="sec" style="background:#fff">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-amber">Section 7</div>
+    <h2>Time Series &amp; ARIMA — Forecasting the Future</h2>
+    <p>Predicting stock prices, server loads, and sales by decomposing historical data into trend, seasonality, and noise.</p>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <h3>📖 The Components of Time Series</h3>
+      <p>Time series data isn't just random points; it has an internal structure dependent on <strong>time</strong>. We break it down to understand what drives the signal.</p>
+      <div class="steps">
+        <div class="step"><div class="sn">T</div><p><strong>Trend:</strong> The long-term direction of the data (e.g., overall user growth).</p></div>
+        <div class="step"><div class="sn">S</div><p><strong>Seasonality:</strong> Repeating patterns at fixed intervals (e.g., more traffic on weekends).</p></div>
+        <div class="step"><div class="sn">R</div><p><strong>Residual/Noise:</strong> Random fluctuations that cannot be predicted.</p></div>
+      </div>
+      <div class="formula">
+        ARIMA (p, d, q) Model:<br>
+        AR (p): Auto-Regressive (uses past values)<br>
+        I (d): Integrated (differencing to make stationary)<br>
+        MA (q): Moving Average (uses past forecast errors)
+      </div>
+      <div class="analogy">
+        <strong>🌊 The Ocean Analogy</strong>
+        Trend is the rising tide (long-term change). Seasonality is the waves rolling in every 10 seconds (predictable pattern). Noise is the wind blowing spray randomly (unpredictable).
+      </div>
+    </div>
+    <div class="dcard">
+      <h3>📊 Time Series Decomposition</h3>
+      <svg viewBox="0 0 340 250" width="100%" style="background:#fffbeb;border-radius:8px;border:1px solid #fde68a">
+        <text x="170" y="20" text-anchor="middle" font-size="10" font-weight="700" fill="#92400e">Original Signal = Trend + Seasonality + Noise</text>
+        
+        <!-- Original -->
+        <text x="20" y="55" font-size="9" fill="#92400e">Data</text>
+        <path d="M 50 65 Q 65 35, 80 55 T 110 45 T 140 60 T 170 30 T 200 50 T 230 20 T 260 40 T 290 10" fill="none" stroke="#d97706" stroke-width="2"/>
+        
+        <line x1="10" y1="80" x2="330" y2="80" stroke="#fde68a" stroke-width="1" stroke-dasharray="2,2"/>
+        
+        <!-- Trend -->
+        <text x="20" y="110" font-size="9" fill="#92400e">Trend</text>
+        <path d="M 50 120 L 290 90" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="4,2"/>
+        
+        <line x1="10" y1="135" x2="330" y2="135" stroke="#fde68a" stroke-width="1" stroke-dasharray="2,2"/>
+        
+        <!-- Seasonality -->
+        <text x="20" y="165" font-size="9" fill="#92400e">Season</text>
+        <path d="M 50 165 Q 60 150, 70 165 T 90 165 T 110 165 T 130 165 T 150 165 T 170 165 T 190 165 T 210 165 T 230 165 T 250 165 T 270 165 T 290 165" fill="none" stroke="#2563eb" stroke-width="1.5"/>
+
+        <line x1="10" y1="190" x2="330" y2="190" stroke="#fde68a" stroke-width="1" stroke-dasharray="2,2"/>
+        
+        <!-- Noise -->
+        <text x="20" y="220" font-size="9" fill="#92400e">Noise</text>
+        <path d="M 50 220 L 55 215 L 60 225 L 65 218 L 70 222 L 75 212 L 80 228 L 85 220 L 90 225 L 100 215 L 120 225 L 140 218 L 160 225 L 180 215 L 200 228 L 220 215 L 240 222 L 260 215 L 280 225 L 290 215" fill="none" stroke="#64748b" stroke-width="1"/>
+      </svg>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     REINFORCEMENT LEARNING
+════════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="rl" class="sec">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-purple">Section 8</div>
+    <h2>Reinforcement Learning — Learning by Doing</h2>
+    <p>Training agents to make a sequence of decisions by rewarding good behavior and punishing bad behavior, used in robotics and game AI.</p>
+  </div>
+  <div class="two-col">
+    <div class="dcard">
+      <h3>📊 The Q-Learning Loop</h3>
+      <svg viewBox="0 0 340 250" width="100%" style="background:#f5f3ff;border-radius:8px;border:1px solid #ddd6fe">
+        <!-- Environment and Agent -->
+        <rect x="50" y="100" width="80" height="50" rx="8" fill="#7c3aed"/>
+        <text x="90" y="130" text-anchor="middle" font-size="12" font-weight="700" fill="white">Agent</text>
+
+        <rect x="210" y="100" width="80" height="50" rx="8" fill="#c4b5fd" stroke="#8b5cf6" stroke-width="2"/>
+        <text x="250" y="130" text-anchor="middle" font-size="12" font-weight="700" fill="#4c1d95">Environment</text>
+
+        <!-- Action Arrow -->
+        <path d="M 130 110 Q 170 80 210 110" fill="none" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrow)"/>
+        <text x="170" y="90" text-anchor="middle" font-size="10" font-weight="700" fill="#6d28d9">Action (A)</text>
+
+        <!-- State/Reward Arrow -->
+        <path d="M 210 140 Q 170 170 130 140" fill="none" stroke="#10b981" stroke-width="2" marker-end="url(#arrow-green)"/>
+        <text x="170" y="170" text-anchor="middle" font-size="10" font-weight="700" fill="#047857">State (S') + Reward (R)</text>
+
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#8b5cf6"/>
+          </marker>
+          <marker id="arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981"/>
+          </marker>
+        </defs>
+
+        <!-- Grid example -->
+        <g transform="translate(110, 180)">
+          <rect x="0" y="0" width="120" height="30" fill="white" stroke="#c4b5fd"/>
+          <rect x="0" y="0" width="30" height="30" fill="#7c3aed" stroke="#c4b5fd"/>
+          <text x="15" y="20" text-anchor="middle" font-size="12" fill="white">🤖</text>
+          
+          <rect x="30" y="0" width="30" height="30" fill="white" stroke="#c4b5fd"/>
+          <text x="45" y="20" text-anchor="middle" font-size="9" fill="#94a3b8">→</text>
+
+          <rect x="60" y="0" width="30" height="30" fill="#fecaca" stroke="#c4b5fd"/>
+          <text x="75" y="20" text-anchor="middle" font-size="12" fill="white">🔥</text>
+
+          <rect x="90" y="0" width="30" height="30" fill="#dcfce7" stroke="#c4b5fd"/>
+          <text x="105" y="20" text-anchor="middle" font-size="12" fill="white">🏆</text>
+        </g>
+        <text x="170" y="230" text-anchor="middle" font-size="9" fill="#6d28d9">Goal: Maximize cumulative reward</text>
+      </svg>
+    </div>
+    <div class="card">
+      <h3>📖 Q-Learning &amp; Bellman Equation</h3>
+      <p>The agent learns a <strong>Q-Table</strong>, mapping States to Actions, representing the expected future reward. It explores the environment, making mistakes (hitting fire), and updates its Q-values using the Bellman Equation.</p>
+      <div class="formula" style="font-size:10px">
+        Q(S, A) = Q(S, A) + α * [R + γ * max(Q(S', A')) - Q(S, A)]<br>
+        <span style="color:#94a3b8">
+        α (Alpha) : Learning rate<br>
+        γ (Gamma) : Discount factor (value of future rewards)
+        </span>
+      </div>
+      <div class="analogy">
+        <strong>🐶 Training a Dog Analogy</strong>
+        You don't give a dog a manual to sit. You say "Sit", and if it does, you give a treat (Reward = +1). If it barks, no treat (Reward = 0). Over time, the dog associates the state (hearing "Sit") and action (sitting) with a high expected reward.
+      </div>
+      <div class="chips">
+        <span class="chip" style="background:var(--purple-l);color:var(--purple)">Markov Decision Process</span>
+        <span class="chip" style="background:var(--green-l);color:var(--green)">Exploration vs Exploitation</span>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     TRANSFER LEARNING
+════════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="transfer" class="sec" style="background:#fff">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-pink">Section 9</div>
+    <h2>Transfer Learning — Standing on the Shoulders of Giants</h2>
+    <p>Taking a model trained on a massive dataset (like ImageNet or Wikipedia) and fine-tuning it for your specific, smaller dataset.</p>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <h3>📖 Why Start from Scratch?</h3>
+      <p>Training a deep neural network requires millions of images/texts and weeks of GPU time. Transfer learning allows us to download pre-trained weights (like ResNet or BERT) that already know how to extract features (edges, shapes, grammar), and just train the final layer for our specific task.</p>
+      <div class="steps">
+        <div class="step"><div class="sn">1</div><p><strong>Load Pre-trained Base:</strong> e.g., VGG16 trained on 1M images.</p></div>
+        <div class="step"><div class="sn">2</div><p><strong>Freeze Layers:</strong> Mark early layers as non-trainable so they retain their generalized feature extraction.</p></div>
+        <div class="step"><div class="sn">3</div><p><strong>Add Custom Head:</strong> Replace the final classification layer with a new one for your classes (e.g., Cat vs Dog).</p></div>
+        <div class="step"><div class="sn">4</div><p><strong>Fine-tune:</strong> Train with a very small learning rate to adapt the model to your data.</p></div>
+      </div>
+      <div class="analogy">
+        <strong>🎸 The Musician Analogy</strong>
+        If you want to learn to play the ukulele, it's much easier if you already know how to play the guitar. You <em>transfer</em> your general knowledge of frets and strumming, and only <em>fine-tune</em> your knowledge for the smaller instrument.
+      </div>
+    </div>
+    <div class="dcard">
+      <h3>📊 Freezing vs Fine-Tuning</h3>
+      <svg viewBox="0 0 340 250" width="100%" style="background:#fdf2f8;border-radius:8px;border:1px solid #fbcfe8">
+        <text x="170" y="20" text-anchor="middle" font-size="10" font-weight="700" fill="#9d174d">Pre-trained CNN (e.g., ResNet)</text>
+        
+        <!-- Base Layers (Frozen) -->
+        <rect x="20" y="40" width="180" height="90" rx="8" fill="#fce7f3" stroke="#f472b6" stroke-width="2"/>
+        <text x="110" y="60" text-anchor="middle" font-size="10" font-weight="700" fill="#be185d">Pre-trained Base Model</text>
+        <text x="110" y="75" text-anchor="middle" font-size="9" fill="#be185d">Learns edges, textures, shapes</text>
+        
+        <!-- Freeze icons -->
+        <text x="40" y="105" font-size="16">❄️</text>
+        <text x="110" y="105" font-size="16" text-anchor="middle">❄️</text>
+        <text x="180" y="105" font-size="16" text-anchor="end">❄️</text>
+        <text x="110" y="120" text-anchor="middle" font-size="10" font-weight="800" fill="#2563eb">FROZEN (Weights don't change)</text>
+
+        <!-- Arrow -->
+        <path d="M 210 85 L 230 85" fill="none" stroke="#db2777" stroke-width="2" marker-end="url(#arrow-pink)"/>
+
+        <!-- Custom Head (Trainable) -->
+        <rect x="240" y="40" width="80" height="90" rx="8" fill="#fef2f2" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,2"/>
+        <text x="280" y="60" text-anchor="middle" font-size="10" font-weight="700" fill="#b91c1c">New Head</text>
+        <text x="280" y="80" text-anchor="middle" font-size="20">🔥</text>
+        <text x="280" y="105" text-anchor="middle" font-size="9" font-weight="800" fill="#dc2626">TRAINABLE</text>
+        <text x="280" y="120" text-anchor="middle" font-size="8" fill="#b91c1c">Specific classes</text>
+
+        <!-- Dataset sizes -->
+        <rect x="20" y="160" width="180" height="40" rx="4" fill="white" stroke="#fbcfe8"/>
+        <text x="110" y="175" text-anchor="middle" font-size="9" fill="#9d174d">Trained on ImageNet</text>
+        <text x="110" y="190" text-anchor="middle" font-size="10" font-weight="700" fill="#9d174d">1,000,000+ Images</text>
+
+        <rect x="240" y="160" width="80" height="40" rx="4" fill="white" stroke="#fecaca"/>
+        <text x="280" y="175" text-anchor="middle" font-size="9" fill="#b91c1c">Your Data</text>
+        <text x="280" y="190" text-anchor="middle" font-size="10" font-weight="700" fill="#b91c1c">~500 Images</text>
+
+        <defs>
+          <marker id="arrow-pink" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#db2777"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SEMI-SUPERVISED LEARNING
+════════════════════════════════════════════ -->
+<div class="divider"></div>
+<section id="semisupervised" class="sec">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-cyan">Section 10</div>
+    <h2>Semi-Supervised Learning — Leveraging Unlabeled Data</h2>
+    <p>What if you have 1,000 labeled images, but 100,000 unlabeled ones? SSL uses the model's own predictions to teach itself.</p>
+  </div>
+  <div class="two-col">
+    <div class="dcard">
+      <h3>📊 Pseudo-Labeling Pipeline</h3>
+      <svg viewBox="0 0 340 250" width="100%" style="background:#ecfeff;border-radius:8px;border:1px solid #a5f3fc">
+        <!-- Step 1 -->
+        <rect x="10" y="15" width="150" height="60" rx="6" fill="white" stroke="#06b6d4" stroke-width="1.5"/>
+        <text x="85" y="30" text-anchor="middle" font-size="10" font-weight="700" fill="#155e75">Step 1: Train Base Model</text>
+        <text x="85" y="45" text-anchor="middle" font-size="9" fill="#0891b2">Train on small Labeled data</text>
+        <text x="85" y="60" text-anchor="middle" font-size="9" fill="#0891b2">Model accuracy: ~70%</text>
+
+        <!-- Step 2 -->
+        <rect x="180" y="15" width="150" height="60" rx="6" fill="#cffafe" stroke="#06b6d4" stroke-width="1.5"/>
+        <text x="255" y="30" text-anchor="middle" font-size="10" font-weight="700" fill="#155e75">Step 2: Predict Unlabeled</text>
+        <text x="255" y="45" text-anchor="middle" font-size="9" fill="#0891b2">Model predicts on 100k</text>
+        <text x="255" y="60" text-anchor="middle" font-size="9" fill="#0891b2">unlabeled images</text>
+
+        <path d="M 160 45 L 175 45" fill="none" stroke="#06b6d4" stroke-width="2" marker-end="url(#arrow-cyan)"/>
+
+        <!-- Step 3 -->
+        <rect x="10" y="105" width="320" height="60" rx="6" fill="#fef08a" stroke="#eab308" stroke-width="1.5"/>
+        <text x="170" y="125" text-anchor="middle" font-size="10" font-weight="700" fill="#854d0e">Step 3: Generate Pseudo-Labels</text>
+        <text x="170" y="145" text-anchor="middle" font-size="9" fill="#a16207">Keep only high-confidence predictions (e.g., &gt; 95% certainty)</text>
+        
+        <path d="M 255 75 L 255 100" fill="none" stroke="#06b6d4" stroke-width="2" marker-end="url(#arrow-cyan)"/>
+
+        <!-- Step 4 -->
+        <rect x="10" y="185" width="320" height="50" rx="6" fill="white" stroke="#22c55e" stroke-width="1.5"/>
+        <text x="170" y="205" text-anchor="middle" font-size="10" font-weight="700" fill="#14532d">Step 4: Retrain on Combined Data</text>
+        <text x="170" y="220" text-anchor="middle" font-size="9" fill="#16a34a">Labeled Data + Pseudo-Labeled Data ➔ Better Model (~85%)</text>
+
+        <path d="M 170 165 L 170 180" fill="none" stroke="#eab308" stroke-width="2" marker-end="url(#arrow-yellow)"/>
+
+        <defs>
+          <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#06b6d4"/>
+          </marker>
+          <marker id="arrow-yellow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#eab308"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+    <div class="card">
+      <h3>📖 The Power of Pseudo-Labeling</h3>
+      <p>Labeling data is expensive. Human experts must review thousands of samples. <strong>Semi-Supervised Learning (SSL)</strong> solves this by using a small labeled dataset to train a basic model, which then acts as a "teacher" to label the vast amount of unlabeled data.</p>
+      <div class="analogy" style="background:linear-gradient(135deg,#ecfeff,#cffafe);border-color:#a5f3fc;color:#155e75">
+        <strong>👨‍🏫 The Teacher Assistant Analogy</strong>
+        The professor (human) grades 100 exams perfectly. They train a TA (model) on those 100 exams. The TA then grades 10,000 more exams. The professor only accepts the TA's grades if the TA is 95% confident. Now the TA learns from 10,100 exams and becomes much smarter.
+      </div>
+      <p style="margin-top:12px;font-size:13px"><strong>🏢 Real IT Use Cases:</strong></p>
+      <ul style="font-size:13px;margin-top:6px">
+        <li><strong>Medical Imaging:</strong> Doctors label 500 X-rays, model pseudo-labels 1M unlabeled hospital records.</li>
+        <li><strong>Speech Recognition:</strong> Transcribing thousands of hours of raw audio after human-labeling just 10 hours.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════
+     HIERARCHICAL CLUSTERING
+════════════════════════════════════════════ -->
+<section id="hierarchical" class="sec" style="background:#fff">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-pink">Section 11</div>
+    <h2>Hierarchical Clustering &amp; Dendrograms</h2>
+    <p>Group data into a tree of clusters (bottom-up or top-down) without needing to specify the number of clusters in advance.</p>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <h3>📖 Agglomerative vs Divisive</h3>
+      <p><strong>Agglomerative (Bottom-Up):</strong> Starts with each point as its own cluster. It then merges the closest pairs step-by-step until all points form one giant cluster.</p>
+      <p><strong>Divisive (Top-Down):</strong> Starts with all points in one cluster and recursively splits them.</p>
+      
+      <div style="margin-top:14px;background:var(--s50);border:1px solid var(--s200);border-radius:10px;padding:14px">
+        <p style="font-size:13px;font-weight:700;color:var(--s800);margin-bottom:10px">🔗 Linkage Methods (How to measure distance between clusters):</p>
+        <div class="steps">
+          <div class="step"><div class="sn">S</div><p><strong>Single:</strong> Shortest distance between two points in different clusters.</p></div>
+          <div class="step"><div class="sn">C</div><p><strong>Complete:</strong> Longest distance between two points in different clusters.</p></div>
+          <div class="step"><div class="sn">A</div><p><strong>Average:</strong> Average distance between all pairs of points.</p></div>
+          <div class="step"><div class="sn">W</div><p><strong>Ward's:</strong> Minimizes the variance within clusters after merging.</p></div>
+        </div>
+      </div>
+      <p style="margin-top:12px;font-size:13px"><strong>🏢 Real IT Use Cases:</strong></p>
+      <ul style="font-size:13px;margin-top:6px">
+        <li>Gene expression grouping in bioinformatics.</li>
+        <li>Hierarchical document topic clustering.</li>
+      </ul>
+    </div>
+    <div class="dcard">
+      <h3>📊 Visual: The Dendrogram</h3>
+      <svg viewBox="0 0 340 240" width="100%" style="background:#fdf2f8;border-radius:8px;border:1px solid #fbcfe8">
+        <text x="170" y="18" text-anchor="middle" font-size="10" font-weight="700" fill="#be185d">Dendrogram (Merge Tree)</text>
+        <!-- Axes -->
+        <line x1="30" y1="200" x2="310" y2="200" stroke="#f472b6" stroke-width="1.5"/>
+        <line x1="30" y1="200" x2="30" y2="30" stroke="#f472b6" stroke-width="1.5"/>
+        <text x="20" y="35" text-anchor="middle" font-size="8" fill="#be185d">Distance</text>
+        
+        <!-- Data Points (Leaves) -->
+        <text x="60" y="215" text-anchor="middle" font-size="9" font-weight="700" fill="#9d174d">A</text>
+        <text x="100" y="215" text-anchor="middle" font-size="9" font-weight="700" fill="#9d174d">B</text>
+        <text x="180" y="215" text-anchor="middle" font-size="9" font-weight="700" fill="#9d174d">C</text>
+        <text x="220" y="215" text-anchor="middle" font-size="9" font-weight="700" fill="#9d174d">D</text>
+        <text x="280" y="215" text-anchor="middle" font-size="9" font-weight="700" fill="#9d174d">E</text>
+        
+        <!-- Dendrogram lines -->
+        <!-- A and B merge -->
+        <path d="M60,195 L60,150 L100,150 L100,195" fill="none" stroke="#db2777" stroke-width="2"/>
+        <!-- C and D merge -->
+        <path d="M180,195 L180,130 L220,130 L220,195" fill="none" stroke="#db2777" stroke-width="2"/>
+        <!-- C/D and E merge -->
+        <path d="M200,130 L200,90 L280,90 L280,195" fill="none" stroke="#db2777" stroke-width="2"/>
+        <!-- A/B and C/D/E merge -->
+        <path d="M80,150 L80,50 L240,50 L240,90" fill="none" stroke="#db2777" stroke-width="2"/>
+        
+        <!-- Cutoff line -->
+        <line x1="25" y1="110" x2="315" y2="110" stroke="#4ade80" stroke-width="2" stroke-dasharray="6,4"/>
+        <text x="170" y="105" text-anchor="middle" font-size="10" font-weight="800" fill="#16a34a">Cutoff line: k = 2 clusters</text>
+        
+        <!-- Cluster highlights -->
+        <rect x="45" y="220" width="70" height="4" fill="#60a5fa" rx="2"/>
+        <rect x="165" y="220" width="130" height="4" fill="#fb923c" rx="2"/>
+      </svg>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════
+     ISOLATION FORESTS
+════════════════════════════════════════════ -->
+<section id="isolation-forest" class="sec">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-amber">Section 12</div>
+    <h2>Isolation Forests (Anomaly Detection)</h2>
+    <p>Detect anomalies faster. Instead of profiling normal data, this algorithm directly isolates anomalies using random trees.</p>
+  </div>
+  <div class="two-col">
+    <div class="dcard">
+      <h3>📊 Visual: Path Length to Isolate</h3>
+      <svg viewBox="0 0 340 240" width="100%" style="background:#fffbeb;border-radius:8px;border:1px solid #fde68a">
+        <text x="170" y="18" text-anchor="middle" font-size="10" font-weight="700" fill="#b45309">Splitting Randomly to Isolate Points</text>
+        
+        <!-- Normal Point area -->
+        <circle cx="120" cy="120" r="40" fill="#fef3c7" opacity="0.8"/>
+        <!-- Data points -->
+        <circle cx="100" cy="110" r="3" fill="#d97706"/>
+        <circle cx="110" cy="130" r="3" fill="#d97706"/>
+        <circle cx="130" cy="100" r="3" fill="#d97706"/>
+        <circle cx="140" cy="125" r="3" fill="#d97706"/>
+        <circle cx="125" cy="140" r="3" fill="#d97706"/>
+        <circle cx="115" cy="115" r="4" fill="#16a34a"/> <!-- Normal point targeted -->
+        
+        <!-- Outlier -->
+        <circle cx="260" cy="60" r="5" fill="#dc2626"/> <!-- Outlier -->
+        <text x="280" y="64" font-size="9" font-weight="700" fill="#dc2626">Outlier</text>
+        
+        <text x="120" y="175" text-anchor="middle" font-size="9" font-weight="700" fill="#16a34a">Normal Point</text>
+        
+        <!-- Isolation lines for Outlier (few splits) -->
+        <line x1="200" y1="20" x2="200" y2="200" stroke="#fca5a5" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <line x1="180" y1="100" x2="320" y2="100" stroke="#fca5a5" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <text x="260" y="35" text-anchor="middle" font-size="9" font-weight="700" fill="#ef4444">Isolated in 2 splits!</text>
+        
+        <!-- Isolation lines for Normal Point (many splits) -->
+        <line x1="80" y1="80" x2="160" y2="80" stroke="#86efac" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="160" y1="80" x2="160" y2="150" stroke="#86efac" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="160" y1="150" x2="80" y2="150" stroke="#86efac" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="80" y1="150" x2="80" y2="80" stroke="#86efac" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="100" y1="90" x2="100" y2="140" stroke="#86efac" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="140" y1="90" x2="140" y2="140" stroke="#86efac" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="90" y1="110" x2="150" y2="110" stroke="#86efac" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="90" y1="120" x2="150" y2="120" stroke="#86efac" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="120" y="190" text-anchor="middle" font-size="9" font-weight="700" fill="#16a34a">Isolated in 8 splits...</text>
+      </svg>
+    </div>
+    <div class="card">
+      <h3>📖 Why Isolation works</h3>
+      <p>Anomalies are <strong>few</strong> and <strong>different</strong>. If we randomly select a feature and a split value, outliers will quickly be separated from the rest of the data. Normal points are clustered tightly, so it takes many random splits to isolate them.</p>
+      <div class="steps">
+        <div class="step"><div class="sn">1</div><p>Build an ensemble of random Decision Trees.</p></div>
+        <div class="step"><div class="sn">2</div><p>Randomly pick a feature and a random split value.</p></div>
+        <div class="step"><div class="sn">3</div><p>Count the path length (number of splits) needed to isolate a point.</p></div>
+        <div class="step"><div class="sn">4</div><p>Short average path length across the trees = <strong>Anomaly</strong>.</p></div>
+      </div>
+      <div class="analogy">
+        <strong>🕵️ The Suspect Lineup Analogy</strong>
+        To describe an ordinary person, you need many details (height, eye color, hair, clothes). To describe a clown at a business meeting, you only need one split: "The one wearing a red nose and huge shoes." They are isolated instantly.
+      </div>
+      <p style="margin-top:12px;font-size:13px"><strong>🏢 Real IT Use Cases:</strong></p>
+      <ul style="font-size:13px;margin-top:6px">
+        <li>Network intrusion detection.</li>
+        <li>Credit card transaction fraud.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════
+     ASSOCIATION RULE MINING
+════════════════════════════════════════════ -->
+<section id="association" class="sec" style="background:#fff">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-purple">Section 13</div>
+    <h2>Association Rule Mining (Apriori &amp; FP-Growth)</h2>
+    <p>Discovering hidden patterns and relationships in large datasets, famous for Market Basket Analysis.</p>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <h3>📖 Market Basket Analysis</h3>
+      <p>Finding groups of items that frequently co-occur in transactions. FP-Growth is a much faster, modern alternative to the classic Apriori algorithm because it avoids generating candidate sets iteratively.</p>
+      <div class="formula">
+        Support(A → B) = Freq(A, B) / N<br>
+        <span style="color:#94a3b8;font-size:11px">How often A and B appear together.</span><br><br>
+        Confidence(A → B) = Freq(A, B) / Freq(A)<br>
+        <span style="color:#94a3b8;font-size:11px">If they buy A, how likely are they to buy B?</span><br><br>
+        Lift(A → B) = Confidence(A → B) / Support(B)<br>
+        <span style="color:#94a3b8;font-size:11px">Lift > 1 implies positive correlation.</span>
+      </div>
+      <p style="margin-top:12px;font-size:13px"><strong>🏢 Real IT Use Cases:</strong></p>
+      <ul style="font-size:13px;margin-top:6px">
+        <li>Amazon "Frequently Bought Together" recommendation system.</li>
+        <li>Website page navigation (User visited Page A → highly likely to visit Page B).</li>
+      </ul>
+    </div>
+    <div class="dcard">
+      <h3>📊 Apriori in Action</h3>
+      <div style="background:var(--s100);padding:14px;border-radius:8px;font-family:monospace;font-size:12px;color:var(--s700)">
+        <p><strong>Transactions (N = 5):</strong></p>
+        <p>1. [Milk, Bread, Diaper]</p>
+        <p>2. [Milk, Diaper, Beer, Eggs]</p>
+        <p>3. [Bread, Diaper, Beer]</p>
+        <p>4. [Milk, Bread, Diaper, Beer]</p>
+        <p>5. [Bread, Milk]</p>
+        <hr style="border-color:var(--s300);margin:8px 0">
+        <p style="color:var(--blue);font-weight:bold">Rule: Diaper → Beer</p>
+        <p>Freq(Diaper) = 4</p>
+        <p>Freq(Beer) = 3</p>
+        <p>Freq(Diaper, Beer) = 3</p>
+        <br>
+        <p style="color:var(--purple);font-weight:bold">Support = 3 / 5 = 60%</p>
+        <p style="color:var(--green);font-weight:bold">Confidence = 3 / 4 = 75%</p>
+        <p style="color:var(--amber);font-weight:bold">Lift = 0.75 / (3/5) = 1.25 (Positive!)</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════
+     LDA vs PCA
+════════════════════════════════════════════ -->
+<section id="lda" class="sec">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-blue">Section 14</div>
+    <h2>Linear Discriminant Analysis (LDA vs PCA)</h2>
+    <p>Supervised dimensionality reduction. While PCA looks for max spread, LDA looks for max class separation.</p>
+  </div>
+  <div class="two-col">
+    <div class="dcard">
+      <h3>📊 Visual: PCA vs LDA</h3>
+      <svg viewBox="0 0 340 240" width="100%" style="background:#eff6ff;border-radius:8px;border:1px solid #bfdbfe">
+        <!-- PCA Side -->
+        <text x="85" y="18" text-anchor="middle" font-size="10" font-weight="700" fill="#1e3a8a">PCA (Unsupervised)</text>
+        <text x="85" y="30" text-anchor="middle" font-size="8" fill="#1e3a8a">Finds max variance (ignores classes)</text>
+        
+        <circle cx="50" cy="100" r="4" fill="#3b82f6"/>
+        <circle cx="60" cy="90" r="4" fill="#3b82f6"/>
+        <circle cx="70" cy="80" r="4" fill="#3b82f6"/>
+        
+        <circle cx="100" cy="150" r="4" fill="#ef4444"/>
+        <circle cx="110" cy="140" r="4" fill="#ef4444"/>
+        <circle cx="120" cy="130" r="4" fill="#ef4444"/>
+        
+        <line x1="30" y1="120" x2="140" y2="120" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4,2"/>
+        <text x="85" y="115" text-anchor="middle" font-size="8" fill="#64748b">PCA Axis (Max Spread)</text>
+        <text x="85" y="170" text-anchor="middle" font-size="9" fill="#dc2626">Classes overlap heavily</text>
+        <text x="85" y="180" text-anchor="middle" font-size="9" fill="#dc2626">if projected on PCA axis!</text>
+
+        <!-- Divider -->
+        <line x1="170" y1="10" x2="170" y2="230" stroke="#bfdbfe" stroke-width="2"/>
+        
+        <!-- LDA Side -->
+        <text x="255" y="18" text-anchor="middle" font-size="10" font-weight="700" fill="#1e3a8a">LDA (Supervised)</text>
+        <text x="255" y="30" text-anchor="middle" font-size="8" fill="#1e3a8a">Maximizes separation</text>
+        
+        <circle cx="220" cy="100" r="4" fill="#3b82f6"/>
+        <circle cx="230" cy="90" r="4" fill="#3b82f6"/>
+        <circle cx="240" cy="80" r="4" fill="#3b82f6"/>
+        
+        <circle cx="270" cy="150" r="4" fill="#ef4444"/>
+        <circle cx="280" cy="140" r="4" fill="#ef4444"/>
+        <circle cx="290" cy="130" r="4" fill="#ef4444"/>
+        
+        <line x1="210" y1="70" x2="300" y2="160" stroke="#2563eb" stroke-width="2" stroke-dasharray="4,2"/>
+        <text x="270" y="110" font-size="8" fill="#1d4ed8">LDA Axis</text>
+        <text x="255" y="200" text-anchor="middle" font-size="9" fill="#16a34a">Classes separate cleanly!</text>
+      </svg>
+    </div>
+    <div class="card">
+      <h3>📖 How LDA Works</h3>
+      <p>LDA computes two scatter matrices:</p>
+      <ul>
+        <li><strong>Between-class variance:</strong> Distance between the means of different classes. (We want to maximize this).</li>
+        <li><strong>Within-class variance:</strong> The spread of points around their own class mean. (We want to minimize this).</li>
+      </ul>
+      <p>It then solves an eigenvalue problem to find the axis that best achieves this ratio.</p>
+      <p style="margin-top:12px;font-size:13px"><strong>🏢 Real IT Use Cases:</strong></p>
+      <ul style="font-size:13px;margin-top:6px">
+        <li>Facial recognition (Fisherfaces algorithm).</li>
+        <li>Biomedical cancer subtype classification.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════
+     MODERN GRADIENT BOOSTERS
+════════════════════════════════════════════ -->
+<section id="boosters" class="sec" style="background:#fff">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-green">Section 15</div>
+    <h2>LightGBM &amp; CatBoost vs XGBoost</h2>
+    <p>The kings of tabular data. When to use which modern gradient booster in enterprise production.</p>
+  </div>
+  <div class="wide-card">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+      <!-- XGBoost -->
+      <div style="background:#fff;border:1px solid var(--s200);border-radius:10px;padding:16px">
+        <div style="font-size:15px;font-weight:800;color:var(--s900);margin-bottom:6px">XGBoost</div>
+        <div style="font-size:12px;color:var(--s600);line-height:1.6">
+          <strong>Growth:</strong> Level-wise (depth-wise).<br><br>
+          The robust, battle-tested veteran. Excellent community support and predictable performance. Slower on massive datasets compared to newer tools.
+        </div>
+      </div>
+      <!-- LightGBM -->
+      <div style="background:#fff;border:1px solid var(--blue-xl);border-radius:10px;padding:16px;box-shadow:0 4px 12px rgba(37,99,235,0.1)">
+        <div style="font-size:15px;font-weight:800;color:var(--blue);margin-bottom:6px">LightGBM ⭐</div>
+        <div style="font-size:12px;color:var(--s600);line-height:1.6">
+          <strong>Growth:</strong> Leaf-wise (best-first) + Histogram binning.<br><br>
+          Extremely fast (up to 10x faster training) and uses less memory. The current industry standard for giant datasets. Can overfit on small datasets.
+        </div>
+      </div>
+      <!-- CatBoost -->
+      <div style="background:#fff;border:1px solid var(--amber-l);border-radius:10px;padding:16px;border-color:#fde68a">
+        <div style="font-size:15px;font-weight:800;color:var(--amber);margin-bottom:6px">CatBoost</div>
+        <div style="font-size:12px;color:var(--s600);line-height:1.6">
+          <strong>Growth:</strong> Symmetric trees + Ordered Boosting.<br><br>
+          Native handling of categorical features (no one-hot encoding needed!). Best out-of-the-box accuracy with minimal hyperparameter tuning.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════
+     COMPUTER VISION (CNNs)
+════════════════════════════════════════════ -->
+<section id="cnn" class="sec">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-pink">Section 16</div>
+    <h2>Computer Vision Fundamentals (CNNs &amp; Convolutions)</h2>
+    <p>How neural networks process images without exploding parameter counts.</p>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <h3>📖 Convolutional Neural Networks</h3>
+      <p>Instead of connecting every pixel to a neuron (which creates billions of parameters), CNNs slide small <strong>Kernels (Filters)</strong> across the image to extract local features like edges, textures, and shapes.</p>
+      
+      <div class="steps" style="margin-top:16px">
+        <div class="step"><div class="sn">1</div><p><strong>Convolution:</strong> Slide a 3x3 filter over the image, multiply and sum to create a Feature Map.</p></div>
+        <div class="step"><div class="sn">2</div><p><strong>Stride:</strong> How many pixels the filter moves at a time.</p></div>
+        <div class="step"><div class="sn">3</div><p><strong>Padding:</strong> Adding zero-pixels around the border so the image doesn't shrink ("Same" vs "Valid").</p></div>
+        <div class="step"><div class="sn">4</div><p><strong>Max Pooling:</strong> Downsampling. Taking the maximum value in a 2x2 grid to reduce image size and compute.</p></div>
+      </div>
+    </div>
+    <div class="dcard">
+      <h3>📊 Visual: CNN Flow</h3>
+      <svg viewBox="0 0 340 240" width="100%" style="background:#fdf2f8;border-radius:8px;border:1px solid #fbcfe8">
+        <!-- Input Image -->
+        <rect x="20" y="80" width="60" height="60" fill="#f472b6" opacity="0.3" stroke="#db2777" stroke-width="1"/>
+        <text x="50" y="160" text-anchor="middle" font-size="10" font-weight="700" fill="#9d174d">5x5 Image</text>
+        
+        <!-- Kernel -->
+        <rect x="40" y="100" width="20" height="20" fill="none" stroke="#dc2626" stroke-width="2"/>
+        <path d="M60,110 L100,70" fill="none" stroke="#dc2626" stroke-width="1" stroke-dasharray="2,2"/>
+        
+        <rect x="100" y="50" width="40" height="40" fill="#fca5a5" stroke="#dc2626" stroke-width="1"/>
+        <text x="120" y="45" text-anchor="middle" font-size="9" font-weight="700" fill="#991b1b">3x3 Kernel</text>
+        
+        <text x="145" y="115" font-size="14" font-weight="900" fill="#db2777">→</text>
+        
+        <!-- Feature Map -->
+        <rect x="170" y="90" width="45" height="45" fill="#c084fc" opacity="0.4" stroke="#9333ea" stroke-width="1"/>
+        <text x="192" y="160" text-anchor="middle" font-size="10" font-weight="700" fill="#6b21a8">3x3 Map</text>
+        
+        <text x="225" y="115" font-size="14" font-weight="900" fill="#9333ea">→</text>
+        <text x="230" y="100" font-size="8" fill="#6b21a8">Max</text>
+        <text x="230" y="110" font-size="8" fill="#6b21a8">Pool</text>
+        
+        <!-- Pooled Output -->
+        <rect x="260" y="100" width="30" height="30" fill="#60a5fa" opacity="0.4" stroke="#2563eb" stroke-width="1"/>
+        <text x="275" y="160" text-anchor="middle" font-size="10" font-weight="700" fill="#1e3a8a">2x2 Pool</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE 3D CONVOLUTION & TENSOR SLICER -->
+  <div class="card" style="margin-top:24px;border:1px solid rgba(236,72,153,0.3);background:#0f172a;color:#fff">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h3 style="color:#f472b6">🌐 Interactive 3D Convolutional Kernel Slicing Studio</h3>
+      <span style="font-size:11px;background:rgba(236,72,153,0.2);color:#f472b6;padding:3px 10px;border-radius:999px;font-weight:700">3D Tensor Math</span>
+    </div>
+    <p style="font-size:13px;color:#94a3b8;margin-bottom:16px">Drag to rotate the 3D $(5 \times 5 \times 3)$ RGB tensor volume. Step the $(3 \times 3 \times 3)$ convolution filter across spatial dimensions live!</p>
+
+    <div style="display:grid;grid-template-columns:1fr 280px;gap:20px;align-items:center">
+      <canvas id="cnn3d-canvas" width="500" height="300" style="width:100%;height:300px;background:#030712;border-radius:10px;border:1px solid #1e293b;cursor:grab"></canvas>
+
+      <div style="background:rgba(255,255,255,0.03);padding:16px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);font-size:12px">
+        <div style="margin-bottom:12px">
+          <label style="display:flex;justify-content:space-between;color:#cbd5e1;font-weight:600;margin-bottom:4px">
+            <span>Filter Step Position:</span>
+            <strong id="lbl-cnn-step" style="color:#f472b6">Pos (0, 0)</strong>
+          </label>
+          <input type="range" id="slider-cnn-step" min="0" max="8" value="0" style="width:100%;accent-color:#ec4899" oninput="update3DCNN()">
+        </div>
+        <div style="margin-bottom:14px">
+          <button onclick="autoStepCNN()" style="background:linear-gradient(135deg,#db2777,#be185d);color:#fff;border:none;padding:8px 14px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;width:100%">
+            ▶ Auto-Slide Filter Across Tensor
+          </button>
+        </div>
+        <div style="background:#030712;padding:10px 12px;border-radius:6px;border-left:3px solid #ec4899;font-family:'JetBrains Mono',monospace;font-size:11px;color:#e2e8f0" id="cnn-output-math">
+          Output Feature Cell (0,0) = Σ(W · X) + b = 4.82
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════
+     TRANSFORMERS
+════════════════════════════════════════════ -->
+<section id="transformers" class="sec" style="background:#fff">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-tag tag-purple">Section 17</div>
+    <h2>Sequence Models &amp; Transformers (Self-Attention)</h2>
+    <p>The architecture powering ChatGPT, Claude, and modern AI.</p>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <h3>📖 The Self-Attention Mechanism</h3>
+      <p>Old RNNs/LSTMs read text sequentially, word-by-word, creating bottlenecks and vanishing gradients. <strong>Transformers</strong> process all words in parallel using <strong>Self-Attention</strong> — allowing every word to look at every other word to understand context.</p>
+      
+      <div class="formula" style="font-size:11px">
+        Attention(Q, K, V) = softmax( (Q × Kᵀ) / √d_k ) × V<br><br>
+        <span style="color:#94a3b8">
+        Q (Query): What I am looking for.<br>
+        K (Key): What I contain.<br>
+        V (Value): My actual meaning/data.
+        </span>
+      </div>
+      <div class="analogy" style="margin-top:12px">
+        <strong>📚 The Library Analogy</strong>
+        You go to a library. Your search query is Q. Book titles/tags are K. The actual book contents are V. The attention score is how well Q matches K, determining how much of V you read.
+      </div>
+      <p style="margin-top:12px;font-size:13px"><strong>🏢 Real IT Use Cases:</strong></p>
+      <ul style="font-size:13px;margin-top:6px">
+        <li>LLM token generation (ChatGPT, Claude).</li>
+        <li>Code generation and autocomplete (GitHub Copilot).</li>
+      </ul>
+    </div>
+    <div class="dcard">
+      <h3>📊 Visual: Query, Key, Value Flow</h3>
+      <svg viewBox="0 0 340 240" width="100%" style="background:#faf5ff;border-radius:8px;border:1px solid #e9d5ff">
+        <text x="170" y="20" text-anchor="middle" font-size="10" font-weight="700" fill="#6b21a8">Self-Attention Matrix Multiplication</text>
+        
+        <rect x="50" y="50" width="40" height="60" fill="#c084fc" stroke="#9333ea" stroke-width="1"/>
+        <text x="70" y="85" text-anchor="middle" font-size="12" font-weight="900" fill="white">Q</text>
+        
+        <text x="105" y="85" font-size="16" font-weight="900" fill="#9333ea">×</text>
+        
+        <rect x="120" y="50" width="60" height="40" fill="#60a5fa" stroke="#2563eb" stroke-width="1"/>
+        <text x="150" y="75" text-anchor="middle" font-size="12" font-weight="900" fill="white">Kᵀ</text>
+        
+        <text x="195" y="85" font-size="16" font-weight="900" fill="#9333ea">→</text>
+        
+        <rect x="220" y="50" width="60" height="60" fill="#fca5a5" stroke="#dc2626" stroke-width="1"/>
+        <text x="250" y="80" text-anchor="middle" font-size="10" font-weight="700" fill="white">Scores</text>
+        <text x="250" y="95" text-anchor="middle" font-size="8" fill="white">(Softmax)</text>
+        
+        <text x="250" y="130" font-size="16" font-weight="900" fill="#9333ea">×</text>
+        
+        <rect x="230" y="145" width="40" height="60" fill="#34d399" stroke="#059669" stroke-width="1"/>
+        <text x="250" y="175" text-anchor="middle" font-size="12" font-weight="900" fill="white">V</text>
+        
+        <text x="195" y="175" font-size="16" font-weight="900" fill="#9333ea">←</text>
+        
+        <rect x="120" y="145" width="60" height="60" fill="#fbbf24" stroke="#d97706" stroke-width="1"/>
+        <text x="150" y="175" text-anchor="middle" font-size="10" font-weight="700" fill="white">Output</text>
+        <text x="150" y="190" text-anchor="middle" font-size="8" fill="white">Z</text>
+      </svg>
+    </div>
+  </div>
+</div>
+</section>
+
+<footer>
+  <strong>ML Mastery — Page 3: Deep Dive</strong><br>
+  Naive Bayes · PCA · Gradient Descent · Neural Networks · NLP · Ridge/Lasso · DBSCAN · Time Series · RL · Transfer Learning · Hierarchical · Isolation Forest · Apriori · LDA · LightGBM · CatBoost · CNNs · Transformers<br>
+  <div style="display:flex;gap:15px;justify-content:center;margin-top:12px;flex-wrap:wrap">
+    <a href="index.html" style="color:#94a3b8;text-decoration:none;font-size:12px">⌂ Portal Hub</a>
+    <a href="math_foundations.html" style="color:#94a3b8;text-decoration:none;font-size:12px">📐 Page 0: Math</a>
+    <a href="full_platform.html" style="color:#94a3b8;text-decoration:none;font-size:12px">📘 Page 1: Foundation</a>
+    <a href="advanced_modules.html" style="color:#94a3b8;text-decoration:none;font-size:12px">⚡ Page 2: Advanced</a>
+    <a href="deep_modules.html" style="color:#4ade80;text-decoration:none;font-size:12px;font-weight:700">🔬 Page 3: Deep Dive</a>
+    <a href="python_ml.html" style="color:#94a3b8;text-decoration:none;font-size:12px">🐍 Page 4: Python</a>
+    <a href="real_world_ml.html" style="color:#94a3b8;text-decoration:none;font-size:12px">🚀 Page 5: Real-World MLOps</a>
+    <a href="career_and_quiz.html" style="color:#94a3b8;text-decoration:none;font-size:12px">🏆 Page 6: Career &amp; Quiz</a>
+    <a href="interactive_3d_lab.html" style="color:#94a3b8;text-decoration:none;font-size:12px">🌐 Page 7: 3D WebGL</a>
+    <a href="system_design_and_incidents.html" style="color:#94a3b8;text-decoration:none;font-size:12px">🚨 Page 8: Staff War Room</a>
+    <a href="algorithm_arena.html" style="color:#94a3b8;text-decoration:none;font-size:12px">⚔️ Page 9: Algorithm Arena</a>
+    <a href="industrial_systems.html" style="color:#94a3b8;text-decoration:none;font-size:12px">💡 Page 10: Industrial AI</a>
+    <a href="python_teaching_mastery.html" style="color:#34d399;text-decoration:none;font-size:12px;font-weight:700">🎓 Page 11: Python Master Codex</a>
+  </div>
+</footer>
+
+<script>
+function tab(id){
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.tc').forEach(c=>c.classList.remove('on'));
+  document.getElementById('tc-'+id).classList.add('on');
+  event.target.classList.add('on');
+}
+
+// =========================================================
+// 1. INTERACTIVE 3D CONVOLUTION TENSOR ENGINE
+// =========================================================
+let cnnCanvas, cnnCtx;
+let cnnRotX = 25 * Math.PI / 180;
+let cnnRotY = -35 * Math.PI / 180;
+let cnnStep = 0;
+let isDraggingCNN = false;
+let lastCNNX = 0, lastCNNY = 0;
+let autoStepTimer = null;
+
+function init3DCNNCanvas() {
+  cnnCanvas = document.getElementById('cnn3d-canvas');
+  if (!cnnCanvas) return;
+  cnnCtx = cnnCanvas.getContext('2d');
+
+  cnnCanvas.addEventListener('mousedown', e => {
+    isDraggingCNN = true;
+    lastCNNX = e.clientX;
+    lastCNNY = e.clientY;
+    cnnCanvas.style.cursor = 'grabbing';
+  });
+  window.addEventListener('mouseup', () => {
+    isDraggingCNN = false;
+    if (cnnCanvas) cnnCanvas.style.cursor = 'grab';
+  });
+  window.addEventListener('mousemove', e => {
+    if (!isDraggingCNN) return;
+    const dx = e.clientX - lastCNNX;
+    const dy = e.clientY - lastCNNY;
+    cnnRotY += dx * 0.01;
+    cnnRotX += dy * 0.01;
+    lastCNNX = e.clientX;
+    lastCNNY = e.clientY;
+    draw3DCNN();
+  });
+
+  draw3DCNN();
+}
+
+function projectCNN3D(x, y, z) {
+  let x1 = x * Math.cos(cnnRotY) + z * Math.sin(cnnRotY);
+  let z1 = -x * Math.sin(cnnRotY) + z * Math.cos(cnnRotY);
+
+  let y2 = y * Math.cos(cnnRotX) - z1 * Math.sin(cnnRotX);
+  let z2 = y * Math.sin(cnnRotX) + z1 * Math.cos(cnnRotX);
+
+  const scale = 26;
+  const cx = cnnCanvas.width / 2;
+  const cy = cnnCanvas.height / 2;
+
+  return { x: cx + x1 * scale, y: cy - y2 * scale, z: z2 };
+}
+
+function draw3DCNN() {
+  if (!cnnCtx) return;
+  cnnCtx.clearRect(0, 0, cnnCanvas.width, cnnCanvas.height);
+
+  // 5x5x3 Volume
+  const tensorW = 5, tensorH = 5, tensorD = 3;
+  const offX = -tensorW / 2;
+  const offY = -tensorH / 2;
+  const offZ = -tensorD / 2;
+
+  // Filter 3x3x3 position (step 0 to 8: 3x3 grid)
+  const fx = cnnStep % 3;
+  const fy = Math.floor(cnnStep / 3);
+
+  // Collect voxel centers to draw sorted by depth z
+  const voxels = [];
+
+  for (let z = 0; z < tensorD; z++) {
+    for (let y = 0; y < tensorH; y++) {
+      for (let x = 0; x < tensorW; x++) {
+        const isUnderFilter = (x >= fx && x < fx + 3 && y >= fy && y < fy + 3);
+        const p = projectCNN3D(offX + x, offY + y, offZ + z);
+        voxels.push({ x, y, z, p, isUnderFilter });
+      }
+    }
+  }
+
+  voxels.sort((a, b) => a.p.z - b.p.z);
+
+  voxels.forEach(v => {
+    cnnCtx.beginPath();
+    cnnCtx.arc(v.p.x, v.p.y, v.isUnderFilter ? 6 : 3.5, 0, Math.PI * 2);
+    if (v.isUnderFilter) {
+      cnnCtx.fillStyle = '#ec4899';
+      cnnCtx.shadowColor = '#f472b6';
+      cnnCtx.shadowBlur = 8;
+    } else {
+      cnnCtx.fillStyle = v.z === 0 ? '#3b82f6' : (v.z === 1 ? '#10b981' : '#f59e0b');
+      cnnCtx.shadowBlur = 0;
+    }
+    cnnCtx.fill();
+    cnnCtx.shadowBlur = 0;
+  });
+
+  // Filter bounding box outline in 3D
+  const p1 = projectCNN3D(offX + fx - 0.5, offY + fy - 0.5, offZ - 0.5);
+  const p2 = projectCNN3D(offX + fx + 2.5, offY + fy - 0.5, offZ - 0.5);
+  const p3 = projectCNN3D(offX + fx + 2.5, offY + fy + 2.5, offZ - 0.5);
+  const p4 = projectCNN3D(offX + fx - 0.5, offY + fy + 2.5, offZ - 0.5);
+
+  cnnCtx.strokeStyle = '#f472b6';
+  cnnCtx.lineWidth = 2;
+  cnnCtx.beginPath();
+  cnnCtx.moveTo(p1.x, p1.y);
+  cnnCtx.lineTo(p2.x, p2.y);
+  cnnCtx.lineTo(p3.x, p3.y);
+  cnnCtx.lineTo(p4.x, p4.y);
+  cnnCtx.closePath();
+  cnnCtx.stroke();
+}
+
+function update3DCNN() {
+  cnnStep = parseInt(document.getElementById('slider-cnn-step').value);
+  const fx = cnnStep % 3;
+  const fy = Math.floor(cnnStep / 3);
+  document.getElementById('lbl-cnn-step').textContent = `Pos (${fx}, ${fy})`;
+  const cellVal = (2.1 + (fx * 1.3) + (fy * 0.9)).toFixed(2);
+  document.getElementById('cnn-output-math').innerHTML = `Output Feature Cell (${fx}, ${fy}) = Σ(W · X) + b = ${cellVal}`;
+  draw3DCNN();
+}
+
+function autoStepCNN() {
+  if (autoStepTimer) {
+    clearInterval(autoStepTimer);
+    autoStepTimer = null;
+    return;
+  }
+  autoStepTimer = setInterval(() => {
+    cnnStep = (cnnStep + 1) % 9;
+    document.getElementById('slider-cnn-step').value = cnnStep;
+    update3DCNN();
+  }, 400);
+}
+
+// =========================================================
+// 2. UNIVERSAL 3D CARD TILT & PARALLAX ENGINE
+// =========================================================
+function init3DCardTilt() {
+  const cards = document.querySelectorAll('.card, .dcard');
+  cards.forEach(card => {
+    card.style.transition = 'transform 0.15s ease-out, box-shadow 0.15s ease-out';
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      const rotX = -(y / (rect.height / 2)) * 5;
+      const rotY = (x / (rect.width / 2)) * 5;
+      card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.01, 1.01, 1.01)`;
+      card.style.boxShadow = `0 15px 35px rgba(0,0,0,0.3), ${rotY * 2}px ${-rotX * 2}px 25px rgba(147,51,234,0.12)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      card.style.boxShadow = 'none';
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  init3DCNNCanvas();
+  init3DCardTilt();
+});
+</script>
+</body>
+</html>

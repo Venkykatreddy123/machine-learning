@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>30-Day Day-Wise Master Teaching Codex — Complete AI, ML &amp; SQL Syllabus</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#2563eb;--emerald:#059669;--amber:#d97706;--purple:#7c3aed;--cyan:#0891b2;--rose:#e11d48;
+  --s50:#f8fafc;--s100:#f1f5f9;--s200:#e2e8f0;--s300:#cbd5e1;--s400:#94a3b8;
+  --s500:#64748b;--s600:#475569;--s700:#334155;--s800:#1e293b;--s900:#0f172a;--s950:#090d16;
+  --r:16px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--s950);color:#f8fafc;line-height:1.65;overflow-x:hidden}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:64px;background:rgba(9,13,22,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08)}
+.nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:#fff;font-weight:900;font-size:18px}
+.nav-brand em{font-style:normal;color:#38bdf8}
+.nav-links{display:flex;gap:16px;align-items:center}
+.nav-links a{color:var(--s400);text-decoration:none;font-size:13px;font-weight:600;transition:.2s}
+.nav-links a:hover{color:#38bdf8}
+.nav-badge{font-size:11px;font-weight:800;color:#38bdf8;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3);padding:4px 12px;border-radius:999px}
+
+/* Hero */
+.hero{padding:110px 24px 50px;text-align:center;background:radial-gradient(ellipse 90% 60% at 50% 0%,rgba(56,189,248,.2) 0%,transparent 70%),linear-gradient(180deg,#090d16 0%,#0f172a 100%)}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.3);color:#38bdf8;font-size:11px;font-weight:800;padding:6px 16px;border-radius:999px;letter-spacing:1px;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-size:clamp(32px,5vw,56px);font-weight:900;line-height:1.15;letter-spacing:-1.2px;margin-bottom:14px}
+.hero h1 span{background:linear-gradient(135deg,#38bdf8,#818cf8,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:clamp(15px,2vw,18px);color:var(--s400);max-width:860px;margin:0 auto 24px}
+
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* Day Card */
+.day-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:24px;margin-bottom:20px;transition:.25s;display:grid;grid-template-columns:140px 1fr;gap:24px;align-items:start}
+@media(max-width:768px){.day-card{grid-template-columns:1fr}}
+.day-card:hover{border-color:rgba(56,189,248,.4);background:rgba(255,255,255,.05);transform:translateY(-2px)}
+
+.day-badge{background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff;border-radius:12px;padding:16px;text-align:center;font-weight:900}
+.day-num{font-size:24px;line-height:1}
+.day-lbl{font-size:10px;text-transform:uppercase;letter-spacing:1px;opacity:.8;margin-top:4px}
+
+.day-content h3{font-size:18px;font-weight:800;color:#fff;margin-bottom:6px}
+.day-link{color:#38bdf8;text-decoration:none;font-size:12px;font-weight:700;margin-bottom:12px;display:inline-block}
+.day-link:hover{text-decoration:underline}
+
+.day-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px;font-size:12px}
+@media(max-width:600px){.day-grid{grid-template-columns:1fr}}
+.day-box{background:#050811;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:12px}
+.day-box strong{color:#38bdf8;display:block;margin-bottom:4px}
+
+section[id]{scroll-margin-top:84px}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">
+    <em>ML</em>Mastery
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Portal Index</a>
+    <a href="sql_for_data_science.html">SQL Codex</a>
+    <a href="prompt_engineering_mastery.html">Prompt Engineering</a>
+    <a href="certificate_and_resume.html">Certificate</a>
+    <span class="nav-badge">📅 30-Day Master Syllabus</span>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-tag">📅 Instructor &amp; Student Day-Wise Teaching Plan</div>
+    <h1>30-Day Master <span>Teaching Curriculum</span> Roadmap</h1>
+    <p>A day-by-day lesson plan segregating all 20 platform portals into a 6-week intensive boot-camp. Includes learning objectives, real IT scenarios, hands-on labs, and interview questions for every single day.</p>
+  </div>
+</section>
+
+<div class="wrap" style="padding-bottom:80px">
+
+  <!-- WEEK 1 -->
+  <h2 style="font-size:22px;font-weight:900;color:#38bdf8;margin:32px 0 16px;border-bottom:1px solid rgba(56,189,248,.3);padding-bottom:8px">Week 1: Mathematical Foundations &amp; Python Internals (Days 1–5)</h2>
+
+  <!-- Day 1 -->
+  <div class="day-card">
+    <div class="day-badge">
+      <div class="day-num">DAY 01</div>
+      <div class="day-lbl">MATH</div>
+    </div>
+    <div class="day-content">
+      <h3>Linear Algebra from Scratch — Scalars, Vectors &amp; Matrices</h3>
+      <a href="math_foundations.html#sec-1" class="day-link">🔗 Open Page 0: Math Foundations →</a>
+      <div class="day-grid">
+        <div class="day-box">
+          <strong>🎯 What to Teach:</strong>
+          Explain scalars vs vectors vs matrices. Step-by-step dot product calculation $A \cdot B = \sum a_i b_i$ and matrix multiplication.
+        </div>
+        <div class="day-box">
+          <strong>🎬 Real IT Scenario:</strong>
+          Word embeddings in AI (e.g. measuring cosine similarity between 'King' - 'Man' + 'Woman' = 'Queen').
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 2 -->
+  <div class="day-card">
+    <div class="day-badge">
+      <div class="day-num">DAY 02</div>
+      <div class="day-lbl">MATH</div>
+    </div>
+    <div class="day-content">
+      <h3>Eigenvalues, Eigenvectors &amp; Principal Component Analysis (PCA)</h3>
+      <a href="math_foundations.html#sec-1e" class="day-link">🔗 Open Page 0: Eigenvalues Section →</a>
+      <div class="day-grid">
+        <div class="day-box">
+          <strong>🎯 What to Teach:</strong>
+          Formula $Av = \lambda v$. How eigenvectors capture maximum variance axis for dimensionality reduction.
+        </div>
+        <div class="day-box">
+          <strong>🎬 Real IT Scenario:</strong>
+          Facial recognition (Fisherfaces / Eigenfaces) compressing 1,000D pixel arrays to 50D.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 3 -->
+  <div class="day-card">
+    <div class="day-badge">
+      <div class="day-num">DAY 03</div>
+      <div class="day-lbl">CALCULUS</div>
+    </div>
+    <div class="day-content">
+      <h3>Calculus for ML — Derivatives, Partial Derivatives &amp; Gradient Descent</h3>
+      <a href="math_foundations.html#sec-3" class="day-link">🔗 Open Interactive Parabola Sandbox →</a>
+      <div class="day-grid">
+        <div class="day-box">
+          <strong>🎯 What to Teach:</strong>
+          Derivatives as slope of tangent line. Chain rule $\frac{dz}{dx} = \frac{dz}{dg} \cdot \frac{dg}{dx}$. Gradient update $w = w - \alpha \nabla f$.
+        </div>
+        <div class="day-box">
+          <strong>🎬 Real IT Scenario:</strong>
+          Optimizing neural network loss functions without exploding or vanishing gradients.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 4 -->
+  <div class="day-card">
+    <div class="day-badge">
+      <div class="day-num">DAY 04</div>
+      <div class="day-lbl">STATS</div>
+    </div>
+    <div class="day-content">
+      <h3>Statistics &amp; Bayes' Theorem Deep Dive</h3>
+      <a href="math_foundations.html#sec-2" class="day-link">🔗 Open Probability &amp; Bayes Section →</a>
+      <div class="day-grid">
+        <div class="day-box">
+          <strong>🎯 What to Teach:</strong>
+          Mean, Median, Standard Deviation, Gaussian Bell Curve (68-95-99.7 Rule), Bayes' Theorem $P(A|B) = \frac{P(B|A)P(A)}{P(B)}$.
+        </div>
+        <div class="day-box">
+          <strong>🎬 Real IT Scenario:</strong>
+          Naive Bayes Email Spam Filter &amp; Medical Diagnostic False Positive Paradox.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 5 -->
+  <div class="day-card">
+    <div class="day-badge">
+      <div class="day-num">DAY 05</div>
+      <div class="day-lbl">PYTHON</div>
+    </div>
+    <div class="day-content">
+      <h3>CPython Internals — Small Int Caching, GIL &amp; Advanced OOP</h3>
+      <a href="python_teaching_mastery.html" class="day-link">🔗 Open Page 11: Python Teaching Codex →</a>
+      <div class="day-grid">
+        <div class="day-box">
+          <strong>🎯 What to Teach:</strong>
+          Why integers [-5 to 256] are cached, GIL thread locking, Descriptors, Metaclasses, Exception handling &amp; Decorators.
+        </div>
+        <div class="day-box">
+          <strong>🎬 Real IT Scenario:</strong>
+          Infosys / TCS backend optimization: avoiding memory bloat in high-throughput Django/Flask services.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 2 -->
+  <h2 style="font-size:22px;font-weight:900;color:#4ade80;margin:40px 0 16px;border-bottom:1px solid rgba(74,222,128,.3);padding-bottom:8px">Week 2: Scikit-Learn, Preprocessing &amp; Classical ML (Days 6–10)</h2>
+
+  <!-- Day 6 -->
+  <div class="day-card">
+    <div class="day-badge" style="background:linear-gradient(135deg,#059669,#047857)">
+      <div class="day-num">DAY 06</div>
+      <div class="day-lbl">DATA</div>
+    </div>
+    <div class="day-content">
+      <h3>In-Browser Python WASM Studio &amp; Data Wrangling</h3>
+      <a href="python_sandbox_wasm.html" class="day-link">🔗 Open Page 14: Live Python WASM Compiler →</a>
+      <div class="day-grid">
+        <div class="day-box">
+          <strong>🎯 What to Teach:</strong>
+          Hands-on execution of NumPy ndarrays, Pandas DataFrames, `.groupby()`, and `.merge()` live inside the browser.
+        </div>
+        <div class="day-box">
+          <strong>🎬 Real IT Scenario:</strong>
+          Swiggy customer order segmentation and average basket value aggregation.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 7 -->
+  <div class="day-card">
+    <div class="day-badge" style="background:linear-gradient(135deg,#059669,#047857)">
+      <div class="day-num">DAY 07</div>
+      <div class="day-lbl">PREPROCESS</div>
+    </div>
+    <div class="day-content">
+      <h3>Data Cleaning, SMOTE Imbalanced Data &amp; Pipelines</h3>
+      <a href="real_world_ml.html#sec-janitor" class="day-link">🔗 Open Page 5: Data Janitor Sandbox →</a>
+      <div class="day-grid">
+        <div class="day-box">
+          <strong>🎯 What to Teach:</strong>
+          Handling missing values, outlier clipping, One-Hot Encoding, SMOTE synthetic sampling, and Sklearn Pipelines.
+        </div>
+        <div class="day-box">
+          <strong>🎬 Real IT Scenario:</strong>
+          Banking Credit Card Fraud (0.05% positive rate) imbalanced dataset handling.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 8 -->
+  <div class="day-card">
+    <div class="day-badge" style="background:linear-gradient(135deg,#059669,#047857)">
+      <div class="day-num">DAY 08</div>
+      <div class="day-lbl">REGRESSION</div>
+    </div>
+    <div class="day-content">
+      <h3>Linear &amp; Polynomial Regression</h3>
+      <a href="full_platform.html#sec-regression" class="day-link">🔗 Open Page 1: Regression →</a>
+      <div class="day-grid">
+        <div class="day-box">
+          <strong>🎯 What to Teach:</strong>
+          Ordinary Least Squares, Cost Function $MSE = \frac{1}{n}\sum(y-\hat{y})^2$, $R^2$ Score, and Feature Coefficients.
+        </div>
+        <div class="day-box">
+          <strong>🎬 Real IT Scenario:</strong>
+          Real estate property pricing engine in Bangalore &amp; Mumbai.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 9 -->
+  <div class="day-card">
+    <div class="day-badge" style="background:linear-gradient(135deg,#059669,#047857)">
+      <div class="day-num">DAY 09</div>
+      <div class="day-lbl">CLASSIFY</div>
+    </div>
+    <div class="day-content">
+      <h3>Logistic Regression, ROC-AUC &amp; Decision Boundaries</h3>
+      <a href="advanced_modules.html#sec-logistic" class="day-link">🔗 Open Page 2: Logistic Regression →</a>
+      <div class="day-grid">
+        <div class="day-box">
+          <strong>🎯 What to Teach:</strong>
+          Log-Loss cost function, Sigmoid activation, Precision vs Recall vs F1-Score, ROC-AUC curves.
+        </div>
+        <div class="day-box">
+          <strong>🎬 Real IT Scenario:</strong>
+          Telecom Customer Churn Prediction (Airtel / Jio).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 10 -->
+  <div class="day-card">
+    <div class="day-badge" style="background:linear-gradient(135deg,#059669,#047857)">
+      <div class="day-num">DAY 10</div>
+      <div class="day-lbl">TREES</div>
+    </div>
+    <div class="day-content">
+      <h3>Decision Trees, Random Forests &amp; XGBoost</h3>
+      <a href="advanced_modules.html#sec-rf" class="day-link">🔗 Open Page 2: Ensemble Models →</a>
+      <div class="day-grid">
+        <div class="day-box">
+          <strong>🎯 What to Teach:</strong>
+          Gini Impurity, Information Gain, Bagging vs Boosting, XGBoost Gradient Boosted Decision Trees.
+        </div>
+        <div class="day-box">
+          <strong>🎬 Real IT Scenario:</strong>
+          Kaggle competition gold-standard tabular modeling.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 3 -->
+  <h2 style="font-size:22px;font-weight:900;color:#c084fc;margin:40px 0 16px;border-bottom:1px solid rgba(192,132,252,.3);padding-bottom:8px">Week 3: Deep Learning, Transformers &amp; SQL Master Codex (Days 11–15)</h2>
+
+  <!-- Day 11 -->
+  <div class="day-card">
+    <div class="day-badge" style="background:linear-gradient(135deg,#7c3aed,#6d28d9)">
+      <div class="day-num">DAY 11</div>
+      <div class="day-lbl">DEEP LEARNING</div>
+    </div>
+    <div class="day-content">
+      <h3>Deep Learning Rosetta Stone — Neural Nets &amp; Backprop</h3>
+      <a href="deep_modules.html#sec-rosetta" class="day-link">🔗 Open Page 3: Deep Learning →</a>
+      <div class="day-grid">
+        <div class="day-box">
+          <strong>🎯 What to Teach:</strong>
+          Perceptrons, Activation functions (ReLU, Sigmoid, Softmax), Loss functions, Vanishing gradients.
+        </div>
+        <div class="day-box">
+          <strong>🎬 Real IT Scenario:</strong>
+          Multi-layer perceptron credit risk scoring.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 12 -->
+  <div class="day-card">
+    <div class="day-badge" style="background:linear-gradient(135deg,#7c3aed,#6d28d9)">
+      <div class="day-num">DAY 12</div>
+      <div class="day-lbl">TRANSFORMERS</div>
+    </div>
+    <div class="day-content">
+      <h3>CNNs, Sequence Models &amp; Self-Attention Mechanism</h3>
+      <a href="deep_modules.html#sec-transformers" class="day-link">🔗 Open Page 3: Transformers →</a>
+      <div class="day-grid">
+        <div class="day-box">
+          <strong>🎯 What to Teach:</strong>
+          Convolutions, Max Pooling, Self-Attention Formula $\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$.
+        </div>
+        <div class="day-box">
+          <strong>🎬 Real IT Scenario:</strong>
+          ChatGPT token generation &amp; Autonomous Driving Vision.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 13 -->
+  <div class="day-card">
+    <div class="day-badge" style="background:linear-gradient(135deg,#0284c7,#0369a1)">
+      <div class="day-num">DAY 13</div>
+      <div class="day-lbl">SQL BASICS</div>
+    </div>
+    <div class="day-content">
+      <h3>SQL Architecture, Dr. Codd's 12 Rules &amp; Constraints</h3>
+      <a href="sql_for_data_science.html#codd-rules" class="day-link">🔗 Open Page 12: SQL Module 0 →</a>
+      <div class="day-grid">
+        <div class="day-box">
+          <strong>🎯 What to Teach:</strong>
+          DBMS vs RDBMS, ACID properties, Codd Rules, DDL/DML classifications, PK, FK, UNIQUE, CHECK constraints.
+        </div>
+        <div class="day-box">
+          <strong>🎬 Real IT Scenario:</strong>
+          Netflix subscriber deduplication &amp; foreign key constraints.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 14 -->
+  <div class="day-card">
+    <div class="day-badge" style="background:linear-gradient(135deg,#0284c7,#0369a1)">
+      <div class="day-num">DAY 14</div>
+      <div class="day-lbl">SQL JOINS</div>
+    </div>
+    <div class="day-content">
+      <h3>Complete SQL Joins Masterclass &amp; Visual Simulator</h3>
+      <a href="sql_for_data_science.html#all-joins" class="day-link">🔗 Open Page 12: Visual Join Simulator →</a>
+      <div class="day-grid">
+        <div class="day-box">
+          <strong>🎯 What to Teach:</strong>
+          8 Join Types, ON vs WHERE outer join trap, Hash Join vs Nested Loop execution plan algorithms.
+        </div>
+        <div class="day-box">
+          <strong>🎬 Real IT Scenario:</strong>
+          Amazon Order Audit &amp; 3-Tier Executive Management Hierarchies.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 15 -->
+  <div class="day-card">
+    <div class="day-badge" style="background:linear-gradient(135deg,#0284c7,#0369a1)">
+      <div class="day-num">DAY 15</div>
+      <div class="day-lbl">SQL WINDOW</div>
+    </div>
+    <div class="day-content">
+      <h3>18 Window Functions &amp; Correlated Subqueries</h3>
+      <a href="sql_for_data_science.html#window-functions" class="day-link">🔗 Open Page 12: Window Functions →</a>
+      <div class="day-grid">
+        <div class="day-box">
+          <strong>🎯 What to Teach:</strong>
+          `RANK`, `DENSE_RANK`, `LAG`/`LEAD`, `FIRST_VALUE`/`LAST_VALUE`, Correlated `EXISTS` vs `NOT EXISTS`.
+        </div>
+        <div class="day-box">
+          <strong>🎬 Real IT Scenario:</strong>
+          Banking fraud per-department salary audit &amp; running total calculations.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 4 -->
+  <h2 style="font-size:22px;font-weight:900;color:#fb7185;margin:40px 0 16px;border-bottom:1px solid rgba(251,113,133,.3);padding-bottom:8px">Week 4: Prompt Engineering, MLOps &amp; Systems (Days 16–20)</h2>
+
+  <!-- Day 16 -->
+  <div class="day-card">
+    <div class="day-badge" style="background:linear-gradient(135deg,#9333ea,#7e22ce)">
+      <div class="day-num">DAY 16</div>
+      <div class="day-lbl">PROMPT ENG</div>
+    </div>
+    <div class="day-content">
+      <h3>Prompt Engineering Foundations — Tokens &amp; RICCO Framework</h3>
+      <a href="prompt_engineering_mastery.html" class="day-link">🔗 Open Page 13: Prompt Engineering →</a>
+      <div class="day-grid">
+        <div class="day-box">
+          <strong>🎯 What to Teach:</strong>
+          Tokens vs Words, Context Windows, 5-Pillar RICCO (Role, Instruction, Context, Constraints, Output).
+        </div>
+        <div class="day-box">
+          <strong>🎬 Real IT Scenario:</strong>
+          TCS / Wipro Enterprise LLM Customer Support Bot.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 17 -->
+  <div class="day-card">
+    <div class="day-badge" style="background:linear-gradient(135deg,#9333ea,#7e22ce)">
+      <div class="day-num">DAY 17</div>
+      <div class="day-lbl">AGENTS</div>
+    </div>
+    <div class="day-content">
+      <h3>Autonomous AI Agents — The ReAct Loop &amp; Prompt Security</h3>
+      <a href="prompt_engineering_mastery.html#deep-prompting" class="day-link">🔗 Open Page 13: ReAct Simulator →</a>
+      <div class="day-grid">
+        <div class="day-box">
+          <strong>🎯 What to Teach:</strong>
+          Thought ➔ Action ➔ Observation loop, Direct &amp; Indirect Prompt Injection defenses, NeMo Guardrails.
+        </div>
+        <div class="day-box">
+          <strong>🎬 Real IT Scenario:</strong>
+          Fintech Automated Incident Resolver Bot.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 18 -->
+  <div class="day-card">
+    <div class="day-badge" style="background:linear-gradient(135deg,#e11d48,#be123c)">
+      <div class="day-num">DAY 18</div>
+      <div class="day-lbl">MLOPS</div>
+    </div>
+    <div class="day-content">
+      <h3>Production MLOps — FastAPI, Docker &amp; Data Drift</h3>
+      <a href="real_world_ml.html#sec-mlops" class="day-link">🔗 Open Page 5: Production MLOps →</a>
+      <div class="day-grid">
+        <div class="day-box">
+          <strong>🎯 What to Teach:</strong>
+          Model serialization (`joblib`), FastAPI async endpoints, Docker containerization, Evidently AI Drift Monitoring.
+        </div>
+        <div class="day-box">
+          <strong>🎬 Real IT Scenario:</strong>
+          Deploying XGBoost credit score models to AWS Kubernetes (EKS).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 19 -->
+  <div class="day-card">
+    <div class="day-badge" style="background:linear-gradient(135deg,#e11d48,#be123c)">
+      <div class="day-num">DAY 19</div>
+      <div class="day-lbl">FAANG SYSTEM</div>
+    </div>
+    <div class="day-content">
+      <h3>FAANG &amp; Unicorn System Architectures</h3>
+      <a href="faang_system_case_studies.html" class="day-link">🔗 Open Page 16: FAANG Systems →</a>
+      <div class="day-grid">
+        <div class="day-box">
+          <strong>🎯 What to Teach:</strong>
+          Netflix 2-Stage Recommender, Uber H3 Surge Pricing, Swiggy ETA Engine, Amazon Fraud Rings.
+        </div>
+        <div class="day-box">
+          <strong>🎬 Real IT Scenario:</strong>
+          Sub-50ms SLA system design for 50 Million QPS services.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 20 -->
+  <div class="day-card">
+    <div class="day-badge" style="background:linear-gradient(135deg,#d97706,#b45309)">
+      <div class="day-num">DAY 20</div>
+      <div class="day-lbl">CAREER</div>
+    </div>
+    <div class="day-content">
+      <h3>Full Capstone Project, Certificate &amp; Mock Technical Interview</h3>
+      <a href="certificate_and_resume.html" class="day-link">🔗 Open Page 17: Certificate Studio →</a>
+      <div class="day-grid">
+        <div class="day-box">
+          <strong>🎯 What to Teach:</strong>
+          End-to-End DS Project (PostgreSQL ➔ Polars ➔ XGBoost ➔ FastAPI ➔ Docker ➔ Streamlit), Mock Interview Quiz &amp; Certificate.
+        </div>
+        <div class="day-box">
+          <strong>🎬 Real IT Scenario:</strong>
+          FAANG / Tier-1 IT Technical Interview readiness &amp; ATS Resume Polish.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

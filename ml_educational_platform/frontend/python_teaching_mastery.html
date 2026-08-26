@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Complete Python &amp; OOPs Master Codex — From Scratch to Staff Architect</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070b14;--card-bg:#0f172a;--card-border:rgba(255,255,255,0.08);
+  --cyan:#06b6d4;--blue:#3b82f6;--purple:#a855f7;--pink:#ec4899;
+  --amber:#f59e0b;--emerald:#10b981;--red:#ef4444;
+  --text:#f8fafc;--text-dim:#94a3b8;--text-muted:#64748b;
+  --r:14px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.68;overflow-x:hidden}
+
+section[id]{scroll-margin-top:84px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(7,11,20,0.94);backdrop-filter:blur(20px);border-bottom:1px solid var(--card-border);height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.brand{font-size:17px;font-weight:900;color:#fff;text-decoration:none;display:flex;align-items:center;gap:6px}
+.brand em{color:var(--emerald);font-style:normal}
+.nav-links{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.nav-links a{color:var(--text-dim);text-decoration:none;font-size:11.5px;font-weight:600;transition:color .2s}
+.nav-links a:hover{color:var(--emerald)}
+.nav-badge{background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);color:var(--emerald);padding:4px 12px;border-radius:999px;font-size:11px;font-weight:800}
+
+/* HERO */
+.hero{background:radial-gradient(ellipse at 50% 0%,rgba(16,185,129,0.25) 0%,rgba(7,11,20,0) 70%),#070b14;padding:110px 24px 50px;text-align:center;border-bottom:1px solid var(--card-border)}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:5px 16px;border-radius:999px;margin-bottom:16px}
+.hero h1{font-size:clamp(30px,5vw,56px);font-weight:900;letter-spacing:-1.2px;color:#fff;margin-bottom:14px}
+.hero h1 span{background:linear-gradient(135deg,#34d399,#38bdf8,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:clamp(15px,2vw,18px);color:var(--text-dim);max-width:920px;margin:0 auto 28px}
+
+.hero-stats{display:flex;justify-content:center;gap:28px;flex-wrap:wrap}
+.h-stat .num{font-size:24px;font-weight:900;color:#fff}
+.h-stat .lbl{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+
+/* WRAP & SECTIONS */
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.sec{padding:64px 0;border-bottom:1px solid var(--card-border)}
+.sec-head{margin-bottom:32px}
+.sec-tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:4px 12px;border-radius:999px;margin-bottom:10px}
+.tag-emerald{background:rgba(16,185,129,0.2);color:#34d399;border:1px solid rgba(16,185,129,0.3)}
+.tag-blue{background:rgba(59,130,246,0.2);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)}
+.tag-purple{background:rgba(168,85,247,0.2);color:#c084fc;border:1px solid rgba(168,85,247,0.3)}
+.tag-amber{background:rgba(245,158,11,0.2);color:#fbbf24;border:1px solid rgba(245,158,11,0.3)}
+.tag-rose{background:rgba(239,68,68,0.2);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
+.tag-cyan{background:rgba(6,182,212,0.2);color:#22d3ee;border:1px solid rgba(6,182,212,0.3)}
+
+.sec-head h2{font-size:clamp(22px,3.5vw,32px);font-weight:900;color:#fff;margin-bottom:8px}
+.sec-head p{font-size:14px;color:var(--text-dim);max-width:860px}
+
+/* GRIDS & CARDS */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+@media(max-width:768px){.grid-2{grid-template-columns:1fr}}
+
+.card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--r);padding:24px;box-shadow:0 8px 24px rgba(0,0,0,0.3);margin-bottom:20px;transition:.25s}
+.card:hover{border-color:rgba(16,185,129,0.3);transform:translateY(-2px)}
+
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+.b-green{background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.3)}
+.b-blue{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)}
+.b-purple{background:rgba(168,85,247,0.15);color:#c084fc;border:1px solid rgba(168,85,247,0.3)}
+.b-amber{background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.3)}
+.b-rose{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
+.b-cyan{background:rgba(6,182,212,0.15);color:#22d3ee;border:1px solid rgba(6,182,212,0.3)}
+
+.drama-box{background:linear-gradient(135deg,rgba(15,23,42,.95),rgba(16,185,129,.12));border-left:4px solid #10b981;padding:14px 18px;border-radius:0 10px 10px 0;margin:14px 0;font-size:13px;line-height:1.65}
+.drama-box strong{color:#34d399;font-size:13px;display:block;margin-bottom:3px}
+
+/* CODE BLOCKS */
+pre, code{font-family:'JetBrains Mono',monospace}
+pre{background:#030712;border:1px solid var(--card-border);border-radius:10px;padding:16px;overflow-x:auto;font-size:12px;line-height:1.7;color:#f8fafc;margin:12px 0}
+.kw{color:#f472b6;font-weight:700}
+.fn{color:#60a5fa;font-weight:700}
+.str{color:#a3e635}
+.num{color:#fbbf24}
+.cm{color:#64748b;font-style:italic}
+.cls{color:#38bdf8;font-weight:700}
+
+/* TABLES */
+.data-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:12px}
+.data-table th, .data-table td{border:1px solid var(--card-border);padding:10px 14px;text-align:left}
+.data-table th{background:rgba(255,255,255,0.04);color:#fff;font-weight:700}
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav>
+  <a href="index.html" class="brand"><em>ML</em>Mastery</a>
+  <div class="nav-links">
+    <a href="index.html">Portal Index</a>
+    <a href="#tier-1">1. Scratch</a>
+    <a href="#tier-2">2. Data Structures</a>
+    <a href="#tier-3">3. Functions</a>
+    <a href="#tier-4">4. Exceptions &amp; I/O</a>
+    <a href="#tier-5">5. OOPs Masterclass</a>
+    <a href="#tier-6">6. Metaprogramming</a>
+    <a href="#tier-7">7. Concurrency</a>
+    <a href="#tier-8">8. CPython</a>
+    <a href="#tier-9">9. Type Safety</a>
+    <a href="#tier-10">10. Enterprise</a>
+    <span class="nav-badge">Page 11 · 10-Tier Master Codex</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-tag">🎓 Comprehensive Zero-to-Staff Curriculum</div>
+    <h1>The Complete Python <span>Master Codex</span></h1>
+    <p>Every single Python concept from absolute beginner zero (CPython bytecode, variables as heap references, dynamic data structures) to Staff Architect mastery (C3 MRO, Metaclasses, AsyncIO event loops, GIL free-threading, and enterprise MLOps).</p>
+    
+    <div class="hero-stats">
+      <div class="h-stat"><div class="num">10 Tiers</div><div class="lbl">Complete Spectrum</div></div>
+      <div class="h-stat"><div class="num">4 Pillars</div><div class="lbl">Complete OOPs</div></div>
+      <div class="h-stat"><div class="num">CPython</div><div class="lbl">Bytecode &amp; Memory</div></div>
+      <div class="h-stat"><div class="num">FAANG</div><div class="lbl">Architecture Level</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+
+  <!-- ========================================== -->
+  <!-- TIER 1: ABSOLUTE BEGINNER (ARCHITECTURE & SYNTAX) -->
+  <!-- ========================================== -->
+  <section id="tier-1" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag tag-emerald">Tier 1 · Absolute Beginner</span>
+      <h2>1. Python Architecture, Variables, Operators &amp; Control Flow</h2>
+      <p>CPython execution flow, heap memory references, dynamic vs strong typing, modern operators, and loops.</p>
+    </div>
+
+    <div class="grid-2">
+      <!-- 1.1 CPython Execution Engine -->
+      <div class="card">
+        <span class="badge b-green">1.1 CPython Internal Engine</span>
+        <h4 style="font-size:16px;color:#fff;margin:8px 0">Source Code ➔ Bytecode (.pyc) ➔ PVM</h4>
+        <p style="font-size:13px;color:var(--text-dim);margin-bottom:12px">
+          Python code (.py) is compiled to bytecode (.pyc) and evaluated inside the Python Virtual Machine (PVM). CPython is written in C, PyPy uses JIT compilation, Jython compiles to JVM bytecode, and Cython transpiles to C extensions.
+        </p>
+        <pre><code><span class="kw">import</span> dis
+
+<span class="kw">def</span> <span class="fn">calculate_fare</span>(dist, surge=<span class="num">1.5</span>):
+    <span class="kw">return</span> dist * surge * <span class="num">12.0</span>
+
+<span class="cm"># Inspect CPython Bytecode Instructions</span>
+dis.dis(calculate_fare)
+<span class="cm"># 0 LOAD_FAST          0 (dist)</span>
+<span class="cm"># 2 LOAD_FAST          1 (surge)</span>
+<span class="cm"># 4 BINARY_OP          5 (*)</span>
+<span class="cm"># 6 LOAD_CONST         2 (12.0)</span>
+<span class="cm"># 8 BINARY_OP          5 (*)</span>
+<span class="cm"># 10 RETURN_VALUE</span></code></pre>
+      </div>
+
+      <!-- 1.2 Variables as References -->
+      <div class="card">
+        <span class="badge b-blue">1.2 Heap Memory Architecture</span>
+        <h4 style="font-size:16px;color:#fff;margin:8px 0">Variables Are Reference Pointers on the Heap</h4>
+        <p style="font-size:13px;color:var(--text-dim);margin-bottom:12px">
+          Variables do not hold data; they hold <strong>memory addresses</strong> pointing to heap objects. Python is dynamically typed (types checked at runtime) and strongly typed (no implicit type coercion like <code>"5" + 5</code>).
+        </p>
+        <pre><code>x = [<span class="num">10</span>, <span class="num">20</span>]
+y = x          <span class="cm"># y references the EXACT same memory address</span>
+y.append(<span class="num">30</span>)
+
+<span class="fn">print</span>(x)       <span class="cm"># [10, 20, 30] (x is modified too!)</span>
+<span class="fn">print</span>(id(x) == id(y))  <span class="cm"># True (x is y)</span></code></pre>
+      </div>
+    </div>
+
+    <!-- 1.3 Primitive Data Types & Casting -->
+    <div class="card">
+      <span class="badge b-purple">1.3 Primitive Types &amp; Casting</span>
+      <h4 style="font-size:16px;color:#fff;margin:8px 0">Arbitrary Precision Integers, Floats, Complex, Booleans &amp; None</h4>
+      <p style="font-size:13px;color:var(--text-dim);margin-bottom:12px">
+        Python 3 integers have arbitrary precision (they never overflow into negative numbers!). Floats are 64-bit IEEE 754 floating-point numbers. Booleans are a subclass of integers (<code>True == 1</code>, <code>False == 0</code>).
+      </p>
+      <pre><code><span class="cm"># 1. Arbitrary Precision Integer (No 32/64-bit overflow!)</span>
+big_int = <span class="num">2</span> ** <span class="num">256</span>
+<span class="fn">print</span>(f<span class="str">"2^256 = {big_int}"</span>)
+
+<span class="cm"># 2. Type Casting</span>
+str_num = <span class="str">"100"</span>
+converted_int = int(str_num)      <span class="cm"># 100</span>
+converted_float = float(str_num)  <span class="cm"># 100.0</span>
+converted_bool = bool(str_num)    <span class="cm"># True (Any non-empty string is True)</span>
+empty_bool = bool(<span class="str">""</span>)             <span class="cm"># False</span></code></pre>
+    </div>
+
+    <!-- 1.4 Operators Encyclopedia & Walrus -->
+    <div class="grid-2">
+      <div class="card">
+        <span class="badge b-amber">1.4 Operators &amp; Expressions</span>
+        <h4 style="font-size:16px;color:#fff;margin:8px 0">Arithmetic, Comparison, Bitwise &amp; Walrus (:=)</h4>
+        <p style="font-size:13px;color:var(--text-dim);margin-bottom:12px">
+          The Walrus Operator (<code>:=</code> in Python 3.8+) assigns values inside expressions. Identity (<code>is</code>) checks memory addresses, while Equality (<code>==</code>) checks values.
+        </p>
+        <pre><code><span class="cm"># Walrus Operator (:=)</span>
+data = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
+<span class="kw">if</span> (n := len(data)) &gt; <span class="num">3</span>:
+    <span class="fn">print</span>(f<span class="str">"List has {n} elements (computed once!)"</span>)
+
+<span class="cm"># 'is' vs '=='</span>
+a = [<span class="num">1</span>, <span class="num">2</span>]
+b = [<span class="num">1</span>, <span class="num">2</span>]
+<span class="fn">print</span>(a == b)  <span class="cm"># True (Values match)</span>
+<span class="fn">print</span>(a <span class="kw">is</span> b)  <span class="cm"># False (Different memory addresses!)</span></code></pre>
+      </div>
+
+      <!-- 1.5 Control Flow & Pattern Matching -->
+      <div class="card">
+        <span class="badge b-rose">1.5 Control Flow &amp; Match/Case</span>
+        <h4 style="font-size:16px;color:#fff;margin:8px 0">Conditionals &amp; Python 3.10+ Pattern Matching</h4>
+        <p style="font-size:13px;color:var(--text-dim);margin-bottom:12px">
+          Structural pattern matching unpacks sequences, dictionaries, and classes directly inside <code>case</code> statements.
+        </p>
+        <pre><code><span class="kw">def</span> <span class="fn">route_request</span>(req):
+    <span class="kw">match</span> req:
+        <span class="kw">case</span> {<span class="str">"method"</span>: <span class="str">"GET"</span>, <span class="str">"url"</span>: <span class="str">"/api/users"</span>}:
+            <span class="kw">return</span> <span class="str">"Fetching all users"</span>
+        <span class="kw">case</span> {<span class="str">"method"</span>: <span class="str">"POST"</span>, <span class="str">"body"</span>: {<span class="str">"name"</span>: name}}:
+            <span class="kw">return</span> f<span class="str">"Created user: {name}"</span>
+        <span class="kw">case</span> _:
+            <span class="kw">return</span> <span class="str">"404 Not Found"</span></code></pre>
+      </div>
+    </div>
+
+    <!-- 1.6 Loops & Iteration Helpers -->
+    <div class="card">
+      <span class="badge b-cyan">1.6 Loops &amp; Iteration Helpers</span>
+      <h4 style="font-size:16px;color:#fff;margin:8px 0">while, for, loop else, enumerate(), zip(), reversed(), sorted()</h4>
+      <pre><code>names = [<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Charlie"</span>]
+scores = [<span class="num">92</span>, <span class="num">88</span>, <span class="num">95</span>]
+
+<span class="cm"># 1. zip() for parallel iteration</span>
+<span class="kw">for</span> name, score <span class="kw">in</span> zip(names, scores):
+    <span class="fn">print</span>(f<span class="str">"{name}: {score}"</span>)
+
+<span class="cm"># 2. Loop 'else' clause (Executes ONLY if NO 'break' was hit)</span>
+<span class="kw">for</span> n <span class="kw">in</span> [<span class="num">2</span>, <span class="num">4</span>, <span class="num">6</span>]:
+    <span class="kw">if</span> n % <span class="num">2</span> != <span class="num">0</span>:
+        <span class="kw">break</span>
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"All numbers in list were even!"</span>)</code></pre>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- TIER 2: CORE DATA STRUCTURES & STRINGS -->
+  <!-- ========================================== -->
+  <section id="tier-2" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag tag-blue">Tier 2 · Data Structures</span>
+      <h2>2. Strings, Lists, Tuples, Sets, Dictionaries &amp; Copying</h2>
+      <p>Time complexities, memory layouts, dictionary hashing, and shallow vs deep copy mechanics.</p>
+    </div>
+
+    <div class="grid-2">
+      <!-- 2.1 Strings Deep Dive -->
+      <div class="card">
+        <span class="badge b-green">2.1 Strings &amp; Text Processing</span>
+        <h4 style="font-size:16px;color:#fff;margin:8px 0">Immutability, Slicing &amp; Formatting</h4>
+        <p style="font-size:13px;color:var(--text-dim);margin-bottom:12px">
+          Strings are immutable arrays of Unicode code points. Slicing uses <code>[start:stop:step]</code>. Joining with <code>"".join()</code> operates in $O(N)$ time, while string concatenation <code>+=</code> operates in $O(N^2)$ time!
+        </p>
+        <pre><code>s = <span class="str">"  machine learning engineer  "</span>
+
+<span class="cm"># Methods</span>
+clean = s.strip().title()        <span class="cm"># "Machine Learning Engineer"</span>
+tokens = clean.split(<span class="str">" "</span>)        <span class="cm"># ['Machine', 'Learning', 'Engineer']</span>
+joined = <span class="str">"-"</span>.join(tokens)        <span class="cm"># "Machine-Learning-Engineer"</span>
+
+<span class="cm"># Fast Slicing</span>
+rev = clean[::-<span class="num">1</span>]                <span class="cm"># Reverse string</span>
+<span class="fn">print</span>(f<span class="str">"Reversed: {rev}"</span>)</code></pre>
+      </div>
+
+      <!-- 2.2 Lists (Dynamic Arrays) -->
+      <div class="card">
+        <span class="badge b-blue">2.2 Lists (Dynamic Arrays)</span>
+        <h4 style="font-size:16px;color:#fff;margin:8px 0">Dynamic Array Resizing &amp; Comprehensions</h4>
+        <p style="font-size:13px;color:var(--text-dim);margin-bottom:12px">
+          Python lists over-allocate memory when growing (e.g. allocating slots 0, 4, 8, 16, 25, 35...) to ensure amortized $O(1)$ append time.
+        </p>
+        <pre><code>nums = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span>]
+
+<span class="cm"># Filtered & Nested List Comprehension</span>
+evens_squared = [x**<span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> nums <span class="kw">if</span> x % <span class="num">2</span> == <span class="num">0</span>]
+<span class="cm"># [4, 16, 36]</span>
+
+matrix = [[<span class="num">1</span>, <span class="num">2</span>], [<span class="num">3</span>, <span class="num">4</span>]]
+flat = [val <span class="kw">for</span> row <span class="kw">in</span> matrix <span class="kw">for</span> val <span class="kw">in</span> row]
+<span class="cm"># [1, 2, 3, 4]</span></code></pre>
+      </div>
+    </div>
+
+    <!-- 2.3 Tuples & 2.4 Sets -->
+    <div class="grid-2">
+      <div class="card">
+        <span class="badge b-purple">2.3 Tuples &amp; NamedTuples</span>
+        <h4 style="font-size:16px;color:#fff;margin:8px 0">Immutability, Unpacking &amp; namedtuple</h4>
+        <pre><code><span class="kw">from</span> collections <span class="kw">import</span> namedtuple
+
+<span class="cm"># Extended Unpacking</span>
+a, *b, c = (<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>)
+<span class="cm"># a = 1, b = [2, 3, 4], c = 5</span>
+
+<span class="cm"># NamedTuples for lightweight immutable records</span>
+User = namedtuple(<span class="str">'User'</span>, [<span class="str">'id'</span>, <span class="str">'name'</span>, <span class="str">'role'</span>])
+u = User(<span class="num">101</span>, <span class="str">"Alice"</span>, <span class="str">"Admin"</span>)
+<span class="fn">print</span>(f<span class="str">"{u.name} is {u.role}"</span>)</code></pre>
+      </div>
+
+      <div class="card">
+        <span class="badge b-amber">2.4 Sets &amp; Frozensets</span>
+        <h4 style="font-size:16px;color:#fff;margin:8px 0">Hash Set Mechanics &amp; Math Ops</h4>
+        <pre><code>set_a = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>}
+set_b = {<span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span>}
+
+union = set_a | set_b        <span class="cm"># {1, 2, 3, 4, 5, 6}</span>
+inter = set_a &amp; set_b        <span class="cm"># {3, 4}</span>
+diff = set_a - set_b         <span class="cm"># {1, 2}</span>
+sym_diff = set_a ^ set_b     <span class="cm"># {1, 2, 5, 6}</span>
+
+<span class="cm"># frozenset: Immutable set usable as dict keys!</span>
+immutable_set = frozenset([<span class="num">10</span>, <span class="num">20</span>])</code></pre>
+      </div>
+    </div>
+
+    <!-- 2.5 Dictionaries & 2.6 Copying -->
+    <div class="grid-2">
+      <div class="card">
+        <span class="badge b-rose">2.5 Dictionaries (Hash Maps)</span>
+        <h4 style="font-size:16px;color:#fff;margin:8px 0">Compact Hash Tables &amp; Python 3.9+ Merge</h4>
+        <pre><code>defaults = {<span class="str">"theme"</span>: <span class="str">"light"</span>, <span class="str">"port"</span>: <span class="num">8080</span>}
+overrides = {<span class="str">"theme"</span>: <span class="str">"dark"</span>, <span class="str">"debug"</span>: <span class="kw">True</span>}
+
+<span class="cm"># Python 3.9+ '|' dictionary merge operator</span>
+config = defaults | overrides
+<span class="cm"># {'theme': 'dark', 'port': 8080, 'debug': True}</span>
+
+<span class="cm"># Safe get with default fallback</span>
+timeout = config.get(<span class="str">"timeout"</span>, <span class="num">30</span>)</code></pre>
+      </div>
+
+      <div class="card">
+        <span class="badge b-cyan">2.6 Shallow vs Deep Copy</span>
+        <h4 style="font-size:16px;color:#fff;margin:8px 0">Recursive vs Reference Cloning</h4>
+        <pre><code><span class="kw">import</span> copy
+
+orig = [[<span class="num">1</span>, <span class="num">2</span>], [<span class="num">3</span>, <span class="num">4</span>]]
+shallow = copy.copy(orig)
+deep = copy.deepcopy(orig)
+
+orig[<span class="num">0</span>][<span class="num">0</span>] = <span class="num">999</span>
+<span class="cm"># shallow[0][0] is 999! (Shared nested list pointer)</span>
+<span class="cm"># deep[0][0] is 1! (Isolated recursive clone)</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- TIER 3: FUNCTIONS, SCOPE & FUNCTIONAL PYTHON -->
+  <!-- ========================================== -->
+  <section id="tier-3" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag tag-purple">Tier 3 · Functional Python</span>
+      <h2>3. Functions, Arguments, The LEGB Rule &amp; Closures</h2>
+      <p>Argument packing (*args, **kwargs), Mutable default trap, LEGB Scope, and Closures.</p>
+    </div>
+
+    <div class="grid-2">
+      <!-- 3.1 Function Arguments & Mutable Default Trap -->
+      <div class="card">
+        <span class="badge b-rose">⚠️ 3.1 Mutable Default Trap</span>
+        <h4 style="font-size:16px;color:#fff;margin:8px 0">Default Arguments Evaluated at Definition Time</h4>
+        <pre><code><span class="cm"># ❌ BUG: Shared list across all calls!</span>
+<span class="kw">def</span> <span class="fn">add_item</span>(item, target_list=[]):
+    target_list.append(item)
+    <span class="kw">return</span> target_list
+
+<span class="cm"># ✅ FIX: Use None sentinel</span>
+<span class="kw">def</span> <span class="fn">add_item_safe</span>(item, target_list=<span class="kw">None</span>):
+    <span class="kw">if</span> target_list <span class="kw">is None</span>:
+        target_list = []
+    target_list.append(item)
+    <span class="kw">return</span> target_list</code></pre>
+      </div>
+
+      <!-- 3.2 Positional-Only & Keyword-Only -->
+      <div class="card">
+        <span class="badge b-blue">3.2 Positional (/) &amp; Keyword (*)</span>
+        <h4 style="font-size:16px;color:#fff;margin:8px 0">Strict Parameter Boundary Enforcement</h4>
+        <pre><code><span class="cm"># a, b must be positional; c can be either; d must be keyword</span>
+<span class="kw">def</span> <span class="fn">strict_fn</span>(a, b, /, c, *, d=<span class="num">100</span>):
+    <span class="kw">return</span> a + b + c + d
+
+<span class="cm"># strict_fn(1, 2, 3, d=4) -> OK</span>
+<span class="cm"># strict_fn(a=1, 2, 3, 4) -> TypeError!</span></code></pre>
+      </div>
+    </div>
+
+    <!-- 3.3 LEGB Scope & Closures -->
+    <div class="card">
+      <span class="badge b-purple">3.3 The LEGB Scope Rule &amp; Closures</span>
+      <h4 style="font-size:16px;color:#fff;margin:8px 0">Local ➔ Enclosing (nonlocal) ➔ Global ➔ Built-in</h4>
+      <pre><code><span class="kw">def</span> <span class="fn">create_multiplier</span>(factor):
+    <span class="cm"># 'factor' is stored in the closure cell (__closure__)</span>
+    <span class="kw">def</span> <span class="fn">multiplier</span>(x):
+        <span class="kw">return</span> x * factor
+    <span class="kw">return</span> multiplier
+
+double = create_multiplier(<span class="num">2</span>)
+triple = create_multiplier(<span class="num">3</span>)
+<span class="fn">print</span>(double(<span class="num">10</span>))  <span class="cm"># 20</span>
+<span class="fn">print</span>(triple(<span class="num">10</span>))  <span class="cm"># 30</span></code></pre>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- TIER 4: EXCEPTIONS, FILE I/O & SERIALIZATION -->
+  <!-- ========================================== -->
+  <section id="tier-4" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag tag-amber">Tier 4 · Exceptions &amp; I/O</span>
+      <h2>4. Exception Handling, Streaming File I/O &amp; Serialization</h2>
+      <p>Custom exception hierarchies, memory-efficient 10GB streaming, JSON, and Pathlib.</p>
+    </div>
+
+    <div class="grid-2">
+      <!-- 4.1 Custom Exceptions -->
+      <div class="card">
+        <span class="badge b-amber">4.1 Custom Exceptions &amp; Chaining</span>
+        <h4 style="font-size:16px;color:#fff;margin:8px 0">Exception Chaining (raise ... from ...)</h4>
+        <pre><code><span class="kw">class</span> <span class="cls">DatabaseTimeoutException</span>(Exception):
+    """Raised when query execution exceeds timeout threshold."""
+    <span class="kw">pass</span>
+
+<span class="kw">def</span> <span class="fn">execute_query</span>():
+    <span class="kw">try</span>:
+        <span class="kw">raise</span> TimeoutError(<span class="str">"Socket timed out"</span>)
+    <span class="kw">except</span> TimeoutError <span class="kw">as</span> err:
+        <span class="kw">raise</span> DatabaseTimeoutException(<span class="str">"PostgreSQL failed"</span>) <span class="kw">from</span> err</code></pre>
+      </div>
+
+      <!-- 4.2 Streaming 10GB Files -->
+      <div class="card">
+        <span class="badge b-green">4.2 Streaming File I/O</span>
+        <h4 style="font-size:16px;color:#fff;margin:8px 0">Streaming 10GB Logs with O(1) Memory</h4>
+        <pre><code><span class="kw">from</span> pathlib <span class="kw">import</span> Path
+
+<span class="kw">def</span> <span class="fn">stream_massive_file</span>(filepath: Path):
+    <span class="kw">with</span> filepath.open(<span class="str">"r"</span>, encoding=<span class="str">"utf-8"</span>) <span class="kw">as</span> f:
+        <span class="kw">for</span> line <span class="kw">in</span> f:  <span class="cm"># Streams line-by-line</span>
+            <span class="kw">if</span> <span class="str">"ERROR"</span> <span class="kw">in</span> line:
+                <span class="kw">yield</span> line.strip()</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- TIER 5: COMPLETE OOPS MASTERCLASS -->
+  <!-- ========================================== -->
+  <section id="tier-5" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag tag-purple">Tier 5 · Core OOPs Pillars</span>
+      <h2>5. Complete Object-Oriented Programming (OOPs) Masterclass</h2>
+      <p>The 4 Pillars (Encapsulation, Abstraction, Inheritance with C3 MRO, Polymorphism), Magic Dunder Methods, and __slots__ RAM optimization.</p>
+    </div>
+
+    <div class="grid-2">
+      <!-- 5.1 Encapsulation -->
+      <div class="card">
+        <span class="badge b-purple">5.1 Encapsulation &amp; Data Hiding</span>
+        <h4 style="font-size:16px;color:#fff;margin:8px 0">Private Variables &amp; @property Validation</h4>
+        <pre><code><span class="kw">class</span> <span class="cls">HDFCAccount</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, acc_no: str, initial_bal: float):
+        self.acc_no = acc_no
+        self.__balance = initial_bal  <span class="cm"># Private attribute</span>
+
+    @property
+    <span class="kw">def</span> <span class="fn">balance</span>(self):
+        <span class="kw">return</span> self.__balance
+
+    @balance.setter
+    <span class="kw">def</span> <span class="fn">balance</span>(self, amount: float):
+        <span class="kw">if</span> amount &lt; <span class="num">0</span>:
+            <span class="kw">raise</span> ValueError(<span class="str">"Account balance cannot be negative!"</span>)
+        self.__balance = amount</code></pre>
+      </div>
+
+      <!-- 5.2 Abstraction -->
+      <div class="card">
+        <span class="badge b-blue">5.2 Abstraction &amp; Interfaces</span>
+        <h4 style="font-size:16px;color:#fff;margin:8px 0">Abstract Base Classes (abc.ABC)</h4>
+        <pre><code><span class="kw">from</span> abc <span class="kw">import</span> ABC, abstractmethod
+
+<span class="kw">class</span> <span class="cls">PaymentProcessor</span>(ABC):
+    @abstractmethod
+    <span class="kw">def</span> <span class="fn">process_payment</span>(self, amount: float) -&gt; bool:
+        <span class="kw">pass</span>
+
+<span class="kw">class</span> <span class="cls">StripeService</span>(PaymentProcessor):
+    <span class="kw">def</span> <span class="fn">process_payment</span>(self, amount: float) -&gt; bool:
+        <span class="fn">print</span>(f<span class="str">"Processing ${amount} via Stripe API..."</span>)
+        <span class="kw">return</span> <span class="kw">True</span></code></pre>
+      </div>
+
+      <!-- 5.3 Inheritance & MRO -->
+      <div class="card">
+        <span class="badge b-green">5.3 Inheritance &amp; MRO</span>
+        <h4 style="font-size:16px;color:#fff;margin:8px 0">C3 Linearization &amp; super()</h4>
+        <pre><code><span class="kw">class</span> <span class="cls">A</span>:
+    <span class="kw">def</span> <span class="fn">action</span>(self): <span class="fn">print</span>(<span class="str">"Action A"</span>)
+
+<span class="kw">class</span> <span class="cls">B</span>(A):
+    <span class="kw">def</span> <span class="fn">action</span>(self): <span class="fn">print</span>(<span class="str">"Action B"</span>); super().action()
+
+<span class="kw">class</span> <span class="cls">C</span>(A):
+    <span class="kw">def</span> <span class="fn">action</span>(self): <span class="fn">print</span>(<span class="str">"Action C"</span>); super().action()
+
+<span class="kw">class</span> <span class="cls">D</span>(B, C): <span class="kw">pass</span>
+
+d = D()
+d.action()  <span class="cm"># Order: D -> B -> C -> A (C3 MRO)</span></code></pre>
+      </div>
+
+      <!-- 5.4 Polymorphism -->
+      <div class="card">
+        <span class="badge b-rose">5.4 Polymorphism &amp; Dunder Methods</span>
+        <h4 style="font-size:16px;color:#fff;margin:8px 0">Operator Overloading (__add__, __repr__)</h4>
+        <pre><code><span class="kw">class</span> <span class="cls">Tensor2D</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, x, y):
+        self.x, self.y = x, y
+    <span class="kw">def</span> <span class="fn">__add__</span>(self, other):
+        <span class="kw">return</span> Tensor2D(self.x + other.x, self.y + other.y)
+    <span class="kw">def</span> <span class="fn">__repr__</span>(self):
+        <span class="kw">return</span> f<span class="str">"Tensor2D({self.x}, {self.y})"</span>
+
+t1 = Tensor2D(<span class="num">2</span>, <span class="num">3</span>)
+t2 = Tensor2D(<span class="num">4</span>, <span class="num">7</span>)
+<span class="fn">print</span>(t1 + t2)  <span class="cm"># Tensor2D(6, 10)</span></code></pre>
+      </div>
+    </div>
+
+    <!-- 5.5 __slots__ Memory Optimization -->
+    <div class="card" style="margin-top:20px">
+      <h3 style="font-size:18px;color:#fff;margin-bottom:12px">⚡ 5.5 Memory Optimization with __slots__: 68% RAM Savings</h3>
+      <p style="font-size:13px;color:var(--text-dim);margin-bottom:12px">
+        By default, Python instances store attributes in a dynamic dictionary (<code>__dict__</code>), consuming ~153 bytes per object. Declaring <code>__slots__ = ('x', 'y')</code> eliminates <code>__dict__</code>, reducing memory down to 48 bytes per object.
+      </p>
+      <pre><code><span class="kw">class</span> <span class="cls">OptimizedCoordinate</span>:
+    __slots__ = (<span class="str">'lat'</span>, <span class="str">'lon'</span>)  <span class="cm"># Eliminates instance __dict__</span>
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, lat, lon):
+        self.lat = lat
+        self.lon = lon</code></pre>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- TIER 6: METAPROGRAMMING & ADVANCED PYTHON -->
+  <!-- ========================================== -->
+  <section id="tier-6" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag tag-rose">Tier 6 · Advanced Metaprogramming</span>
+      <h2>6. Metaclasses, Custom Decorators, Generators &amp; Descriptors</h2>
+      <p>Dynamic class generation with <code>type</code>, descriptor protocols, and generator pipelines.</p>
+    </div>
+
+    <div class="grid-2">
+      <!-- 6.1 Metaclasses -->
+      <div class="card">
+        <span class="badge b-purple">6.1 Metaclasses</span>
+        <h4 style="font-size:16px;color:#fff;margin:8px 0">Metaclass Singleton Architecture</h4>
+        <pre><code><span class="kw">class</span> <span class="cls">SingletonMeta</span>(type):
+    _instances = {}
+    <span class="kw">def</span> <span class="fn">__call__</span>(cls, *args, **kwargs):
+        <span class="kw">if</span> cls <span class="kw">not in</span> cls._instances:
+            cls._instances[cls] = super().__call__(*args, **kwargs)
+        <span class="kw">return</span> cls._instances[cls]
+
+<span class="kw">class</span> <span class="cls">DatabaseEngine</span>(metaclass=SingletonMeta):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        <span class="fn">print</span>(<span class="str">"Connecting to PostgreSQL..."</span>)
+
+db1 = DatabaseEngine()
+db2 = DatabaseEngine()
+<span class="fn">print</span>(db1 <span class="kw">is</span> db2)  <span class="cm"># True (Guaranteed Singleton!)</span></code></pre>
+      </div>
+
+      <!-- 6.2 Descriptors -->
+      <div class="card">
+        <span class="badge b-green">6.2 Descriptors</span>
+        <h4 style="font-size:16px;color:#fff;margin:8px 0">The Descriptor Protocol (__get__, __set__)</h4>
+        <pre><code><span class="kw">class</span> <span class="cls">PositiveNumber</span>:
+    <span class="kw">def</span> <span class="fn">__set_name__</span>(self, owner, name):
+        self.name = name
+    <span class="kw">def</span> <span class="fn">__get__</span>(self, instance, owner):
+        <span class="kw">return</span> instance.__dict__.get(self.name, <span class="num">0</span>)
+    <span class="kw">def</span> <span class="fn">__set__</span>(self, instance, value):
+        <span class="kw">if</span> value &lt;= <span class="num">0</span>:
+            <span class="kw">raise</span> ValueError(f<span class="str">"{self.name} must be > 0!"</span>)
+        instance.__dict__[self.name] = value
+
+<span class="kw">class</span> <span class="cls">Item</span>:
+    price = PositiveNumber()</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- TIER 7: CONCURRENCY & ASYNCIO -->
+  <!-- ========================================== -->
+  <section id="tier-7" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag tag-cyan">Tier 7 · Concurrency</span>
+      <h2>7. Asynchronous Programming, Threading &amp; Multiprocessing</h2>
+      <p>AsyncIO non-blocking event loops, ThreadPoolExecutor, and multiprocessing.</p>
+    </div>
+
+    <div class="card">
+      <pre><code><span class="kw">import</span> asyncio
+
+<span class="kw">async def</span> <span class="fn">fetch_microservice</span>(service_name: str, delay: int):
+    <span class="kw">await</span> asyncio.sleep(delay)
+    <span class="kw">return</span> f<span class="str">"{service_name}: OK"</span>
+
+<span class="kw">async def</span> <span class="fn">main</span>():
+    results = <span class="kw">await</span> asyncio.gather(
+        fetch_microservice(<span class="str">"AuthService"</span>, <span class="num">1</span>),
+        fetch_microservice(<span class="str">"OrderService"</span>, <span class="num">1</span>),
+        fetch_microservice(<span class="str">"PaymentService"</span>, <span class="num">1</span>)
+    )
+    <span class="fn">print</span>(f<span class="str">"Executed 3 services concurrently in ~1s: {results}"</span>)
+
+asyncio.run(main())</code></pre>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- TIER 8: CPYTHON INTERNALS & PERFORMANCE -->
+  <!-- ========================================== -->
+  <section id="tier-8" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag tag-emerald">Tier 8 · CPython Internals</span>
+      <h2>8. CPython Memory Management, Garbage Collection &amp; Caching</h2>
+      <p>Generational GC (Gen 0, 1, 2), Small Int Caching (-5 to 256), and String Interning.</p>
+    </div>
+
+    <div class="card">
+      <h4 style="font-size:16px;color:#fff;margin-bottom:10px">Small Integer Caching: Why 256 is 256, but 257 is not 257</h4>
+      <pre><code>a = <span class="num">256</span>
+b = <span class="num">256</span>
+<span class="fn">print</span>(a <span class="kw">is</span> b)  <span class="cm"># True (CPython pre-allocates integers from -5 to 256 in memory!)</span>
+
+x = <span class="num">257</span>
+y = <span class="num">257</span>
+<span class="fn">print</span>(x <span class="kw">is</span> y)  <span class="cm"># False (Separate heap memory allocations)</span></code></pre>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- TIER 9: TYPE SAFETY & PRODUCTION ENGINEERING -->
+  <!-- ========================================== -->
+  <section id="tier-9" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag tag-blue">Tier 9 · Type Safety</span>
+      <h2>9. Type Hints, Protocols, Pydantic &amp; Pytest TDD</h2>
+      <p>Static typing with Mypy, runtime validation with Pydantic, and test-driven development with Pytest.</p>
+    </div>
+
+    <div class="card">
+      <pre><code><span class="kw">from</span> typing <span class="kw">import</span> Protocol, Optional
+<span class="kw">from</span> pydantic <span class="kw">import</span> BaseModel, Field
+
+<span class="kw">class</span> <span class="cls">UserPayload</span>(BaseModel):
+    user_id: int
+    email: str = Field(pattern=<span class="str">r"^[\w\.-]+@[\w\.-]+\.\w+$"</span>)
+    is_active: bool = <span class="kw">True</span>
+    age: Optional[int] = Field(<span class="kw">None</span>, ge=<span class="num">18</span>, le=<span class="num">120</span>)</code></pre>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- TIER 10: ENTERPRISE DOMAINS & ML -->
+  <!-- ========================================== -->
+  <section id="tier-10" class="sec">
+    <div class="sec-head">
+      <span class="sec-tag tag-amber">Tier 10 · Enterprise Domains</span>
+      <h2>10. Python in Data Science, Machine Learning &amp; FastAPI</h2>
+      <p>NumPy vectorized broadcasting, Pandas DataFrame wrangling, Scikit-Learn Pipelines, and FastAPI async services.</p>
+    </div>
+
+    <div class="card">
+      <pre><code><span class="kw">from</span> fastapi <span class="kw">import</span> FastAPI
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+app = FastAPI(title=<span class="str">"ML Prediction Microservice"</span>)
+
+@app.post(<span class="str">"/predict"</span>)
+<span class="kw">async def</span> <span class="fn">predict_risk</span>(features: list[float]):
+    arr = np.array(features).reshape(<span class="num">1</span>, -<span class="num">1</span>)
+    score = float(np.mean(arr) * <span class="num">1.42</span>)
+    <span class="kw">return</span> {<span class="str">"risk_score"</span>: score, <span class="str">"status"</span>: <span class="str">"APPROVED"</span> <span class="kw">if</span> score &lt; <span class="num">0.5</span> <span class="kw">else</span> <span class="str">"REVIEW"</span>}</code></pre>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>

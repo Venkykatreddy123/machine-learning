@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ML Mastery — Complete Learning Portal for IT Job Seekers</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#2563eb;--blue-d:#1d4ed8;--blue-l:#eff6ff;
+  --green:#16a34a;--green-l:#f0fdf4;
+  --amber:#d97706;--amber-l:#fffbeb;
+  --purple:#7c3aed;--purple-l:#f5f3ff;
+  --cyan:#0891b2;--cyan-l:#ecfeff;
+  --pink:#db2777;--pink-l:#fdf2f8;
+  --s50:#f8fafc;--s100:#f1f5f9;--s200:#e2e8f0;
+  --s400:#94a3b8;--s500:#64748b;--s600:#475569;--s700:#334155;
+  --s800:#1e293b;--s900:#0f172a;--r:14px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--s900);color:#fff;min-height:100vh}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:60px;background:rgba(15,23,42,0.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06)}
+.brand{font-size:18px;font-weight:900;color:#fff}.brand em{font-style:normal;color:#60a5fa}
+.nav-badge{font-size:11px;font-weight:700;color:#4ade80;background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.25);padding:4px 12px;border-radius:999px}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(37,99,235,.35) 0%,transparent 70%),radial-gradient(ellipse 60% 40% at 80% 80%,rgba(124,58,237,.2) 0%,transparent 60%),linear-gradient(180deg,#0a0f1e 0%,#0f172a 100%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:60px 60px}
+.hero-content{position:relative;z-index:1;max-width:800px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#93c5fd;font-size:11px;font-weight:700;padding:6px 16px;border-radius:999px;margin-bottom:28px;letter-spacing:1px;text-transform:uppercase}
+.hero h1{font-size:clamp(36px,7vw,72px);font-weight:900;line-height:1.05;letter-spacing:-2px;margin-bottom:22px}
+.hero h1 .line1{display:block;color:#fff}
+.hero h1 .line2{display:block;background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:18px;color:#94a3b8;line-height:1.7;max-width:560px;margin:0 auto 40px}
+.hero-stats{display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
+.hs{text-align:center}
+.hs-num{font-size:36px;font-weight:900;color:#fff}
+.hs-label{font-size:12px;color:var(--s400);margin-top:2px;font-weight:500}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;transition:.2s}
+.btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:var(--blue-d);transform:translateY(-2px);box-shadow:0 8px 25px rgba(37,99,235,.4)}
+.btn-ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.15)}.btn-ghost:hover{background:rgba(255,255,255,.15)}
+.scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--s500);font-size:12px}
+.scroll-arrow{width:26px;height:26px;border:2px solid var(--s600);border-radius:50%;display:flex;align-items:center;justify-content:center;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+.wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+.sec{padding:80px 0}
+.sec-head{text-align:center;margin-bottom:52px}
+.sec-tag{display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#60a5fa;background:rgba(96,165,250,.1);padding:4px 14px;border-radius:999px;margin-bottom:12px}
+.sec-head h2{font-size:clamp(24px,3.5vw,40px);font-weight:900;color:#fff;letter-spacing:-.5px}
+.sec-head p{color:var(--s400);font-size:16px;margin-top:12px;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.7}
+/* PAGE CARDS */
+.page-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.page-cards-wide{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:24px}
+@media(max-width:900px){.page-cards,.page-cards-wide{grid-template-columns:1fr}}
+.page-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:28px;position:relative;overflow:hidden;transition:.3s;text-decoration:none;display:flex;flex-direction:column;color:inherit}
+.page-card:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18);transform:translateY(-5px)}
+.page-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,var(--glow) 0%,transparent 70%);opacity:.35;pointer-events:none}
+.card-num{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:2px;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.cnb{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px}
+.card-icon{font-size:40px;margin-bottom:16px;display:block}
+.card-title{font-size:21px;font-weight:900;color:#fff;margin-bottom:8px;letter-spacing:-.3px}
+.card-desc{font-size:13px;color:var(--s400);line-height:1.7;margin-bottom:20px;flex:1}
+.module-list{display:flex;flex-direction:column;gap:7px;margin-bottom:24px}
+.ml-item{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--s300)}
+.ml-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.card-cta{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;padding:9px 18px;border-radius:8px;width:fit-content;transition:.2s}
+/* TOPIC GRID */
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.tc{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:13px 15px;display:flex;align-items:center;gap:10px}
+.tc-icon{font-size:20px;flex-shrink:0}
+.tc-name{font-size:13px;font-weight:700;color:#e2e8f0}
+.tc-pg{font-size:10px;font-weight:700;margin-top:2px}
+/* ROADMAP */
+.rm-list{display:flex;flex-direction:column;gap:4px}
+.rm-row{display:grid;grid-template-columns:56px 1fr;gap:20px}
+.rm-spine{display:flex;flex-direction:column;align-items:center}
+.rm-dot{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;border:2px solid;flex-shrink:0}
+.rm-line{width:2px;flex:1;min-height:28px}
+.rm-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px 20px;margin-bottom:8px}
+.rm-title{font-size:14px;font-weight:800;color:#fff;margin-bottom:4px}
+.rm-sub{font-size:12px;color:var(--s400);line-height:1.65}
+.rm-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+.rm-tag{font-size:10px;font-weight:700;padding:2px 9px;border-radius:4px;text-transform:uppercase;letter-spacing:.4px}
+/* ALGO COMPARE */
+.compare-table{width:100%;border-collapse:collapse;font-size:13px;background:rgba(255,255,255,.03);border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.compare-table th{padding:12px 16px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--s400);background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.08)}
+.compare-table td{padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.05);color:var(--s300)}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-table tr:hover td{background:rgba(255,255,255,.03)}
+/* FOOTER */
+.site-footer{background:rgba(255,255,255,.02);border-top:1px solid rgba(255,255,255,.06);padding:48px 24px;text-align:center}
+.footer-brand{font-size:22px;font-weight:900;color:#fff;margin-bottom:12px}.footer-brand em{font-style:normal;color:#60a5fa}
+.footer-links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
+.footer-links a{font-size:13px;color:var(--s500);text-decoration:none;font-weight:500;transition:.15s}
+.footer-links a:hover{color:#60a5fa}
+.filter-bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:24px 0 36px}
+.filter-btn{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:var(--s400);padding:8px 18px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.filter-btn:hover{background:rgba(255,255,255,0.12);color:#fff}
+.filter-btn.active{background:rgba(59,130,246,0.25);border-color:#3b82f6;color:#60a5fa;font-weight:700}
+.page-card.hide{display:none!important}
+
+section[id]{scroll-margin-top:84px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand"><em>ML</em>Mastery</div>
+  <div style="display:flex;gap:12px;align-items:center">
+    <button class="btn btn-ghost" onclick="toggleProgressModal()" style="font-size:12px;padding:4px 12px;border:1px solid rgba(74,222,128,0.3);color:#4ade80">📊 My Progress (<span id="userProgressPct">0%</span>)</button>
+    <button class="btn btn-ghost" onclick="openSearchModal()" style="font-size:12px;padding:4px 12px;border:1px solid rgba(255,255,255,0.15)">🔍 Search <kbd style="background:rgba(255,255,255,0.15);padding:1px 5px;border-radius:4px;font-size:10px">Ctrl+K</kbd></button>
+    <div class="nav-badge">🟢 14 Pages · Full Master Curriculum · ML, SQL &amp; Prompt Eng</div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🎓 GFG-Inspired · Interactive 3D Sandboxes · SQL Codex · Prompt Engineering · IT Job Ready</div>
+    <h1>
+      <span class="line1">Machine Learning</span>
+      <span class="line2">Learning Portal</span>
+    </h1>
+    <p class="hero-sub">Every ML, SQL &amp; Generative AI Prompt topic explained with visual diagrams, real IT scenarios, and interview-ready answers. Built for Data Science students targeting IT jobs.</p>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-num">14</div><div class="hs-label">Content Pages</div></div>
+      <div class="hs"><div class="hs-num">80+</div><div class="hs-label">ML, SQL &amp; AI Modules</div></div>
+      <div class="hs"><div class="hs-num">🔮 Prompt</div><div class="hs-label">Zero-to-Hero Codex</div></div>
+      <div class="hs"><div class="hs-num">🗄️ SQL</div><div class="hs-label">125-Page Codex</div></div>
+      <div class="hs"><div class="hs-num">GraphRAG</div><div class="hs-label">Knowledge Engine</div></div>
+      <div class="hs"><div class="hs-num">100%</div><div class="hs-label">Staff &amp; IT Ready</div></div>
+    </div>
+    <div class="hero-btns">
+      <a href="prompt_engineering_mastery.html" class="btn btn-primary" style="background:linear-gradient(135deg,#9333ea,#7e22ce)">🔮 Prompt Engineering Codex →</a>
+      <a href="sql_for_data_science.html" class="btn btn-primary" style="background:linear-gradient(135deg,#0284c7,#0369a1)">🗄️ SQL &amp; Full DS Project</a>
+      <a href="industrial_systems.html" class="btn btn-ghost" style="border:1px solid #ec4899;color:#ec4899">💡 GraphRAG &amp; Lamp</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll to explore</span>
+    <div class="scroll-arrow">↓</div>
+  </div>
+</section>
+
+<!-- PAGE CARDS -->
+<div id="pages" class="wrap sec">
+  <div class="sec-head">
+    <div class="sec-tag">Learning Paths</div>
+    <h2>14 Pages · Complete ML, SQL Codex, Prompt Engineering &amp; Industrial Systems</h2>
+    <p>Filter by stream or explore the complete curriculum from scratch to Staff AI Architect level.</p>
+  </div>
+
+  <!-- Interactive Category Filter Bar -->
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterCards('all', this)">All Pages (14)</button>
+    <button class="filter-btn" onclick="filterCards('math-python', this)">📐 Math, Python &amp; SQL (4)</button>
+    <button class="filter-btn" onclick="filterCards('prompt-eng', this)">🔮 Prompt Engineering (1)</button>
+    <button class="filter-btn" onclick="filterCards('core-ml', this)">🧠 Core ML &amp; Deep Dive (3)</button>
+    <button class="filter-btn" onclick="filterCards('mlops-warroom', this)">🚀 MLOps &amp; War Room (3)</button>
+    <button class="filter-btn" onclick="filterCards('interactive-3d', this)">🎮 3D WebGL &amp; Arena (2)</button>
+    <button class="filter-btn" onclick="filterCards('career', this)">🏆 Career Hub (1)</button>
+  </div>
+  <!-- Row 1: Math + Python (foundations) -->
+  <div class="page-cards-wide">
+    <a href="math_foundations.html" class="page-card" data-cat="math-python" style="--glow:rgba(217,119,6,.5)">
+      <div class="card-num" style="color:#fbbf24"><span class="cnb" style="background:rgba(251,191,36,.15)">0</span>Page 0 · Prerequisites</div>
+      <span class="card-icon">📐</span>
+      <div class="card-title">Mathematics for ML — Scratch to Advanced</div>
+      <div class="card-desc">Build the mathematical foundation that powers every ML algorithm. Linear Algebra, Statistics, Calculus, and Optimization — all with animated 3D-style diagrams.</div>
+      <div class="module-list">
+        <div class="ml-item"><div class="ml-dot" style="background:#fbbf24"></div>Linear Algebra: Vectors, Matrices, Dot Product, Eigenvalues</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#fbbf24"></div>Statistics: Mean/Variance/Normal Distribution/Bayes</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#fbbf24"></div>Calculus: Derivatives, Chain Rule, Partial Derivatives</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#fbbf24"></div>Optimization: Convex Functions, Cost Surface 3D</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#fbbf24"></div>NumPy Math: Every concept coded in Python</div>
+      </div>
+      <div class="card-cta" style="background:rgba(217,119,6,.2);color:#fbbf24">Start with Math →</div>
+    </a>
+    <a href="python_ml.html" class="page-card" data-cat="math-python" style="--glow:rgba(8,145,178,.5)">
+      <div class="card-num" style="color:#22d3ee"><span class="cnb" style="background:rgba(34,211,238,.15)">4</span>Page 4 · Python for ML</div>
+      <span class="card-icon">🐍</span>
+      <div class="card-title">Python for ML — NumPy · Pandas · Sklearn</div>
+      <div class="card-desc">The complete Python ecosystem for Machine Learning. Master NumPy arrays (3D visual), Pandas DataFrames, Matplotlib charts, and the full scikit-learn API with pipeline diagrams.</div>
+      <div class="module-list">
+        <div class="ml-item"><div class="ml-dot" style="background:#22d3ee"></div>NumPy: ndarray 3D diagram, broadcasting, vectorization</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#22d3ee"></div>Pandas: DataFrame anatomy, EDA, groupby, merging</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#22d3ee"></div>Matplotlib: Chart gallery (6 types with mini SVGs)</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#22d3ee"></div>Sklearn Pipeline: fit/transform/predict flow diagram</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#22d3ee"></div>GridSearchCV + Full end-to-end ML workflow</div>
+      </div>
+      <div class="card-cta" style="background:rgba(8,145,178,.2);color:#22d3ee">Open Python Page →</div>
+    </a>
+  </div>
+  <!-- Row 2: The 3 main learning pages -->
+  <div class="page-cards" style="margin-top:24px">
+    <a href="full_platform.html" class="page-card" data-cat="core-ml" style="--glow:rgba(37,99,235,.5)">
+      <div class="card-num" style="color:#60a5fa"><span class="cnb" style="background:rgba(96,165,250,.15)">1</span>Page 1 · Foundation</div>
+      <span class="card-icon">🧠</span>
+      <div class="card-title">ML Foundations & Core Algorithms</div>
+      <div class="card-desc">From zero to ML deployment. Understand the full IT stack, train your first models, and run a live prediction demo in the browser.</div>
+      <div class="module-list">
+        <div class="ml-item"><div class="ml-dot" style="background:#4ade80"></div>Module 1: ML vs Traditional + CRISP-DM + IT Stack</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#4ade80"></div>Linear Regression + Overfitting Diagram</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#4ade80"></div>Decision Tree + Random Forest Voting</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#4ade80"></div>K-Means Clustering + Elbow Method</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#4ade80"></div>Confusion Matrix + ROC-AUC + K-Fold</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#60a5fa"></div>🔴 Live House Price ML Sandbox</div>
+      </div>
+      <div class="card-cta" style="background:rgba(37,99,235,.2);color:#93c5fd">Open Page 1 →</div>
+    </a>
+    <a href="advanced_modules.html" class="page-card" data-cat="core-ml" style="--glow:rgba(124,58,237,.5)">
+      <div class="card-num" style="color:#a78bfa"><span class="cnb" style="background:rgba(167,139,250,.15)">2</span>Page 2 · Advanced</div>
+      <span class="card-icon">⚡</span>
+      <div class="card-title">Advanced Algorithms & Deployment</div>
+      <div class="card-desc">Go deeper into the full classification toolkit, learn ensemble methods that win competitions, and ship your model to production with Docker.</div>
+      <div class="module-list">
+        <div class="ml-item"><div class="ml-dot" style="background:#4ade80"></div>Data Preprocessing + Missing Values + Encoding</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#4ade80"></div>Logistic Regression + Sigmoid Curve Diagram</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#4ade80"></div>SVM + Maximum Margin Hyperplane</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#4ade80"></div>KNN + Voting Boundary Diagram</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#4ade80"></div>Ensemble: AdaBoost + XGBoost Boosting Visual</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#4ade80"></div>Docker + CI/CD + Data Drift Monitoring</div>
+      </div>
+      <div class="card-cta" style="background:rgba(124,58,237,.2);color:#c4b5fd">Open Page 2 →</div>
+    </a>
+    <a href="deep_modules.html" class="page-card" data-cat="core-ml" style="--glow:rgba(16,163,74,.5)">
+      <div class="card-num" style="color:#4ade80"><span class="cnb" style="background:rgba(74,222,128,.15)">3</span>Page 3 · Deep Dive</div>
+      <span class="card-icon">🔬</span>
+      <div class="card-title">Internals, Deep Learning & NLP</div>
+      <div class="card-desc">Understand how models actually learn. From Gradient Descent to Neural Networks, NLP, Reinforcement Learning — topics that separate junior from senior candidates.</div>
+      <div class="module-list">
+        <div class="ml-item"><div class="ml-dot" style="background:#4ade80"></div>Naive Bayes + Bayes Theorem + Probability Table</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#4ade80"></div>PCA Dimensionality Reduction + Scree Plot</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#4ade80"></div>Gradient Descent — Loss Bowl Animation</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#4ade80"></div>Neural Networks — Full Layer Architecture</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#4ade80"></div>NLP: TF-IDF + Word2Vec + Pipeline</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#f87171"></div>+ DBSCAN, Time Series, Transfer Learning</div>
+      </div>
+      <div class="card-cta" style="background:rgba(16,163,74,.2);color:#4ade80">Open Page 3 →</div>
+    </a>
+  </div>
+
+  <!-- Row 3: Page 5, Page 6, Page 7 & Page 8 -->
+  <div class="page-cards-wide" style="margin-top:24px">
+    <a href="real_world_ml.html" class="page-card" data-cat="mlops-warroom" style="--glow:rgba(236,72,153,.6);border:1px solid rgba(236,72,153,.3);background:linear-gradient(135deg,rgba(15,23,42,.9) 0%,rgba(49,22,55,.6) 100%)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div class="card-num" style="color:#f472b6;margin-bottom:0"><span class="cnb" style="background:rgba(244,114,182,.2)">5</span>Page 5 · Enterprise</div>
+        <span style="background:rgba(236,72,153,.2);border:1px solid rgba(236,72,153,.4);color:#f472b6;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px">Production</span>
+      </div>
+      <span class="card-icon">🚀</span>
+      <div class="card-title">Real-World MLOps &amp; GenAI</div>
+      <div class="card-desc">Data Janitor Sandbox, 1% fraud detection with SMOTE, FastAPI + Docker containers, and Enterprise RAG.</div>
+      <div class="card-cta" style="background:linear-gradient(135deg,#db2777,#9333ea);color:#fff">Open MLOps Page →</div>
+    </a>
+
+    <a href="career_and_quiz.html" class="page-card" data-cat="career" style="--glow:rgba(245,158,11,.6);border:1px solid rgba(245,158,11,.3);background:linear-gradient(135deg,rgba(15,23,42,.9) 0%,rgba(69,42,12,.6) 100%)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div class="card-num" style="color:#fbbf24;margin-bottom:0"><span class="cnb" style="background:rgba(251,191,36,.2)">6</span>Page 6 · Career Hub</div>
+        <span style="background:rgba(245,158,11,.2);border:1px solid rgba(245,158,11,.4);color:#fbbf24;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px">Interview Prep</span>
+      </div>
+      <span class="card-icon">🏆</span>
+      <div class="card-title">Interview Simulator &amp; Capstones</div>
+      <div class="card-desc">Interactive technical mock interview quiz, 3 ATS-ready Capstones, PyTorch vs TF, and formula sheet.</div>
+      <div class="card-cta" style="background:linear-gradient(135deg,#d97706,#b45309);color:#fff">Open Career Hub →</div>
+    </a>
+  </div>
+
+  <div class="page-cards-wide" style="margin-top:24px">
+    <a href="interactive_3d_lab.html" class="page-card" data-cat="interactive-3d" style="--glow:rgba(56,189,248,.7);border:1px solid rgba(56,189,248,.4);background:linear-gradient(135deg,rgba(15,23,42,.9) 0%,rgba(14,116,144,.6) 100%)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div class="card-num" style="color:#38bdf8;margin-bottom:0"><span class="cnb" style="background:rgba(56,189,248,.2)">7</span>Page 7 · 3D WebGL</div>
+        <span style="background:rgba(56,189,248,.2);border:1px solid rgba(56,189,248,.4);color:#38bdf8;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px">WebGL Studio</span>
+      </div>
+      <span class="card-icon">🌐</span>
+      <div class="card-title">3D Real-Time ML Visualizer</div>
+      <div class="card-desc">Rotate in 3D: 3D Gradient Descent Mountain, 3D SVM Hyperplane Slicer, and 3D Latent PCA Galaxy with live value sliders.</div>
+      <div class="card-cta" style="background:linear-gradient(135deg,#0284c7,#06b6d4);color:#fff">Launch 3D WebGL Studio →</div>
+    </a>
+
+  <div class="page-cards-wide" style="margin-top:24px">
+    <a href="system_design_and_incidents.html" class="page-card" data-cat="mlops-warroom" style="--glow:rgba(239,68,68,.7);border:1px solid rgba(239,68,68,.4);background:linear-gradient(135deg,rgba(15,23,42,.9) 0%,rgba(69,10,10,.7) 100%)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div class="card-num" style="color:#f87171;margin-bottom:0"><span class="cnb" style="background:rgba(239,68,68,.2)">8</span>Page 8 · Staff Architect</div>
+        <span style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.4);color:#fca5a5;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px">🚨 War Room</span>
+      </div>
+      <span class="card-icon">🚨</span>
+      <div class="card-title">Senior System Design &amp; Incident War Room</div>
+      <div class="card-desc">3:00 AM production outages, AWS cloud cost &amp; latency calculator, "How Algorithms Fail" lab, and Staff cross-exam.</div>
+      <div class="card-cta" style="background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff">Enter 3:00 AM War Room →</div>
+    </a>
+
+    <a href="algorithm_arena.html" class="page-card" data-cat="interactive-3d" style="--glow:rgba(245,158,11,.7);border:1px solid rgba(245,158,11,.4);background:linear-gradient(135deg,rgba(15,23,42,.9) 0%,rgba(69,42,12,.7) 100%)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div class="card-num" style="color:#fbbf24;margin-bottom:0"><span class="cnb" style="background:rgba(245,158,11,.2)">9</span>Page 9 · Battle Arena</div>
+        <span style="background:rgba(245,158,11,.2);border:1px solid rgba(245,158,11,.4);color:#fbbf24;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px">⚔️ Tournament</span>
+      </div>
+      <span class="card-icon">⚔️</span>
+      <div class="card-title">Algorithm Battle Arena &amp; Repo Generator</div>
+      <div class="card-desc">5-Algorithm decision boundary tournament, live speed/accuracy leaderboard, and 1-click production GitHub repo generator.</div>
+      <div class="card-cta" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#000">Enter Battle Arena →</div>
+    </a>
+  </div>
+
+  <div class="page-cards-wide" style="margin-top:24px">
+    <a href="industrial_systems.html" class="page-card" data-cat="mlops-warroom" style="--glow:rgba(236,72,153,.7);border:1px solid rgba(236,72,153,.4);background:linear-gradient(135deg,rgba(15,23,42,.9) 0%,rgba(69,10,45,.7) 100%)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div class="card-num" style="color:#f472b6;margin-bottom:0"><span class="cnb" style="background:rgba(244,114,182,.2)">10</span>Page 10 · Next-Gen Systems</div>
+        <span style="background:rgba(236,72,153,.2);border:1px solid rgba(236,72,153,.4);color:#f472b6;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px">💡 GraphRAG &amp; Lamp</span>
+      </div>
+      <span class="card-icon">📸</span>
+      <div class="card-title">GraphRAG, Instagram Recommender &amp; Lamp Studio</div>
+      <div class="card-desc">Standard RAG vs GraphRAG Knowledge Graphs, Two-Tower Instagram Reels ranking equation, and animated pull-chain Lamp login.</div>
+      <div class="card-cta" style="background:linear-gradient(135deg,#ec4899,#db2777);color:#fff">Open Industrial Systems →</div>
+    </a>
+
+    <a href="python_teaching_mastery.html" class="page-card" data-cat="math-python" style="--glow:rgba(16,185,129,.7);border:1px solid rgba(16,185,129,.4);background:linear-gradient(135deg,rgba(15,23,42,.9) 0%,rgba(6,78,59,.7) 100%)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div class="card-num" style="color:#34d399;margin-bottom:0"><span class="cnb" style="background:rgba(52,211,153,.2)">11</span>Page 11 · Teaching Codex</div>
+        <span style="background:rgba(16,185,129,.2);border:1px solid rgba(16,185,129,.4);color:#6ee7b7;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px">🎓 Master Tier</span>
+      </div>
+      <span class="card-icon">🎓</span>
+      <div class="card-title">Python Teaching-Grade Master Codex</div>
+      <div class="card-desc">Complete Python internals, small int caching, string interning, Descriptors, Metaclasses, and the 7-Library Data Science stack.</div>
+      <div class="card-cta" style="background:linear-gradient(135deg,#10b981,#059669);color:#000">Open Teaching Codex →</div>
+    </a>
+  </div>
+
+  <!-- Row 5: Page 12 SQL & Page 13 Prompt Engineering -->
+  <div class="page-cards-wide" style="margin-top:24px">
+    <a href="sql_for_data_science.html" class="page-card" data-cat="math-python" style="--glow:rgba(56,189,248,.8);border:1px solid rgba(56,189,248,.4);background:linear-gradient(135deg,rgba(15,23,42,.9) 0%,rgba(14,116,144,.7) 100%)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div class="card-num" style="color:#38bdf8;margin-bottom:0"><span class="cnb" style="background:rgba(56,189,248,.2)">12</span>Page 12 · SQL Master Codex &amp; Full DS Project</div>
+        <span style="background:rgba(56,189,248,.2);border:1px solid rgba(56,189,248,.4);color:#38bdf8;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px">📖 125-Page Curriculum + End-to-End DS</span>
+      </div>
+      <span class="card-icon">🗄️</span>
+      <div class="card-title">SQL for Data Science &amp; Full Working ML Project</div>
+      <div class="card-desc">Extracted from all 125 handwritten pages: DDL/DML table lifecycle, 3-tier self-joins, Correlated Subqueries, Window analytical functions, and a complete production Customer Churn / LTV system (PostgreSQL ➔ Polars ➔ XGBoost ➔ FastAPI ➔ Docker ➔ Streamlit).</div>
+      <div class="card-cta" style="background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff">Open SQL Master Codex →</div>
+    </a>
+
+    <a href="prompt_engineering_mastery.html" class="page-card" data-cat="prompt-eng" style="--glow:rgba(192,132,252,.8);border:1px solid rgba(192,132,252,.4);background:linear-gradient(135deg,rgba(15,23,42,.9) 0%,rgba(88,28,135,.7) 100%)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div class="card-num" style="color:#c084fc;margin-bottom:0"><span class="cnb" style="background:rgba(192,132,252,.2)">13</span>Page 13 · Prompt Engineering Codex</div>
+        <span style="background:rgba(192,132,252,.2);border:1px solid rgba(192,132,252,.4);color:#c084fc;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px">🔮 Zero-to-Hero · Job Ready</span>
+      </div>
+      <span class="card-icon">🔮</span>
+      <div class="card-title">Prompt Engineering Master Codex for B.Tech Graduates</div>
+      <div class="card-desc">Master programming LLMs with precision: Tokens, Context Windows, 5-Pillar RICCO anatomy, Few-Shot, Chain-of-Thought, XML formatting, 4 production workflows, and live prompt evaluator.</div>
+      <div class="card-cta" style="background:linear-gradient(135deg,#9333ea,#7e22ce);color:#fff">Open Prompt Codex →</div>
+    </a>
+  </div>
+
+  <!-- Row 6: Master Studio Tools & Interactive Engines -->
+  <div class="page-cards-wide" style="margin-top:24px">
+    <a href="python_sandbox_wasm.html" class="page-card" data-cat="math-python" style="--glow:rgba(16,185,129,.8);border:1px solid rgba(16,185,129,.4);background:linear-gradient(135deg,rgba(15,23,42,.9) 0%,rgba(6,78,59,.7) 100%)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div class="card-num" style="color:#34d399;margin-bottom:0"><span class="cnb" style="background:rgba(16,185,129,.2)">14</span>Interactive Python WASM Studio</div>
+        <span style="background:rgba(16,185,129,.2);border:1px solid rgba(16,185,129,.4);color:#34d399;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px">⚡ Pyodide In-Browser Compiler</span>
+      </div>
+      <span class="card-icon">🐍</span>
+      <div class="card-title">In-Browser Python, NumPy, Pandas &amp; Sklearn Sandbox</div>
+      <div class="card-desc">Zero-backend WebAssembly runtime. Execute real NumPy matrix operations, Pandas DataFrame wrangling, and Scikit-Learn algorithms directly in the browser with live stdout/stderr console.</div>
+      <div class="card-cta" style="background:linear-gradient(135deg,#10b981,#059669);color:#000">Launch Python WASM →</div>
+    </a>
+
+    <a href="flashcards_mastery.html" class="page-card" data-cat="career" style="--glow:rgba(245,158,11,.8);border:1px solid rgba(245,158,11,.4);background:linear-gradient(135deg,rgba(15,23,42,.9) 0%,rgba(120,53,15,.7) 100%)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div class="card-num" style="color:#fbbf24;margin-bottom:0"><span class="cnb" style="background:rgba(245,158,11,.2)">15</span>150+ 3D Leitner Flashcards</div>
+        <span style="background:rgba(245,158,11,.2);border:1px solid rgba(245,158,11,.4);color:#fbbf24;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px">🧠 Spaced Repetition Engine</span>
+      </div>
+      <span class="card-icon">🃏</span>
+      <div class="card-title">3D Spaced Repetition Interview Flashcards Deck</div>
+      <div class="card-desc">150+ interactive flip-cards covering SQL traps, ML bias-variance, Python CPython internals, Prompt Engineering guardrails, and MLOps system design with Leitner Box tracking.</div>
+      <div class="card-cta" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#000">Practice Flashcards →</div>
+    </a>
+  </div>
+
+  <!-- Row 7: FAANG Systems & Certification -->
+  <div class="page-cards-wide" style="margin-top:24px">
+    <a href="faang_system_case_studies.html" class="page-card" data-cat="mlops-warroom" style="--glow:rgba(225,29,72,.8);border:1px solid rgba(225,29,72,.4);background:linear-gradient(135deg,rgba(15,23,42,.9) 0%,rgba(136,19,55,.7) 100%)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div class="card-num" style="color:#fb7185;margin-bottom:0"><span class="cnb" style="background:rgba(225,29,72,.2)">16</span>5 FAANG &amp; Unicorn Systems</div>
+        <span style="background:rgba(225,29,72,.2);border:1px solid rgba(225,29,72,.4);color:#fb7185;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px">🏛️ Tier-1 Production Architectures</span>
+      </div>
+      <span class="card-icon">🏢</span>
+      <div class="card-title">FAANG &amp; Indian Unicorn System Case Studies</div>
+      <div class="card-desc">Deep visual architectures: Netflix 2-stage recommender, Uber/Ola H3 surge pricing, Swiggy/Zomato delivery ETA, Amazon transaction fraud, and Spotify Discover Weekly ALS matrix factorization.</div>
+      <div class="card-cta" style="background:linear-gradient(135deg,#e11d48,#be123c);color:#fff">Explore Case Studies →</div>
+    </a>
+
+    <a href="certificate_and_resume.html" class="page-card" data-cat="career" style="--glow:rgba(251,191,36,.8);border:1px solid rgba(251,191,36,.4);background:linear-gradient(135deg,rgba(15,23,42,.9) 0%,rgba(69,26,3,.7) 100%)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div class="card-num" style="color:#fbbf24;margin-bottom:0"><span class="cnb" style="background:rgba(251,191,36,.2)">17</span>Job Readiness Certificate</div>
+        <span style="background:rgba(251,191,36,.2);border:1px solid rgba(251,191,36,.4);color:#fbbf24;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px">🏆 LinkedIn &amp; Resume Studio</span>
+      </div>
+      <span class="card-icon">🎓</span>
+      <div class="card-title">Verified Certificate &amp; ATS Resume Builder</div>
+      <div class="card-desc">Generate a personalized, verifiable Certificate of Completion with unique verification hash, 1-click LinkedIn announcement post, and ATS-optimized technical resume sections.</div>
+      <div class="card-cta" style="background:linear-gradient(135deg,#fbbf24,#d97706);color:#000">Generate Certificate →</div>
+    </a>
+  </div>
+
+  <!-- Row 8: Day-Wise Master Curriculum -->
+  <div class="page-cards-wide" style="margin-top:24px">
+    <a href="day_wise_curriculum.html" class="page-card" data-cat="career" style="--glow:rgba(56,189,248,.8);border:1px solid rgba(56,189,248,.4);background:linear-gradient(135deg,rgba(15,23,42,.9) 0%,rgba(14,116,144,.7) 100%)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div class="card-num" style="color:#38bdf8;margin-bottom:0"><span class="cnb" style="background:rgba(56,189,248,.2)">18</span>30-Day Master Syllabus</div>
+        <span style="background:rgba(56,189,248,.2);border:1px solid rgba(56,189,248,.4);color:#38bdf8;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px">📅 Day-by-Day Instructor Plan</span>
+      </div>
+      <span class="card-icon">📅</span>
+      <div class="card-title">30-Day Day-Wise Master Teaching Curriculum</div>
+      <div class="card-desc">Comprehensive day-by-day lesson plan segregating all 20 portals into a 30-day intensive boot-camp. Includes learning objectives, real IT scenarios, hands-on labs, and interview questions for every single day.</div>
+      <div class="card-cta" style="background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff">Open 30-Day Syllabus →</div>
+    </a>
+  </div>
+</div>
+
+<!-- TOPIC GRID -->
+<div style="background:rgba(255,255,255,.02);border-top:1px solid rgba(255,255,255,.06);padding:72px 0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">All Topics</div>
+      <h2>Complete Topic Coverage</h2>
+    </div>
+    <div class="topic-grid">
+      <div class="tc"><div class="tc-icon">🧭</div><div><div class="tc-name">ML vs Traditional</div><div class="tc-pg" style="color:#60a5fa">Page 1</div></div></div>
+      <div class="tc"><div class="tc-icon">🔄</div><div><div class="tc-name">CRISP-DM Lifecycle</div><div class="tc-pg" style="color:#60a5fa">Page 1</div></div></div>
+      <div class="tc"><div class="tc-icon">🏗️</div><div><div class="tc-name">IT Stack Architecture</div><div class="tc-pg" style="color:#60a5fa">Page 1</div></div></div>
+      <div class="tc"><div class="tc-icon">🧹</div><div><div class="tc-name">Data Preprocessing</div><div class="tc-pg" style="color:#a78bfa">Page 2</div></div></div>
+      <div class="tc"><div class="tc-icon">🔤</div><div><div class="tc-name">Feature Encoding</div><div class="tc-pg" style="color:#a78bfa">Page 2</div></div></div>
+      <div class="tc"><div class="tc-icon">⚖️</div><div><div class="tc-name">Feature Scaling</div><div class="tc-pg" style="color:#a78bfa">Page 2</div></div></div>
+      <div class="tc"><div class="tc-icon">📈</div><div><div class="tc-name">Linear Regression</div><div class="tc-pg" style="color:#60a5fa">Page 1</div></div></div>
+      <div class="tc"><div class="tc-icon">〰️</div><div><div class="tc-name">Polynomial Regression</div><div class="tc-pg" style="color:#4ade80">Page 3</div></div></div>
+      <div class="tc"><div class="tc-icon">🎯</div><div><div class="tc-name">Ridge &amp; Lasso</div><div class="tc-pg" style="color:#4ade80">Page 3</div></div></div>
+      <div class="tc"><div class="tc-icon">📊</div><div><div class="tc-name">Logistic Regression</div><div class="tc-pg" style="color:#a78bfa">Page 2</div></div></div>
+      <div class="tc"><div class="tc-icon">🌳</div><div><div class="tc-name">Decision Tree</div><div class="tc-pg" style="color:#60a5fa">Page 1</div></div></div>
+      <div class="tc"><div class="tc-icon">🌲</div><div><div class="tc-name">Random Forest</div><div class="tc-pg" style="color:#60a5fa">Page 1</div></div></div>
+      <div class="tc"><div class="tc-icon">🎯</div><div><div class="tc-name">SVM + Kernel Trick</div><div class="tc-pg" style="color:#a78bfa">Page 2</div></div></div>
+      <div class="tc"><div class="tc-icon">🔍</div><div><div class="tc-name">K-Nearest Neighbours</div><div class="tc-pg" style="color:#a78bfa">Page 2</div></div></div>
+      <div class="tc"><div class="tc-icon">🎲</div><div><div class="tc-name">Naive Bayes</div><div class="tc-pg" style="color:#4ade80">Page 3</div></div></div>
+      <div class="tc"><div class="tc-icon">🧩</div><div><div class="tc-name">K-Means Clustering</div><div class="tc-pg" style="color:#60a5fa">Page 1</div></div></div>
+      <div class="tc"><div class="tc-icon">📐</div><div><div class="tc-name">PCA Dimensionality</div><div class="tc-pg" style="color:#4ade80">Page 3</div></div></div>
+      <div class="tc"><div class="tc-icon">🚀</div><div><div class="tc-name">XGBoost / AdaBoost</div><div class="tc-pg" style="color:#a78bfa">Page 2</div></div></div>
+      <div class="tc"><div class="tc-icon">⛰️</div><div><div class="tc-name">Gradient Descent</div><div class="tc-pg" style="color:#4ade80">Page 3</div></div></div>
+      <div class="tc"><div class="tc-icon">🧠</div><div><div class="tc-name">Neural Networks</div><div class="tc-pg" style="color:#4ade80">Page 3</div></div></div>
+      <div class="tc"><div class="tc-icon">💬</div><div><div class="tc-name">NLP + TF-IDF</div><div class="tc-pg" style="color:#4ade80">Page 3</div></div></div>
+      <div class="tc"><div class="tc-icon">📉</div><div><div class="tc-name">Confusion Matrix</div><div class="tc-pg" style="color:#60a5fa">Page 1</div></div></div>
+      <div class="tc"><div class="tc-icon">📈</div><div><div class="tc-name">ROC-AUC Curve</div><div class="tc-pg" style="color:#60a5fa">Page 1</div></div></div>
+      <div class="tc"><div class="tc-icon">🔄</div><div><div class="tc-name">K-Fold Cross Validation</div><div class="tc-pg" style="color:#60a5fa">Page 1</div></div></div>
+      <div class="tc"><div class="tc-icon">🐳</div><div><div class="tc-name">Docker Deployment</div><div class="tc-pg" style="color:#a78bfa">Page 2</div></div></div>
+      <div class="tc"><div class="tc-icon">⚡</div><div><div class="tc-name">FastAPI Backend</div><div class="tc-pg" style="color:#60a5fa">Page 1</div></div></div>
+      <div class="tc"><div class="tc-icon">📊</div><div><div class="tc-name">Data Drift Monitoring</div><div class="tc-pg" style="color:#a78bfa">Page 2</div></div></div>
+      <div class="tc"><div class="tc-icon">🤖</div><div><div class="tc-name">Reinforcement Learning</div><div class="tc-pg" style="color:#4ade80">Page 3 · Deep Dive</div></div></div>
+      <div class="tc"><div class="tc-icon">📈</div><div><div class="tc-name">Time Series (ARIMA)</div><div class="tc-pg" style="color:#4ade80">Page 3 · Deep Dive</div></div></div>
+      <div class="tc"><div class="tc-icon">🧩</div><div><div class="tc-name">DBSCAN Clustering</div><div class="tc-pg" style="color:#4ade80">Page 3 · Deep Dive</div></div></div>
+      <div class="tc"><div class="tc-icon">🔄</div><div><div class="tc-name">Transfer Learning</div><div class="tc-pg" style="color:#4ade80">Page 3 · Deep Dive</div></div></div>
+      <div class="tc"><div class="tc-icon">🏷️</div><div><div class="tc-name">Semi-Supervised</div><div class="tc-pg" style="color:#4ade80">Page 3 · Deep Dive</div></div></div>
+      <div class="tc"><div class="tc-icon">📐</div><div><div class="tc-name">Vectors & Matrices</div><div class="tc-pg" style="color:#fbbf24">Page 0 · Math</div></div></div>
+      <div class="tc"><div class="tc-icon">🔢</div><div><div class="tc-name">Eigenvalues/Eigenvectors</div><div class="tc-pg" style="color:#fbbf24">Page 0 · Math</div></div></div>
+      <div class="tc"><div class="tc-icon">📊</div><div><div class="tc-name">Normal Distribution</div><div class="tc-pg" style="color:#fbbf24">Page 0 · Math</div></div></div>
+      <div class="tc"><div class="tc-icon">🧮</div><div><div class="tc-name">Partial Derivatives</div><div class="tc-pg" style="color:#fbbf24">Page 0 · Math</div></div></div>
+      <div class="tc"><div class="tc-icon">⛰️</div><div><div class="tc-name">Convex Optimization</div><div class="tc-pg" style="color:#fbbf24">Page 0 · Math</div></div></div>
+      <div class="tc"><div class="tc-icon">🐍</div><div><div class="tc-name">NumPy ndarray</div><div class="tc-pg" style="color:#22d3ee">Page 4 · Python</div></div></div>
+      <div class="tc"><div class="tc-icon">🐼</div><div><div class="tc-name">Pandas DataFrames</div><div class="tc-pg" style="color:#22d3ee">Page 4 · Python</div></div></div>
+      <div class="tc"><div class="tc-icon">📉</div><div><div class="tc-name">Matplotlib Charts</div><div class="tc-pg" style="color:#22d3ee">Page 4 · Python</div></div></div>
+      <div class="tc"><div class="tc-icon">🔧</div><div><div class="tc-name">Sklearn Pipeline</div><div class="tc-pg" style="color:#22d3ee">Page 4 · Python</div></div></div>
+      <div class="tc"><div class="tc-icon">🎛️</div><div><div class="tc-name">GridSearchCV</div><div class="tc-pg" style="color:#22d3ee">Page 4 · Python</div></div></div>
+      <div class="tc"><div class="tc-icon">🧹</div><div><div class="tc-name">Messy Data Janitor</div><div class="tc-pg" style="color:#f472b6">Page 5 · Enterprise</div></div></div>
+      <div class="tc"><div class="tc-icon">💳</div><div><div class="tc-name">Imbalanced Data &amp; SMOTE</div><div class="tc-pg" style="color:#f472b6">Page 5 · Enterprise</div></div></div>
+      <div class="tc"><div class="tc-icon">🚢</div><div><div class="tc-name">FastAPI &amp; Docker MLOps</div><div class="tc-pg" style="color:#f472b6">Page 5 · Enterprise</div></div></div>
+      <div class="tc"><div class="tc-icon">📉</div><div><div class="tc-name">Concept Drift Simulator</div><div class="tc-pg" style="color:#f472b6">Page 5 · Enterprise</div></div></div>
+      <div class="tc"><div class="tc-icon">🧠</div><div><div class="tc-name">Enterprise RAG &amp; Vector DBs</div><div class="tc-pg" style="color:#f472b6">Page 5 · Enterprise</div></div></div>
+      <div class="tc"><div class="tc-icon">📚</div><div><div class="tc-name">NumPy / Pandas Encyclopedia</div><div class="tc-pg" style="color:#22d3ee">Page 4 · Python</div></div></div>
+      <div class="tc"><div class="tc-icon">🌳</div><div><div class="tc-name">Hierarchical Clustering &amp; Dendrograms</div><div class="tc-pg" style="color:#4ade80">Page 3 · Deep Dive</div></div></div>
+      <div class="tc"><div class="tc-icon">🌲</div><div><div class="tc-name">Isolation Forest (Anomalies)</div><div class="tc-pg" style="color:#4ade80">Page 3 · Deep Dive</div></div></div>
+      <div class="tc"><div class="tc-icon">🛒</div><div><div class="tc-name">Apriori &amp; Association Rules</div><div class="tc-pg" style="color:#4ade80">Page 3 · Deep Dive</div></div></div>
+      <div class="tc"><div class="tc-icon">🎯</div><div><div class="tc-name">LDA (Linear Discriminant)</div><div class="tc-pg" style="color:#4ade80">Page 3 · Deep Dive</div></div></div>
+      <div class="tc"><div class="tc-icon">⚡</div><div><div class="tc-name">LightGBM &amp; CatBoost</div><div class="tc-pg" style="color:#4ade80">Page 3 · Deep Dive</div></div></div>
+      <div class="tc"><div class="tc-icon">👁️</div><div><div class="tc-name">CNNs &amp; Convolutions</div><div class="tc-pg" style="color:#4ade80">Page 3 · Deep Dive</div></div></div>
+      <div class="tc"><div class="tc-icon">🤖</div><div><div class="tc-name">Transformers &amp; Self-Attention</div><div class="tc-pg" style="color:#4ade80">Page 3 · Deep Dive</div></div></div>
+      <div class="tc"><div class="tc-icon">🔥</div><div><div class="tc-name">PyTorch vs TensorFlow</div><div class="tc-pg" style="color:#fbbf24">Page 6 · Career</div></div></div>
+      <div class="tc"><div class="tc-icon">📝</div><div><div class="tc-name">Interactive Quiz Simulator</div><div class="tc-pg" style="color:#fbbf24">Page 6 · Career</div></div></div>
+      <div class="tc"><div class="tc-icon">💼</div><div><div class="tc-name">ATS Capstone Blueprints</div><div class="tc-pg" style="color:#fbbf24">Page 6 · Career</div></div></div>
+      <div class="tc"><div class="tc-icon">📋</div><div><div class="tc-name">Formula &amp; Loss Cheat Sheet</div><div class="tc-pg" style="color:#fbbf24">Page 6 · Career</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ROADMAP & CONNECTED KNOWLEDGE FLOW -->
+<div style="padding:72px 0;background:linear-gradient(180deg,rgba(15,23,42,0.95) 0%,rgba(15,23,42,1) 100%);border-top:1px solid rgba(255,255,255,0.06)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag tag-amber">Connected Knowledge Flow</div>
+      <h2>The Master Connected ML Roadmap &amp; Mathematical Bridges</h2>
+      <p>Every algorithm, formula, and concept is linked. Select a learning stream below to see how foundational calculations evolve into state-of-the-art Deep Learning &amp; Enterprise MLOps.</p>
+    </div>
+
+    <!-- Stream Switcher Buttons -->
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px">
+      <button class="btn btn-primary stream-btn active" onclick="switchStream('all', this)" style="font-size:12px;padding:8px 16px">🌐 Full Master Flow (All 7 Weeks)</button>
+      <button class="btn btn-ghost stream-btn" onclick="switchStream('algebra', this)" style="font-size:12px;padding:8px 16px">📐 1. Linear Algebra &amp; Vectors</button>
+      <button class="btn btn-ghost stream-btn" onclick="switchStream('calculus', this)" style="font-size:12px;padding:8px 16px">⛰️ 2. Calculus &amp; Optimization</button>
+      <button class="btn btn-ghost stream-btn" onclick="switchStream('prob', this)" style="font-size:12px;padding:8px 16px">🎲 3. Probability &amp; Tree Ensembles</button>
+      <button class="btn btn-ghost stream-btn" onclick="switchStream('geo', this)" style="font-size:12px;padding:8px 16px">🧩 4. Geometry, Clusters &amp; Outliers</button>
+      <button class="btn btn-ghost stream-btn" onclick="switchStream('mlops', this)" style="font-size:12px;padding:8px 16px">🚀 5. MLOps, GenAI &amp; Career</button>
+    </div>
+
+    <!-- Connected Stream Timeline -->
+    <div class="rm-list" id="roadmapContainer">
+      
+      <!-- Step 1 -->
+      <div class="rm-row" data-stream="algebra calculus">
+        <div class="rm-spine"><div class="rm-dot" style="background:rgba(251,191,36,0.2);color:#fbbf24;border-color:rgba(251,191,36,0.4)">0</div><div class="rm-line" style="background:rgba(251,191,36,0.3)"></div></div>
+        <div class="rm-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <div class="rm-title" style="color:#fbbf24">Prerequisites: Linear Algebra, Calculus &amp; Probability</div>
+            <a href="math_foundations.html" style="color:#fbbf24;font-size:12px;text-decoration:none;font-weight:700">Open Page 0 ➔</a>
+          </div>
+          <div class="rm-sub"><strong>The Foundation:</strong> Scalars, Vectors, Dot Products, Partial Derivatives (\(\frac{\partial f}{\partial w}\)), Gaussian Bell Curve (68-95-99.7), and Bayes' Theorem (\(P(A|B) = \frac{P(B|A)P(A)}{P(B)}\)).</div>
+          <div style="background:rgba(0,0,0,0.3);border-left:3px solid #fbbf24;padding:8px 12px;border-radius:4px;font-size:11px;color:#cbd5e1;margin-top:10px">
+            <strong>🔗 Mathematical Connection to Next Step:</strong> Vector Dot Product (\(\mathbf{w}^T \mathbf{x}\)) directly forms the core equation for Linear &amp; Logistic Regression.
+          </div>
+          <div class="rm-tags" style="margin-top:10px"><span class="rm-tag" style="background:rgba(251,191,36,0.15);color:#fbbf24">Vectors</span><span class="rm-tag" style="background:rgba(251,191,36,0.15);color:#fbbf24">Derivatives</span><span class="rm-tag" style="background:rgba(251,191,36,0.15);color:#fbbf24">Bayes</span></div>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="rm-row" data-stream="algebra calculus">
+        <div class="rm-spine"><div class="rm-dot" style="background:rgba(37,99,235,0.2);color:#60a5fa;border-color:rgba(37,99,235,0.4)">1</div><div class="rm-line" style="background:rgba(37,99,235,0.3)"></div></div>
+        <div class="rm-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <div class="rm-title" style="color:#60a5fa">Week 1: Linear Regression &amp; The IT Machine Learning Stack</div>
+            <a href="full_platform.html" style="color:#60a5fa;font-size:12px;text-decoration:none;font-weight:700">Open Page 1 ➔</a>
+          </div>
+          <div class="rm-sub"><strong>The Core:</strong> Continuous price estimation using \(y = \mathbf{w}^T \mathbf{x} + b\). Compute Mean Squared Error (\(\text{MSE} = \frac{1}{n} \sum (y - \hat{y})^2\)) and understand Overfitting vs Underfitting.</div>
+          <div style="background:rgba(0,0,0,0.3);border-left:3px solid #60a5fa;padding:8px 12px;border-radius:4px;font-size:11px;color:#cbd5e1;margin-top:10px">
+            <strong>🔗 Mathematical Connection to Next Step:</strong> Linear Regression predicts continuous \((-\infty, +\infty)\). To do classification \([0, 1]\), we pass this linear score through the Sigmoid activation function \(\sigma(z)\).
+          </div>
+          <div class="rm-tags" style="margin-top:10px"><span class="rm-tag" style="background:rgba(37,99,235,0.15);color:#93c5fd">Linear Reg</span><span class="rm-tag" style="background:rgba(37,99,235,0.15);color:#93c5fd">MSE Loss</span><span class="rm-tag" style="background:rgba(37,99,235,0.15);color:#93c5fd">CRISP-DM</span></div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="rm-row" data-stream="calculus geo">
+        <div class="rm-spine"><div class="rm-dot" style="background:rgba(124,58,237,0.2);color:#a78bfa;border-color:rgba(124,58,237,0.4)">2</div><div class="rm-line" style="background:rgba(124,58,237,0.3)"></div></div>
+        <div class="rm-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <div class="rm-title" style="color:#a78bfa">Week 2: Logistic Regression, SVM &amp; Classification Metrics</div>
+            <a href="advanced_modules.html" style="color:#a78bfa;font-size:12px;text-decoration:none;font-weight:700">Open Page 2 ➔</a>
+          </div>
+          <div class="rm-sub"><strong>The Core:</strong> Binary probabilities via \(\hat{y} = \frac{1}{1 + e^{-(\mathbf{w}^T\mathbf{x}+b)}}\) and Maximum Margin Hyperplanes in Support Vector Machines (\(\min \frac{1}{2}\|w\|^2\)). Evaluate with Precision, Recall, F1, and ROC-AUC.</div>
+          <div style="background:rgba(0,0,0,0.3);border-left:3px solid #a78bfa;padding:8px 12px;border-radius:4px;font-size:11px;color:#cbd5e1;margin-top:10px">
+            <strong>🔗 Mathematical Connection to Next Step:</strong> Logistic Regression is literally a 1-Neuron Neural Network! Single neurons fail on XOR non-linear patterns, forcing us to stack them into Multi-Layer Perceptrons.
+          </div>
+          <div class="rm-tags" style="margin-top:10px"><span class="rm-tag" style="background:rgba(124,58,237,0.15);color:#c4b5fd">Logistic Reg</span><span class="rm-tag" style="background:rgba(124,58,237,0.15);color:#c4b5fd">SVM Margins</span><span class="rm-tag" style="background:rgba(124,58,237,0.15);color:#c4b5fd">ROC-AUC</span></div>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="rm-row" data-stream="prob">
+        <div class="rm-spine"><div class="rm-dot" style="background:rgba(217,119,6,0.2);color:#fbbf24;border-color:rgba(217,119,6,0.4)">3</div><div class="rm-line" style="background:rgba(217,119,6,0.3)"></div></div>
+        <div class="rm-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <div class="rm-title" style="color:#fbbf24">Week 3: Decision Trees, Ensembles (Random Forest &amp; XGBoost)</div>
+            <a href="advanced_modules.html#xgboost" style="color:#fbbf24;font-size:12px;text-decoration:none;font-weight:700">Open Page 2 ➔</a>
+          </div>
+          <div class="rm-sub"><strong>The Core:</strong> Recursive splitting using Gini Impurity (\(1 - \sum p_i^2\)) and Entropy (\(-\sum p_i \log_2 p_i\)). Bagging (Random Forest parallel votes) vs Boosting (XGBoost &amp; LightGBM sequential residual fitting).</div>
+          <div style="background:rgba(0,0,0,0.3);border-left:3px solid #fbbf24;padding:8px 12px;border-radius:4px;font-size:11px;color:#cbd5e1;margin-top:10px">
+            <strong>🔗 Mathematical Connection to Next Step:</strong> While trees conquer tabular data, unstructured data (images/text) require continuous gradient optimization via Neural Networks.
+          </div>
+          <div class="rm-tags" style="margin-top:10px"><span class="rm-tag" style="background:rgba(217,119,6,0.15);color:#fbbf24">Decision Trees</span><span class="rm-tag" style="background:rgba(217,119,6,0.15);color:#fbbf24">Gini / Entropy</span><span class="rm-tag" style="background:rgba(217,119,6,0.15);color:#fbbf24">XGBoost</span></div>
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="rm-row" data-stream="calculus algebra">
+        <div class="rm-spine"><div class="rm-dot" style="background:rgba(16,163,74,0.2);color:#4ade80;border-color:rgba(16,163,74,0.4)">4</div><div class="rm-line" style="background:rgba(16,163,74,0.3)"></div></div>
+        <div class="rm-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <div class="rm-title" style="color:#4ade80">Week 4: Deep Learning, The Chain Rule &amp; Modern Transformers</div>
+            <a href="deep_modules.html#bridge" style="color:#4ade80;font-size:12px;text-decoration:none;font-weight:700">Open Page 3 ➔</a>
+          </div>
+          <div class="rm-sub"><strong>The Core:</strong> Multi-Layer Perceptrons solve XOR by warping coordinate space. Backpropagation pushes error backward using the Calculus Chain Rule (\(\frac{\partial L}{\partial w}\)). ReLU (\(\max(0,x)\)) prevents vanishing gradients. Transformers scale attention via \(\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V\).</div>
+          <div style="background:rgba(0,0,0,0.3);border-left:3px solid #4ade80;padding:8px 12px;border-radius:4px;font-size:11px;color:#cbd5e1;margin-top:10px">
+            <strong>🔗 Mathematical Connection to Next Step:</strong> Deep representations generate high-dimensional vectors. To program these efficiently, we need vectorized C-backed operations in NumPy and Pandas.
+          </div>
+          <div class="rm-tags" style="margin-top:10px"><span class="rm-tag" style="background:rgba(16,163,74,0.15);color:#4ade80">Backprop</span><span class="rm-tag" style="background:rgba(16,163,74,0.15);color:#4ade80">ReLU Activation</span><span class="rm-tag" style="background:rgba(16,163,74,0.15);color:#4ade80">Self-Attention</span></div>
+        </div>
+      </div>
+
+      <!-- Step 6 -->
+      <div class="rm-row" data-stream="mlops">
+        <div class="rm-spine"><div class="rm-dot" style="background:rgba(8,145,178,0.2);color:#22d3ee;border-color:rgba(8,145,178,0.4)">5</div><div class="rm-line" style="background:rgba(8,145,178,0.3)"></div></div>
+        <div class="rm-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <div class="rm-title" style="color:#22d3ee">Week 5: Python Ecosystem &amp; Master Function Encyclopedia</div>
+            <a href="python_ml.html" style="color:#22d3ee;font-size:12px;text-decoration:none;font-weight:700">Open Page 4 ➔</a>
+          </div>
+          <div class="rm-sub"><strong>The Core:</strong> NumPy broadcasting &amp; vectorization (100x faster than loops), Pandas DataFrame anatomy, `groupby`, `merge`, and Scikit-Learn Pipelines chaining `StandardScaler()` ➔ `Model` without data leakage.</div>
+          <div style="background:rgba(0,0,0,0.3);border-left:3px solid #22d3ee;padding:8px 12px;border-radius:4px;font-size:11px;color:#cbd5e1;margin-top:10px">
+            <strong>🔗 Mathematical Connection to Next Step:</strong> Clean pipelines must be packaged as microservices, containerized with Docker, and monitored for concept drift in production.
+          </div>
+          <div class="rm-tags" style="margin-top:10px"><span class="rm-tag" style="background:rgba(8,145,178,0.15);color:#22d3ee">NumPy Vectors</span><span class="rm-tag" style="background:rgba(8,145,178,0.15);color:#22d3ee">Pandas Cleaning</span><span class="rm-tag" style="background:rgba(8,145,178,0.15);color:#22d3ee">Pipelines</span></div>
+        </div>
+      </div>
+
+      <!-- Step 7 -->
+      <div class="rm-row" data-stream="mlops">
+        <div class="rm-spine"><div class="rm-dot" style="background:rgba(236,72,153,0.2);color:#f472b6;border-color:rgba(236,72,153,0.4)">6</div><div class="rm-line" style="background:rgba(236,72,153,0.3)"></div></div>
+        <div class="rm-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <div class="rm-title" style="color:#f472b6">Week 6: Real-World MLOps, SMOTE &amp; Enterprise RAG GenAI</div>
+            <a href="real_world_ml.html" style="color:#f472b6;font-size:12px;text-decoration:none;font-weight:700">Open Page 5 ➔</a>
+          </div>
+          <div class="rm-sub"><strong>The Core:</strong> Handling the 1% Imbalance Fraud Problem via SMOTE, serving models with FastAPI + Docker, monitoring Population Stability Index (PSI) for Data Drift, and enterprise RAG with ChromaDB.</div>
+          <div style="background:rgba(0,0,0,0.3);border-left:3px solid #f472b6;padding:8px 12px;border-radius:4px;font-size:11px;color:#cbd5e1;margin-top:10px">
+            <strong>🔗 Mathematical Connection to Next Step:</strong> Put all your skills to the test with live scenario technical quizzes and resume capstone portfolios.
+          </div>
+          <div class="rm-tags" style="margin-top:10px"><span class="rm-tag" style="background:rgba(236,72,153,0.15);color:#f472b6">FastAPI</span><span class="rm-tag" style="background:rgba(236,72,153,0.15);color:#f472b6">Docker</span><span class="rm-tag" style="background:rgba(236,72,153,0.15);color:#f472b6">SMOTE</span><span class="rm-tag" style="background:rgba(236,72,153,0.15);color:#f472b6">RAG GenAI</span></div>
+        </div>
+      </div>
+
+      <!-- Step 8 -->
+      <div class="rm-row" data-stream="mlops">
+        <div class="rm-spine"><div class="rm-dot" style="background:rgba(245,158,11,0.2);color:#fbbf24;border-color:rgba(245,158,11,0.4)">7</div></div>
+        <div class="rm-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <div class="rm-title" style="color:#fbbf24">Week 7: Capstone Portfolios, PyTorch/TF &amp; Interview Simulator</div>
+            <a href="career_and_quiz.html" style="color:#fbbf24;font-size:12px;text-decoration:none;font-weight:700">Open Page 6 ➔</a>
+          </div>
+          <div class="rm-sub"><strong>The Destination:</strong> Add 3 enterprise Capstone blueprints to your CV, compare PyTorch vs TensorFlow training loops, memorize core formulas, and pass the interactive mock interview simulator with an 80%+ job-ready score.</div>
+          <div class="rm-tags" style="margin-top:10px"><span class="rm-tag" style="background:rgba(245,158,11,0.15);color:#fbbf24">Interactive Quiz</span><span class="rm-tag" style="background:rgba(245,158,11,0.15);color:#fbbf24">ATS Capstones</span><span class="rm-tag" style="background:rgba(245,158,11,0.15);color:#fbbf24">PyTorch vs TF</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function switchStream(stream, btn) {
+  document.querySelectorAll('.stream-btn').forEach(b => {
+    b.classList.remove('btn-primary', 'active');
+    b.classList.add('btn-ghost');
+  });
+  btn.classList.remove('btn-ghost');
+  btn.classList.add('btn-primary', 'active');
+
+  const rows = document.querySelectorAll('.rm-row');
+  rows.forEach(row => {
+    const s = row.getAttribute('data-stream');
+    if(stream === 'all' || s.includes(stream)) {
+      row.style.display = 'flex';
+    } else {
+      row.style.display = 'none';
+    }
+  });
+}
+</script>
+
+<!-- ALGORITHM COMPARE TABLE -->
+<div style="background:rgba(255,255,255,.02);border-top:1px solid rgba(255,255,255,.06);padding:72px 0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">Quick Reference</div>
+      <h2>When to Use Which Algorithm</h2>
+      <p>The most asked interview question. Know this table inside out.</p>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Algorithm</th><th>Type</th><th>Best Use Case</th><th>Pros</th><th>Cons</th><th>Found On</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="font-weight:700;color:#60a5fa">Linear Regression</td><td>Supervised</td><td>Predict continuous numbers (prices, costs)</td><td>Fast, interpretable, no tuning</td><td>Assumes linearity, sensitive to outliers</td><td style="color:#60a5fa">Page 1</td></tr>
+          <tr><td style="font-weight:700;color:#a78bfa">Logistic Regression</td><td>Supervised</td><td>Binary classification (spam/not, fraud/not)</td><td>Probability output, interpretable</td><td>Struggles with non-linear boundaries</td><td style="color:#a78bfa">Page 2</td></tr>
+          <tr><td style="font-weight:700;color:#60a5fa">Decision Tree</td><td>Supervised</td><td>When explainability is needed (medical, legal)</td><td>Highly interpretable, no scaling</td><td>Overfits easily on deep trees</td><td style="color:#60a5fa">Page 1</td></tr>
+          <tr><td style="font-weight:700;color:#60a5fa">Random Forest</td><td>Supervised</td><td>General-purpose classification & regression</td><td>Robust, handles missing values, feature importance</td><td>Slow to predict for very large forests</td><td style="color:#60a5fa">Page 1</td></tr>
+          <tr><td style="font-weight:700;color:#fbbf24">XGBoost</td><td>Supervised</td><td>When highest accuracy is needed on tabular data</td><td>Best accuracy, handles imbalance, fast</td><td>Harder to tune, less interpretable</td><td style="color:#a78bfa">Page 2</td></tr>
+          <tr><td style="font-weight:700;color:#a78bfa">SVM</td><td>Supervised</td><td>Small datasets, high dimensions, bioinformatics</td><td>Effective in high-dimensional space</td><td>Slow on large datasets, needs scaling</td><td style="color:#a78bfa">Page 2</td></tr>
+          <tr><td style="font-weight:700;color:#a78bfa">KNN</td><td>Supervised</td><td>Recommendation systems, quick prototyping</td><td>Simple, no training phase, intuitive</td><td>Very slow at prediction time, needs scaling</td><td style="color:#a78bfa">Page 2</td></tr>
+          <tr><td style="font-weight:700;color:#4ade80">Naive Bayes</td><td>Supervised</td><td>Text classification, spam detection</td><td>Extremely fast, works with small data</td><td>Assumes feature independence (naive!)</td><td style="color:#4ade80">Page 3</td></tr>
+          <tr><td style="font-weight:700;color:#60a5fa">K-Means</td><td>Unsupervised</td><td>Customer segmentation, grouping documents</td><td>Simple, scalable, fast</td><td>Need to choose K, sensitive to scale</td><td style="color:#60a5fa">Page 1</td></tr>
+          <tr><td style="font-weight:700;color:#4ade80">Neural Networks</td><td>Supervised</td><td>Images, audio, text — unstructured data</td><td>State-of-the-art, learns complex patterns</td><td>Needs huge data, slow to train, black box</td><td style="color:#4ade80">Page 3</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="site-footer">
+  <div class="footer-brand"><em>ML</em>Mastery</div>
+  <div class="footer-links">
+    <a href="math_foundations.html">📐 Page 0: Math Foundations</a>
+    <a href="full_platform.html">📘 Page 1: Foundation</a>
+    <a href="advanced_modules.html">⚡ Page 2: Advanced</a>
+    <a href="deep_modules.html">🔬 Page 3: Deep Dive</a>
+    <a href="python_ml.html">🐍 Page 4: Python for ML</a>
+    <a href="real_world_ml.html">🚀 Page 5: Enterprise MLOps</a>
+    <a href="career_and_quiz.html">🏆 Page 6: Career &amp; Quiz Suite</a>
+    <a href="interactive_3d_lab.html">🌐 Page 7: 3D WebGL Studio</a>
+    <a href="system_design_and_incidents.html">🚨 Page 8: Staff War Room</a>
+    <a href="algorithm_arena.html">⚔️ Page 9: Algorithm Arena</a>
+    <a href="industrial_systems.html">💡 Page 10: Industrial AI</a>
+    <a href="python_teaching_mastery.html" style="color:var(--emerald);font-weight:700">🎓 Page 11: Python Teaching Codex</a>
+    <a href="sql_for_data_science.html" style="color:#38bdf8;font-weight:700">🗄️ Page 12: SQL Master Codex &amp; DS Project</a>
+    <a href="prompt_engineering_mastery.html" style="color:#c084fc;font-weight:700">🔮 Page 13: Prompt Engineering Codex</a>
+    <a href="python_sandbox_wasm.html" style="color:#34d399;font-weight:700">🐍 Page 14: Python WASM Studio</a>
+    <a href="flashcards_mastery.html" style="color:#fbbf24;font-weight:700">🃏 Page 15: 150+ 3D Flashcards</a>
+    <a href="faang_system_case_studies.html" style="color:#fb7185;font-weight:700">🏢 Page 16: FAANG Systems</a>
+    <a href="certificate_and_resume.html" style="color:#fbbf24;font-weight:700">🏆 Page 17: Certificate &amp; Resume</a>
+    <a href="interview_master_book.html" style="color:#38bdf8;font-weight:700">📖 Page 18: Interview Master Book (PDF)</a>
+    <a href="day_wise_curriculum.html" style="color:#38bdf8;font-weight:700">📅 Page 19: 30-Day Master Syllabus</a>
+  </div>
+  <div class="footer-copy">GFG-Complete ML Curriculum · 19 Master Portals · 30-Day Master Syllabus · Python WASM Sandbox · 150+ 3D Flashcards · FAANG Architectures · SQL 125-Page Master Codex · Prompt Engineering · Built for Top 1% AI &amp; Data Science Candidates</div>
+</div>
+
+<!-- SEARCH MODAL -->
+<div id="searchModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(12px);z-index:300;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#0f172a;border:1px solid rgba(255,255,255,0.15);border-radius:16px;max-width:620px;width:100%;padding:24px;box-shadow:0 20px 50px rgba(0,0,0,0.8)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <h3 style="font-size:16px;color:#fff;font-weight:800">🔍 Universal Omnibar Search</h3>
+      <button onclick="closeSearchModal()" style="background:none;border:none;color:#94a3b8;font-size:18px;cursor:pointer">✕</button>
+    </div>
+    <input type="text" id="omniInput" placeholder="Search any topic, algorithm, formula or page (e.g. WASM, Flashcards, Syllabus, Netflix, SQL)..." style="width:100%;background:#030712;border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:12px 16px;color:#fff;font-family:'Inter',sans-serif;font-size:14px;outline:none" oninput="filterOmniSearch()">
+    <div id="omniResults" style="max-height:300px;overflow-y:auto;margin-top:16px;display:flex;flex-direction:column;gap:8px"></div>
+  </div>
+</div>
+
+<!-- PROGRESS MODAL -->
+<div id="progressModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(12px);z-index:300;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#0f172a;border:1px solid rgba(74,222,128,0.3);border-radius:16px;max-width:560px;width:100%;padding:24px;box-shadow:0 20px 50px rgba(0,0,0,0.8)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <h3 style="font-size:16px;color:#4ade80;font-weight:800">📊 Student Curriculum Tracker</h3>
+      <button onclick="toggleProgressModal()" style="background:none;border:none;color:#94a3b8;font-size:18px;cursor:pointer">✕</button>
+    </div>
+    <div style="background:#030712;border-radius:8px;height:12px;overflow:hidden;margin-bottom:14px;border:1px solid rgba(255,255,255,0.1)">
+      <div id="progressFillBar" style="background:linear-gradient(90deg,#10b981,#3b82f6);height:100%;width:0%;transition:width .3s"></div>
+    </div>
+    <p id="progressStatusText" style="font-size:13px;color:#cbd5e1;margin-bottom:16px">Completed: 0 of 14 tracks (0%)</p>
+    <div id="checklistItems" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;max-height:260px;overflow-y:auto"></div>
+  </div>
+</div>
+
+<script>
+// 1. CARD FILTERING
+function filterCards(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const cards = document.querySelectorAll('.page-card');
+  cards.forEach(c => {
+    if (cat === 'all' || c.getAttribute('data-cat') === cat) {
+      c.classList.remove('hide');
+    } else {
+      c.classList.add('hide');
+    }
+  });
+}
+
+// 2. SEARCH INDEX
+const omniIndex = [
+  { title: "Page 0: Mathematics for ML", desc: "Linear Algebra, Calculus, Stats, Convex Optimization", url: "math_foundations.html" },
+  { title: "Page 1: ML Foundations & IT Stack", desc: "Linear Regression, Decision Trees, K-Means Sandbox", url: "full_platform.html" },
+  { title: "Page 2: Advanced Algorithms", desc: "Logistic Regression, SVM Margin Sandbox, XGBoost", url: "advanced_modules.html" },
+  { title: "Page 3: Deep Learning & Rosetta Stone", desc: "Rosetta Stone Bridge, Vanishing Gradients, CNNs, Transformers", url: "deep_modules.html" },
+  { title: "Page 4: Python for ML", desc: "NumPy ndarray, Pandas DataFrames, Sklearn Pipelines", url: "python_ml.html" },
+  { title: "Page 5: Enterprise MLOps", desc: "Data Janitor Sandbox, SMOTE, FastAPI, Docker, Drift Simulator", url: "real_world_ml.html" },
+  { title: "Page 6: Career & Mock Interview Quiz", desc: "10-Question Interactive Quiz, 3 ATS Capstones, PyTorch vs TF", url: "career_and_quiz.html" },
+  { title: "Page 7: 3D WebGL Studio", desc: "3D Loss Mountain, 3D SVM Slicer, 3D PCA Galaxy, 3D Neural Net", url: "interactive_3d_lab.html" },
+  { title: "Page 8: Staff War Room & System Design", desc: "3:00 AM Incident Simulator, Cloud Cost Calculator, Failure Lab", url: "system_design_and_incidents.html" },
+  { title: "Page 9: Algorithm Battle Arena", desc: "5-Model Tournament, Leaderboard & 1-Click GitHub Repo Generator", url: "algorithm_arena.html" },
+  { title: "Page 10: GraphRAG & Instagram Recommender", desc: "Knowledge Graphs vs Vector RAG, Instagram Reels Algorithm & Lamp Studio", url: "industrial_systems.html" },
+  { title: "Page 11: Python Teaching-Grade Master Codex", desc: "CPython Internals, Small Int Caching, Descriptors, Metaclasses, 7 DS Libraries", url: "python_teaching_mastery.html" },
+  { title: "Page 12: SQL for Data Science & Full DS Project", desc: "125-Page Notes Codex, DDL/DML, 3-Tier Self-Joins, Window Functions, PostgreSQL to XGBoost Pipeline", url: "sql_for_data_science.html" },
+  { title: "Page 13: Prompt Engineering Master Codex", desc: "Tokens, Context Windows, 5-Pillar RICCO, Few-Shot, CoT, XML Formatting, Agent Loop", url: "prompt_engineering_mastery.html" },
+  { title: "Page 14: Interactive Python WASM Studio", desc: "In-Browser Python 3.11 WebAssembly Runtime with NumPy, Pandas & Scikit-Learn", url: "python_sandbox_wasm.html" },
+  { title: "Page 15: 150+ 3D Spaced Repetition Flashcards", desc: "Leitner Spaced Repetition Flashcard Deck across SQL, ML, Python & MLOps", url: "flashcards_mastery.html" },
+  { title: "Page 16: 5 FAANG & Unicorn System Case Studies", desc: "Netflix 2-Stage Recommender, Uber H3 Surge, Swiggy ETA, Amazon Fraud, Spotify ALS", url: "faang_system_case_studies.html" },
+  { title: "Page 17: IT Job Readiness Certificate & Resume", desc: "Verifiable Certificate of Completion, 1-Click LinkedIn Post & ATS Resume Section", url: "certificate_and_resume.html" },
+  { title: "Page 18: Master Interview Revision Book (Printable)", desc: "1-Click Printable 60-Page PDF Revision Book across all ML, SQL & Python Topics", url: "interview_master_book.html" },
+  { title: "Page 19: 30-Day Day-Wise Master Teaching Syllabus", desc: "Day-by-day lesson plan segregating all 20 portals into a 30-day intensive boot-camp roadmap", url: "day_wise_curriculum.html" }
+];
+
+function openSearchModal() {
+  document.getElementById('searchModal').style.display = 'flex';
+  const inp = document.getElementById('omniInput');
+  inp.value = '';
+  inp.focus();
+  filterOmniSearch();
+}
+function closeSearchModal() {
+  document.getElementById('searchModal').style.display = 'none';
+}
+function filterOmniSearch() {
+  const q = document.getElementById('omniInput').value.toLowerCase().trim();
+  const resContainer = document.getElementById('omniResults');
+  resContainer.innerHTML = '';
+  const filtered = omniIndex.filter(item => item.title.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q));
+  if (filtered.length === 0) {
+    resContainer.innerHTML = '<div style="color:#94a3b8;font-size:12px;padding:8px">No matching pages found.</div>';
+    return;
+  }
+  filtered.forEach(item => {
+    const el = document.createElement('a');
+    el.href = item.url;
+    el.style.cssText = 'background:#030712;padding:10px 14px;border-radius:8px;text-decoration:none;border:1px solid rgba(255,255,255,0.08);display:block;transition:all .2s';
+    el.innerHTML = `<div style="font-weight:700;color:#fff;font-size:13px">${item.title}</div><div style="color:#94a3b8;font-size:11px;margin-top:2px">${item.desc}</div>`;
+    resContainer.appendChild(el);
+  });
+}
+window.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    openSearchModal();
+  }
+  if (e.key === 'Escape') closeSearchModal();
+});
+
+// 3. STUDENT PROGRESS CHECKLIST
+const pagesList = [
+  "Page 0: Math Foundations", "Page 1: ML Foundation", "Page 2: Advanced Modules",
+  "Page 3: Deep Learning", "Page 4: Python for ML", "Page 5: Enterprise MLOps",
+  "Page 6: Career & Quiz", "Page 7: 3D WebGL Studio", "Page 8: Staff War Room",
+  "Page 9: Algorithm Arena", "Page 10: GraphRAG & Lamp", "Page 11: Python Teaching Codex",
+  "Page 12: SQL Master Codex & Full DS Project", "Page 13: Prompt Engineering Codex"
+];
+
+function loadProgress() {
+  const saved = JSON.parse(localStorage.getItem('ml_mastery_progress') || '{}');
+  let checked = 0;
+  pagesList.forEach((_, idx) => { if (saved[idx]) checked++; });
+  const pct = Math.round((checked / pagesList.length) * 100);
+  document.getElementById('userProgressPct').textContent = `${pct}%`;
+  return saved;
+}
+
+function toggleProgressModal() {
+  const m = document.getElementById('progressModal');
+  if (m.style.display === 'flex') {
+    m.style.display = 'none';
+  } else {
+    m.style.display = 'flex';
+    renderProgressChecklist();
+  }
+}
+
+function renderProgressChecklist() {
+  const saved = loadProgress();
+  const container = document.getElementById('checklistItems');
+  container.innerHTML = '';
+  let count = 0;
+  pagesList.forEach((p, idx) => {
+    const isChecked = !!saved[idx];
+    if (isChecked) count++;
+    const label = document.createElement('label');
+    label.style.cssText = 'display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.03);padding:8px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);cursor:pointer';
+    label.innerHTML = `<input type="checkbox" ${isChecked ? 'checked' : ''} onchange="togglePageDone(${idx}, this.checked)"> <span>${p}</span>`;
+    container.appendChild(label);
+  });
+  const pct = Math.round((count / pagesList.length) * 100);
+  document.getElementById('progressFillBar').style.width = `${pct}%`;
+  document.getElementById('progressStatusText').textContent = `Completed: ${count} of ${pagesList.length} pages (${pct}% Job-Ready)`;
+  document.getElementById('userProgressPct').textContent = `${pct}%`;
+}
+
+function togglePageDone(idx, state) {
+  const saved = JSON.parse(localStorage.getItem('ml_mastery_progress') || '{}');
+  saved[idx] = state;
+  localStorage.setItem('ml_mastery_progress', JSON.stringify(saved));
+  renderProgressChecklist();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadProgress();
+});
+</script>
+</body>
+</html>

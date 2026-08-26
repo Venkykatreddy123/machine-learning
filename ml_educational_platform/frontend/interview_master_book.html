@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Complete Data Science &amp; AI Interview Master Revision Book (Printable)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --s50:#f8fafc;--s100:#f1f5f9;--s200:#e2e8f0;--s300:#cbd5e1;--s400:#94a3b8;
+  --s500:#64748b;--s600:#475569;--s700:#334155;--s800:#1e293b;--s900:#0f172a;--s950:#090d16;
+}
+body{font-family:'Inter',sans-serif;background:#fff;color:#0f172a;line-height:1.7;padding:40px 24px}
+
+.book-wrap{max-width:900px;margin:0 auto}
+
+/* Print Styles */
+@media print {
+  body{padding:0;color:#000;background:#fff}
+  .no-print{display:none !important}
+  .page-break{page-break-before:always}
+  .book-card{border:1px solid #ccc !important;box-shadow:none !important}
+}
+
+.top-bar{display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;border-bottom:2px solid #e2e8f0;margin-bottom:32px}
+.book-title{font-size:24px;font-weight:900;color:#0f172a}
+.btn-print{background:#2563eb;color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;font-size:13px;border:none;cursor:pointer}
+
+/* Chapters */
+.chap{margin-bottom:50px}
+.chap-head{font-size:20px;font-weight:900;color:#1e3a8a;border-bottom:2px solid #3b82f6;padding-bottom:6px;margin-bottom:16px}
+.sub-head{font-size:16px;font-weight:800;color:#0f172a;margin:20px 0 8px}
+
+.book-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:12px}
+.book-table th, .book-table td{border:1px solid #cbd5e1;padding:8px 12px;text-align:left}
+.book-table th{background:#f1f5f9;font-weight:800}
+
+.code-snippet{background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:12px;font-family:'JetBrains Mono',monospace;font-size:12px;margin:12px 0;line-height:1.6}
+
+section[id]{scroll-margin-top:84px}
+</style>
+</head>
+<body>
+
+<div class="book-wrap">
+  <div class="top-bar no-print">
+    <div class="book-title">📖 Data Science, ML &amp; SQL Master Interview Revision Book</div>
+    <button class="btn-print" onclick="window.print()">🖨️ Print / Save as 60-Page PDF Book</button>
+  </div>
+
+  <!-- CHAPTER 1: MATHEMATICS -->
+  <div class="chap">
+    <h2 class="chap-head">Chapter 1: Mathematical Foundations for ML</h2>
+    <p>Essential formulas tested in technical interviews:</p>
+    <table class="book-table">
+      <thead><tr><th>Concept</th><th>Mathematical Formula</th><th>Core Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Dot Product</strong></td><td>$A \cdot B = \sum a_i b_i = \|A\| \|B\| \cos(\theta)$</td><td>Measures similarity between two embedding vectors.</td></tr>
+        <tr><td><strong>Eigenvalues</strong></td><td>$A v = \lambda v$</td><td>Matrix transformation changes magnitude by $\lambda$ without altering direction.</td></tr>
+        <tr><td><strong>Gradient Descent</strong></td><td>$w = w - \alpha \nabla f(w)$</td><td>Iterative optimization moving downhill against gradient vector.</td></tr>
+        <tr><td><strong>Sigmoid Function</strong></td><td>$\sigma(z) = \frac{1}{1 + e^{-z}}$</td><td>Maps real values $(-\infty, \infty)$ into probability $(0, 1)$.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CHAPTER 2: SQL MASTER ENCYCLOPEDIA -->
+  <div class="chap page-break">
+    <h2 class="chap-head">Chapter 2: SQL Master Codex (Codd Rules, Window Functions &amp; Joins)</h2>
+    <div class="sub-head">The 18 Window Functions Matrix</div>
+    <table class="book-table">
+      <thead><tr><th>Category</th><th>Functions</th><th>Key Distinction &amp; Edge Case</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Ranking</strong></td><td><code>RANK()</code>, <code>DENSE_RANK()</code>, <code>NTILE(N)</code></td><td><code>RANK()</code> leaves gaps (1, 2, 2, 4); <code>DENSE_RANK()</code> leaves no gaps (1, 2, 2, 3).</td></tr>
+        <tr><td><strong>Offset</strong></td><td><code>LAG(col, 1)</code>, <code>LEAD(col, 1)</code></td><td>Accesses previous/next rows without joining table to itself.</td></tr>
+        <tr><td><strong>Extrema</strong></td><td><code>FIRST_VALUE()</code>, <code>LAST_VALUE()</code></td><td><code>LAST_VALUE()</code> requires <code>ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING</code>.</td></tr>
+        <tr><td><strong>Statistical</strong></td><td><code>AVG()</code>, <code>MEDIAN()</code>, <code>STDDEV()</code></td><td>Computes group aggregations alongside individual employee rows.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-head">Logical SQL Execution Order</div>
+    <div class="code-snippet">
+      FROM / JOIN ➔ WHERE ➔ GROUP BY ➔ HAVING ➔ SELECT ➔ DISTINCT ➔ ORDER BY ➔ LIMIT
+    </div>
+  </div>
+
+  <!-- CHAPTER 3: MACHINE LEARNING ALGORITHMS -->
+  <div class="chap page-break">
+    <h2 class="chap-head">Chapter 3: Core ML Algorithms Cheat Sheet</h2>
+    <table class="book-table">
+      <thead><tr><th>Algorithm</th><th>Type</th><th>Loss Function / Metric</th><th>When to Choose</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Linear Regression</strong></td><td>Supervised (Reg)</td><td>Mean Squared Error (MSE)</td><td>Predicting continuous targets with linear relationships.</td></tr>
+        <tr><td><strong>Logistic Regression</strong></td><td>Supervised (Class)</td><td>Binary Cross-Entropy (Log-Loss)</td><td>Baseline binary classification with calibrated probabilities.</td></tr>
+        <tr><td><strong>Random Forest</strong></td><td>Bagging Ensemble</td><td>Gini Impurity / Entropy</td><td>Tabular data with non-linear relationships; resistant to overfitting.</td></tr>
+        <tr><td><strong>XGBoost / LightGBM</strong></td><td>Boosting Ensemble</td><td>Gradient Boosted Trees</td><td>High-performance tabular modeling (Kaggle gold standard).</td></tr>
+        <tr><td><strong>K-Means</strong></td><td>Unsupervised</td><td>Inertia (Within-Cluster Sum Squares)</td><td>Customer segmentation when cluster count $k$ is known.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CHAPTER 4: PROMPT ENGINEERING & REACT AGENTS -->
+  <div class="chap page-break">
+    <h2 class="chap-head">Chapter 4: Prompt Engineering &amp; Autonomous AI Agents</h2>
+    <div class="sub-head">The 5-Pillar RICCO Framework</div>
+    <div class="code-snippet">
+      • R (Role): "Act as a Senior Database Administrator"
+      • I (Instruction): "Analyze this SQL query for missing index bottlenecks"
+      • C (Context): "AWS PostgreSQL RDS instance with 50M records"
+      • C (Constraints): "Do NOT include conversational commentary; output valid JSON only"
+      • O (Output Format): {"issue": string, "severity": "HIGH"|"LOW", "fixed_sql": string}
+    </div>
+
+    <div class="sub-head">The ReAct Agent Loop</div>
+    <div class="code-snippet">
+      User Task ➔ Thought (Reasoning) ➔ Action (Tool Call) ➔ Observation (API Response) ➔ Final Answer
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
